@@ -1,9 +1,9 @@
-version: '3.8'
+version: "3.8"
 
 services:
   php:
     build:
-      context: './docker/php'
+      context: "./docker/php"
     container_name: php
     restart: unless-stopped
     volumes:
@@ -18,7 +18,7 @@ services:
 
   nginx:
     build:
-      context: './docker/nginx'
+      context: "./docker/nginx"
     container_name: nginx
     restart: unless-stopped
     ports:
@@ -30,33 +30,35 @@ services:
     networks:
       - laravel
 
-  postgres:
-    image: postgres:14.1
-    container_name: postgres
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    depends_on:
+      - php
     restart: unless-stopped
     ports:
-      - 5432:5432
+      - 3306:3306
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./docker/.data/dev:/var/lib/mysql
     networks:
       - laravel
 
   test_db:
-    image: postgres:14.1
+    image: mysql:8.0
     container_name: test_db
+    depends_on:
+      - php
     restart: unless-stopped
     ports:
-      - 5433:5432
+      - 3307:3306
     environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: test
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     volumes:
-      - test_db_data:/var/lib/postgresql/data
+      - ./docker/.data/test:/var/lib/mysql
     networks:
       - laravel
 
@@ -71,7 +73,7 @@ services:
       - laravel
 
   installer:
-    profiles: ['installer']
+    profiles: ["installer"]
     build:
       context: ./docker/laravel-installer/
       dockerfile: Dockerfile
@@ -80,7 +82,7 @@ services:
       - ./:/app/laravel
 
   artisan:
-    profiles: ['artisan']
+    profiles: ["artisan"]
     build:
       context: ./docker/laravel-installer/artisan/
       dockerfile: Dockerfile
@@ -91,7 +93,7 @@ services:
       - laravel
 
   composer:
-    profiles: ['composer']
+    profiles: ["composer"]
     build:
       context: ./docker/composer/
       dockerfile: Dockerfile
@@ -102,7 +104,7 @@ services:
       - laravel
 
   npm:
-    profiles: ['npm']
+    profiles: ["npm"]
     build:
       context: ./docker/npm/
       dockerfile: Dockerfile
@@ -113,7 +115,7 @@ services:
       - laravel
 
   phpunit:
-    profiles: ['phpunit']
+    profiles: ["phpunit"]
     build:
       context: ./docker/phpunit/
       dockerfile: Dockerfile
@@ -122,10 +124,6 @@ services:
       - ./:/app/laravel
     networks:
       - laravel
-
-volumes:
-  db_data: {}
-  test_db_data: {}
 
 networks:
   laravel:

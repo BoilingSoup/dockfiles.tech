@@ -79,7 +79,7 @@ return [
         ],
 
         'test' => [
-            'driver' => 'pgsql',
+            'driver' => 'mysql',
             'url' => env('TEST_DATABASE_URL'),
             'host' => env('TEST_DB_HOST', '127.0.0.1'),
             'port' => env('TEST_DB_PORT', '5433'),
@@ -140,7 +140,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

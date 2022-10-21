@@ -1,8 +1,9 @@
 FROM php:8.1-fpm-alpine3.15
 
 RUN apk add --update libpq-dev \
-  && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-  && docker-php-ext-install pdo pdo_pgsql pgsql
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql mysqli pdo_mysql \
+    && docker-php-ext-enable pdo_mysql
 
 
 # Install PHP Extensions (igbinary & memcached)
@@ -11,19 +12,19 @@ RUN set -xe && \
     cd /tmp/ && \
     apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS && \
     apk add --no-cache --update --virtual .memcached-deps zlib-dev libmemcached-dev cyrus-sasl-dev && \
-# Install igbinary (memcached's deps)
+    # Install igbinary (memcached's deps)
     pecl install igbinary && \
-# Install memcached
+    # Install memcached
     ( \
-        pecl install --nobuild memcached && \
-        cd "$(pecl config-get temp_dir)/memcached" && \
-        phpize && \
-        ./configure --enable-memcached-igbinary && \
-        make -j$(nproc) && \
-        make install && \
-        cd /tmp/ \
+    pecl install --nobuild memcached && \
+    cd "$(pecl config-get temp_dir)/memcached" && \
+    phpize && \
+    ./configure --enable-memcached-igbinary && \
+    make -j$(nproc) && \
+    make install && \
+    cd /tmp/ \
     ) && \
-# Enable PHP extensions
+    # Enable PHP extensions
     docker-php-ext-enable igbinary memcached && \
     rm -rf /tmp/* && \
     apk del .memcached-deps .phpize-deps
