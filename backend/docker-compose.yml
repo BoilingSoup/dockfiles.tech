@@ -30,22 +30,6 @@ services:
     networks:
       - laravel
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    depends_on:
-      - php
-    restart: unless-stopped
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-    volumes:
-      - ./docker/.data/dev:/var/lib/mysql
-    networks:
-      - laravel
-
   test_db:
     image: mysql:8.0
     container_name: test_db
