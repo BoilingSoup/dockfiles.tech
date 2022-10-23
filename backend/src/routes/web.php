@@ -19,10 +19,10 @@ Route::get('/', function () {
 });
 
 Route::get('/github/redirect', function () {
-    return Socialite::driver('github')->redirect();
+    return Socialite::driver('github')->stateless()->redirect();
 });
 
 Route::get('/github/callback', function () {
-    $user = Socialite::driver('github')->user();
+    $user = Socialite::driver('github')->stateless()->user();
     dd($user);
 });
