@@ -1,14 +1,9 @@
 import type { NextPage } from "next";
-import {
-  AppShell,
-  Navbar,
-  Header,
-  Button,
-  useMantineColorScheme,
-} from "@mantine/core";
+import { AppShell, Navbar, Header, Button, useMantineColorScheme } from "@mantine/core";
 
 const Home: NextPage = () => {
   const { toggleColorScheme } = useMantineColorScheme();
+
   return (
     <AppShell
       padding="md"
@@ -24,10 +19,7 @@ const Home: NextPage = () => {
       }
       styles={(theme) => ({
         main: {
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors.gray[0],
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
         },
       })}
     >
