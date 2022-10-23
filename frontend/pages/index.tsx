@@ -1,7 +1,14 @@
 import type { NextPage } from "next";
-import { AppShell, Navbar, Header } from "@mantine/core";
+import {
+  AppShell,
+  Navbar,
+  Header,
+  Button,
+  useMantineColorScheme,
+} from "@mantine/core";
 
 const Home: NextPage = () => {
+  const { toggleColorScheme } = useMantineColorScheme();
   return (
     <AppShell
       padding="md"
@@ -24,7 +31,7 @@ const Home: NextPage = () => {
         },
       })}
     >
-      {/* Your application here */}
+      <Button onClick={() => toggleColorScheme()}>toggle</Button>
     </AppShell>
   );
 };
