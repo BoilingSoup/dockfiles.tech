@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import {
   AppShell,
-  Burger,
   Button,
   useMantineColorScheme,
   useMantineTheme,
@@ -17,6 +16,10 @@ const Home: NextPage = () => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
+  const navbarToggle = () => {
+    setOpened((prev) => !prev);
+  };
+
   return (
     <AppShell
       padding="md"
@@ -26,7 +29,7 @@ const Home: NextPage = () => {
           <Text>Application navbar</Text>
         </Navbar>
       }
-      header={<Header links={[]} />}
+      header={<Header links={[]} onHamburgerClick={navbarToggle}/>}
       styles={(theme) => ({
         main: {
           backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],

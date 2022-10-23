@@ -1,14 +1,14 @@
 import React, { ReactNode, useLayoutEffect, useState } from "react";
 import { ColorSchemeProvider as Provider, ColorScheme } from "@mantine/core";
-import { useHotkeys } from "@mantine/hooks";
+import { upperFirst, useHotkeys } from "@mantine/hooks";
 
 const MANTINE_COLOR_SCHEME_LOCALSTORAGE_KEY = "mantine-color-scheme";
 
-const LIGHT: ColorScheme = "light";
-const DARK: ColorScheme = "dark";
+export const LIGHT: ColorScheme = "light";
+export const DARK: ColorScheme = "dark";
 const DEFAULT_COLOR_SCHEME: ColorScheme = LIGHT;
 
-const isValidColorScheme = (value: string | null) => value === LIGHT || value === DARK;
+const isValidColorScheme = (value: any) => value === LIGHT || value === DARK;
 
 type Props = {
   children: ReactNode;
@@ -28,10 +28,18 @@ export const ColorSchemeProvider = (props: Props) => {
   }, []);
 
   const toggleColorScheme = (value?: ColorScheme) => {
-    const newColorScheme = colorScheme === DARK ? LIGHT : DARK;
+    const updateStates = (newColorScheme: ColorScheme) => {
+      setColorScheme(newColorScheme);
+      localStorage.setItem(MANTINE_COLOR_SCHEME_LOCALSTORAGE_KEY, newColorScheme);
+    };
 
-    setColorScheme(newColorScheme);
-    localStorage.setItem(MANTINE_COLOR_SCHEME_LOCALSTORAGE_KEY, newColorScheme);
+    if (isValidColorScheme(value)) {
+      updateStates(value as ColorScheme);
+      return;
+    }
+
+    const newColorScheme = colorScheme === DARK ? LIGHT : DARK;
+    updateStates(newColorScheme);
   };
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
