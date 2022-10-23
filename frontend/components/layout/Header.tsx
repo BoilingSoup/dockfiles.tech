@@ -7,6 +7,7 @@ import {
   Text,
   useMantineColorScheme,
   MediaQuery,
+  Button,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun } from "@tabler/icons";
