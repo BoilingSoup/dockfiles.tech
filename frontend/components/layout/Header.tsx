@@ -4,15 +4,15 @@ import {
   ActionIcon,
   Group,
   Burger,
-  Text,
   useMantineColorScheme,
   MediaQuery,
-  Button,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun } from "@tabler/icons";
+import Image from "next/image";
 import { LIGHT } from "../../contexts/ColorSchemeProvider";
 import { useHeaderStyles } from "./hooks/useHeaderStyles";
+import Logo from "../../public/logo.svg";
 
 interface Props {
   links: { link: string; label: string }[];
@@ -50,7 +50,7 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
               aria-label={opened ? "Close navigation" : "Open navigation"}
             />
           </MediaQuery>
-          <Text>Logo</Text>
+          <Image height={50} width={50} src={Logo} alt="logo" />
         </Group>
 
         <Group>

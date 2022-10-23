@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { AppShell, Button, useMantineColorScheme, useMantineTheme, MediaQuery, Text, Navbar } from "@mantine/core";
+import { AppShell, Button, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 import { useState } from "react";
 import { Header } from "../components/layout/Header";
 import { MobileMenu } from "../components/layout/MobileMenu";
