@@ -6,6 +6,7 @@ import {
   Burger,
   Text,
   useMantineColorScheme,
+  MediaQuery,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun } from "@tabler/icons";
@@ -39,7 +40,15 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
     <MantineHeader height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
         <Group>
-          <Burger opened={opened} onClick={hamburgerHandler} size="sm" />
+          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            <Burger
+              opened={opened}
+              onClick={hamburgerHandler}
+              size="sm"
+              title={opened ? "Close navigation" : "Open navigation"}
+              aria-label={opened ? "Close navigation" : "Open navigation"}
+            />
+          </MediaQuery>
           <Text>Logo</Text>
         </Group>
 
