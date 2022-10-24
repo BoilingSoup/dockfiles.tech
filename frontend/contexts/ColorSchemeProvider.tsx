@@ -1,5 +1,5 @@
 import React, { ReactNode, useLayoutEffect, useState } from "react";
-import { ColorSchemeProvider as Provider, ColorScheme } from "@mantine/core";
+import { ColorSchemeProvider as Provider, ColorScheme, useMantineColorScheme } from "@mantine/core";
 import { upperFirst, useHotkeys } from "@mantine/hooks";
 
 const MANTINE_COLOR_SCHEME_LOCALSTORAGE_KEY = "mantine-color-scheme";
@@ -9,6 +9,12 @@ export const DARK: ColorScheme = "dark";
 const DEFAULT_COLOR_SCHEME: ColorScheme = LIGHT;
 
 const isValidColorScheme = (value: any) => value === LIGHT || value === DARK;
+
+export const useColorSchemeHandler = ({ light, dark }: { light: string; dark: string }) => {
+  const { colorScheme } = useMantineColorScheme();
+
+  return colorScheme === DARK ? dark : light;
+};
 
 type Props = {
   children: ReactNode;

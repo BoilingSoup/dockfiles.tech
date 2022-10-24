@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Header } from "../components/layout/Header";
 import { MobileMenu } from "../components/layout/MobileMenu";
 import Head from "next/head";
+import { colorSchemeHandler } from "../theme/color-scheme-handler";
 
 const Home: NextPage = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -26,7 +27,10 @@ const Home: NextPage = () => {
         header={<Header links={[]} onHamburgerClick={navbarToggle} />}
         styles={(theme) => ({
           main: {
-            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
+            backgroundColor: colorSchemeHandler(theme.colorScheme, {
+              light: theme.colors.blue[2],
+              dark: theme.colors.slate[9],
+            }),
           },
         })}
       >
