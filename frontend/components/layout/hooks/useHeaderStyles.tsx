@@ -26,7 +26,7 @@ export const useHeaderStyles = () => {
     },
 
     search: {
-      [theme.fn.smallerThan("xs")]: {
+      [theme.fn.smallerThan("sm")]: {
         display: "none",
       },
     },
@@ -37,12 +37,15 @@ export const useHeaderStyles = () => {
       padding: "8px 12px",
       borderRadius: theme.radius.sm,
       textDecoration: "none",
-      color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[7],
+      color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.gray[7], dark: theme.colors.dark[0] }),
       fontSize: theme.fontSizes.sm,
       fontWeight: 500,
 
       "&:hover": {
-        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+        backgroundColor: colorSchemeHandler(theme.colorScheme, {
+          light: theme.colors.gray[0],
+          dark: theme.colors.dark[6],
+        }),
       },
     },
   }))();

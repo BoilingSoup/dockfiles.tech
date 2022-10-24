@@ -6,6 +6,8 @@ import {
   Burger,
   useMantineColorScheme,
   MediaQuery,
+  Button,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun } from "@tabler/icons";
@@ -41,7 +43,7 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
     <MantineHeader height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
         <Group>
-          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+          {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}> */}
             <Burger
               opened={opened}
               onClick={hamburgerHandler}
@@ -49,8 +51,13 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
               title={opened ? "Close navigation" : "Open navigation"}
               aria-label={opened ? "Close navigation" : "Open navigation"}
             />
-          </MediaQuery>
+          {/* </MediaQuery> */}
           <Image height={50} width={50} src={Logo} alt="logo" />
+          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+            <Text component="h1" sx={{ fontSize: "2rem" }}>
+              Dockfiles.io
+            </Text>
+          </MediaQuery>
         </Group>
 
         <Group>
@@ -63,7 +70,8 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
             icon={<IconSearch size={16} stroke={1.5} />}
             data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
           />
-          <ActionIcon onClick={toggleHandler} variant="default">
+          <Button>Sign In</Button>
+          <ActionIcon onClick={toggleHandler} variant="default" size="lg">
             {darkModeIcon}
           </ActionIcon>
         </Group>
