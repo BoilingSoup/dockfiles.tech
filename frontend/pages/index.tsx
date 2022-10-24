@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { AppShell, Button, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { AppShell, Button, useMantineColorScheme } from "@mantine/core";
 import { useState } from "react";
 import { Header } from "../components/layout/Header";
 import { MobileMenu } from "../components/layout/MobileMenu";
@@ -7,8 +7,7 @@ import Head from "next/head";
 import { colorSchemeHandler } from "../theme/color-scheme-handler";
 
 const Home: NextPage = () => {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const theme = useMantineTheme();
+  const { toggleColorScheme } = useMantineColorScheme();
   const [opened, setOpened] = useState(false);
 
   const navbarToggle = () => {
@@ -28,7 +27,7 @@ const Home: NextPage = () => {
         styles={(theme) => ({
           main: {
             backgroundColor: colorSchemeHandler(theme.colorScheme, {
-              light: theme.colors.blue[2],
+              light: theme.colors.blue[0],
               dark: theme.colors.slate[9],
             }),
           },
