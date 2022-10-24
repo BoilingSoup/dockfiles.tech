@@ -8,6 +8,7 @@ import {
   MediaQuery,
   Button,
   Text,
+  Center,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun } from "@tabler/icons";
@@ -44,13 +45,13 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
       <div className={classes.inner}>
         <Group>
           {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}> */}
-            <Burger
-              opened={opened}
-              onClick={hamburgerHandler}
-              size="sm"
-              title={opened ? "Close navigation" : "Open navigation"}
-              aria-label={opened ? "Close navigation" : "Open navigation"}
-            />
+          <Burger
+            opened={opened}
+            onClick={hamburgerHandler}
+            size="sm"
+            title={opened ? "Close navigation" : "Open navigation"}
+            aria-label={opened ? "Close navigation" : "Open navigation"}
+          />
           {/* </MediaQuery> */}
           <Image height={50} width={50} src={Logo} alt="logo" />
           <MediaQuery smallerThan="md" styles={{ display: "none" }}>
@@ -60,17 +61,18 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
           </MediaQuery>
         </Group>
 
-        <Group>
-          <Group ml={50} spacing={5} className={classes.links}>
-            {items}
-          </Group>
+        <Center style={{ position: "fixed", width: "100vw" }}>
           <Autocomplete
             className={classes.search}
             placeholder="Search"
             icon={<IconSearch size={16} stroke={1.5} />}
             data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
           />
-          <Button>Sign In</Button>
+        </Center>
+        <Group>
+          <Group ml={50} spacing={5} className={classes.links}>
+            {items}
+          </Group>
           <ActionIcon onClick={toggleHandler} variant="default" size="lg">
             {darkModeIcon}
           </ActionIcon>

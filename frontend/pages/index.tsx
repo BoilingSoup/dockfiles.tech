@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { AppShell, Button, useMantineColorScheme, MediaQuery, Aside, Text } from "@mantine/core";
+import { AppShell, MediaQuery, Aside, Text, NavLink } from "@mantine/core";
 import { useState } from "react";
 import { Header } from "../components/layout/Header";
 import { Navbar } from "../components/layout/Navbar";
@@ -7,7 +7,6 @@ import Head from "next/head";
 import { colorSchemeHandler } from "../theme/color-scheme-handler";
 
 const Home: NextPage = () => {
-  const { toggleColorScheme } = useMantineColorScheme();
   const [opened, setOpened] = useState(false);
 
   const navbarToggle = () => {
@@ -23,7 +22,12 @@ const Home: NextPage = () => {
         padding="md"
         navbarOffsetBreakpoint="sm"
         navbar={<Navbar opened={opened} />}
-        header={<Header links={[]} onHamburgerClick={navbarToggle} />}
+        header={
+          <Header
+            links={[]}
+            onHamburgerClick={navbarToggle}
+          />
+        }
         aside={
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
