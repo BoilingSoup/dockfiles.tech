@@ -1,5 +1,6 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { Layout } from "../components/layout/Layout";
 import { ColorSchemeProvider } from "../contexts/ColorSchemeProvider";
 import { MantineProvider } from "../contexts/MantineProvider";
 
@@ -16,7 +17,9 @@ export default function App(props: AppProps) {
 
       <ColorSchemeProvider>
         <MantineProvider>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </MantineProvider>
       </ColorSchemeProvider>
     </>

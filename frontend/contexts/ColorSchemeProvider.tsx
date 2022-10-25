@@ -10,12 +10,6 @@ const DEFAULT_COLOR_SCHEME: ColorScheme = LIGHT;
 
 const isValidColorScheme = (value: any) => value === LIGHT || value === DARK;
 
-export const useColorSchemeHandler = ({ light, dark }: { light: string; dark: string }) => {
-  const { colorScheme } = useMantineColorScheme();
-
-  return colorScheme === DARK ? dark : light;
-};
-
 type Props = {
   children: ReactNode;
 };
