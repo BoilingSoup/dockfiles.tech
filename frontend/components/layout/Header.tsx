@@ -19,7 +19,6 @@ import Logo from "../../public/logo.svg";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
 interface Props {
-  links?: { link: string; label: string }[];
   onHamburgerClick: () => void;
 }
 
@@ -40,16 +39,10 @@ const iconSxThemeCallback = (theme: MantineTheme) => ({
   border: colorSchemeHandler(theme.colorScheme, { light: "2px solid rgba(10, 35, 81, 0.7)" }),
 });
 
-export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
+export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
   const [opened, { toggle: hamburgerAnimation }] = useDisclosure(false);
   const { classes } = useHeaderStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-
-  const items = links?.map((link) => (
-    <a key={link.label} href={link.link} className={classes.link} onClick={(event) => event.preventDefault()}>
-      {link.label}
-    </a>
-  ));
 
   const darkModeIcon = colorScheme === LIGHT ? <IconMoon size={iconSize} /> : <IconSun size={iconSize} />;
 
@@ -90,9 +83,6 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
         </Center>
 
         <Group>
-          <Group ml={50} spacing={5} className={classes.links}>
-            {items}
-          </Group>
           <ActionIcon
             onClick={toggleHandler}
             variant="default"
