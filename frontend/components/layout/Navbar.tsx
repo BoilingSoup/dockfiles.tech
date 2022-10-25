@@ -1,5 +1,4 @@
-import { Button, Center, Navbar as MantineNavbar, useMantineTheme } from "@mantine/core";
-import { useRouter } from "next/router";
+import { Button, Center, Navbar as MantineNavbar } from "@mantine/core";
 import React from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { NavLink } from "./NavLink";
@@ -23,7 +22,7 @@ export const Navbar = ({ opened }: Props) => {
     >
       <NavLink href="/" text="Browse All" />
       <NavLink text="Categories">
-        <NavLink text="test"/>
+        <NavLink text="test" />
       </NavLink>
       <NavLink href="/bookmarks" text="Bookmarks" />
       <Center>

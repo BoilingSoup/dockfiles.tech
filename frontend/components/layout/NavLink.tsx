@@ -1,4 +1,4 @@
-import { Center, Text, NavLink as MantineNavLink } from "@mantine/core";
+import { NavLink as MantineNavLink, NavLinkProps } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
@@ -12,27 +12,26 @@ type Props = {
 export const NavLink = ({ href, text, children }: Props) => {
   const router = useRouter();
 
+  const sharedProps: NavLinkProps = {
+    label: text,
+    active: router.pathname === href,
+    variant: "filled",
+    color: "navy",
+    p: "lg",
+  };
+
   if (href) {
     return (
       <Link href={href} passHref>
-        <MantineNavLink
-          label={text}
-          styles={{ body: { textAlign: "center" } }}
-          active={router.pathname === href}
-          variant="filled"
-          color="navy"
-        />
+        <MantineNavLink styles={{ body: { textAlign: "center" } }} {...sharedProps} />
       </Link>
     );
   }
 
   return (
     <MantineNavLink
-      label={text}
       styles={{ body: { textAlign: "center" }, rightSection: { position: "absolute", right: 10 } }}
-      active={router.pathname === href}
-      variant="filled"
-      color="navy"
+      {...sharedProps}
     >
       {children}
     </MantineNavLink>

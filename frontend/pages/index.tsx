@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { Text } from "@mantine/core";
-import { useState } from "react";
 import Head from "next/head";
 
 const Home: NextPage = () => {
