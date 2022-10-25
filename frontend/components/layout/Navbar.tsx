@@ -1,4 +1,5 @@
-import { Button, Navbar as MantineNavbar, Stack, Text } from "@mantine/core";
+import { Button, Center, Navbar as MantineNavbar, Stack } from "@mantine/core";
+import Link from "next/link";
 import React from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
@@ -25,10 +26,20 @@ export const Navbar = ({ opened }: Props) => {
           height: 300,
         })}
       >
-        <Button variant="outline">Browse All</Button>
+        <Center p={"lg"}>
+          <Link href="/">Browse All</Link>
+        </Center>
+        <Center p={"lg"}>
+          <Link href="">Categories</Link>
+        </Center>
+        <Center p={"lg"} mb={3}>
+          <Link href="/bookmarks">Bookmarks</Link>
+        </Center>
+        <Button>Sign In</Button>
+        {/* <Button variant="outline">Browse All</Button>
         <Button variant="outline">Categories</Button>
         <Button variant="outline">Bookmarks</Button>
-        <Button variant="filled">Sign In</Button>
+        <Button variant="filled">Sign In</Button> */}
       </Stack>
     </MantineNavbar>
   );
