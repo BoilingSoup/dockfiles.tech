@@ -27,6 +27,19 @@ const iconSize = 22;
 const iconRadius = "xl";
 const actionIconSize = "lg";
 
+const iconSxThemeCallback = (theme: MantineTheme) => ({
+  backgroundColor: colorSchemeHandler(theme.colorScheme, {
+    light: theme.colors.blue[2],
+  }),
+  "&:hover": {
+    backgroundColor: colorSchemeHandler(theme.colorScheme, {
+      light: theme.colors.blue[2],
+    }),
+  },
+  color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.navy[9] }),
+  border: colorSchemeHandler(theme.colorScheme, { light: "2px solid rgba(10, 35, 81, 0.7)" }),
+});
+
 export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
   const [opened, { toggle: hamburgerAnimation }] = useDisclosure(false);
   const { classes } = useHeaderStyles();
@@ -39,24 +52,12 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
   ));
 
   const darkModeIcon = colorScheme === LIGHT ? <IconMoon size={iconSize} /> : <IconSun size={iconSize} />;
+
   const toggleHandler = () => toggleColorScheme();
   const hamburgerHandler = () => {
     navbarToggle();
     hamburgerAnimation();
   };
-
-  const iconSxThemeCallback = (theme: MantineTheme) => ({
-    backgroundColor: colorSchemeHandler(theme.colorScheme, {
-      light: theme.colors.blue[2],
-    }),
-    "&:hover": {
-      backgroundColor: colorSchemeHandler(theme.colorScheme, {
-        light: theme.colors.blue[2],
-      }),
-    },
-    color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.navy[9] }),
-    border: colorSchemeHandler(theme.colorScheme, { light: "2px solid rgba(10, 35, 81, 0.7)" }),
-  });
 
   return (
     <MantineHeader height={56} className={classes.header} mb={120}>
@@ -87,6 +88,7 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
             data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
           />
         </Center>
+
         <Group>
           <Group ml={50} spacing={5} className={classes.links}>
             {items}
