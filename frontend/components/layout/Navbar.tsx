@@ -1,7 +1,8 @@
-import { Button, Center, Navbar as MantineNavbar, Stack } from "@mantine/core";
-import Link from "next/link";
+import { Button, Center, Navbar as MantineNavbar, useMantineTheme } from "@mantine/core";
+import { useRouter } from "next/router";
 import React from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
+import { NavLink } from "./NavLink";
 
 type Props = {
   opened: boolean;
@@ -10,7 +11,6 @@ type Props = {
 export const Navbar = ({ opened }: Props) => {
   return (
     <MantineNavbar
-      p="md"
       hiddenBreakpoint="sm"
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}
@@ -21,26 +21,16 @@ export const Navbar = ({ opened }: Props) => {
         }),
       })}
     >
-      <Stack
-        sx={(theme) => ({
-          height: 300,
-        })}
-      >
-        <Center p={"lg"}>
-          <Link href="/">Browse All</Link>
-        </Center>
-        <Center p={"lg"}>
-          <Link href="">Categories</Link>
-        </Center>
-        <Center p={"lg"} mb={3}>
-          <Link href="/bookmarks">Bookmarks</Link>
-        </Center>
-        <Button>Sign In</Button>
-        {/* <Button variant="outline">Browse All</Button>
-        <Button variant="outline">Categories</Button>
-        <Button variant="outline">Bookmarks</Button>
-        <Button variant="filled">Sign In</Button> */}
-      </Stack>
+      <NavLink href="/" text="Browse All" />
+      <NavLink text="Categories">
+        <NavLink text="test"/>
+      </NavLink>
+      <NavLink href="/bookmarks" text="Bookmarks" />
+      <Center>
+        <Button href="https://google.com" component="a" sx={{ width: "85%", margin: "1rem" }}>
+          Sign In
+        </Button>
+      </Center>
     </MantineNavbar>
   );
 };
