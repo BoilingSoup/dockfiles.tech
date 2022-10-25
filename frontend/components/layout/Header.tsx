@@ -9,6 +9,7 @@ import {
   Text,
   Center,
   MantineTheme,
+  CSSObject,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
@@ -18,15 +19,11 @@ import { useHeaderStyles } from "./hooks/useHeaderStyles";
 import Logo from "../../public/logo.svg";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
-interface Props {
-  onHamburgerClick: () => void;
-}
-
 const iconSize = 22;
 const iconRadius = "xl";
 const actionIconSize = "lg";
 
-const iconSxThemeCallback = (theme: MantineTheme) => ({
+const iconSx = (theme: MantineTheme): CSSObject => ({
   backgroundColor: colorSchemeHandler(theme.colorScheme, {
     light: theme.colors.blue[2],
   }),
@@ -38,6 +35,10 @@ const iconSxThemeCallback = (theme: MantineTheme) => ({
   color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.navy[9] }),
   border: colorSchemeHandler(theme.colorScheme, { light: "2px solid rgba(10, 35, 81, 0.7)" }),
 });
+
+interface Props {
+  onHamburgerClick: () => void;
+}
 
 export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
   const [opened, { toggle: hamburgerAnimation }] = useDisclosure(false);
@@ -81,22 +82,10 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
         </Center> */}
 
         <Group>
-          <ActionIcon
-            onClick={toggleHandler}
-            variant="default"
-            size={actionIconSize}
-            sx={iconSxThemeCallback}
-            radius={iconRadius}
-          >
+          <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
             <IconBrandGithub size={iconSize} />
           </ActionIcon>
-          <ActionIcon
-            onClick={toggleHandler}
-            variant="default"
-            size={actionIconSize}
-            radius={iconRadius}
-            sx={iconSxThemeCallback}
-          >
+          <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
             {darkModeIcon}
           </ActionIcon>
         </Group>

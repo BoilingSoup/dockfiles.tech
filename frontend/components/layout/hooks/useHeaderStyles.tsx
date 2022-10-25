@@ -10,6 +10,7 @@ export const useHeaderStyles = () => {
         light: theme.colors.blue[2],
         dark: theme.colors.slate[9],
       }),
+      boxShadow: theme.shadows.sm,
     },
 
     inner: {
@@ -17,38 +18,6 @@ export const useHeaderStyles = () => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-    },
-
-    links: {
-      [theme.fn.smallerThan("md")]: {
-        display: "none",
-      },
-    },
-
-    search: {
-      [theme.fn.smallerThan("sm")]: {
-        display: "none",
-      },
-      maxWidth: "500px",
-      width: "40%",
-    },
-
-    link: {
-      display: "block",
-      lineHeight: 1,
-      padding: "8px 12px",
-      borderRadius: theme.radius.sm,
-      textDecoration: "none",
-      color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.gray[7], dark: theme.colors.dark[0] }),
-      fontSize: theme.fontSizes.sm,
-      fontWeight: 500,
-
-      "&:hover": {
-        backgroundColor: colorSchemeHandler(theme.colorScheme, {
-          light: theme.colors.gray[0],
-          dark: theme.colors.dark[6],
-        }),
-      },
     },
   }))();
 };

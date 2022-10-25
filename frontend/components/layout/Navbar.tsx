@@ -1,7 +1,13 @@
-import { Button, Center, Modal, Navbar as MantineNavbar, Stack } from "@mantine/core";
+import { Button, Center, CSSObject, MantineTheme, Modal, Navbar as MantineNavbar, Stack } from "@mantine/core";
 import React, { useState } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { NavLink } from "./NavLink";
+
+const signInButtonSx = (theme: MantineTheme): CSSObject => ({
+  width: "85%",
+  margin: "1rem",
+  boxShadow: theme.shadows.xl,
+});
 
 type Props = {
   opened: boolean;
@@ -35,7 +41,7 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
         </NavLink>
         <NavLink href="/bookmarks" text="Bookmarks" />
         <Center>
-          <Button onClick={() => setModalOpened(true)} sx={{ width: "85%", margin: "1rem" }}>
+          <Button onClick={() => setModalOpened(true)} sx={signInButtonSx}>
             Sign In
           </Button>
         </Center>

@@ -18,7 +18,8 @@ const navLinkStyles = {
   label: labelStyles,
 };
 
-const hoverStyles = ({ colorScheme, colors }: MantineTheme) => ({
+const rootStyles = ({ colorScheme, colors, shadows }: MantineTheme) => ({
+  "box-shadow": shadows.sm,
   "&:hover": { backgroundColor: colorSchemeHandler(colorScheme, { light: colors.gray[1], dark: colors.slate[8] }) },
 });
 
@@ -42,7 +43,7 @@ export const NavLink = ({ href, text, children }: Props) => {
   if (href !== undefined) {
     return (
       <Link href={href} passHref>
-        <MantineNavLink styles={{ ...navLinkStyles }} sx={hoverStyles} {...sharedProps} />
+        <MantineNavLink styles={{ ...navLinkStyles }} sx={rootStyles} {...sharedProps} />
       </Link>
     );
   }
@@ -50,7 +51,7 @@ export const NavLink = ({ href, text, children }: Props) => {
   return (
     <MantineNavLink
       styles={{ ...navLinkStyles, rightSection: { position: "absolute", right: 10 } }}
-      sx={hoverStyles}
+      sx={rootStyles}
       {...sharedProps}
     >
       {children}
