@@ -6,7 +6,6 @@ import {
   Burger,
   useMantineColorScheme,
   MediaQuery,
-  Button,
   Text,
   Center,
 } from "@mantine/core";
@@ -18,7 +17,7 @@ import { useHeaderStyles } from "./hooks/useHeaderStyles";
 import Logo from "../../public/logo.svg";
 
 interface Props {
-  links: { link: string; label: string }[];
+  links?: { link: string; label: string }[];
   onHamburgerClick: () => void;
 }
 
@@ -27,7 +26,7 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
   const { classes } = useHeaderStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const items = links.map((link) => (
+  const items = links?.map((link) => (
     <a key={link.label} href={link.link} className={classes.link} onClick={(event) => event.preventDefault()}>
       {link.label}
     </a>
@@ -44,15 +43,15 @@ export const Header = ({ links, onHamburgerClick: navbarToggle }: Props) => {
     <MantineHeader height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
         <Group>
-          {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}> */}
-          <Burger
-            opened={opened}
-            onClick={hamburgerHandler}
-            size="sm"
-            title={opened ? "Close navigation" : "Open navigation"}
-            aria-label={opened ? "Close navigation" : "Open navigation"}
-          />
-          {/* </MediaQuery> */}
+          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            <Burger
+              opened={opened}
+              onClick={hamburgerHandler}
+              size="sm"
+              title={opened ? "Close navigation" : "Open navigation"}
+              aria-label={opened ? "Close navigation" : "Open navigation"}
+            />
+          </MediaQuery>
           <Image height={50} width={50} src={Logo} alt="logo" />
           <MediaQuery smallerThan="md" styles={{ display: "none" }}>
             <Text component="h1" sx={{ fontSize: "2rem" }}>

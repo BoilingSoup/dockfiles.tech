@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { AppShell, MediaQuery, Aside, Text, NavLink } from "@mantine/core";
+import { AppShell, MediaQuery, Aside, Text } from "@mantine/core";
 import { useState } from "react";
 import { Header } from "../components/layout/Header";
 import { Navbar } from "../components/layout/Navbar";
@@ -22,15 +22,20 @@ const Home: NextPage = () => {
         padding="md"
         navbarOffsetBreakpoint="sm"
         navbar={<Navbar opened={opened} />}
-        header={
-          <Header
-            links={[]}
-            onHamburgerClick={navbarToggle}
-          />
-        }
+        header={<Header onHamburgerClick={navbarToggle} />}
         aside={
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
+            <Aside
+              p="md"
+              hiddenBreakpoint="sm"
+              width={{ sm: 200, lg: 300 }}
+              sx={(theme) => ({
+                backgroundColor: colorSchemeHandler(theme.colorScheme, {
+                  light: theme.colors.blue[3],
+                  dark: theme.colors.slate[9],
+                }),
+              })}
+            >
               <Text>Application sidebar</Text>
             </Aside>
           </MediaQuery>
@@ -38,7 +43,7 @@ const Home: NextPage = () => {
         styles={(theme) => ({
           main: {
             backgroundColor: colorSchemeHandler(theme.colorScheme, {
-              light: theme.colors.blue[0],
+              light: theme.colors.blue[2],
               dark: theme.colors.slate[9],
             }),
           },
