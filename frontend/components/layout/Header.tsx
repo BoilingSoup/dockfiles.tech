@@ -32,7 +32,7 @@ const iconSxThemeCallback = (theme: MantineTheme) => ({
   }),
   "&:hover": {
     backgroundColor: colorSchemeHandler(theme.colorScheme, {
-      light: theme.colors.blue[2],
+      light: theme.colors.blue[1],
     }),
   },
   color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.navy[9] }),
@@ -56,7 +56,7 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
     <MantineHeader height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
         <Group>
-          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+          <MediaQuery largerThan="xl" styles={{ display: "none" }}>
             <Burger
               opened={opened}
               onClick={hamburgerHandler}
@@ -66,21 +66,19 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
             />
           </MediaQuery>
           <Image height={50} width={50} src={Logo} alt="logo" />
-          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-            <Text component="h1" sx={{ fontSize: "2rem" }}>
-              Dockfiles.io
-            </Text>
-          </MediaQuery>
+          <Text component="h1" sx={{ fontSize: "1.8rem" }}>
+            Dockfiles.io
+          </Text>
         </Group>
 
-        <Center style={{ position: "fixed", width: "100vw" }}>
+        {/* <Center style={{ position: "fixed", width: "100vw" }}>
           <Autocomplete
             className={classes.search}
             placeholder="Search"
             icon={<IconSearch size={16} stroke={1.5} />}
             data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
           />
-        </Center>
+        </Center> */}
 
         <Group>
           <ActionIcon

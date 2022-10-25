@@ -39,7 +39,7 @@ export const NavLink = ({ href, text, children }: Props) => {
     p: "lg",
   };
 
-  if (href) {
+  if (href !== undefined) {
     return (
       <Link href={href} passHref>
         <MantineNavLink styles={{ ...navLinkStyles }} sx={hoverStyles} {...sharedProps} />

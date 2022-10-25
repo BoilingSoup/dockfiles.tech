@@ -10,7 +10,7 @@ type Props = {
 export const Navbar = ({ opened }: Props) => {
   return (
     <MantineNavbar
-      hiddenBreakpoint="sm"
+      hiddenBreakpoint="xl"
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}
       sx={(theme) => ({
