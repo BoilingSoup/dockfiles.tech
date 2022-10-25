@@ -29,8 +29,8 @@ export const useHeaderStyles = () => {
       [theme.fn.smallerThan("sm")]: {
         display: "none",
       },
-
-      width: "500px",
+      maxWidth: "500px",
+      width: "40%",
     },
 
     link: {
