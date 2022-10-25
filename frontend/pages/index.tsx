@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         navbar={<Navbar opened={opened} />}
         header={<Header onHamburgerClick={navbarToggle} />}
         aside={
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
             <Aside
               p="md"
               hiddenBreakpoint="sm"
