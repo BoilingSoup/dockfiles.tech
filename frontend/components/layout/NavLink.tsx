@@ -18,7 +18,7 @@ const navLinkStyles = {
   label: labelStyles,
 };
 
-const navLinkSx = ({ colorScheme, colors, shadows }: MantineTheme): CSSObject => ({
+const navLinkSx = ({ colors, colorScheme, shadows }: MantineTheme): CSSObject => ({
   boxShadow: shadows.sm,
   "&:hover": { backgroundColor: colorSchemeHandler(colorScheme, { light: colors.gray[1], dark: colors.slate[8] }) },
 });

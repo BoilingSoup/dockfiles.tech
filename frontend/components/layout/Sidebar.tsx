@@ -2,10 +2,10 @@ import { MediaQuery, Aside, Text, CSSObject, MantineTheme } from "@mantine/core"
 import React from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
-const asideSx = (theme: MantineTheme): CSSObject => ({
-  backgroundColor: colorSchemeHandler(theme.colorScheme, {
-    light: theme.colors.blue[3],
-    dark: theme.colors.slate[9],
+const asideSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  backgroundColor: colorSchemeHandler(colorScheme, {
+    light: colors.blue[3],
+    dark: colors.slate[9],
   }),
 });
 

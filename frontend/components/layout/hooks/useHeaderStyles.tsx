@@ -1,16 +1,16 @@
-import { createStyles } from "@mantine/core";
+import { createStyles, MantineTheme } from "@mantine/core";
 import { colorSchemeHandler } from "../../../theme/color-scheme-handler";
 
 export const useHeaderStyles = () => {
-  return createStyles((theme) => ({
+  return createStyles(({ colors, colorScheme, shadows, spacing }: MantineTheme) => ({
     header: {
-      paddingLeft: theme.spacing.md,
-      paddingRight: theme.spacing.md,
-      backgroundColor: colorSchemeHandler(theme.colorScheme, {
-        light: theme.colors.blue[2],
-        dark: theme.colors.slate[9],
+      paddingLeft: spacing.md,
+      paddingRight: spacing.md,
+      backgroundColor: colorSchemeHandler(colorScheme, {
+        light: colors.blue[2],
+        dark: colors.slate[9],
       }),
-      boxShadow: theme.shadows.sm,
+      boxShadow: shadows.sm,
     },
 
     inner: {

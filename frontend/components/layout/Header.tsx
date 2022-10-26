@@ -23,22 +23,22 @@ const iconSize = 22;
 const iconRadius = "xl";
 const actionIconSize = "lg";
 
-const iconSx = (theme: MantineTheme): CSSObject => ({
-  backgroundColor: colorSchemeHandler(theme.colorScheme, {
-    light: theme.colors.blue[2],
+const iconSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  backgroundColor: colorSchemeHandler(colorScheme, {
+    light: colors.blue[2],
   }),
   "&:hover": {
-    backgroundColor: colorSchemeHandler(theme.colorScheme, {
-      light: theme.colors.blue[1],
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: colors.blue[1],
     }),
   },
-  color: colorSchemeHandler(theme.colorScheme, { light: theme.colors.navy[9] }),
-  border: colorSchemeHandler(theme.colorScheme, { light: "2px solid rgba(10, 35, 81, 0.7)" }),
+  color: colorSchemeHandler(colorScheme, { light: colors.navy[9] }),
+  border: colorSchemeHandler(colorScheme, { light: "2px solid rgba(10, 35, 81, 0.7)" }),
 });
 
-interface Props {
+type Props = {
   onHamburgerClick: () => void;
-}
+};
 
 export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
   const [opened, { toggle: hamburgerAnimation }] = useDisclosure(false);

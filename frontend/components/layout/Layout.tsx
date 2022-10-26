@@ -5,11 +5,11 @@ import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
 
-const appShellSx = (theme: MantineTheme): CSSObject => ({
+const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   main: {
-    backgroundColor: colorSchemeHandler(theme.colorScheme, {
-      light: theme.colors.blue[2],
-      dark: theme.colors.slate[9],
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: colors.blue[2],
+      dark: colors.slate[9],
     }),
   },
 });
