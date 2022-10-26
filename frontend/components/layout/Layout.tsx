@@ -1,9 +1,10 @@
-import { AppShell, CSSObject, MantineTheme } from "@mantine/core";
+import { AppShell, Autocomplete, Center, CSSObject, MantineTheme, NativeSelect } from "@mantine/core";
 import React, { ReactElement, useState } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
+import { IconChevronDown, IconSearch } from "@tabler/icons";
 
 const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   main: {
@@ -33,6 +34,21 @@ export const Layout = (props: Props) => {
       aside={<Sidebar />}
       sx={appShellSx}
     >
+      <Center style={{ width: "100%" }}>
+        <Autocomplete
+          placeholder="Search"
+          style={{ width: "80%", maxWidth: "570px" }}
+          icon={<IconSearch size={16} stroke={1.5} />}
+          data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
+        />
+        <NativeSelect
+          // label="Your favorite library/framework"
+          placeholder="Select Category"
+          data={["React", "Angular", "Svelte", "Vue"]}
+          rightSection={<IconChevronDown size={14} />}
+          rightSectionWidth={40}
+        />
+      </Center>
       {props.children}
     </AppShell>
   );

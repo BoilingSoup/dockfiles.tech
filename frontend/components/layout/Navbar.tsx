@@ -4,10 +4,17 @@ import React, { useState } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { NavLink } from "./NavLink";
 
-const signInButtonSx = ({ shadows }: MantineTheme): CSSObject => ({
+const signInBtnSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
   width: "85%",
   margin: "1rem",
   boxShadow: shadows.xl,
+  backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
+  "&:hover": {
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: fn.darken(colors.indigo[9], 0.05),
+      dark: fn.lighten(colors.blue[8], 0.05),
+    }),
+  },
 });
 
 const navbarSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
@@ -27,6 +34,7 @@ const oAuthBtnSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   height: "60px",
   border: `1px solid ${colors.gray[5]}`,
 });
+
 const iconSize = 30;
 
 type modalStylesApi = "title" | "body" | "header" | "root" | "overlay" | "modal" | "close" | "inner";
@@ -65,7 +73,7 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
         </NavLink>
         <NavLink href="/bookmarks" text="Bookmarks" />
         <Center>
-          <Button onClick={() => setModalOpened(true)} sx={signInButtonSx}>
+          <Button onClick={() => setModalOpened(true)} sx={signInBtnSx}>
             Sign In
           </Button>
         </Center>

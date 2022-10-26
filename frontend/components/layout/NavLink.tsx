@@ -18,10 +18,27 @@ const navLinkStyles = {
   label: labelStyles,
 };
 
-const navLinkSx = ({ colors, colorScheme, shadows }: MantineTheme): CSSObject => ({
-  boxShadow: shadows.sm,
-  "&:hover": { backgroundColor: colorSchemeHandler(colorScheme, { light: colors.gray[1], dark: colors.slate[8] }) },
-});
+const navLinkSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => {
+  const navy = colors.navy[8];
+  const blue = colors.blue[9];
+  const slate = colors.slate[8];
+
+  return {
+    boxShadow: shadows.sm,
+    "&:hover": {
+      backgroundColor: colorSchemeHandler(colorScheme, { light: colors.cyan[2], dark: slate }),
+      "&[data-active]": {
+        backgroundColor: colorSchemeHandler(colorScheme, {
+          light: fn.darken(blue, 0.05),
+          dark: fn.lighten(navy, 0.05),
+        }),
+      },
+    },
+    "&[data-active]": {
+      backgroundColor: colorSchemeHandler(colorScheme, { light: blue, dark: navy }),
+    },
+  };
+};
 
 type Props = {
   href?: string;
@@ -36,7 +53,6 @@ export const NavLink = ({ href, text, children }: Props) => {
     label: text,
     active: router.pathname === href,
     variant: "filled",
-    color: "navy",
     p: "lg",
   };
 

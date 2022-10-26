@@ -72,15 +72,6 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
           </Text>
         </Group>
 
-        {/* <Center style={{ position: "fixed", width: "100vw" }}>
-          <Autocomplete
-            className={classes.search}
-            placeholder="Search"
-            icon={<IconSearch size={16} stroke={1.5} />}
-            data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
-          />
-        </Center> */}
-
         <Group>
           <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
             <IconBrandGithub size={iconSize} />
