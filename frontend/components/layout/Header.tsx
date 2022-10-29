@@ -53,6 +53,8 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
     hamburgerAnimation();
   };
 
+  const hamburgerAriaLabel = opened ? "Close navigation" : "Open navigation";
+
   return (
     <MantineHeader height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
@@ -62,8 +64,8 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
               opened={opened}
               onClick={hamburgerHandler}
               size="sm"
-              title={opened ? "Close navigation" : "Open navigation"}
-              aria-label={opened ? "Close navigation" : "Open navigation"}
+              title={hamburgerAriaLabel}
+              aria-label={hamburgerAriaLabel}
             />
           </MediaQuery>
           <Image height={50} width={50} src={Logo} alt="logo" />

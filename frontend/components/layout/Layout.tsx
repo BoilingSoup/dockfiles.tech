@@ -42,7 +42,7 @@ export const Layout = (props: Props) => {
           data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
         />
         <NativeSelect
-          // label="Your favorite library/framework"
+          label="Your favorite library/framework"
           placeholder="Select Category"
           data={["React", "Angular", "Svelte", "Vue"]}
           rightSection={<IconChevronDown size={14} />}
