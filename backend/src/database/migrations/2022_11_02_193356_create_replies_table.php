@@ -14,11 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('replies', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->foreignId(ForeignKeyCol::users); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId(ForeignKeyCol::configurations);
+            $table->foreignId(ForeignKeyCol::reply_author); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::reply_recipient);
+            $table->foreignId(ForeignKeyCol::comments);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('replies');
     }
 };
