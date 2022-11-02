@@ -1,5 +1,6 @@
 <?php
 
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
         Schema::create('environments', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->foreignId('categories_id'); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::categories); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
             $table->timestamps();
         });
     }

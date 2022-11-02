@@ -1,5 +1,6 @@
 <?php
 
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,8 +20,8 @@ return new class extends Migration
             $table->text('description')->fulltext();
             $table->text('github_link');
             $table->text('direct_link');
-            $table->foreignId('environments_id'); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId('users_id');
+            $table->foreignId(ForeignKeyCol::environments); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::users);
             $table->timestamps();
         });
     }

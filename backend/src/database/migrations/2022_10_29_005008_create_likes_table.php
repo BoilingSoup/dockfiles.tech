@@ -1,5 +1,6 @@
 <?php
 
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('configurations_id'); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId('users_id');
-            $table->unique(['configurations_id', 'users_id']);
+            $table->foreignId(ForeignKeyCol::configurations); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::users);
+            $table->unique([ForeignKeyCol::configurations, ForeignKeyCol::users]);
             $table->timestamps();
         });
     }
