@@ -19,9 +19,9 @@ return new class extends Migration
             $table->id();
             $table->string('content', MaxLength::comments);
             $table->boolean('is_read')->default(false);
-            $table->foreignId(ForeignKeyCol::reply_author); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId(ForeignKeyCol::reply_recipient);
-            $table->foreignId(ForeignKeyCol::comments);
+            $table->foreignId(ForeignKeyCol::reply_author)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::reply_recipient)->index();
+            $table->foreignId(ForeignKeyCol::comments)->index();
             $table->timestamps();
         });
     }

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('description', MaxLength::description)->fulltext();
             $table->string('github_link');
             $table->string('direct_link');
-            $table->foreignId(ForeignKeyCol::environments); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId(ForeignKeyCol::users);
+            $table->foreignId(ForeignKeyCol::environments)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::users)->index();
             $table->timestamps();
         });
     }

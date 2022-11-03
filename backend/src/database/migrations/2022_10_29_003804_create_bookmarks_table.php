@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(ForeignKeyCol::configurations); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId(ForeignKeyCol::users);
+            $table->foreignId(ForeignKeyCol::configurations)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::users)->index();
             $table->unique(['configuration_id', 'user_id']);
             $table->timestamps();
         });

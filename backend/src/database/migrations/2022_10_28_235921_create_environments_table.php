@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('environments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId(ForeignKeyCol::categories); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::categories)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
             $table->timestamps();
         });
     }

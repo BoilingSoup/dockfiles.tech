@@ -18,8 +18,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->string('content', MaxLength::comments);
-            $table->foreignId(ForeignKeyCol::users); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId(ForeignKeyCol::configurations);
+            $table->foreignId(ForeignKeyCol::users)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
+            $table->foreignId(ForeignKeyCol::configurations)->index();
             $table->timestamps();
         });
     }
