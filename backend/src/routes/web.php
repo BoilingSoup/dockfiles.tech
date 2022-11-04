@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
-    return 'test';
+    $authStatus = Auth::check() ? 'Authenticated' : 'Unauthenticated';
+    return 'test' . '<br>' . $authStatus;
 });
 
 Route::get('/github/redirect', function () {
@@ -34,6 +35,28 @@ Route::get('/github/callback', function () {
             'email' => $githubUser->email,
             'github_token' => $githubUser->token,
             'github_refresh_token' => $githubUser->refreshToken
+        ]
+    );
+
+    Auth::login($user);
+
+    return redirect('/');
+});
+
+Route::get('/gitlab/redirect', function () {
+    return Socialite::driver('gitlab')->redirect();
+});
+
+Route::get('/gitlab/callback', function () {
+    $gitlabUser = Socialite::driver('gitlab')->user();
+
+    $user = User::updateOrCreate(
+        ['gitlab_id' => $gitlabUser->id],
+        [
+            'name' => $gitlabUser->name,
+            'email' => $gitlabUser->email,
+            'gitlab_token' => $gitlabUser->token,
+            'gitlab_refresh_token' => $gitlabUser->refreshToken
         ]
     );
 

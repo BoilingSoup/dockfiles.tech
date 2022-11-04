@@ -23,7 +23,10 @@ class User extends Authenticatable
         'password',
         'github_token',
         'github_refresh_token',
-        'github_id'
+        'github_id',
+        'gitlab_token',
+        'gitlab_refresh_token',
+        'gitlab_id',
     ];
 
     /**
