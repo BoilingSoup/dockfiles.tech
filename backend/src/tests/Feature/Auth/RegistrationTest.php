@@ -33,6 +33,7 @@ class RegistrationTest extends TestCase
         $response = $this->attemptRegistration();
 
         $response->assertJson(UserWithEmailAlreadyExistsException::message);
+        $this->assertGuest();
     }
 
 
