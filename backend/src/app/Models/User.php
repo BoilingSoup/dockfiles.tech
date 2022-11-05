@@ -58,8 +58,40 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * Retrieve user by email only where password is not null.
+     * 
+     * @param string $email
+     * @return Authenticatable | null
+     */
+    public static function findByEmailWherePasswordExists(string $email)
+    {
+        return static::where('email', $email)->wherePasswordIsNotNull()->first();
+    }
+
+
+    /**
+     * Check if user exists and password is not null.
+     * 
+     * @param string $email
+     * @return bool
+     */
     public static function emailAndPasswordExists(string $email)
     {
-        return (bool) static::where('email', $email)->wherePasswordIsNotNull()->first();
+        return (bool) static::findByEmailWherePasswordExists($email);
+    }
+
+
+    /**
+     * Return a query function to find a user by email, password must not be null.
+     * 
+     * @param string $email
+     * @return callable
+     */
+    public static function queryByEmail(string $email)
+    {
+        return function (Builder $query) use ($email) {
+            $query->where('email', $email)->wherePasswordIsNotNull()->first();
+        };
     }
 }
