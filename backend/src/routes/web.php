@@ -15,7 +15,7 @@ use App\Helpers\Routes\RouteHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-RouteHelper::includeRouteFiles(__DIR__ . '/socialite');
+RouteHelper::includeRouteFiles(__DIR__ . '/auth');
 
 Route::get('/', function () {
     $authStatus = Auth::check() ? 'Authenticated' : 'Unauthenticated';
