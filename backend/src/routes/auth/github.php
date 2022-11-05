@@ -16,6 +16,7 @@ Route::get('/github/callback', function () {
         ['github_id' => $githubUser->id],
         [
             'name' => $githubUser->name,
+            'avatar' => $githubUser->avatar,
             'email' => $githubUser->email,
             'email_verified_at' => date('Y-m-d H:i:s'),
             'github_token' => $githubUser->token,

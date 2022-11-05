@@ -16,6 +16,7 @@ Route::get('/gitlab/callback', function () {
         ['gitlab_id' => $gitlabUser->id],
         [
             'name' => $gitlabUser->name,
+            'avatar' => $gitlabUser->avatar,
             'email' => $gitlabUser->email,
             'email_verified_at' => date('Y-m-d H:i:s'),
             'gitlab_token' => $gitlabUser->token,
