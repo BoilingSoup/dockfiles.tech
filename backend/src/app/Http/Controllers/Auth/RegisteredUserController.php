@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\UserWithEmailAlreadyExistsException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -22,9 +23,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        if (User::emailAndPasswordExists($request->email)) {
+            throw new UserWithEmailAlreadyExistsException();
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
