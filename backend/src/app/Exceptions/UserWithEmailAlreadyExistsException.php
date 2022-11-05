@@ -9,11 +9,12 @@ class UserWithEmailAlreadyExistsException extends Exception
 {
     protected $code = 403;
 
+    public const message = [
+        'message' => 'A user with that email already exists'
+    ];
 
     public function render()
     {
-        return new JsonResponse([
-            'message' => 'A user with that email already exists'
-        ]);
+        return new JsonResponse(static::message);
     }
 }
