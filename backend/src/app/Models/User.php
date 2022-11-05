@@ -38,8 +38,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'email',
+        'email_verified_at',
         'password',
         'remember_token',
+        'github_token',
+        'github_refresh_token',
+        'github_id',
+        'gitlab_token',
+        'gitlab_refresh_token',
+        'gitlab_id',
     ];
 
     /**
