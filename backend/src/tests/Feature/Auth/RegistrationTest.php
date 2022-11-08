@@ -30,12 +30,12 @@ class RegistrationTest extends TestCase
         $this->attemptRegistration();
         $this->post('/logout');
 
-        $response = $this->attemptRegistration()->assertStatus(403);
+        $this->attemptRegistration()
+            ->assertStatus(403)
+            ->assertJson(UserWithEmailAlreadyExistsException::class);
 
-        $response->assertJson(UserWithEmailAlreadyExistsException::message);
         $this->assertGuest();
     }
-
 
     private function attemptRegistration()
     {

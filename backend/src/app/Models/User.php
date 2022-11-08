@@ -60,17 +60,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     public function scopeWherePasswordIsNotNull(Builder $query)
     {
         return $query->whereNotNull('password');
     }
 
-
     /**
      * Retrieve user by email only where password is not null.
-     * 
-     * @param string $email
+     *
+     * @param  string  $email
      * @return Authenticatable | null
      */
     public static function findByEmailWherePasswordExists(string $email)
@@ -78,11 +76,10 @@ class User extends Authenticatable
         return static::where('email', $email)->wherePasswordIsNotNull()->first();
     }
 
-
     /**
      * Check if user exists and password is not null.
-     * 
-     * @param string $email
+     *
+     * @param  string  $email
      * @return bool
      */
     public static function emailAndPasswordExists(string $email)
@@ -90,11 +87,10 @@ class User extends Authenticatable
         return (bool) static::findByEmailWherePasswordExists($email);
     }
 
-
     /**
      * Return a query function to find a user by email, password must not be null.
-     * 
-     * @param string $email
+     *
+     * @param  string  $email
      * @return callable
      */
     public static function queryByEmail(string $email)

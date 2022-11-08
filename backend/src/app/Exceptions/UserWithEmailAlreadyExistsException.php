@@ -9,8 +9,8 @@ class UserWithEmailAlreadyExistsException extends Exception
 {
     public const message = [
         'errors' => [
-            'message' => 'A user with that email already exists'
-        ]
+            'message' => 'A user with that email already exists',
+        ],
     ];
 
     public function render()
