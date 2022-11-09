@@ -29,6 +29,11 @@ RUN set -xe && \
     apk del .memcached-deps .phpize-deps
 
 
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
+
+
 WORKDIR /entrypoint
 COPY entrypoint.sh /entrypoint
 RUN chmod +x /entrypoint/entrypoint.sh

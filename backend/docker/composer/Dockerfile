@@ -28,6 +28,11 @@ RUN set -xe && \
     apk del .memcached-deps .phpize-deps
 
 
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
+
+
 WORKDIR /app/laravel/src
 
 ENTRYPOINT ["/usr/bin/composer"]

@@ -35,6 +35,11 @@ RUN set -xe && \
     apk del .memcached-deps .phpize-deps
 
 
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
+
+
 RUN addgroup -g 1000 php
 RUN adduser -u 1000 -G php -D php
 
