@@ -32,7 +32,7 @@ class RegistrationTest extends TestCase
 
         $this->attemptRegistration()
             ->assertStatus(403)
-            ->assertJson(UserWithEmailAlreadyExistsException::class);
+            ->assertJson(UserWithEmailAlreadyExistsException::message);
 
         $this->assertGuest();
     }
