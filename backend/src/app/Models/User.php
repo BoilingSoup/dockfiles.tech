@@ -102,7 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param  string  $email
      * @return callable
      */
-    public static function queryByEmail(string $email)
+    public static function queryByEmailWherePasswordIsNotNull(string $email)
     {
         return function (Builder $query) use ($email) {
             $query->where('email', $email)->wherePasswordIsNotNull()->first();
