@@ -14,7 +14,7 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    /**@var $requestValidated extra safe-guard */
+    /** @var $requestValidated extra safe-guard */
     private bool $requestValidated = false;
 
     /**

@@ -27,5 +27,5 @@ Route::get('/', function () {
 Route::get('/verified-only', function () {
     $verifiedStatus = Auth::user()?->hasVerifiedEmail() ? 'Verified' : 'Unverified';
 
-    return 'test'. '<br>'.$verifiedStatus;
+    return 'test'.'<br>'.$verifiedStatus;
 })->middleware('auth');

@@ -168,7 +168,7 @@ return [
             'password' => env('REDIS_QUEUE_PASSWORD'),
             'port' => env('REDIS_QUEUE_PORT', '6379'),
             'database' => env('REDIS_QUEUE_DB', '1'),
-        ]
+        ],
     ],
 
 ];
