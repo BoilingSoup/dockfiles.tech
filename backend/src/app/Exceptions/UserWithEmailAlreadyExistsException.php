@@ -7,13 +7,6 @@ use Exception;
 
 class UserWithEmailAlreadyExistsException extends Exception
 {
-    // for asserting response shape in tests
-    public const message = [
-      "success" =>  false,
-      "message" => "A user with that email already exists.",
-      "data" => []
-    ];
-
     public function render()
     {
         return new FormattedApiResponse(

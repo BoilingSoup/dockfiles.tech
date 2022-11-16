@@ -2,13 +2,19 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Exceptions\UserWithEmailAlreadyExistsException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
+
+    private array $userWithEmailAlreadyExistsResponse = [
+      "success" =>  false,
+      "message" => "A user with that email already exists.",
+      "data" => []
+    ];
+
 
     protected $payload = [
         'name' => 'Test User',
@@ -32,7 +38,7 @@ class RegistrationTest extends TestCase
 
         $this->attemptRegistration()
             ->assertStatus(403)
-            ->assertJson(UserWithEmailAlreadyExistsException::message);
+            ->assertJson($this->userWithEmailAlreadyExistsResponse);
 
         $this->assertGuest();
     }
