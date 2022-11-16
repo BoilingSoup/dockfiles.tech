@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ConfigurationsController;
 
-Route::get("environments/{name}", [ConfigurationsController::class, "index"]);
+Route::get("environments/{name}", [ConfigurationsController::class, "index"])->name("configurations.index");
 
-Route::get("environments/{name}/{id}", [ConfigurationsController::class, "show"]);
+Route::get("environments/{name}/{id}", [ConfigurationsController::class, "show"])->name("configurations.show");
 
-Route::get("search/{phrase}", [ConfigurationsController::class, "search"]);
+Route::get("search/{phrase}", [ConfigurationsController::class, "search"])->name("configurations.search");
