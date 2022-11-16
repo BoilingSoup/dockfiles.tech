@@ -14,6 +14,5 @@ class MissingValidationException extends Exception
             success: false,
             status: 403
         );
-        ;
     }
 }
