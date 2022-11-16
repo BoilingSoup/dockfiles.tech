@@ -9,12 +9,12 @@ class FormattedApiResponse extends JsonResponse
     /**
      * @param bool $success True if request was succesful
      * @param string $message A message to show the consumer
-     * @param array $data (Optional) Response data
+     * @param array | null $data (Optional) Response data
      */
     public function __construct(
         $message,
         $success,
-        $data = [],
+        $data = null,
         $status = 200,
         $headers = [],
         $options = 0,
@@ -31,10 +31,16 @@ class FormattedApiResponse extends JsonResponse
 
     private function format($data, $message, $success)
     {
+        if (is_array($data)) {
+            return [
+              "success" => $success,
+              "message" => $message,
+              "data" => $data
+            ];
+        }
         return [
           "success" => $success,
           "message" => $message,
-          "data" => $data
         ];
     }
 }
