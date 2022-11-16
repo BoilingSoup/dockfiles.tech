@@ -6,4 +6,4 @@ Route::get('environments/{name}', [ConfigurationsController::class, 'index'])->n
 
 Route::get('environments/{name}/{id}', [ConfigurationsController::class, 'show'])->name('configurations.show');
 
-Route::get('search/{phrase}', [ConfigurationsController::class, 'search'])->name('configurations.search');
+Route::get('environments/search/{phrase}', [ConfigurationsController::class, 'search'])->name('configurations.search');

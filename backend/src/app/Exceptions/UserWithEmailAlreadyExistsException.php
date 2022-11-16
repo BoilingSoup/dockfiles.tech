@@ -2,21 +2,23 @@
 
 namespace App\Exceptions;
 
+use App\Http\Responses\FormattedApiResponse;
 use Exception;
-use Illuminate\Http\JsonResponse;
 
 class UserWithEmailAlreadyExistsException extends Exception
 {
+    // for asserting response shape in tests
     public const message = [
-        'errors' => [
-            'message' => 'A user with that email already exists',
-        ],
+      "success" =>  false,
+      "message" => "A user with that email already exists.",
+      "data" => []
     ];
 
     public function render()
     {
-        return new JsonResponse(
-            data: static::message,
+        return new FormattedApiResponse(
+            message: "A user with that email already exists.",
+            success: false,
             status: 403
         );
     }

@@ -2,22 +2,24 @@
 
 namespace App\Exceptions;
 
+use App\Http\Responses\FormattedApiResponse;
 use Exception;
-use Illuminate\Http\JsonResponse;
 
 class MissingValidationException extends Exception
 {
     public const message = [
-        'errors' => [
-            'message' => 'The request was not validated.',
-        ],
+      "success" =>  false,
+      "message" => "The request was not validated.",
+      "data" => []
     ];
 
     public function render()
     {
-        return new JsonResponse(
-            data: static::message,
+        return new FormattedApiResponse(
+            message: "The request was not validated.",
+            success: false,
             status: 403
         );
+        ;
     }
 }
