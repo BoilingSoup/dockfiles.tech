@@ -12,7 +12,6 @@ class RegistrationTest extends TestCase
     private array $userWithEmailAlreadyExistsResponse = [
       "success" =>  false,
       "message" => "A user with that email already exists.",
-      "data" => []
     ];
 
 
