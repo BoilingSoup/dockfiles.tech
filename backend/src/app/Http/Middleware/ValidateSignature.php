@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\InvalidSignatureException;
+use Closure;
 use Illuminate\Routing\Middleware\ValidateSignature as Middleware;
 
 class ValidateSignature extends Middleware
@@ -19,4 +21,15 @@ class ValidateSignature extends Middleware
         // 'utm_source',
         // 'utm_term',
     ];
+
+    public function handle($request, Closure $next, $relative = null)
+    {
+        $ignore = property_exists($this, 'except') ? $this->except : $this->ignore;
+
+        if ($request->hasValidSignatureWhileIgnoring($ignore, $relative !== 'relative')) {
+            return $next($request);
+        }
+
+        throw new InvalidSignatureException();
+    }
 }

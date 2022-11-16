@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\EmailNotVerifiedException;
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -20,7 +21,7 @@ class EnsureEmailIsVerified
         if (! $request->user() ||
             ($request->user() instanceof MustVerifyEmail &&
             ! $request->user()->hasVerifiedEmail())) {
-            return response()->json(['message' => 'Your email address is not verified.'], 409);
+            throw new EmailNotVerifiedException();
         }
 
         return $next($request);
