@@ -9,13 +9,28 @@ use Illuminate\Database\Seeder;
 class CategoriesSeeder extends Seeder
 {
     /**
+     * Get available categories
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function categories()
+    {
+        return collect([
+            "Web Development",
+            "Penetration Testing",
+            "Data Science"
+        ]);
+    }
+
+
+    /**
      * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        CategoriesFactory::categories()->each(
+        $this->categories()->each(
             fn ($category) => Categories::create(['name' => $category])
         );
     }
