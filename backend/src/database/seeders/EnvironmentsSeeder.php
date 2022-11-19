@@ -48,15 +48,15 @@ class EnvironmentsSeeder extends Seeder
                 'category_id' => 4,
             ],
             [
-                'name' => 'Golang + Chi',
+                'name' => 'Golang Chi',
                 'category_id' => 1,
             ],
             [
-                'name' => 'Golang + Gorilla Mux',
+                'name' => 'Golang Gorilla Mux',
                 'category_id' => 1,
             ],
             [
-                'name' => 'Node + Express',
+                'name' => 'ExpressJS',
                 'category_id' => 1,
             ],
             [
@@ -64,7 +64,7 @@ class EnvironmentsSeeder extends Seeder
                 'category_id' => 4,
             ],
             [
-                'name' => 'React + Express',
+                'name' => 'React + ExpressJS',
                 'category_id' => 1,
             ],
             [
@@ -84,7 +84,7 @@ class EnvironmentsSeeder extends Seeder
                 'category_id' => 1,
             ],
             [
-                'name' => 'Wordpress',
+                'name' => 'WordPress',
                 'category_id' => 1,
             ],
         ]);
