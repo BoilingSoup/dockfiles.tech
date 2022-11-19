@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->askToRefreshDB();
 
         $this->call([
-          CategoriesSeeder::class
+      CategoriesSeeder::class,
+      EnvironmentsSeeder::class
         ]);
     }
 
