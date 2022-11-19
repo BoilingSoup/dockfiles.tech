@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Categories;
+use Database\Factories\CategoriesFactory;
 use Illuminate\Database\Seeder;
 
 class CategoriesSeeder extends Seeder
@@ -13,6 +15,8 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        CategoriesFactory::categories()->each(
+            fn ($category) => Categories::create(['name' => $category])
+        );
     }
 }
