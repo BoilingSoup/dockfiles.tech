@@ -10,7 +10,7 @@ class UserWithEmailAlreadyExistsException extends Exception
     public function render()
     {
         return new FormattedApiResponse(
-            message: "A user with that email already exists.",
+            message: 'A user with that email already exists.',
             success: false,
             status: 403
         );

@@ -10,7 +10,7 @@ class AuthenticationException extends BaseAuthenticationException
     public function render()
     {
         return new FormattedApiResponse(
-            message: "Unauthenticated",
+            message: 'Unauthenticated',
             success: false,
             status: 401
         );

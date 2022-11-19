@@ -10,10 +10,9 @@ class RegistrationTest extends TestCase
     use RefreshDatabase;
 
     private array $userWithEmailAlreadyExistsResponse = [
-      "success" =>  false,
-      "message" => "A user with that email already exists.",
+        'success' => false,
+        'message' => 'A user with that email already exists.',
     ];
-
 
     protected $payload = [
         'name' => 'Test User',

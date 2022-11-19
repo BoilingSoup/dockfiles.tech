@@ -10,7 +10,7 @@ class EmailNotVerifiedException extends Exception
     public function render()
     {
         return new FormattedApiResponse(
-            message: "Your email address is not verified.",
+            message: 'Your email address is not verified.',
             success: false,
             status: 409
         );

@@ -7,9 +7,9 @@ use Illuminate\Http\JsonResponse;
 class FormattedApiResponse extends JsonResponse
 {
     /**
-     * @param bool $success True if request was succesful
-     * @param string $message A message to show the consumer
-     * @param array | null $data (Optional) Response data
+     * @param  bool  $success True if request was succesful
+     * @param  string  $message A message to show the consumer
+     * @param  array | null  $data (Optional) Response data
      */
     public function __construct(
         $message,
@@ -33,14 +33,15 @@ class FormattedApiResponse extends JsonResponse
     {
         if (is_array($data)) {
             return [
-              "success" => $success,
-              "message" => $message,
-              "data" => $data
+                'success' => $success,
+                'message' => $message,
+                'data' => $data,
             ];
         }
+
         return [
-          "success" => $success,
-          "message" => $message,
+            'success' => $success,
+            'message' => $message,
         ];
     }
 }

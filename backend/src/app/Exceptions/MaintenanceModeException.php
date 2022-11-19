@@ -10,7 +10,7 @@ class MaintenanceModeException extends Exception
     public function render()
     {
         return new FormattedApiResponse(
-            message: "Service unavailable",
+            message: 'Service unavailable',
             success: false,
             status: 503
         );

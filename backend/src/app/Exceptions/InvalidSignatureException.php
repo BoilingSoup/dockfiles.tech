@@ -10,7 +10,7 @@ class InvalidSignatureException extends Exception
     public function render()
     {
         return new FormattedApiResponse(
-            message: "Invalid signature.",
+            message: 'Invalid signature.',
             success: false,
             status: 403
         );

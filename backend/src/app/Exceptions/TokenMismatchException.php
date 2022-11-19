@@ -10,7 +10,7 @@ class TokenMismatchException extends Exception
     public function render()
     {
         return new FormattedApiResponse(
-            message: "CSRF token mismatch",
+            message: 'CSRF token mismatch',
             success: false,
             status: 419
         );

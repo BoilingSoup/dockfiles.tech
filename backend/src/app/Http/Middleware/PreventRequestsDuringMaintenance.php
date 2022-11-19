@@ -17,7 +17,6 @@ class PreventRequestsDuringMaintenance extends Middleware
         //
     ];
 
-
     public function handle($request, Closure $next)
     {
         if ($this->app->maintenanceMode()->active()) {

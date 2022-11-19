@@ -15,13 +15,12 @@ class CategoriesSeeder extends Seeder
     private function categories()
     {
         return collect([
-            "Web Development",
-            "Penetration Testing",
-            "Data Science",
-            "Utilities",
+            'Web Development',
+            'Penetration Testing',
+            'Data Science',
+            'Utilities',
         ]);
     }
-
 
     /**
      * Run the database seeds.

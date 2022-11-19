@@ -17,14 +17,14 @@ class DatabaseSeeder extends Seeder
         $this->askToRefreshDB();
 
         $this->call([
-      CategoriesSeeder::class,
-      EnvironmentsSeeder::class
+            CategoriesSeeder::class,
+            EnvironmentsSeeder::class,
         ]);
     }
 
     private function askToRefreshDB()
     {
-        $refresh = $this->command->confirm(question: "Refresh database?", default: true);
+        $refresh = $this->command->confirm(question: 'Refresh database?', default: true);
 
         if ($refresh) {
             $this->command->call('migrate:refresh');
