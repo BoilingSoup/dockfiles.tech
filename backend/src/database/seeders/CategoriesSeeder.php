@@ -3,13 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Categories;
-use Database\Factories\CategoriesFactory;
 use Illuminate\Database\Seeder;
 
 class CategoriesSeeder extends Seeder
 {
     /**
-     * Get available categories
+     * Get available categories.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -18,7 +17,8 @@ class CategoriesSeeder extends Seeder
         return collect([
             "Web Development",
             "Penetration Testing",
-            "Data Science"
+            "Data Science",
+            "Utilities",
         ]);
     }
 
