@@ -17,7 +17,7 @@ return new class () extends Migration {
         Schema::create('environments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description', MaxLength::description)->fulltext();
+            $table->string('description', MaxLength::description)->fulltext()->default("");
             $table->string('github_link');
             $table->string('direct_link');
             $table->foreignId(ForeignKeyCol::categories)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.

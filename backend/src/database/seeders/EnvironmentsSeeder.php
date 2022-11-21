@@ -241,6 +241,8 @@ class EnvironmentsSeeder extends Seeder
             fn ($environment) => Environments::create([
                 'name' => $environment['name'],
                 'category_id' => $environment['category_id'],
+                'github_link' => $environment['github_link'],
+                'direct_link' => $environment['direct_link']
             ])
         );
     }
