@@ -20,10 +20,6 @@ class EnvironmentsSeeder extends Seeder
                 'category_id' => 1,
             ],
             [
-                'name' => 'PHP',
-                'category_id' => 1,
-            ],
-            [
                 'name' => 'ASP.NET Core',
                 'category_id' => 1,
             ],
@@ -87,6 +83,24 @@ class EnvironmentsSeeder extends Seeder
                 'name' => 'WordPress',
                 'category_id' => 1,
             ],
+      ['name' => 'JupyterLab',
+        'category_id' => 3,
+      ],
+      ['name' => 'DVWA - Damn Vulnerable Web App',
+        'category_id' => 2,
+      ],
+      ['name' => 'bWAPP - A Buggy Web Application',
+        'category_id' => 2,
+      ],
+      ['name' => 'OWASP Juice Shop',
+        'category_id' => 2,
+      ],
+      ['name' => 'PHP LEMP Stack',
+        'category_id' => 1,
+      ],
+      ['name' => 'Laravel',
+        'category_id' => 1,
+      ],
         ]);
     }
 
