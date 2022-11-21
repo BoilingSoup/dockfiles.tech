@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('content', MaxLength::comments);
             $table->foreignId(ForeignKeyCol::users)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
-            $table->foreignId(ForeignKeyCol::configurations)->index();
+            $table->foreignId(ForeignKeyCol::environments)->index();
             $table->timestamps();
         });
     }
