@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -35,6 +36,22 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Create an admin user.
+     * @return static
+     */
+    public function admin()
+    {
+        return $this->state([
+          'name' => config('admin.name'),
+          'email' => config('admin.email'),
+          'email_verified_at' => now(),
+          'password' => Hash::make(config('admin.password')),
+          'is_admin' => true,
+          'remember_token' => Str::random(10),
         ]);
     }
 }
