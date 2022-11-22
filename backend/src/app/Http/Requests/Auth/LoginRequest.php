@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Exceptions\InvalidCredentialsException;
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
@@ -52,9 +53,7 @@ class LoginRequest extends FormRequest
         ], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
+            throw new InvalidCredentialsException();
         }
 
         RateLimiter::clear($this->throttleKey());
