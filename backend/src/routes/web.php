@@ -19,7 +19,7 @@ RouteHelper::includeRouteFiles(__DIR__.'/auth');
 
 Route::get('/', function () {
     $authStatus = Auth::check() ? 'Authenticated' : 'Unauthenticated';
-    // dump(Auth::user());
+    dump(Auth::user());
 
     return 'test'.'<br>'.$authStatus;
 });
