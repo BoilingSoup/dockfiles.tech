@@ -41,18 +41,19 @@ class UserFactory extends Factory
 
     /**
      * Create an admin user.
+     *
      * @return static
      */
     public function admin()
     {
         return $this->state([
-          'name' => config('admin.name'),
-          'email' => config('admin.email'),
-          'email_verified_at' => now(),
-          'password' => Hash::make(config('admin.password')),
-          'avatar' => config('admin.avatar'),
-          'is_admin' => true,
-          'remember_token' => Str::random(10),
+            'name' => config('admin.name'),
+            'email' => config('admin.email'),
+            'email_verified_at' => now(),
+            'password' => Hash::make(config('admin.password')),
+            'avatar' => config('admin.avatar'),
+            'is_admin' => true,
+            'remember_token' => Str::random(10),
         ]);
     }
 }

@@ -87,11 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-       * Retrieve user by email only where password is not null.
-       *
-       * @param  string  $email
-       * @return Authenticatable | null
-       */
+     * Retrieve user by email only where password is not null.
+     *
+     * @param  string  $email
+     * @return Authenticatable | null
+     */
     public static function findByEmailWherePasswordExists(string $email)
     {
         return static::where('email', $email)->wherePasswordIsNotNull()->first();

@@ -246,7 +246,7 @@ class EnvironmentsSeeder extends Seeder
                 'github_link' => $environment['github_link'],
                 'direct_link' => $environment['direct_link'],
                 'category_id' => $environment['category_id'],
-                'user_id' => $adminId
+                'user_id' => $adminId,
             ])
         );
     }
