@@ -8,4 +8,5 @@ Route::apiResource('bookmarks', BookmarksController::class)
 ->middleware('auth');
 
 Route::get('bookmarks/search/{slug}', [BookmarksController::class, 'search'])
-->middleware('auth');
+->middleware('auth')
+->name('bookmarks.search');
