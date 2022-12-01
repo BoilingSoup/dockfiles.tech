@@ -6,3 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('bookmarks', BookmarksController::class)
 ->except(['show', 'update'])
 ->middleware('auth');
+
+Route::get('bookmarks/search/{slug}', [BookmarksController::class, 'search'])
+->middleware('auth');
