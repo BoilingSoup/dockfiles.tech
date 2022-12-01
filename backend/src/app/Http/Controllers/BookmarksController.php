@@ -21,4 +21,9 @@ class BookmarksController extends Controller
     {
         //
     }
+
+    public function search()
+    {
+      //
+    }
 }

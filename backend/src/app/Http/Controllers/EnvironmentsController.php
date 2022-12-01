@@ -8,4 +8,9 @@ class EnvironmentsController extends Controller
     {
         //
     }
+
+    public function search()
+    {
+      //
+    }
 }
