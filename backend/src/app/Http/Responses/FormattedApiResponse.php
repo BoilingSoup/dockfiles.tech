@@ -12,8 +12,8 @@ class FormattedApiResponse extends JsonResponse
      * @param  array | null  $data (Optional) Response data
      */
     public function __construct(
-        $message,
         $success,
+        $message = null,
         $data = null,
         $status = 200,
         $headers = [],
@@ -34,7 +34,6 @@ class FormattedApiResponse extends JsonResponse
         if (is_array($data)) {
             return [
                 'success' => $success,
-                'message' => $message,
                 'data' => $data,
             ];
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\FormattedApiResponse;
 use App\Repositories\CategoriesRepository;
 use Illuminate\Http\Request;
 
@@ -17,23 +18,33 @@ class CategoriesController extends Controller
     /**
      * Get a list of all category names and ids.
      *
-     * @return \Illuminate\Http\Response
+     * @return FormattedApiResponse
      */
     public function index()
     {
-        return $this->repository->index();
+        $data = $this->repository->index();
+
+        return new FormattedApiResponse(
+            success: true,
+            data: $data
+        );
     }
 
     /**
      * Get environments by category id.
      *
-     * @return \Illuminate\Http\Response
+     * @return FormattedApiResponse
      */
     public function show(Request $request)
     {
         $isValidId = $this->repository->checkValidCategoryId($request->id);
         abort_if(!$isValidId, 404);
 
-        return $this->repository->show($request->id);
+        $data = $this->repository->show($request->id);
+
+        return new FormattedApiResponse(
+            success: true,
+            data: $data
+        );
     }
 }

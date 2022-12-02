@@ -6,28 +6,29 @@ use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
 use App\Models\Categories;
 use App\Models\Environments;
+use Closure;
 use Database\Helpers\ForeignKeyCol;
 use Illuminate\Support\Facades\Cache;
 
 class CategoriesRepository
 {
     /**
-     * Retrieve the name and id of all categories.
+     * Retrieve the name and ID of all categories.
      *
-     * @return bool
+     * @return array
      */
     public function index()
     {
         return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_INDEX])->rememberForever(
             CACHE_KEYS::CATEGORIES_INDEX,
-            fn () => Categories::select("id", "name")->orderBy("name")->get()
+            fn () => Categories::select("id", "name")->orderBy("name")->get()->toArray()
         );
     }
 
     /**
-     * Retrieve environment data by category id. (Cached for 1 day.)
+     * Retrieve environment data by category ID. (Cached for 1 day.)
      *
-     * @return bool
+     * @return array
      */
     public function show(int $id)
     {
@@ -41,31 +42,37 @@ class CategoriesRepository
                 "repo_owner",
                 "repo_name",
                 "repo_branch",
-            )->where(ForeignKeyCol::categories, $id)->get()
+            )->where(ForeignKeyCol::categories, $id)->get()->toArray()
         );
     }
 
     /**
-     * Use cache to quickly check if a numeric route param is a valid category id.
+     * Use cache to quickly check if a numeric route param is a valid category ID.
      *
      * @return bool
      */
     public function checkValidCategoryId(int $id)
     {
         /**@var \Illuminate\Support\Collection*/
-        $categories = Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_VALID_IDS])->rememberForever(
+        $categoryIds = Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_VALID_IDS])->rememberForever(
             CACHE_KEYS::CATEGORIES_VALID_IDS,
-            fn () => Categories::select("id")->get()
+            $this->getCategoryIds()
         );
 
-        $isValid = false;
+        return $categoryIds->contains($id);
+    }
 
-        $categories->each(function ($category) use (&$isValid, $id) {
-            if ($category->id === $id) {
-                $isValid = true;
-            }
-        });
-
-        return $isValid;
+    /**
+     * Callback function that retrieves a flattened Collection object of category IDs.
+     *
+     * @return Closure
+     */
+    private function getCategoryIds()
+    {
+        return function () {
+            $categories = Categories::select("id")->get();
+            $idsCollection = $categories->map(fn ($category) => $category->id);
+            return $idsCollection;
+        };
     }
 }
