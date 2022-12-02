@@ -12,7 +12,6 @@ import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
 import { IconChevronDown, IconSearch } from "@tabler/icons";
-import { useCategories } from "../../hooks/api/useCategories";
 
 const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   main: {
@@ -29,9 +28,6 @@ type Props = {
 
 export const Layout = (props: Props) => {
   const [opened, setOpened] = useState(false);
-  const { data } = useCategories();
-
-  const categories = data?.data.map((obj) => obj.name);
 
   const navbarToggle = () => {
     setOpened((prev) => !prev);
@@ -51,15 +47,15 @@ export const Layout = (props: Props) => {
           placeholder="Search"
           style={{ width: "80%", maxWidth: "570px" }}
           icon={<IconSearch size={16} stroke={1.5} />}
-          data={categories ?? [""]}
+          data={[]}
         />
-        <NativeSelect
-          label="Category"
-          placeholder="Select Category"
-          data={categories ?? [""]}
-          rightSection={<IconChevronDown size={14} />}
-          rightSectionWidth={40}
-        />
+        {/* <NativeSelect */}
+        {/*   label="Category" */}
+        {/*   placeholder="Select Category" */}
+        {/*   data={undefined ?? [""]} */}
+        {/*   rightSection={<IconChevronDown size={14} />} */}
+        {/*   rightSectionWidth={40} */}
+        {/* /> */}
       </Center>
       {props.children}
     </AppShell>
