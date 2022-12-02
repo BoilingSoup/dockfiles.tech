@@ -8,8 +8,7 @@ export const HomeSearch = () => {
   const { data: categoriesData } = useCategories();
   const categories = categoriesData?.data.map((obj) => obj.name);
 
-  const input = useHomeSearch((state) => state.input);
-  const setInput = useHomeSearch((state) => state.setInput);
+  const { input, setInput } = useHomeSearch();
 
   return (
     <Center style={{ width: "100%" }}>
