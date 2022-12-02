@@ -56,23 +56,9 @@ class CategoriesRepository
         /**@var \Illuminate\Support\Collection*/
         $categoryIds = Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_VALID_IDS])->rememberForever(
             CACHE_KEYS::CATEGORIES_VALID_IDS,
-            $this->getCategoryIds()
+            fn () => Categories::idsCollection()
         );
 
         return $categoryIds->contains($id);
-    }
-
-    /**
-     * Callback function that retrieves a flattened Collection object of category IDs.
-     *
-     * @return Closure
-     */
-    private function getCategoryIds()
-    {
-        return function () {
-            $categories = Categories::select("id")->get();
-            $idsCollection = $categories->map(fn ($category) => $category->id);
-            return $idsCollection;
-        };
     }
 }

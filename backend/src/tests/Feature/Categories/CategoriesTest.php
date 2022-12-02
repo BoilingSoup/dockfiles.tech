@@ -60,14 +60,15 @@ class CategoriesTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function test_categories_show_returns_200_with_valid_id()
+    public function test_categories_show_returns_200_with_valid_ids()
     {
         $this->seedTables();
-        $id = Categories::first()->id;
+        $ids = Categories::idsCollection();
 
-        $response = $this->get(route("categories.show", ["id" => $id]));
-
-        $response->assertStatus(200);
+        $ids->each(function ($id) {
+            $response = $this->get(route("categories.show", ["id" => $id]));
+            $response->assertStatus(200);
+        });
     }
 
     private function seedTables()

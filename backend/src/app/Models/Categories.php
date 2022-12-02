@@ -12,4 +12,15 @@ class Categories extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * Retrieve a flattened Collection object of category IDs.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function idsCollection()
+    {
+        $categories = static::select("id")->get();
+        return $categories->map(fn ($category) => $category->id);
+    }
 }
