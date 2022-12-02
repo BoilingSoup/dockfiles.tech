@@ -23,4 +23,19 @@ class Categories extends Model
         $categories = static::select("id")->get();
         return $categories->map(fn ($category) => $category->id);
     }
+
+    /**
+     * Retrieve an associative array with category IDs as keys. *Values are bool(True)*
+     *
+     * @return array
+     */
+    public static function idsMap()
+    {
+        $idsArray = Categories::idsCollection()->toArray();
+        $idsMap = [];
+        foreach ($idsArray as $value) {
+            $idsMap[$value] = true;
+        }
+        return $idsMap;
+    }
 }

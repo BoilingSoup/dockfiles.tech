@@ -53,12 +53,12 @@ class CategoriesRepository
      */
     public function checkValidCategoryId(int $id)
     {
-        /**@var \Illuminate\Support\Collection*/
+        /**@var array*/
         $categoryIds = Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_VALID_IDS])->rememberForever(
             CACHE_KEYS::CATEGORIES_VALID_IDS,
-            fn () => Categories::idsCollection()
+            fn () => Categories::idsMap()
         );
 
-        return $categoryIds->contains($id);
+        return isset($categoryIds[$id]);
     }
 }
