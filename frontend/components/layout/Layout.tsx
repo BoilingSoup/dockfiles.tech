@@ -42,21 +42,6 @@ export const Layout = (props: Props) => {
       aside={<Sidebar />}
       sx={appShellSx}
     >
-      <Center style={{ width: "100%" }}>
-        <Autocomplete
-          placeholder="Search"
-          style={{ width: "80%", maxWidth: "570px" }}
-          icon={<IconSearch size={16} stroke={1.5} />}
-          data={[]}
-        />
-        {/* <NativeSelect */}
-        {/*   label="Category" */}
-        {/*   placeholder="Select Category" */}
-        {/*   data={undefined ?? [""]} */}
-        {/*   rightSection={<IconChevronDown size={14} />} */}
-        {/*   rightSectionWidth={40} */}
-        {/* /> */}
-      </Center>
       {props.children}
     </AppShell>
   );

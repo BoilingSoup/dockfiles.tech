@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import { Text } from "@mantine/core";
+import { Center, Text } from "@mantine/core";
 import Head from "next/head";
 import { Select } from "../components/common/Select";
 import { useCategories } from "../hooks/api/useCategories";
+import { Search } from "../components/common/Search";
 
 const Home: NextPage = () => {
   const { data } = useCategories();
@@ -13,7 +14,11 @@ const Home: NextPage = () => {
       <Head>
         <title>Dockfiles.io | Home</title>
       </Head>
-      <Select data={categories} />
+      <Center style={{ width: "100%" }}>
+        <Search />
+        <Select data={categories} />
+      </Center>
+
       <Text component="h1">Home</Text>
     </>
   );
