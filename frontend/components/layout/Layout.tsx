@@ -1,11 +1,4 @@
-import {
-  AppShell,
-  Autocomplete,
-  Center,
-  CSSObject,
-  MantineTheme,
-  NativeSelect,
-} from "@mantine/core";
+import { AppShell, Autocomplete, Center, CSSObject, MantineTheme, NativeSelect } from "@mantine/core";
 import React, { ReactElement, useState } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { Sidebar } from "./Sidebar";

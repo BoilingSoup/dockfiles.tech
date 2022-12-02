@@ -47,12 +47,7 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
   const { classes } = useHeaderStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const darkModeIcon =
-    colorScheme === LIGHT ? (
-      <IconMoon size={iconSize} />
-    ) : (
-      <IconSun size={iconSize} />
-    );
+  const darkModeIcon = colorScheme === LIGHT ? <IconMoon size={iconSize} /> : <IconSun size={iconSize} />;
 
   const toggleHandler = () => toggleColorScheme();
   const hamburgerHandler = () => {
@@ -82,22 +77,10 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
         </Group>
 
         <Group>
-          <ActionIcon
-            onClick={toggleHandler}
-            variant="default"
-            size={actionIconSize}
-            sx={iconSx}
-            radius={iconRadius}
-          >
+          <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
             <IconBrandGithub size={iconSize} />
           </ActionIcon>
-          <ActionIcon
-            onClick={toggleHandler}
-            variant="default"
-            size={actionIconSize}
-            sx={iconSx}
-            radius={iconRadius}
-          >
+          <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
             {darkModeIcon}
           </ActionIcon>
         </Group>

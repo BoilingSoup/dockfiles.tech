@@ -16,10 +16,7 @@ const getCategories: () => Promise<CategoriesData> = async () => {
 };
 
 export const useCategories = () => {
-  const { data, isLoading, isError, error } = useQuery(
-    [queryKeys.categoriesList],
-    getCategories
-  );
+  const { data, isLoading, isError, error } = useQuery([queryKeys.categoriesList], getCategories);
 
   return { data, isLoading, isError, error };
 };

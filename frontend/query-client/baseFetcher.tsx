@@ -6,12 +6,7 @@ type RequestBody = {
   [key: string]: string;
 };
 
-type Method =
-  | typeof GET
-  | typeof POST
-  | typeof PUT
-  | typeof PATCH
-  | typeof DELETE;
+type Method = typeof GET | typeof POST | typeof PUT | typeof PATCH | typeof DELETE;
 
 function readCookie(name: string) {
   var nameEQ = name + "=";
@@ -35,11 +30,7 @@ const api = ky.extend({
   },
 });
 
-export const apiFetch = async (
-  url: string,
-  method: Method,
-  body?: RequestBody
-) => {
+export const apiFetch = async (url: string, method: Method, body?: RequestBody) => {
   if (readCookie("X-XSRF-TOKEN") === null) {
     await api.get(SANCTUM_CSRF);
   }
