@@ -1,11 +1,7 @@
 import create from "zustand";
+import { SearchState } from "../types";
 
-type HomeSearchState = {
-  input: string;
-  setInput: (input: string) => void;
-};
-
-const useHomeSearchState = create<HomeSearchState>((set) => ({
+const useHomeSearchState = create<SearchState>((set) => ({
   input: "",
   setInput: (input) => set(() => ({ input })),
 }));
