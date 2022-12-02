@@ -15,7 +15,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconSearch, IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
 import Image from "next/image";
 import { LIGHT } from "../../contexts/ColorSchemeProvider";
-import { useHeaderStyles } from "./hooks/useHeaderStyles";
+import { useHeaderStyles } from "../../hooks/layout/useHeaderStyles";
 import Logo from "../../public/logo.svg";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
