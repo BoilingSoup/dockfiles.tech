@@ -1,10 +1,18 @@
-import { AppShell, Autocomplete, Center, CSSObject, MantineTheme, NativeSelect } from "@mantine/core";
+import {
+  AppShell,
+  Autocomplete,
+  Center,
+  CSSObject,
+  MantineTheme,
+  NativeSelect,
+} from "@mantine/core";
 import React, { ReactElement, useState } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
 import { IconChevronDown, IconSearch } from "@tabler/icons";
+import { useCategories } from "../../hooks/api/useCategories";
 
 const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   main: {
@@ -21,10 +29,14 @@ type Props = {
 
 export const Layout = (props: Props) => {
   const [opened, setOpened] = useState(false);
+  const { data } = useCategories();
+
+  const categories = data?.data.map((obj) => obj.name);
 
   const navbarToggle = () => {
     setOpened((prev) => !prev);
   };
+
   return (
     <AppShell
       padding="md"
@@ -39,12 +51,12 @@ export const Layout = (props: Props) => {
           placeholder="Search"
           style={{ width: "80%", maxWidth: "570px" }}
           icon={<IconSearch size={16} stroke={1.5} />}
-          data={["React", "Angular", "Vue", "Next.js", "Riot.js", "Svelte", "Blitz.js"]}
+          data={categories ?? [""]}
         />
         <NativeSelect
-          label="Your favorite library/framework"
+          label="Category"
           placeholder="Select Category"
-          data={["React", "Angular", "Svelte", "Vue"]}
+          data={categories ?? [""]}
           rightSection={<IconChevronDown size={14} />}
           rightSectionWidth={40}
         />
