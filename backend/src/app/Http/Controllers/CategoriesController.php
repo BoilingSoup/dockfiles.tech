@@ -25,7 +25,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get a list of environments by category id.
+     * Get environments by category id.
      *
      * @return \Illuminate\Http\Response
      */
