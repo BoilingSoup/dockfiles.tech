@@ -14,6 +14,11 @@ type Props = SearchProps & {
   onChangeSelect: ChangeEventHandler<HTMLSelectElement>;
 };
 
+export type LabelData = {
+  value: string;
+  label: string;
+};
+
 export const CategoriesSearch = ({
   inputValue,
   onChangeInput: setInputValue,
@@ -21,7 +26,10 @@ export const CategoriesSearch = ({
   onChangeSelect: setSelectValue,
 }: Props) => {
   const { data: categoriesData } = useCategories();
-  const categories = categoriesData?.data.map((obj) => obj.name);
+  const categories: LabelData[] | undefined = categoriesData?.data.map((obj) => ({
+    value: obj.id.toString(),
+    label: obj.name,
+  }));
 
   return (
     <Center style={{ width: "100%" }}>
