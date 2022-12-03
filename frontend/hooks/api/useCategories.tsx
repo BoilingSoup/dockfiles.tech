@@ -12,7 +12,7 @@ type CategoriesData = {
 };
 
 const getCategories: () => Promise<CategoriesData> = async () => {
-  return (await apiFetch(`${API_URL}/categories/list`, GET)) as CategoriesData;
+  return (await apiFetch(`${API_URL}/categories`, GET)) as CategoriesData;
 };
 
 export const useCategories = () => {
