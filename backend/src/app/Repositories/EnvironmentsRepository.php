@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Cache;
 class EnvironmentsRepository
 {
     /**
-     * Retrieve a cursor paginated collection of all environments. (Cached for 1 day.)
+     * Retrieve a CursorPaginator object of all Environments. (Cached for 1 day.)
      *
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
     public function index(string | null $cursor)
     {
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_INDEX])->remember(
-            CACHE_KEYS::ENVIRONMENTS_INDEX_CURSOR_($cursor ?? "NULL"),
+            CACHE_KEYS::ENVIRONMENTS_INDEX_CURSOR_($cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
                 "id",
@@ -29,7 +29,7 @@ class EnvironmentsRepository
     }
 
     /**
-     * Retrieve environment data by category ID.
+     * Retrieve Environment data by Category ID.
      *
      * @return array
      */

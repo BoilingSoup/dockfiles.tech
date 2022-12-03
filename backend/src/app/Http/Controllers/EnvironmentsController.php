@@ -16,7 +16,7 @@ class EnvironmentsController extends Controller
     }
 
     /**
-     * Get a cursor paginated list of all Environments names and IDs.
+     * Get a cursor paginated JSON response of all Environments names and IDs.
      *
      * @return FormattedApiResponse
      */

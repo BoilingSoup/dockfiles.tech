@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class CategoriesRepository
 {
     /**
-     * Retrieve the name and ID of all categories.
+     * Retrieve the name and ID of all Categories.
      *
      * @return array
      */
@@ -25,14 +25,14 @@ class CategoriesRepository
     }
 
     /**
-     * Retrieve environment data by category ID. (Cached for 1 day.)
+     * Retrieve a CursorPaginator object of Environments filtered by Category ID. (Cached for 1 day.)
      *
-     * @return array
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
-    public function show(int $id)
+    public function show(int $id, string | null $cursor)
     {
         return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_SHOW])->remember(
-            CACHE_KEYS::CATEGORIES_SHOW_($id),
+            CACHE_KEYS::CATEGORIES_SHOW_($id, $cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
                 "id",
@@ -41,12 +41,12 @@ class CategoriesRepository
                 "repo_owner",
                 "repo_name",
                 "repo_branch",
-            )->where(ForeignKeyCol::categories, $id)->get()->toArray()
+            )->where(ForeignKeyCol::categories, $id)->orderBy("id")->cursorPaginate()
         );
     }
 
     /**
-     * Use cache to quickly check if a numeric route param is a valid category ID.
+     * Use cache to quickly check if a numeric route param is a valid Category ID.
      *
      * @return bool
      */

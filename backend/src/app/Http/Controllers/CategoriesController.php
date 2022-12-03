@@ -16,7 +16,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get a list of all category names and IDs.
+     * Get a JSON response of all category names and IDs.
      *
      * @return FormattedApiResponse
      */
@@ -31,7 +31,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get environments by category ID.
+     * Get a cursor paginated JSON response of Environments filtered by category ID.
      *
      * @return FormattedApiResponse
      */
@@ -40,11 +40,11 @@ class CategoriesController extends Controller
         $isValidId = $this->repository->checkValidCategoryId($request->id);
         abort_if(!$isValidId, 404);
 
-        $data = $this->repository->show($request->id);
+        $data = $this->repository->show($request->id, $request->cursor);
 
         return new FormattedApiResponse(
             success: true,
-            data: $data
+            data: collect($data)
         );
     }
 }
