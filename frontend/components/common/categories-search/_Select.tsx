@@ -1,9 +1,12 @@
 import { NativeSelect } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons";
+import { ChangeEventHandler } from "react";
 
 type Props = {
   data: string[] | undefined;
   ml?: number;
+  selectValue: string;
+  onChangeSelect: ChangeEventHandler<HTMLSelectElement>;
 };
 
 /**
@@ -22,9 +25,18 @@ const getOptions = (defaultOption: string, data: string[] | undefined): string[]
   return options;
 };
 
-export const Select = ({ data, ml = 12 }: Props) => {
+export const Select = ({ data, ml = 12, selectValue, onChangeSelect: setSelectValue }: Props) => {
   const defaultOption = "All Categories";
   const options = getOptions(defaultOption, data);
 
-  return <NativeSelect data={options} rightSection={<IconChevronDown size={14} />} rightSectionWidth={40} ml={ml} />;
+  return (
+    <NativeSelect
+      defaultValue={selectValue}
+      onChange={setSelectValue}
+      data={options}
+      rightSection={<IconChevronDown size={14} />}
+      rightSectionWidth={40}
+      ml={ml}
+    />
+  );
 };
