@@ -2,6 +2,7 @@
 
 namespace App\Http\Responses;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\JsonResponse;
 
 class FormattedApiResponse extends JsonResponse
@@ -31,7 +32,7 @@ class FormattedApiResponse extends JsonResponse
 
     private function format($data, $message, $success)
     {
-        if (is_array($data)) {
+        if (is_array($data) || $data instanceof Arrayable) {
             return [
                 'success' => $success,
                 'data' => $data,

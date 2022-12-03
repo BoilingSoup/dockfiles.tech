@@ -16,7 +16,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get a list of all category names and ids.
+     * Get a list of all category names and IDs.
      *
      * @return FormattedApiResponse
      */
@@ -31,7 +31,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get environments by category id.
+     * Get environments by category ID.
      *
      * @return FormattedApiResponse
      */
