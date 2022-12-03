@@ -9,12 +9,12 @@ use App\Models\Environments;
 use Database\Helpers\ForeignKeyCol;
 use Illuminate\Support\Facades\Cache;
 
-class CategoriesRepository
+class EnvironmentsRepository
 {
     /**
-     * Retrieve the name and ID of all categories.
+     * Retrieve a paginated collection of all environments.
      *
-     * @return array
+     * @return ?
      */
     public function index()
     {
