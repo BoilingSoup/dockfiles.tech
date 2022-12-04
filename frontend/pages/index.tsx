@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
-import { Text } from "@mantine/core";
+import { Button, Group, Text } from "@mantine/core";
 import Head from "next/head";
 import { CategoriesSearch } from "../components/common/categories-search/CategoriesSearch";
 import { useHomeCategoriesSearch } from "../zustand-store/home/useHomeCategoriesSearch";
 import { useEnvironments } from "../hooks/api/useEnvironments";
 import { useHomePageCursor } from "../zustand-store/home/useHomePageCursor";
 import { usePrefetchEnvironments } from "../hooks/api/usePrefetchEnvironments";
+import { IconCaretLeft, IconCaretRight } from "@tabler/icons";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
@@ -26,6 +27,14 @@ const Home: NextPage = () => {
         onChangeSelect={setCategoryId}
       />
       <Text component="h1">Home</Text>
+      <Group sx={{ justifyContent: "space-between" }}>
+        <Button variant="subtle" leftIcon={<IconCaretLeft />} size="xl">
+          Prev
+        </Button>
+        <Button variant="subtle" rightIcon={<IconCaretRight />} size="xl">
+          Next
+        </Button>
+      </Group>
     </>
   );
 };
