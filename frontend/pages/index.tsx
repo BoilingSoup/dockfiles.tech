@@ -3,8 +3,9 @@ import { Text } from "@mantine/core";
 import Head from "next/head";
 import { CategoriesSearch } from "../components/common/categories-search/CategoriesSearch";
 import { useHomeCategoriesSearch } from "../zustand-store/home/useHomeCategoriesSearch";
-import { useEnvironments, usePrefetchEnvironments } from "../hooks/api/useEnvironments";
+import { useEnvironments } from "../hooks/api/useEnvironments";
 import { useHomePageCursor } from "../zustand-store/home/useHomePageCursor";
+import { usePrefetchEnvironments } from "../hooks/api/usePrefetchEnvironments";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
