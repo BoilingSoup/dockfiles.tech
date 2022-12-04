@@ -1,5 +1,4 @@
 import { NativeSelect } from "@mantine/core";
-import { IconChevronDown } from "@tabler/icons";
 import { ChangeEventHandler } from "react";
 import { ALL_CATEGORIES } from "../../../zustand-store/types";
 import { LabelData } from "./CategoriesSearch";
@@ -28,13 +27,6 @@ export const Select = ({ data, ml = 12, selectValue, onChangeSelect: setSelectVa
   const options = getOptions(defaultOption, data);
 
   return (
-    <NativeSelect
-      defaultValue={selectValue}
-      onChange={setSelectValue}
-      data={options}
-      rightSection={<IconChevronDown size={14} />}
-      rightSectionWidth={40}
-      ml={ml}
-    />
+    <NativeSelect defaultValue={selectValue} onChange={setSelectValue} data={options} rightSectionWidth={40} ml={ml} />
   );
 };
