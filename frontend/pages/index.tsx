@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Container, Paper, Text } from "@mantine/core";
+import { Container } from "@mantine/core";
 import Head from "next/head";
 import { CategoriesSearch } from "../components/common/categories-search/CategoriesSearch";
 import { useHomeCategoriesSearch } from "../zustand-store/home/useHomeCategoriesSearch";

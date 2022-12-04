@@ -1,5 +1,5 @@
-import { Box, CSSObject, MantineTheme, Paper, Text, ThemeIcon } from "@mantine/core";
-import { IconMessage, IconThumbUp, IconWriting } from "@tabler/icons";
+import { Box, CSSObject, MantineTheme, Paper, Text } from "@mantine/core";
+import { IconMessage, IconThumbUp } from "@tabler/icons";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
 const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
@@ -12,20 +12,19 @@ const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   borderRadius: "1px",
 });
 
-const textSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+const textSx = (): CSSObject => ({
   fontSize: "1.4rem",
-  // width: "80%",
   marginLeft: "14px",
 });
 
-const iconGroupBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+const iconGroupBoxSx = (): CSSObject => ({
   display: "flex",
   justifyContent: "space-between",
   width: "80px",
   marginRight: "14px",
 });
 
-const iconBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+const iconBoxSx = (): CSSObject => ({
   display: "flex",
 });
 
