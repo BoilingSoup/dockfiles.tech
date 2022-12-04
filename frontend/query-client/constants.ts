@@ -1,5 +1,6 @@
 export const queryKeys = {
-  categoriesList: "categories-list",
+  categories: "categories",
+  environments: "environments",
 };
 
 export const apiRoot = "http://localhost/api/";

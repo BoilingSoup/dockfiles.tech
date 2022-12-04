@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../components/layout/Layout";
 import { ColorSchemeProvider } from "../contexts/ColorSchemeProvider";
 import { MantineProvider } from "../contexts/MantineProvider";
@@ -29,6 +30,7 @@ export default function App(props: AppProps) {
             </Layout>
           </MantineProvider>
         </ColorSchemeProvider>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </>
   );
