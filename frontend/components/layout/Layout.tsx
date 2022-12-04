@@ -1,10 +1,9 @@
-import { AppShell, Autocomplete, Center, CSSObject, MantineTheme, NativeSelect } from "@mantine/core";
+import { AppShell, CSSObject, MantineTheme } from "@mantine/core";
 import React, { ReactElement, useState } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
-import { IconChevronDown, IconSearch } from "@tabler/icons";
 
 const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   main: {

@@ -1,18 +1,16 @@
 import {
   Header as MantineHeader,
-  Autocomplete,
   ActionIcon,
   Group,
   Burger,
   useMantineColorScheme,
   MediaQuery,
   Text,
-  Center,
   MantineTheme,
   CSSObject,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSearch, IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
+import { IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
 import Image from "next/image";
 import { LIGHT } from "../../contexts/ColorSchemeProvider";
 import { useHeaderStyles } from "../../hooks/layout/useHeaderStyles";

@@ -1,5 +1,5 @@
 import React, { ReactNode, useLayoutEffect, useState } from "react";
-import { ColorSchemeProvider as Provider, ColorScheme, useMantineColorScheme } from "@mantine/core";
+import { ColorSchemeProvider as Provider, ColorScheme } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 
 const MANTINE_COLOR_SCHEME_LOCALSTORAGE_KEY = "mantine-color-scheme";

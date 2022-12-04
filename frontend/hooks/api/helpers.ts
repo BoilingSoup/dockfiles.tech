@@ -18,18 +18,17 @@ export type EnvironmentsData = {
   };
 };
 
-function checkCursor(cursor: string) {
-  return cursor !== INITIAL_PAGE_CURSOR;
-}
+/**Generate a dynamic fetcher function for react-query to use.*/
+export function getEnvironments({ categoryId, cursor }: QueryParams) {
+  return async function () {
+    const isFilteredByCategory = categoryId !== ALL_CATEGORIES;
 
-export function generateEndpoint({ baseEndpoint, cursor }: { baseEndpoint: string; cursor: string }) {
-  const cursorIsValid = checkCursor(cursor);
+    if (isFilteredByCategory) {
+      return await getFilteredEnvironments({ categoryId, cursor });
+    }
 
-  if (cursorIsValid) {
-    return `${baseEndpoint}?cursor=${cursor}`;
-  }
-
-  return baseEndpoint;
+    return await getUnfilteredEnvironments(cursor);
+  };
 }
 
 async function getFilteredEnvironments({ categoryId, cursor }: QueryParams) {
@@ -46,15 +45,16 @@ async function getUnfilteredEnvironments(cursor: string) {
   return (await apiFetch(endpoint, GET)) as EnvironmentsData;
 }
 
-/**Generate a dynamic fetcher function for react-query to use.*/
-export function getEnvironments({ categoryId, cursor }: QueryParams) {
-  return async function () {
-    const isFilteredByCategory = categoryId !== ALL_CATEGORIES;
+function generateEndpoint({ baseEndpoint, cursor }: { baseEndpoint: string; cursor: string }) {
+  const cursorIsValid = checkCursor(cursor);
 
-    if (isFilteredByCategory) {
-      return await getFilteredEnvironments({ categoryId, cursor });
-    }
+  if (cursorIsValid) {
+    return `${baseEndpoint}?cursor=${cursor}`;
+  }
 
-    return await getUnfilteredEnvironments(cursor);
-  };
+  return baseEndpoint;
+}
+
+function checkCursor(cursor: string) {
+  return cursor !== INITIAL_PAGE_CURSOR;
 }
