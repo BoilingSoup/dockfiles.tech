@@ -8,6 +8,7 @@ import {
   Text,
   MantineTheme,
   CSSObject,
+  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
@@ -46,6 +47,7 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const darkModeIcon = colorScheme === LIGHT ? <IconMoon size={iconSize} /> : <IconSun size={iconSize} />;
+  const darkModeTooltip = colorScheme === LIGHT ? "Dark Mode (CTRL + J)" : "Light Mode (CTRL + J)";
 
   const toggleHandler = () => toggleColorScheme();
   const hamburgerHandler = () => {
@@ -75,12 +77,16 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
         </Group>
 
         <Group>
-          <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
-            <IconBrandGithub size={iconSize} />
-          </ActionIcon>
-          <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
-            {darkModeIcon}
-          </ActionIcon>
+          <Tooltip label="View source code" position="left-end">
+            <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
+              <IconBrandGithub size={iconSize} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label={darkModeTooltip} position="left-end">
+            <ActionIcon onClick={toggleHandler} variant="default" size={actionIconSize} sx={iconSx} radius={iconRadius}>
+              {darkModeIcon}
+            </ActionIcon>
+          </Tooltip>
         </Group>
       </div>
     </MantineHeader>
