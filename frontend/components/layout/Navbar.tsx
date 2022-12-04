@@ -69,7 +69,7 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
       <MantineNavbar hiddenBreakpoint="xl" hidden={!navbarOpened} width={{ sm: 200, lg: 300 }} sx={navbarSx}>
         <NavLink href="/" text="Browse" />
         <NavLink href="/bookmarks" text="Bookmarks" />
-        <NavLink href="/notifications" text="Notifications" />
+        <NavLink href="/settings" text="Settings" />
         <Center>
           <Button onClick={() => setModalOpened(true)} sx={signInBtnSx}>
             Sign In

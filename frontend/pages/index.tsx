@@ -26,7 +26,7 @@ const Home: NextPage = () => {
         selectValue={categoryId}
         onChangeSelect={setCategoryId}
       />
-      <Text component="h1">Home</Text>
+      {/* <Text component="h1">Home</Text> */}
       <NavigationButtonsGroup />
     </>
   );
