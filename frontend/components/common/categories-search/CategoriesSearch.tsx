@@ -1,8 +1,8 @@
 import { Center } from "@mantine/core";
 import { ChangeEventHandler } from "react";
 import { useCategories } from "../../../hooks/api/useCategories";
-import { Search } from "./_Search";
-import { Select } from "./_Select";
+import { Search } from "./_search";
+import { Select } from "./_select";
 
 export type SearchProps = {
   inputValue: string;

@@ -1,8 +1,8 @@
 import { AppShell } from "@mantine/core";
 import React, { ReactElement, useState } from "react";
-import { Sidebar } from "./Sidebar";
-import { Header } from "./Header";
-import { Navbar } from "./Navbar";
+import { Sidebar } from "./_sidebar";
+import { Header } from "./_header";
+import { Navbar } from "./_navbar";
 import { appShellSx } from "./styles";
 
 type Props = {

@@ -1,5 +1,5 @@
 import { Box, MediaQuery } from "@mantine/core";
-import { NavLink } from "./NavLink";
+import { NavLink } from "./_navLink";
 
 export const UserNavLinksGroup = () => {
   const UserLinks = (
