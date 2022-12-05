@@ -33,6 +33,7 @@ export const NavLink = ({ href, text, children }: Props) => {
       styles={{ ...navLinkStyles, rightSection: { position: "absolute", right: 10 } }}
       sx={navLinkSx}
       {...sharedProps}
+      childrenOffset={0}
     >
       {children}
     </MantineNavLink>
