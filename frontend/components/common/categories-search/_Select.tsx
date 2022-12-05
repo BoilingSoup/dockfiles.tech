@@ -1,6 +1,7 @@
 import { NativeSelect } from "@mantine/core";
 import { ChangeEventHandler } from "react";
 import { ALL_CATEGORIES } from "../../../zustand-store/types";
+import { selectSx } from "../styles";
 import { LabelData } from "./CategoriesSearch";
 
 type Props = {
@@ -27,6 +28,13 @@ export const Select = ({ data, ml = 12, selectValue, onChangeSelect: setSelectVa
   const options = getOptions(defaultOption, data);
 
   return (
-    <NativeSelect defaultValue={selectValue} onChange={setSelectValue} data={options} rightSectionWidth={40} ml={ml} />
+    <NativeSelect
+      defaultValue={selectValue}
+      onChange={setSelectValue}
+      data={options}
+      rightSectionWidth={40}
+      ml={ml}
+      sx={selectSx}
+    />
   );
 };

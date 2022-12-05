@@ -28,3 +28,5 @@ export const iconBoxSx = (): CSSObject => ({
 });
 
 export const mainContainerSx = (): CSSObject => ({ width: "95%", maxWidth: "730px" });
+
+export const selectSx = (): CSSObject => ({ width: "150px" });
