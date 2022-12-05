@@ -21,14 +21,16 @@ const Home: NextPage = () => {
         <title>Dockfiles.io | Home</title>
       </Head>
 
-      <CategoriesSearch
-        inputValue={input}
-        onChangeInput={setInput}
-        selectValue={categoryId}
-        onChangeSelect={setCategoryId}
-      />
-      <Container>
-        <EnvironmentListItem />
+      <Container sx={(theme) => ({ width: "95%", maxWidth: "730px" })}>
+        <CategoriesSearch
+          inputValue={input}
+          onChangeInput={setInput}
+          selectValue={categoryId}
+          onChangeSelect={setCategoryId}
+        />
+        <Container sx={(theme) => ({ padding: 0 })}>
+          <EnvironmentListItem />
+        </Container>
       </Container>
       <NavigationButtonsGroup />
     </>
