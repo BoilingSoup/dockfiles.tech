@@ -26,3 +26,5 @@ export const iconGroupBoxSx = (): CSSObject => ({
 export const iconBoxSx = (): CSSObject => ({
   display: "flex",
 });
+
+export const mainContainerSx = (): CSSObject => ({ width: "95%", maxWidth: "730px" });

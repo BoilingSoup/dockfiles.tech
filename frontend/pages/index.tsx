@@ -8,6 +8,7 @@ import { useHomePageCursor } from "../zustand-store/home/useHomePageCursor";
 import { usePrefetchEnvironments } from "../hooks/api/usePrefetchEnvironments";
 import { NavigationButtonsGroup } from "../components/common/NavigationButtonsGroup";
 import { EnvironmentListItem } from "../components/common/EnvironmentListItem";
+import { mainContainerSx } from "../components/common/styles";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
@@ -21,14 +22,14 @@ const Home: NextPage = () => {
         <title>Dockfiles.io | Home</title>
       </Head>
 
-      <Container sx={(theme) => ({ width: "95%", maxWidth: "730px" })}>
+      <Container sx={mainContainerSx}>
         <CategoriesSearch
           inputValue={input}
           onChangeInput={setInput}
           selectValue={categoryId}
           onChangeSelect={setCategoryId}
         />
-        <Container sx={(theme) => ({ padding: 0 })}>
+        <Container p={0}>
           <EnvironmentListItem />
         </Container>
       </Container>
