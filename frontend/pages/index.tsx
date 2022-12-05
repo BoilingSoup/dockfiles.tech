@@ -16,6 +16,8 @@ const Home: NextPage = () => {
   const { data } = useEnvironments({ categoryId, cursor });
   usePrefetchEnvironments({ categoryId, data });
 
+  const environments = data?.data.data;
+
   return (
     <>
       <Head>
@@ -30,7 +32,9 @@ const Home: NextPage = () => {
           onChangeSelect={setCategoryId}
         />
         <Container p={0}>
-          <EnvironmentListItem />
+          {environments?.map((environment) => (
+            <EnvironmentListItem key={environment.id} name={environment.name} id={environment.id} />
+          ))}
         </Container>
       </Container>
       <NavigationButtonsGroup />

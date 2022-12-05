@@ -2,11 +2,16 @@ import { Box, Paper, Text } from "@mantine/core";
 import { IconMessage, IconThumbUp } from "@tabler/icons";
 import { iconBoxSx, iconGroupBoxSx, paperSx, textSx } from "./styles";
 
-export const EnvironmentListItem = () => {
+type Props = {
+  id: number;
+  name: string;
+};
+
+export const EnvironmentListItem = ({ id, name }: Props) => {
   return (
     <Paper sx={paperSx}>
       <Text component="h3" sx={textSx}>
-        Angular
+        {name}
       </Text>
 
       <Box sx={iconGroupBoxSx}>
