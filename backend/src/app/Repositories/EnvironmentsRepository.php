@@ -24,7 +24,7 @@ class EnvironmentsRepository
                 "name",
                 // likes ?
                 // comments count ?
-            )->orderBy("id")->cursorPaginate(perPage: 10)
+            )->orderBy("id")->cursorPaginate()
         );
     }
 
