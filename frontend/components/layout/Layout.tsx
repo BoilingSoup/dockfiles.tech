@@ -28,7 +28,7 @@ export const Layout = (props: Props) => {
   return (
     <AppShell
       padding="md"
-      navbarOffsetBreakpoint="sm"
+      navbarOffsetBreakpoint="lg"
       navbar={<Navbar opened={opened} />}
       header={<Header onHamburgerClick={navbarToggle} />}
       aside={<Sidebar />}

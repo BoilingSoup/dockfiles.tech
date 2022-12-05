@@ -66,7 +66,7 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
           </Button>
         </Stack>
       </Modal>
-      <MantineNavbar hiddenBreakpoint="xl" hidden={!navbarOpened} width={{ sm: 200, lg: 300 }} sx={navbarSx}>
+      <MantineNavbar hiddenBreakpoint="lg" hidden={!navbarOpened} width={{ sm: 200, lg: 300 }} sx={navbarSx}>
         <NavLink href="/" text="Browse" />
         <NavLink href="/bookmarks" text="Bookmarks" />
         <NavLink href="/settings" text="Settings" />
