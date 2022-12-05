@@ -1,18 +1,9 @@
-import { AppShell, CSSObject, MantineTheme } from "@mantine/core";
+import { AppShell } from "@mantine/core";
 import React, { ReactElement, useState } from "react";
-import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
-
-const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
-  main: {
-    backgroundColor: colorSchemeHandler(colorScheme, {
-      light: colors.blue[2],
-      dark: colors.slate[9],
-    }),
-  },
-});
+import { appShellSx } from "./styles";
 
 type Props = {
   children: ReactElement;

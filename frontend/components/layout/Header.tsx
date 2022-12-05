@@ -6,8 +6,6 @@ import {
   useMantineColorScheme,
   MediaQuery,
   Text,
-  MantineTheme,
-  CSSObject,
   Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -16,26 +14,11 @@ import Image from "next/image";
 import { LIGHT } from "../../contexts/ColorSchemeProvider";
 import { useHeaderStyles } from "../../hooks/layout/useHeaderStyles";
 import Logo from "../../public/logo.svg";
-import { colorSchemeHandler } from "../../theme/color-scheme-handler";
+import { iconSx } from "./styles";
 
 const iconSize = 22;
 const iconRadius = "xl";
 const actionIconSize = "lg";
-
-const iconSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
-  backgroundColor: colorSchemeHandler(colorScheme, {
-    light: colors.blue[2],
-  }),
-  "&:hover": {
-    backgroundColor: colorSchemeHandler(colorScheme, {
-      light: colors.blue[1],
-    }),
-  },
-  color: colorSchemeHandler(colorScheme, { light: colors.navy[9] }),
-  border: colorSchemeHandler(colorScheme, {
-    light: "2px solid rgba(10, 35, 81, 0.7)",
-  }),
-});
 
 type Props = {
   onHamburgerClick: () => void;
