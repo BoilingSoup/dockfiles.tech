@@ -3,6 +3,7 @@ import { IconBrandGithub, IconBrandGitlab } from "@tabler/icons";
 import React, { useState } from "react";
 import { NavLink } from "./NavLink";
 import { modalStyles, navbarSx, oAuthBtnSx, signInBtnSx } from "./styles";
+import { UserNavLinksGroup } from "./UserNavLinksGroup";
 
 const iconSize = 30;
 export const navBarHiddenBreakPoint = "sm";
@@ -29,6 +30,7 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
           </Button>
         </Stack>
       </Modal>
+
       <MantineNavbar
         hiddenBreakpoint={navBarHiddenBreakPoint}
         hidden={!navbarOpened}
@@ -36,8 +38,7 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
         sx={navbarSx}
       >
         <NavLink href="/" text="Browse" />
-        <NavLink href="/bookmarks" text="Bookmarks" />
-        <NavLink href="/settings" text="Settings" />
+        <UserNavLinksGroup />
         <Center>
           <Button onClick={modalOpenHandler} sx={signInBtnSx}>
             Sign In

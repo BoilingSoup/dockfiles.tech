@@ -5,7 +5,7 @@ import { asideSx } from "./styles";
 export const Sidebar = () => {
   return (
     <Aside hidden={true} p="md" hiddenBreakpoint="xl" width={{ xl: 300 }} sx={asideSx}>
-      <Text>Application sidebar</Text>
+      <Text>Notifications</Text>
     </Aside>
   );
 };

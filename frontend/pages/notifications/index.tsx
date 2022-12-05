@@ -3,16 +3,16 @@ import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 
-const Settings: NextPage = () => {
+const Bookmarks: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Dockfiles.io | Settings</title>
+        <title>Dockfiles.io | Notifications</title>
       </Head>
 
-      <Text component="h1">Settings</Text>
+      <Text component="h1">Notifications</Text>
     </>
   );
 };
 
-export default Settings;
+export default Bookmarks;
