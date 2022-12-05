@@ -44,7 +44,7 @@ export const Header = ({ onHamburgerClick: navbarToggle }: Props) => {
     <MantineHeader height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
         <Group>
-          <MediaQuery largerThan="lg" styles={{ display: "none" }}>
+          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
             <Burger
               opened={opened}
               onClick={hamburgerHandler}

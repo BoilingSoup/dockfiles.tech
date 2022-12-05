@@ -45,6 +45,49 @@ export const navbarSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   }),
 });
 
+const bodyStyles: CSSObject = {
+  textAlign: "center",
+};
+
+const labelStyles: CSSObject = {
+  fontWeight: "bold",
+  fontSize: "1rem",
+};
+
+export const navLinkStyles = {
+  body: bodyStyles,
+  label: labelStyles,
+};
+
+export const navLinkSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => {
+  const navy = colors.navy[8];
+  const blue = colors.blue[9];
+  const slate = colors.slate[8];
+
+  return {
+    boxShadow: shadows.sm,
+    "&:hover": {
+      backgroundColor: colorSchemeHandler(colorScheme, { light: colors.cyan[2], dark: slate }),
+      "&[data-active]": {
+        backgroundColor: colorSchemeHandler(colorScheme, {
+          light: fn.darken(blue, 0.05),
+          dark: fn.lighten(navy, 0.05),
+        }),
+      },
+    },
+    "&[data-active]": {
+      backgroundColor: colorSchemeHandler(colorScheme, { light: blue, dark: navy }),
+    },
+  };
+};
+
+export const asideSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  backgroundColor: colorSchemeHandler(colorScheme, {
+    light: colors.blue[3],
+    dark: colors.slate[9],
+  }),
+});
+
 export const oAuthBtnSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   backgroundColor: colorSchemeHandler(colorScheme, {
     light: colors.gray[1],
