@@ -1,17 +1,18 @@
 import { Button, Center, Navbar as MantineNavbar } from "@mantine/core";
 import React, { useState } from "react";
-import { NavLink } from "./_navLink";
 import { navbarSx, signInBtnSx } from "./styles";
 import { UserNavLinksGroup } from "./_userNavLinksGroup";
 import { Modal } from "./_modal";
+import { BrowseNavLink } from "./_browseNavLink";
 
 export const navBarHiddenBreakPoint = "sm";
 
 type Props = {
   opened: boolean;
+  onLinkClick: () => void;
 };
 
-export const Navbar = ({ opened: navbarOpened }: Props) => {
+export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }: Props) => {
   const [modalOpened, setModalOpened] = useState(false);
 
   const modalCloseHandler = () => setModalOpened(false);
@@ -27,8 +28,8 @@ export const Navbar = ({ opened: navbarOpened }: Props) => {
         width={{ sm: 200, lg: 300 }}
         sx={navbarSx}
       >
-        <NavLink href="/" text="Browse" />
-        <UserNavLinksGroup />
+        <BrowseNavLink onLinkClick={navbarCloseHandler} />
+        <UserNavLinksGroup onLinkClick={navbarCloseHandler} />
         <Center>
           <Button onClick={modalOpenHandler} sx={signInBtnSx}>
             Sign In
