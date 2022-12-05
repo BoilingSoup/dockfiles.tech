@@ -41,7 +41,7 @@ class CategoriesRepository
                 "repo_owner",
                 "repo_name",
                 "repo_branch",
-            )->where(ForeignKeyCol::categories, $id)->orderBy("id")->cursorPaginate()
+            )->where(ForeignKeyCol::categories, $id)->orderBy("id")->cursorPaginate(perPage: 10)
         );
     }
 
