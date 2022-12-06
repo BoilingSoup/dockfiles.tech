@@ -21,7 +21,7 @@ export const NavigationButtonsGroup = ({ variant = "filled", size = "xl", pageCu
   };
 
   return (
-    <Group sx={{ position: "absolute", bottom: 0, justifyContent: "space-between", width: "95%" }}>
+    <Group sx={{ justifyContent: "space-between", width: "100%" }}>
       <Button
         sx={navigationButtonSx}
         variant={variant}
