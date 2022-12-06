@@ -4,8 +4,8 @@ import Link from "next/link";
 import { iconBoxSx, iconGroupBoxSx, paperSx, textSx } from "./styles";
 
 type Props = {
-  id: number;
   name: string;
+  string_id: string;
 };
 
 export const EnvironmentListItemShell = () => {
@@ -17,10 +17,10 @@ export const EnvironmentListItemShell = () => {
   );
 };
 
-export const EnvironmentListItem = ({ id, name }: Props) => {
+export const EnvironmentListItem = ({ name, string_id }: Props) => {
   return (
     <>
-      <Link href={name}>
+      <Link href={string_id}>
         <a style={{ textDecoration: "none" }}>
           <Paper sx={paperSx}>
             <Text component="h3" sx={textSx}>

@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 
         <Container mt={10} p={0}>
           {environments?.map((environment) => (
-            <EnvironmentListItem key={environment.id} name={environment.name} id={environment.id} />
+            <EnvironmentListItem key={environment.id} name={environment.name} string_id={environment.string_id} />
           ))}
           <NavigationButtonsGroup pageCursors={pageCursors} onClick={setCursor} />
         </Container>
