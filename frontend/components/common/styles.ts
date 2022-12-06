@@ -50,11 +50,11 @@ export const mainContainerSx = (): CSSObject => ({
 
 export const selectSx = (): CSSObject => ({ width: "150px" });
 
-export const navigationButtonSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+export const navigationButtonSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   background: "none",
   color: colorSchemeHandler(colorScheme, {
-    light: colors.blue[8],
-    dark: colors.slate[4],
+    light: fn.darken(colors.indigo[9], 0.05),
+    dark: fn.lighten(colors.slate[5], 0.6),
   }),
   "&:hover": {
     background: "none",
