@@ -22,6 +22,7 @@ class EnvironmentsRepository
             fn () => Environments::select(
                 "id",
                 "name",
+                "string_id"
                 // likes ?
                 // comments count ?
             )->orderBy("id")->cursorPaginate()

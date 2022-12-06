@@ -8,7 +8,7 @@ export type QueryParams = { categoryId: string; cursor: string };
 export type EnvironmentsData = {
   success: boolean;
   data: {
-    data: Array<{ id: number; name: string }>;
+    data: Array<{ id: number; name: string; string_id: string }>;
     next_cursor: string | null;
     next_page_url: string | null;
     path: string;
