@@ -12,7 +12,7 @@ export const EnvironmentListItem = ({ id, name }: Props) => {
   return (
     <>
       <Link href={name}>
-        <a>
+        <a style={{ textDecoration: "none" }}>
           <Paper sx={paperSx}>
             <Text component="h3" sx={textSx}>
               {name}

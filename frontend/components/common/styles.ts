@@ -13,16 +13,25 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   borderRadius: "1px",
 });
 
-export const textSx = (): CSSObject => ({
+export const textSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   fontSize: "1.4rem",
   marginLeft: "14px",
+  fontWeight: "normal",
+  color: colorSchemeHandler(colorScheme, {
+    light: colors.navy[8],
+    dark: colors.slate[3],
+  }),
 });
 
-export const iconGroupBoxSx = (): CSSObject => ({
+export const iconGroupBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   display: "flex",
   justifyContent: "space-between",
   width: "80px",
   marginRight: "14px",
+  color: colorSchemeHandler(colorScheme, {
+    light: colors.navy[8],
+    dark: colors.slate[3],
+  }),
 });
 
 export const iconBoxSx = (): CSSObject => ({
