@@ -1,36 +1,11 @@
-import { GetStaticProps } from "next";
 import {
   EnvironmentDetailsData,
   getAllEnvironmentPaths,
   getEnvironmentByStringId,
   getEnvironmentReadMe,
 } from "../../hooks/api/helpers";
-
-export const getStaticPaths = async () => {
-  const paths = await getAllEnvironmentPaths();
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const stringId = context.params!.string_id;
-  const data = await getEnvironmentByStringId(stringId as string);
-
-  const repoName = data.data.repo_name;
-  const repoOwner = data.data.repo_owner;
-  const repoBranch = data.data.repo_branch;
-
-  const readMeUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${repoBranch}/README.md`;
-
-  const readMe = await getEnvironmentReadMe(readMeUrl);
-
-  return {
-    props: { environment: { ...data.data, readMe } },
-  };
-};
+import markdownToHtml from "../../lib/markdownToHtml";
+import markdownStyles from "../../components/home/markdown-styles.module.css";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -40,7 +15,40 @@ type Props = {
 
 const Environment = ({ environment }: Props) => {
   console.log(environment);
-  return <div>Environment page</div>;
+  return <div className={markdownStyles.markdown} dangerouslySetInnerHTML={{ __html: environment.readMe }} />;
 };
 
 export default Environment;
+
+type Params = {
+  params: {
+    string_id: string;
+  };
+};
+
+export const getStaticProps = async ({ params }: Params): Promise<{ props: Props }> => {
+  const stringId = params.string_id;
+  const data = await getEnvironmentByStringId(stringId);
+
+  const repoName = data.data.repo_name;
+  const repoOwner = data.data.repo_owner;
+  const repoBranch = data.data.repo_branch;
+
+  const readMeUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${repoBranch}/README.md`;
+
+  const readMe = await markdownToHtml(await getEnvironmentReadMe(readMeUrl));
+  console.log(readMe);
+
+  return {
+    props: { environment: { ...data.data, readMe } },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const paths = await getAllEnvironmentPaths();
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
