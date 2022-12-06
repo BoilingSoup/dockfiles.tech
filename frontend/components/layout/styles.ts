@@ -22,6 +22,7 @@ export const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => 
       light: colors.blue[2],
       dark: colors.slate[9],
     }),
+    paddingBottom: 1,
   },
 });
 
