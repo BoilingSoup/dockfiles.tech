@@ -53,7 +53,6 @@ class CategoriesTest extends TestCase
               "data" => [
                 "id",
                 "name",
-                "description",
                 "repo_owner",
                 "repo_name",
                 "repo_branch"

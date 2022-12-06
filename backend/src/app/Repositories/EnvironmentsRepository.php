@@ -42,7 +42,6 @@ class EnvironmentsRepository
             fn () => Environments::where('string_id', '=', $string_id)->select(
                 "id",
                 "name",
-                "description",
                 "repo_owner",
                 "repo_name",
                 "repo_branch"
