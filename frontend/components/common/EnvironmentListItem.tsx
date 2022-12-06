@@ -8,6 +8,15 @@ type Props = {
   name: string;
 };
 
+export const EnvironmentListItemShell = () => {
+  return (
+    <>
+      <Paper sx={paperSx} />
+      <Divider />
+    </>
+  );
+};
+
 export const EnvironmentListItem = ({ id, name }: Props) => {
   return (
     <>

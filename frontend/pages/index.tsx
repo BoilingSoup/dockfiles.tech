@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Box, Center, Container, Loader } from "@mantine/core";
+import { Container } from "@mantine/core";
 import Head from "next/head";
 import { CategoriesSearch } from "../components/common/categories-search/CategoriesSearch";
 import { useHomeCategoriesSearch } from "../zustand-store/home/useHomeCategoriesSearch";
@@ -9,7 +9,8 @@ import { usePrefetchEnvironments } from "../hooks/api/usePrefetchEnvironments";
 import { NavigationButtonsGroup } from "../components/common/NavigationButtonsGroup";
 import { EnvironmentListItem } from "../components/common/EnvironmentListItem";
 import { mainContainerSx } from "../components/common/styles";
-import { LoadingSpinner } from "../components/common/LoadingSpinner";
+import { LoadingState } from "../components/home/LoadingState";
+import { CursorsObj } from "../components/common/types";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
@@ -18,6 +19,10 @@ const Home: NextPage = () => {
   usePrefetchEnvironments({ categoryId, data });
 
   const environments = data?.data.data;
+  const pageCursors: CursorsObj = {
+    next: data?.data.next_cursor,
+    prev: data?.data.prev_cursor,
+  };
 
   return (
     <>
@@ -33,13 +38,13 @@ const Home: NextPage = () => {
           onChangeSelect={setCategoryId}
         />
 
-        {isLoading && <LoadingSpinner />}
+        {isLoading && <LoadingState />}
 
         <Container mt={10} p={0}>
           {environments?.map((environment) => (
             <EnvironmentListItem key={environment.id} name={environment.name} id={environment.id} />
           ))}
-          <NavigationButtonsGroup />
+          <NavigationButtonsGroup pageCursors={pageCursors} />
         </Container>
       </Container>
     </>
