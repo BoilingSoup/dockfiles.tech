@@ -7,9 +7,19 @@ type Props = {
   size?: MantineSize;
   variant?: ButtonVariant;
   pageCursors: CursorsObj;
+  onClick: (cursor: string) => void;
 };
 
-export const NavigationButtonsGroup = ({ variant = "filled", size = "xl", pageCursors }: Props) => {
+export const NavigationButtonsGroup = ({ variant = "filled", size = "xl", pageCursors, onClick: setCursor }: Props) => {
+  const buttonClickHandler = (cursor: string | undefined | null) => {
+    if (cursor) {
+      return () => {
+        setCursor(cursor);
+      };
+    }
+    return undefined;
+  };
+
   return (
     <Group sx={{ position: "absolute", bottom: 0, justifyContent: "space-between", width: "95%" }}>
       <Button
@@ -18,6 +28,7 @@ export const NavigationButtonsGroup = ({ variant = "filled", size = "xl", pageCu
         leftIcon={<IconCaretLeft />}
         size={size}
         style={{ visibility: pageCursors.prev ? "initial" : "hidden" }}
+        onClick={buttonClickHandler(pageCursors.prev)}
       >
         Prev
       </Button>
@@ -27,6 +38,7 @@ export const NavigationButtonsGroup = ({ variant = "filled", size = "xl", pageCu
         rightIcon={<IconCaretRight />}
         size={size}
         style={{ visibility: pageCursors.next ? "initial" : "hidden" }}
+        onClick={buttonClickHandler(pageCursors.next)}
       >
         Next
       </Button>

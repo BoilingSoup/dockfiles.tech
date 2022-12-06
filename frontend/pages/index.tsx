@@ -14,7 +14,7 @@ import { CursorsObj } from "../components/common/types";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
-  const { cursor, setCursor /**use in onClick handler later*/ } = useHomePageCursor();
+  const { cursor, setCursor } = useHomePageCursor();
   const { data, isLoading } = useEnvironments({ categoryId, cursor });
   usePrefetchEnvironments({ categoryId, data });
 
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
           {environments?.map((environment) => (
             <EnvironmentListItem key={environment.id} name={environment.name} id={environment.id} />
           ))}
-          <NavigationButtonsGroup pageCursors={pageCursors} />
+          <NavigationButtonsGroup pageCursors={pageCursors} onClick={setCursor} />
         </Container>
       </Container>
     </>
