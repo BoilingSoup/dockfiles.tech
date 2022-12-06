@@ -1,10 +1,13 @@
 import React, { ReactNode } from "react";
 import { MantineProvider as Provider } from "@mantine/core";
 import { useMantineColorScheme } from "@mantine/core";
+import { colorSchemeHandler } from "../theme/color-scheme-handler";
 
 type Props = {
   children: ReactNode;
 };
+
+export const markdownClass = "markdown";
 
 export const MantineProvider = (props: Props) => {
   const { colorScheme } = useMantineColorScheme();
@@ -41,6 +44,15 @@ export const MantineProvider = (props: Props) => {
             "#0f172a",
           ],
         },
+        globalStyles: ({ colors, colorScheme }) => ({
+          ".markdown > pre": {
+            backgroundColor: colorSchemeHandler(colorScheme, {
+              light: colors.blue[1],
+              dark: colors.navy[7],
+            }),
+            overflowX: "auto",
+          },
+        }),
       }}
     >
       {props.children}

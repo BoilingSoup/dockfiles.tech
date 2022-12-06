@@ -5,7 +5,8 @@ import {
   getEnvironmentReadMe,
 } from "../../hooks/api/helpers";
 import markdownToHtml from "../../lib/markdownToHtml";
-import markdownStyles from "../../components/home/markdown-styles.module.css";
+import { markdownClass } from "../../contexts/MantineProvider";
+import { Container } from "@mantine/core";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -15,7 +16,7 @@ type Props = {
 
 const Environment = ({ environment }: Props) => {
   console.log(environment);
-  return <div className={markdownStyles.markdown} dangerouslySetInnerHTML={{ __html: environment.readMe }} />;
+  return <Container className={markdownClass} dangerouslySetInnerHTML={{ __html: environment.readMe }}></Container>;
 };
 
 export default Environment;
