@@ -24,6 +24,18 @@ export type EnvironmentPath = {
   };
 };
 
+export type EnvironmentDetails = {
+  success: boolean;
+  data: {
+    id: number;
+    name: string;
+    description: string;
+    repo_owner: string;
+    repo_name: string;
+    repo_branch: string;
+  };
+};
+
 /**Used for getting paths of SSG Environment details pages*/
 export const getAllEnvironmentPaths = async () => {
   const paths: EnvironmentPath[] = [];
@@ -40,6 +52,10 @@ export const getAllEnvironmentPaths = async () => {
 
   await recursiveGetEnvironmentPath();
   return paths;
+};
+
+export const getEnvironmentByStringId = async (stringId: string) => {
+  return (await apiFetch(`${API_URL}/environments/${stringId}`, GET)) as EnvironmentDetails;
 };
 
 /**Generate a dynamic fetcher function for react-query to use.*/
