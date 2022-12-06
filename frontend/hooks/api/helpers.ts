@@ -24,16 +24,18 @@ export type EnvironmentPath = {
   };
 };
 
-export type EnvironmentDetails = {
+export type EnvironmentDetailsData = {
+  id: number;
+  name: string;
+  description: string;
+  repo_owner: string;
+  repo_name: string;
+  repo_branch: string;
+};
+
+export type EnvironmentDetailsResponse = {
   success: boolean;
-  data: {
-    id: number;
-    name: string;
-    description: string;
-    repo_owner: string;
-    repo_name: string;
-    repo_branch: string;
-  };
+  data: EnvironmentDetailsData;
 };
 
 /**Used for getting paths of SSG Environment details pages*/
@@ -54,8 +56,13 @@ export const getAllEnvironmentPaths = async () => {
   return paths;
 };
 
+/**Used for getting Environment details for SSG pages*/
 export const getEnvironmentByStringId = async (stringId: string) => {
-  return (await apiFetch(`${API_URL}/environments/${stringId}`, GET)) as EnvironmentDetails;
+  return (await apiFetch(`${API_URL}/environments/${stringId}`, GET)) as EnvironmentDetailsResponse;
+};
+
+export const getEnvironmentReadMe = async (url: string) => {
+  return (await fetch(url)).text();
 };
 
 /**Generate a dynamic fetcher function for react-query to use.*/

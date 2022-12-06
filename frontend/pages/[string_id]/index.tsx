@@ -1,7 +1,10 @@
 import { GetStaticProps } from "next";
-import { EnvironmentDetails, getAllEnvironmentPaths, getEnvironmentByStringId } from "../../hooks/api/helpers";
-import { apiFetch } from "../../query-client/baseFetcher";
-import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
+import {
+  EnvironmentDetailsData,
+  getAllEnvironmentPaths,
+  getEnvironmentByStringId,
+  getEnvironmentReadMe,
+} from "../../hooks/api/helpers";
 
 export const getStaticPaths = async () => {
   const paths = await getAllEnvironmentPaths();
@@ -16,13 +19,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const stringId = context.params!.string_id;
   const data = await getEnvironmentByStringId(stringId as string);
 
+  const repoName = data.data.repo_name;
+  const repoOwner = data.data.repo_owner;
+  const repoBranch = data.data.repo_branch;
+
+  const readMeUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${repoBranch}/README.md`;
+
+  const readMe = await getEnvironmentReadMe(readMeUrl);
+
   return {
-    props: { environment: data },
+    props: { environment: { ...data.data, readMe } },
   };
 };
 
 type Props = {
-  environment: EnvironmentDetails;
+  environment: EnvironmentDetailsData & {
+    readMe: string;
+  };
 };
 
 const Environment = ({ environment }: Props) => {
