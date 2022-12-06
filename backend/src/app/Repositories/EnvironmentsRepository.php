@@ -30,12 +30,23 @@ class EnvironmentsRepository
     }
 
     /**
-     * Retrieve Environment data by Category ID.
+     * Retrieve Environment data by string_id.
      *
-     * @return array
+     * @return Environments
      */
-    public function show(int $id)
+    public function show(string $string_id)
     {
-        //
+        return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SHOW])->remember(
+            CACHE_KEYS::ENVIRONMENTS_SHOW_($string_id),
+            60 * 60 * 24,
+            fn () => Environments::where('string_id', '=', $string_id)->select(
+                "id",
+                "name",
+                "description",
+                "repo_owner",
+                "repo_name",
+                "repo_branch"
+            )->get()->first()
+        );
     }
 }

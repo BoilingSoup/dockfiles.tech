@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('name');
             $table->string('description', MaxLength::description)->fulltext()->default('');
-            $table->string('string_id', MaxLength::string_id)->unique();
+            $table->string('string_id', MaxLength::string_id)->unique()->index();
             $table->string('repo_owner', MaxLength::repo_owner);
             $table->string('repo_name', MaxLength::repo_name);
             $table->string('repo_branch', MaxLength::repo_branch);

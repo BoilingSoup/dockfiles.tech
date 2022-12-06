@@ -21,4 +21,9 @@ class CACHE_KEYS
 
         return "ENVIRONMENTS_INDEX_CURSOR_{$cursor}";
     }
+
+    public static function ENVIRONMENTS_SHOW_(string $string_id)
+    {
+        return "ENVIRONMENTS_SHOW_{$string_id}";
+    }
 }

@@ -15,4 +15,6 @@ class CACHE_TAGS
     public const ENVIRONMENTS = "ENVIRONMENTS";
 
     public const ENVIRONMENTS_INDEX = "ENVIRONMENTS_INDEX";
+
+    public const ENVIRONMENTS_SHOW = "ENVIRONMENTS_SHOW";
 }
