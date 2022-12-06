@@ -7,7 +7,10 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  background: colorSchemeHandler(colorScheme, { light: colors.blue[0], dark: colors.navy[8] }),
+  background: colorSchemeHandler(colorScheme, { light: colors.blue[0], dark: colors.slate[8] }),
+  "&:hover": {
+    background: colorSchemeHandler(colorScheme, { light: colors.cyan[2], dark: colors.slate[6] }),
+  },
   height: `${envListItemHeight}px`,
   width: "100%",
   borderRadius: "1px",
