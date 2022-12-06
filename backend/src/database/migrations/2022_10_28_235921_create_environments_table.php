@@ -18,9 +18,10 @@ return new class () extends Migration {
             $table->id();
             $table->string('name');
             $table->string('description', MaxLength::description)->fulltext()->default('');
-            $table->string('repo_owner');
-            $table->string('repo_name');
-            $table->string('repo_branch');
+            $table->string('string_id', MaxLength::string_id)->unique();
+            $table->string('repo_owner', MaxLength::repo_owner);
+            $table->string('repo_name', MaxLength::repo_name);
+            $table->string('repo_branch', MaxLength::repo_branch);
             $table->foreignId(ForeignKeyCol::categories)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
             $table->foreignId(ForeignKeyCol::users)->index();
             $table->timestamps();

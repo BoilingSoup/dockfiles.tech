@@ -6,6 +6,7 @@ use App\Models\Environments;
 use App\Models\User;
 use Database\Helpers\CategoriesId;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class EnvironmentsSeeder extends Seeder
 {
@@ -213,6 +214,7 @@ class EnvironmentsSeeder extends Seeder
             fn ($environment) => Environments::create([
                 'name' => $environment['name'],
                 'description' => $environment['description'],
+                'string_id' => $this->formatStringId($environment['name']),
                 'repo_owner' => 'dockfiles',
                 'repo_name' => $environment['repo_name'],
                 'repo_branch' => 'master',
@@ -220,5 +222,16 @@ class EnvironmentsSeeder extends Seeder
                 'user_id' => $adminId,
             ])
         );
+    }
+
+    private function formatStringId(string $name)
+    {
+        $formattedName = Str::lower($name);
+        $formattedName = Str::replace(" + ", "_", $formattedName);
+        $formattedName = Str::replace(" - ", "_", $formattedName);
+        $formattedName = Str::replace(" ", "_", $formattedName);
+        $formattedName = Str::replace("-", "_", $formattedName);
+        $formattedName = Str::replace(".", "", $formattedName);
+        return $formattedName;
     }
 }
