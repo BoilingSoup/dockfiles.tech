@@ -8,7 +8,7 @@ type Props = {
 
 export const NavigationButtonsGroup = ({ variant = "subtle", size = "xl" }: Props) => {
   return (
-    <Group sx={{ justifyContent: "space-between" }}>
+    <Group sx={{ position: "absolute", bottom: 0, justifyContent: "space-between", width: "95%" }}>
       <Button variant={variant} leftIcon={<IconCaretLeft />} size={size}>
         Prev
       </Button>
