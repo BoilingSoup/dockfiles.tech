@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 
         {isLoading && <LoadingSpinner />}
 
-        <Container p={0}>
+        <Container mt={10} p={0}>
           {environments?.map((environment) => (
             <EnvironmentListItem key={environment.id} name={environment.name} id={environment.id} />
           ))}
