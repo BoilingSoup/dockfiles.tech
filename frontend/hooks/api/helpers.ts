@@ -18,6 +18,30 @@ export type EnvironmentsData = {
   };
 };
 
+export type EnvironmentPath = {
+  params: {
+    string_id: string;
+  };
+};
+
+/**Used for getting paths of SSG Environment details pages*/
+export const getAllEnvironmentPaths = async () => {
+  const paths: EnvironmentPath[] = [];
+
+  const recursiveGetEnvironmentPath = async (cursor: string | null = INITIAL_PAGE_CURSOR) => {
+    if (!cursor) return;
+
+    const res = await getEnvironments({ categoryId: ALL_CATEGORIES, cursor })();
+    const next = res.data.next_cursor;
+    res.data.data.forEach((environment) => paths.push({ params: { string_id: environment.string_id } }));
+
+    await recursiveGetEnvironmentPath(next);
+  };
+
+  await recursiveGetEnvironmentPath();
+  return paths;
+};
+
 /**Generate a dynamic fetcher function for react-query to use.*/
 export function getEnvironments({ categoryId, cursor }: QueryParams) {
   return async function () {

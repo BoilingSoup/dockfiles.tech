@@ -20,9 +20,9 @@ const api = ky.extend({
 });
 
 export const apiFetch = async (url: string, method: Method, body?: RequestBody) => {
-  if (readCookie("X-XSRF-TOKEN") === null) {
-    await api.get(SANCTUM_CSRF);
-  }
+  // if (readCookie("X-XSRF-TOKEN") === null) {
+  //   await api.get(SANCTUM_CSRF);
+  // }
   switch (method) {
     case GET:
       return await api.get(url).json();
