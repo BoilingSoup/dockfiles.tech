@@ -22,6 +22,25 @@ const Environment = ({ environment }: Props) => {
       <Head>
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
+
+      <Container className={markdownClass}>
+        <Text component="h3" style={{ fontSize: "2rem" }}>
+          Wget
+        </Text>
+        <Container>
+          <pre>{`wget https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}</pre>
+        </Container>
+      </Container>
+
+      <Container className={markdownClass}>
+        <Text component="h3" style={{ fontSize: "2rem" }}>
+          Curl
+        </Text>
+        <Container>
+          <pre>{`curl -L -O https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}</pre>
+        </Container>
+      </Container>
+
       <Container className={markdownClass}>
         <Text component="h3" style={{ fontSize: "2rem" }}>
           Git clone
@@ -30,6 +49,7 @@ const Environment = ({ environment }: Props) => {
           <pre>{`git clone https://github.com/${environment.repo_owner}/${environment.repo_name}`}</pre>
         </Container>
       </Container>
+
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>
           README.md
