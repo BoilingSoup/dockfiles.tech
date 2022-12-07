@@ -6,7 +6,7 @@ import {
 } from "../../hooks/api/helpers";
 import markdownToHtml from "../../lib/markdownToHtml";
 import { markdownClass } from "../../contexts/MantineProvider";
-import { Container } from "@mantine/core";
+import { Box, Container, Text } from "@mantine/core";
 import Head from "next/head";
 
 type Props = {
@@ -22,11 +22,24 @@ const Environment = ({ environment }: Props) => {
       <Head>
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
-      <Container
-        style={{ border: "1px solid black" }}
-        className={markdownClass}
-        dangerouslySetInnerHTML={{ __html: environment.readMe }}
-      />
+      <Container className={markdownClass}>
+        <Text component="h3" style={{ fontSize: "2rem" }}>
+          Git clone
+        </Text>
+        <Container>
+          <pre>{`git clone https://github.com/${environment.repo_owner}/${environment.repo_name}`}</pre>
+        </Container>
+      </Container>
+      <Container>
+        <Text component="h3" style={{ fontSize: "2rem" }}>
+          README.md
+        </Text>
+        <Container
+          style={{ border: "1px solid black" }}
+          className={markdownClass}
+          dangerouslySetInnerHTML={{ __html: environment.readMe }}
+        />
+      </Container>
     </>
   );
 };
