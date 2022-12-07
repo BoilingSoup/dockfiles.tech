@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
-import { API_URL } from "../../config/config";
 import { apiFetch } from "../../query-client/baseFetcher";
-import { GET, queryKeys } from "../../query-client/constants";
+import { queryKeys } from "../../query-client/constants";
 
 type CategoriesData = {
   success: boolean;
@@ -12,7 +11,7 @@ type CategoriesData = {
 };
 
 const getCategories: () => Promise<CategoriesData> = async () => {
-  return (await apiFetch(`${API_URL}/categories`, GET)) as CategoriesData;
+  return (await apiFetch.get(`categories`)) as CategoriesData;
 };
 
 export const useCategories = () => {

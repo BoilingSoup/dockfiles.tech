@@ -1,6 +1,5 @@
 import { API_URL } from "../../config/config";
 import { apiFetch } from "../../query-client/baseFetcher";
-import { GET } from "../../query-client/constants";
 import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
 
 export type QueryParams = { categoryId: string; cursor: string };
@@ -58,7 +57,7 @@ export const getAllEnvironmentPaths = async () => {
 
 /**Used for getting Environment details for SSG pages*/
 export const getEnvironmentByStringId = async (stringId: string) => {
-  return (await apiFetch(`${API_URL}/environments/${stringId}`, GET)) as EnvironmentDetailsResponse;
+  return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
 };
 
 export const getEnvironmentReadMe = async (url: string) => {
@@ -79,17 +78,17 @@ export function getEnvironments({ categoryId, cursor }: QueryParams) {
 }
 
 async function getFilteredEnvironments({ categoryId, cursor }: QueryParams) {
-  const baseEndpoint = `${API_URL}/categories/${categoryId}/environments`;
+  const baseEndpoint = `categories/${categoryId}/environments`;
   const endpoint = generateEndpoint({ baseEndpoint, cursor });
 
-  return (await apiFetch(endpoint, GET)) as EnvironmentsData;
+  return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
 async function getUnfilteredEnvironments(cursor: string) {
-  const baseEndpoint = `${API_URL}/environments`;
+  const baseEndpoint = `environments`;
   const endpoint = generateEndpoint({ baseEndpoint, cursor });
 
-  return (await apiFetch(endpoint, GET)) as EnvironmentsData;
+  return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
 function generateEndpoint({ baseEndpoint, cursor }: { baseEndpoint: string; cursor: string }) {

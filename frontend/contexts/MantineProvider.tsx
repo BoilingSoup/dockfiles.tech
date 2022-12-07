@@ -44,7 +44,7 @@ export const MantineProvider = (props: Props) => {
             "#0f172a",
           ],
         },
-        globalStyles: ({ colors, colorScheme }) => ({
+        globalStyles: ({ colors, colorScheme, radius }) => ({
           ".markdown pre": {
             backgroundColor: colorSchemeHandler(colorScheme, {
               light: colors.blue[1],
@@ -52,6 +52,7 @@ export const MantineProvider = (props: Props) => {
             }),
             overflowX: "auto",
             padding: 20,
+            borderRadius: radius.sm,
           },
           ".markdown a": {
             color: colorSchemeHandler(colorScheme, {

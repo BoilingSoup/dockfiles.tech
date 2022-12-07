@@ -1,12 +1,9 @@
 import ky from "ky";
-import { APP_URL, SANCTUM_CSRF } from "../config/config";
-import { GET, POST, PUT, PATCH, DELETE } from "./constants";
+import { API_URL, APP_URL, SANCTUM_CSRF } from "../config/config";
 
 type RequestBody = {
   [key: string]: string;
 };
-
-type Method = typeof GET | typeof POST | typeof PUT | typeof PATCH | typeof DELETE;
 
 const api = ky.extend({
   hooks: {
@@ -17,24 +14,25 @@ const api = ky.extend({
       },
     ],
   },
+  prefixUrl: API_URL,
 });
 
-export const apiFetch = async (url: string, method: Method, body?: RequestBody) => {
-  // if (readCookie("X-XSRF-TOKEN") === null) {
-  //   await api.get(SANCTUM_CSRF);
-  // }
-  switch (method) {
-    case GET:
-      return await api.get(url).json();
-    case POST:
-      return await api.post(url, body ? { json: body } : undefined).json();
-    case PUT:
-      return await api.put(url, body ? { json: body } : undefined).json();
-    case PATCH:
-      await api.patch(url, body ? { json: body } : undefined).json();
-    case DELETE:
-      await api.delete(url, body ? { json: body } : undefined).json();
-  }
+export const apiFetch = {
+  async get(url: string) {
+    return await api.get(url).json();
+  },
+  async post(url: string, body?: RequestBody) {
+    return await api.post(url, body ? { json: body } : undefined).json();
+  },
+  async put(url: string, body?: RequestBody) {
+    return await api.put(url, body ? { json: body } : undefined).json();
+  },
+  async patch(url: string, body?: RequestBody) {
+    return await api.put(url, body ? { json: body } : undefined).json();
+  },
+  async delete(url: string, body?: RequestBody) {
+    return await api.put(url, body ? { json: body } : undefined).json();
+  },
 };
 
 function readCookie(name: string) {

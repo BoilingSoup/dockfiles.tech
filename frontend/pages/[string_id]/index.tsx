@@ -7,6 +7,7 @@ import {
 import markdownToHtml from "../../lib/markdownToHtml";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { Container } from "@mantine/core";
+import Head from "next/head";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -16,7 +17,18 @@ type Props = {
 
 const Environment = ({ environment }: Props) => {
   console.log(environment);
-  return <Container className={markdownClass} dangerouslySetInnerHTML={{ __html: environment.readMe }}></Container>;
+  return (
+    <>
+      <Head>
+        <title>Dockfiles.io | {environment.name}</title>
+      </Head>
+      <Container
+        style={{ border: "1px solid black" }}
+        className={markdownClass}
+        dangerouslySetInnerHTML={{ __html: environment.readMe }}
+      />
+    </>
+  );
 };
 
 export default Environment;
