@@ -63,6 +63,12 @@ export const MantineProvider = (props: Props) => {
           ".markdown img": {
             width: "100%",
           },
+          ":root": {
+            "color-scheme": colorSchemeHandler(colorScheme, {
+              light: "initial",
+              dark: "dark",
+            }),
+          },
         }),
       }}
     >
