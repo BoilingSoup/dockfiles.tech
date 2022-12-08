@@ -1,4 +1,4 @@
-import { Button, Center, Container, Divider, Group, Text } from "@mantine/core";
+import { Button, Center, Container, Divider, Text } from "@mantine/core";
 import { Props as EnvironmentProps } from "../../pages/[string_id]";
 import { CodeBlock } from "./_codeBlock";
 
