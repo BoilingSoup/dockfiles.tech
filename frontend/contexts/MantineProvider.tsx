@@ -60,6 +60,9 @@ export const MantineProvider = (props: Props) => {
               dark: colors.slate[0],
             }),
           },
+          ".markdown img": {
+            width: "100%",
+          },
         }),
       }}
     >
