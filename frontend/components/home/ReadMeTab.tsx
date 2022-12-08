@@ -8,11 +8,7 @@ export const ReadMeTab = ({ environment }: EnvironmentProps) => {
       <Text component="h3" style={{ fontSize: "2rem" }}>
         README.md
       </Text>
-      <Container
-        style={{ border: "1px solid black" }}
-        className={markdownClass}
-        dangerouslySetInnerHTML={{ __html: environment.readMe }}
-      />
+      <Container className={markdownClass} dangerouslySetInnerHTML={{ __html: environment.readMe }} />
     </Container>
   );
 };

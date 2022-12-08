@@ -1,5 +1,4 @@
 import { Button, Center, Container, Divider, Group, Text } from "@mantine/core";
-import { IconArrowRight } from "@tabler/icons";
 import { Props as EnvironmentProps } from "../../pages/[string_id]";
 import { CodeBlock } from "./_codeBlock";
 
