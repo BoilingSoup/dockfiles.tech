@@ -16,11 +16,11 @@ import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
-  const [debouncedInput] = useDebouncedValue(input, 300);
+  const [searchParam] = useDebouncedValue(input, 300);
   const { cursor, setCursor } = useHomePageCursor();
 
-  const { data, isLoading } = useEnvironments({ categoryId, cursor, searchParam: debouncedInput });
-  usePrefetchEnvironments({ categoryId, data, searchParam: debouncedInput });
+  const { data, isLoading } = useEnvironments({ categoryId, cursor, searchParam });
+  usePrefetchEnvironments({ categoryId, data, searchParam });
 
   const environments = data?.data.data;
   const pageCursors: CursorsObj = {
