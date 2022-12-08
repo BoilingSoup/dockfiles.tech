@@ -18,7 +18,6 @@ export type Props = {
 };
 
 const Environment = ({ environment }: Props) => {
-  // console.log(environment);
   return (
     <>
       <Head>
