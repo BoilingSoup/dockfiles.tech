@@ -6,7 +6,6 @@ use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
 use App\Models\Environments;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class EnvironmentsRepository
