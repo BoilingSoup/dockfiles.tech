@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
 use App\Models\Environments;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class EnvironmentsRepository
@@ -26,6 +27,31 @@ class EnvironmentsRepository
                 // likes ?
                 // comments count ?
             )->orderBy("id")->cursorPaginate()
+        );
+    }
+
+    /**
+     * Retrieve a CursorPaginator object of Environments filtered by search param. (Cached for 1 day.)
+     *
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     */
+    public function search(string $param)
+    {
+        $searchTerms = array_filter(explode(" ", $param), fn ($el) => $el !== "");
+        $searchTerms = array_map(fn ($el) => strtolower($el), $searchTerms);
+        sort($searchTerms);
+        $cacheId = implode("", $searchTerms);
+
+        return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SEARCH])->remember(
+            CACHE_KEYS::ENVIRONMENTS_SEARCH_($cacheId),
+            60 * 60 * 24, // Cache for 1 day
+            fn () => Environments::select(
+                "id",
+                "name",
+                "string_id"
+                // likes ?
+                // comments count ?
+            )->where("description", "LIKE", "%{$param}%")->orderBy("id")->cursorPaginate()
         );
     }
 

@@ -6,4 +6,4 @@ Route::get('environments', [EnvironmentsController::class, 'index'])->name('envi
 
 Route::get('environments/{string_id}', [EnvironmentsController::class, 'show'])->name('environments.show');
 
-Route::get('environments/search/{slug}', [EnvironmentsController::class, 'search'])->name('environments.search');
+// Route::get('environments?search={slug}', [EnvironmentsController::class, 'search'])->name('environments.search');

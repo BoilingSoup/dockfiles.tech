@@ -26,4 +26,9 @@ class CACHE_KEYS
     {
         return "ENVIRONMENTS_SHOW_{$string_id}";
     }
+
+    public static function ENVIRONMENTS_SEARCH_(string $cache_id)
+    {
+        return "ENVIRONMENTS_SEARCH_{$cache_id}";
+    }
 }

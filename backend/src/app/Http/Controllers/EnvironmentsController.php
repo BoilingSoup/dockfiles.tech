@@ -17,18 +17,36 @@ class EnvironmentsController extends Controller
     }
 
     /**
-     * Get a cursor paginated JSON response of all Environments names and IDs.
+     * Get a cursor paginated JSON response of Environment names and IDs. Search query param is optional to search by description field.
      *
      * @return FormattedApiResponse
      */
     public function index(Request $request)
     {
-        $cursor = $request->cursor;
-        $data = $this->repository->index($cursor);
+        if ($request->search) {
+            return $this->search($request->search);
+        }
+
+        $data = $this->repository->index($request->cursor);
 
         return new FormattedApiResponse(
             success: true,
             data: collect($data)
+        );
+    }
+
+    /**
+     * Get a cursor paginated JSON response of Environment names and IDs filtered by search query param.
+     *
+     * @return FormattedApiResponse
+     */
+    private function search(string $param)
+    {
+        $data = $this->repository->search($param);
+
+        return new FormattedApiResponse(
+            success: true,
+            data: [$data]
         );
     }
 
@@ -47,10 +65,5 @@ class EnvironmentsController extends Controller
             success: true,
             data: $data
         );
-    }
-
-    public function search()
-    {
-        //
     }
 }
