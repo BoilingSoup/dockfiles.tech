@@ -5,50 +5,31 @@ import {
   getEnvironmentReadMe,
 } from "../../hooks/api/helpers";
 import markdownToHtml from "../../lib/markdownToHtml";
-import { markdownClass } from "../../contexts/MantineProvider";
-import { Box, Container, Text } from "@mantine/core";
 import Head from "next/head";
-import { CodeBlock } from "../../components/home/CodeBlock";
+import { EnvironmentTabs } from "../../components/home/EnvironmentTabs";
+import { DownloadTab } from "../../components/home/DownloadTab";
+import { ReadMeTab } from "../../components/home/ReadMeTab";
+import { CommentTab } from "../../components/home/CommentTab";
 
-type Props = {
+export type Props = {
   environment: EnvironmentDetailsData & {
     readMe: string;
   };
 };
 
 const Environment = ({ environment }: Props) => {
-  console.log(environment);
+  // console.log(environment);
   return (
     <>
       <Head>
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
 
-      <CodeBlock
-        title="Wget"
-        code={`wget https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}
+      <EnvironmentTabs
+        readMe={<ReadMeTab environment={environment} />}
+        download={<DownloadTab environment={environment} />}
+        comments={<CommentTab />}
       />
-
-      <CodeBlock
-        title="Curl"
-        code={`curl -L -O https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}
-      />
-
-      <CodeBlock
-        title="Git clone"
-        code={`git clone https://github.com/${environment.repo_owner}/${environment.repo_name}`}
-      />
-
-      <Container>
-        <Text component="h3" style={{ fontSize: "2rem" }}>
-          README.md
-        </Text>
-        <Container
-          style={{ border: "1px solid black" }}
-          className={markdownClass}
-          dangerouslySetInnerHTML={{ __html: environment.readMe }}
-        />
-      </Container>
     </>
   );
 };
