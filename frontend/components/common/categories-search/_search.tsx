@@ -2,7 +2,7 @@ import { Autocomplete } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
 import { SearchProps } from "./CategoriesSearch";
 
-export const Search = ({ inputValue, onChangeInput: setInputValue }: SearchProps) => {
+export const Search = ({ inputValue, onChangeInput: inputChangeHandler }: SearchProps) => {
   return (
     <Autocomplete
       placeholder="Search"
@@ -10,7 +10,7 @@ export const Search = ({ inputValue, onChangeInput: setInputValue }: SearchProps
       icon={<IconSearch size={16} stroke={1.5} />}
       data={[]}
       value={inputValue}
-      onChange={setInputValue}
+      onChange={inputChangeHandler}
     />
   );
 };

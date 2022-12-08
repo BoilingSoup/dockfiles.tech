@@ -21,7 +21,7 @@ export type LabelData = {
 
 export const CategoriesSearch = ({
   inputValue,
-  onChangeInput: setInputValue,
+  onChangeInput: inputChangeHandler,
   selectValue,
   onChangeSelect: setSelectValue,
 }: Props) => {
@@ -33,7 +33,7 @@ export const CategoriesSearch = ({
 
   return (
     <Center style={{ width: "100%" }}>
-      <Search inputValue={inputValue} onChangeInput={setInputValue} />
+      <Search inputValue={inputValue} onChangeInput={inputChangeHandler} />
       <Select data={categories} selectValue={selectValue} onChangeSelect={setSelectValue} />
     </Center>
   );

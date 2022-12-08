@@ -12,6 +12,7 @@ import { EnvironmentListItem } from "../components/common/EnvironmentListItem";
 import { mainContainerSx } from "../components/common/styles";
 import { LoadingState } from "../components/home/LoadingState";
 import { CursorsObj } from "../components/common/types";
+import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
@@ -21,14 +22,16 @@ const Home: NextPage = () => {
   const { data, isLoading } = useEnvironments({ categoryId, cursor, searchParam: debouncedInput });
   usePrefetchEnvironments({ categoryId, data, searchParam: debouncedInput });
 
-  console.log(data);
-
   const environments = data?.data.data;
   const pageCursors: CursorsObj = {
     next: data?.data.next_cursor,
     prev: data?.data.prev_cursor,
   };
-  console.log(environments);
+
+  const inputChangeHandler = (input: string) => {
+    setCursor(INITIAL_PAGE_CURSOR);
+    setInput(input);
+  };
 
   return (
     <>
@@ -39,7 +42,7 @@ const Home: NextPage = () => {
       <Container sx={mainContainerSx}>
         <CategoriesSearch
           inputValue={input}
-          onChangeInput={setInput}
+          onChangeInput={inputChangeHandler}
           selectValue={categoryId}
           onChangeSelect={setCategoryId}
         />
