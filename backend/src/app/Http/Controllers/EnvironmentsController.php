@@ -23,11 +23,11 @@ class EnvironmentsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->search) {
-            return $this->search($request->search);
+        if ($request->search !== null) {
+            return $this->search($request);
         }
 
-        $data = $this->repository->index($request->cursor);
+        $data = $this->repository->index($request);
 
         return new FormattedApiResponse(
             success: true,
@@ -40,9 +40,9 @@ class EnvironmentsController extends Controller
      *
      * @return FormattedApiResponse
      */
-    private function search(string $param)
+    private function search(Request $request)
     {
-        $data = $this->repository->search($param);
+        $data = $this->repository->search($request);
 
         return new FormattedApiResponse(
             success: true,

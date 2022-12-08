@@ -90,7 +90,7 @@ async function getFilteredEnvironments({ categoryId, cursor, searchParam }: Quer
 }
 
 async function getUnfilteredEnvironments({ cursor, searchParam }: { cursor: string; searchParam: string }) {
-  const endpoint = `environments?search=${searchParam}&cursor=`; //${cursor}`;
+  const endpoint = `environments?cursor=${cursor}&search=${searchParam}`; //${cursor}`;
   console.log(endpoint);
   // const endpoint = generateEndpoint({ baseEndpoint, cursor, searchParam });
 

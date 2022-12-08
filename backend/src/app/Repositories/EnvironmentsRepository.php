@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
 use App\Models\Environments;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,10 +16,10 @@ class EnvironmentsRepository
      *
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
-    public function index(string | null $cursor)
+    public function index(Request $request)
     {
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_INDEX])->remember(
-            CACHE_KEYS::ENVIRONMENTS_INDEX_CURSOR_($cursor),
+            CACHE_KEYS::ENVIRONMENTS_INDEX_CURSOR_($request->cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
                 "id",
@@ -35,15 +36,13 @@ class EnvironmentsRepository
      *
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
-    public function search(string $param)
+    public function search(Request $request)
     {
-        $searchTerms = array_filter(explode(" ", $param), fn ($el) => $el !== "");
-        $searchTerms = array_map(fn ($el) => strtolower($el), $searchTerms);
-        sort($searchTerms);
-        $cacheId = implode("", $searchTerms);
+        $searchParam = $request->search;
+        $cacheId = $this->generateCacheId($searchParam);
 
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SEARCH])->remember(
-            CACHE_KEYS::ENVIRONMENTS_SEARCH_($cacheId),
+            CACHE_KEYS::ENVIRONMENTS_SEARCH_($cacheId, $request->cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
                 "id",
@@ -51,8 +50,25 @@ class EnvironmentsRepository
                 "string_id"
                 // likes ?
                 // comments count ?
-            )->where("description", "LIKE", "%{$param}%")->orderBy("id")->cursorPaginate()
+            )->where("description", "LIKE", "%{$searchParam}%")->orderBy("id")->cursorPaginate()
         );
+    }
+
+    /**
+     * Convert the search param into a consistent cache-ID string. A search of the same terms [ "redIs", "fLAsk" ], ["REDiS", "flasK"], ["FLAsK", "reDIS"] returns the same ID "flaskredis" regardless of beginning/ending whitepspace, order, or capitalization.
+     *
+     */
+    private function generateCacheId(string $param)
+    {
+        // Normalize search params by removing whitespace and creating an array of lowercase words
+        $searchTerms = array_filter(explode(" ", $param), fn ($el) => $el !== "");
+        $searchTerms = array_map(fn ($el) => strtolower($el), $searchTerms);
+
+        // Sort the search terms array alphabetically
+        sort($searchTerms);
+
+        // Join the normalized array into a string
+        return implode("", $searchTerms);
     }
 
     /**

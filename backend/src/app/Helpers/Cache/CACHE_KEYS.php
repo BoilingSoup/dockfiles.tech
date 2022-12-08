@@ -27,8 +27,9 @@ class CACHE_KEYS
         return "ENVIRONMENTS_SHOW_{$string_id}";
     }
 
-    public static function ENVIRONMENTS_SEARCH_(string $cache_id)
+    public static function ENVIRONMENTS_SEARCH_(string $cache_id, string | null $cursor)
     {
-        return "ENVIRONMENTS_SEARCH_{$cache_id}";
+        $cursor = $cursor ?? "NULL";
+        return "ENVIRONMENTS_SEARCH_{$cache_id}_{$cursor}";
     }
 }
