@@ -2,7 +2,11 @@ import { API_URL } from "../../config/config";
 import { apiFetch } from "../../query-client/baseFetcher";
 import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
 
-export type QueryParams = { categoryId: string; cursor: string };
+export type QueryParams = {
+  categoryId: string;
+  cursor: string;
+  searchParam: string;
+};
 
 export type EnvironmentsData = {
   success: boolean;
@@ -44,7 +48,7 @@ export const getAllEnvironmentPaths = async () => {
   const recursiveGetEnvironmentPath = async (cursor: string | null = INITIAL_PAGE_CURSOR) => {
     if (!cursor) return;
 
-    const res = await getEnvironments({ categoryId: ALL_CATEGORIES, cursor })();
+    const res = await getEnvironments({ categoryId: ALL_CATEGORIES, cursor, searchParam: "" })();
     const next = res.data.next_cursor;
     res.data.data.forEach((environment) => paths.push({ params: { string_id: environment.string_id } }));
 
@@ -65,42 +69,52 @@ export const getEnvironmentReadMe = async (url: string) => {
 };
 
 /**Generate a dynamic fetcher function for react-query to use.*/
-export function getEnvironments({ categoryId, cursor }: QueryParams) {
+export function getEnvironments({ categoryId, cursor, searchParam }: QueryParams) {
+  console.log(searchParam);
   return async function () {
     const isFilteredByCategory = categoryId !== ALL_CATEGORIES;
 
     if (isFilteredByCategory) {
-      return await getFilteredEnvironments({ categoryId, cursor });
+      return await getFilteredEnvironments({ categoryId, cursor, searchParam });
     }
 
-    return await getUnfilteredEnvironments(cursor);
+    return await getUnfilteredEnvironments({ cursor, searchParam });
   };
 }
 
-async function getFilteredEnvironments({ categoryId, cursor }: QueryParams) {
-  const baseEndpoint = `categories/${categoryId}/environments`;
-  const endpoint = generateEndpoint({ baseEndpoint, cursor });
+async function getFilteredEnvironments({ categoryId, cursor, searchParam }: QueryParams) {
+  const endpoint = `categories/${categoryId}/environments?cursor=${cursor}&search=${searchParam}`;
+  // const endpoint = generateEndpoint({ baseEndpoint, cursor, searchParam });
 
   return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
-async function getUnfilteredEnvironments(cursor: string) {
-  const baseEndpoint = `environments`;
-  const endpoint = generateEndpoint({ baseEndpoint, cursor });
+async function getUnfilteredEnvironments({ cursor, searchParam }: { cursor: string; searchParam: string }) {
+  const endpoint = `environments?search=${searchParam}&cursor=`; //${cursor}`;
+  console.log(endpoint);
+  // const endpoint = generateEndpoint({ baseEndpoint, cursor, searchParam });
 
   return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
-function generateEndpoint({ baseEndpoint, cursor }: { baseEndpoint: string; cursor: string }) {
-  const cursorIsValid = checkCursor(cursor);
-
-  if (cursorIsValid) {
-    return `${baseEndpoint}?cursor=${cursor}`;
-  }
-
-  return baseEndpoint;
-}
-
-function checkCursor(cursor: string) {
-  return cursor !== INITIAL_PAGE_CURSOR;
-}
+// function generateEndpoint({
+//   baseEndpoint,
+//   cursor,
+//   searchParam,
+// }: {
+//   baseEndpoint: string;
+//   cursor: string;
+//   searchParam: string;
+// }) {
+//   const cursorIsValid = checkCursor(cursor);
+//
+//   if (cursorIsValid) {
+//     return `${baseEndpoint}?cursor=${cursor}&search=${searchParam}`;
+//   }
+//
+//   return `${baseEndpoint}?search=${searchParam}`;
+// }
+//
+// function checkCursor(cursor: string) {
+//   return cursor !== INITIAL_PAGE_CURSOR;
+// }

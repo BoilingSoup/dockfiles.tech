@@ -46,7 +46,7 @@ class EnvironmentsController extends Controller
 
         return new FormattedApiResponse(
             success: true,
-            data: [$data]
+            data: collect($data)
         );
     }
 

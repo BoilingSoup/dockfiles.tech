@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { Container } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
 import Head from "next/head";
 import { CategoriesSearch } from "../components/common/categories-search/CategoriesSearch";
 import { useHomeCategoriesSearch } from "../zustand-store/home/useHomeCategoriesSearch";
@@ -14,15 +15,20 @@ import { CursorsObj } from "../components/common/types";
 
 const Home: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
+  const [debouncedInput] = useDebouncedValue(input, 300);
   const { cursor, setCursor } = useHomePageCursor();
-  const { data, isLoading } = useEnvironments({ categoryId, cursor });
-  usePrefetchEnvironments({ categoryId, data });
+
+  const { data, isLoading } = useEnvironments({ categoryId, cursor, searchParam: debouncedInput });
+  usePrefetchEnvironments({ categoryId, data, searchParam: debouncedInput });
+
+  console.log(data);
 
   const environments = data?.data.data;
   const pageCursors: CursorsObj = {
     next: data?.data.next_cursor,
     prev: data?.data.prev_cursor,
   };
+  console.log(environments);
 
   return (
     <>

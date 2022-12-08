@@ -6,9 +6,10 @@ import { EnvironmentsData, getEnvironments } from "./helpers";
 type PrefetchMetaData = {
   categoryId: string;
   data: EnvironmentsData | undefined;
+  searchParam: string;
 };
 
-export const usePrefetchEnvironments = ({ categoryId, data }: PrefetchMetaData) => {
+export const usePrefetchEnvironments = ({ categoryId, data, searchParam }: PrefetchMetaData) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -17,16 +18,16 @@ export const usePrefetchEnvironments = ({ categoryId, data }: PrefetchMetaData) 
 
     if (prevCursor) {
       queryClient.prefetchQuery(
-        [queryKeys.environments, categoryId, prevCursor],
-        getEnvironments({ categoryId, cursor: prevCursor })
+        [queryKeys.environments, categoryId, queryKeys.searchStrToKey(searchParam), prevCursor],
+        getEnvironments({ categoryId, cursor: prevCursor, searchParam })
       );
     }
 
     if (nextCursor) {
       queryClient.prefetchQuery(
-        [queryKeys.environments, categoryId, nextCursor],
-        getEnvironments({ categoryId, cursor: nextCursor })
+        [queryKeys.environments, categoryId, queryKeys.searchStrToKey(searchParam), nextCursor],
+        getEnvironments({ categoryId, cursor: nextCursor, searchParam })
       );
     }
-  }, [queryClient, categoryId, data]);
+  }, [queryClient, categoryId, data, searchParam]);
 };
