@@ -8,6 +8,7 @@ import markdownToHtml from "../../lib/markdownToHtml";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { Box, Container, Text } from "@mantine/core";
 import Head from "next/head";
+import { CodeBlock } from "../../components/home/CodeBlock";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -23,32 +24,20 @@ const Environment = ({ environment }: Props) => {
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
 
-      <Container className={markdownClass}>
-        <Text component="h3" style={{ fontSize: "2rem" }}>
-          Wget
-        </Text>
-        <Container>
-          <pre>{`wget https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}</pre>
-        </Container>
-      </Container>
+      <CodeBlock
+        title="Wget"
+        code={`wget https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}
+      />
 
-      <Container className={markdownClass}>
-        <Text component="h3" style={{ fontSize: "2rem" }}>
-          Curl
-        </Text>
-        <Container>
-          <pre>{`curl -L -O https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}</pre>
-        </Container>
-      </Container>
+      <CodeBlock
+        title="Curl"
+        code={`curl -L -O https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`}
+      />
 
-      <Container className={markdownClass}>
-        <Text component="h3" style={{ fontSize: "2rem" }}>
-          Git clone
-        </Text>
-        <Container>
-          <pre>{`git clone https://github.com/${environment.repo_owner}/${environment.repo_name}`}</pre>
-        </Container>
-      </Container>
+      <CodeBlock
+        title="Git clone"
+        code={`git clone https://github.com/${environment.repo_owner}/${environment.repo_name}`}
+      />
 
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>
@@ -83,7 +72,6 @@ export const getStaticProps = async ({ params }: Params): Promise<{ props: Props
   const readMeUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${repoBranch}/README.md`;
 
   const readMe = await markdownToHtml(await getEnvironmentReadMe(readMeUrl));
-  console.log(readMe);
 
   return {
     props: { environment: { ...data.data, readMe } },
