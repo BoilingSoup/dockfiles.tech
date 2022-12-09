@@ -37,8 +37,8 @@ class EnvironmentsRepository
      */
     public function search(Request $request)
     {
-        $searchParam = $request->search;
-        $cacheId = $this->generateCacheId($searchParam);
+        $searchWords = $this->getKeyWords($request->search);
+        $cacheId = $this->generateCacheId($searchWords);
 
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SEARCH])->remember(
             CACHE_KEYS::ENVIRONMENTS_SEARCH_($cacheId, $request->cursor),
@@ -49,25 +49,37 @@ class EnvironmentsRepository
                 "string_id"
                 // likes ?
                 // comments count ?
-            )->where("description", "LIKE", "%{$searchParam}%")->orderBy("id")->cursorPaginate()
+            )->where(function ($query) use ($searchWords) {
+                foreach ($searchWords as $keyword) {
+                    $query->orWhere('description', 'like', "%$keyword%");
+                }
+            })->orderBy("id")->cursorPaginate()
         );
     }
 
     /**
-     * Convert the search param into a consistent cache-ID string. A search of the same terms [ "redIs", "fLAsk" ], ["REDiS", "flasK"], ["FLAsK", "reDIS"] returns the same ID "flaskredis" regardless of beginning/ending whitepspace, order, or capitalization.
+     * Convert the search param into an array of lower case words.
      *
+     * @return array
      */
-    private function generateCacheId(string $param)
+    private function getKeyWords(string $param)
     {
-        // Normalize search params by removing whitespace and creating an array of lowercase words
         $searchTerms = array_filter(explode(" ", $param), fn ($el) => $el !== "");
-        $searchTerms = array_map(fn ($el) => strtolower($el), $searchTerms);
+        return array_map(fn ($el) => strtolower($el), $searchTerms);
+    }
 
-        // Sort the search terms array alphabetically
-        sort($searchTerms);
+    /**
+       * Convert the words array into a consistent cache-ID string. A search of the same terms [ "redis", "flask" ], ["flask", "redis"] returns the same ID "flaskredis" regardless of order.
+       *
+       * @return string
+       */
+    private function generateCacheId(array $words)
+    {
+        // Sort the words array alphabetically
+        sort($words);
 
-        // Join the normalized array into a string
-        return implode("", $searchTerms);
+        // Join the array into a string
+        return implode("", $words);
     }
 
     /**
