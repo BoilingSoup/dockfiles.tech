@@ -1,6 +1,11 @@
+import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../zustand-store/types";
+
+const CATEGORIES = "categories";
+const ENVIRONMENTS = "environments";
+
 export const queryKeys = {
-  categories: "categories",
-  environments: "environments",
+  categories: CATEGORIES,
+  environments: ENVIRONMENTS,
   searchStrToKey(input: string): string {
     let trimmed = input?.trim();
     if (trimmed === "" || trimmed === undefined) {
@@ -13,4 +18,5 @@ export const queryKeys = {
 
     return sortedLowerCase.join("");
   },
+  initialHomeQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, "", INITIAL_PAGE_CURSOR],
 };

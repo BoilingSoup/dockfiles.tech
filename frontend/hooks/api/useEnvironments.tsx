@@ -1,12 +1,25 @@
-import { useQuery } from "react-query";
+import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { queryKeys } from "../../query-client/constants";
 import { getEnvironments, QueryParams } from "./helpers";
 
 export const useEnvironments = ({ categoryId, cursor, searchParam }: QueryParams) => {
-  const { data, isLoading, isError, error } = useQuery(
+  const { data, isLoading, isError, error, isFetching } = useQuery(
     [queryKeys.environments, categoryId, queryKeys.searchStrToKey(searchParam), cursor],
-    getEnvironments({ categoryId, cursor, searchParam: searchParam.trim() })
+    getEnvironments({ categoryId, cursor, searchParam: searchParam.trim() }),
+    {
+      keepPreviousData: true,
+    }
   );
 
-  return { data, isLoading, isError, error };
+  const [isSkeleton, setIsSkeleton] = useState(true);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (data && queryClient.getQueryData(queryKeys.initialHomeQueryKey)) {
+      setIsSkeleton(false);
+    }
+  }, [data, queryClient]);
+
+  return { data, isLoading, isSkeleton, isError, error, isFetching };
 };

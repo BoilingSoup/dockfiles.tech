@@ -15,11 +15,13 @@ import { CursorsObj } from "../components/common/types";
 import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 
 const Home: NextPage = () => {
+  // state management
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
   const [searchParam] = useDebouncedValue(input, 300);
   const { cursor, setCursor } = useHomePageCursor();
 
-  const { data, isLoading } = useEnvironments({ categoryId, cursor, searchParam });
+  // data fetching
+  const { data, isSkeleton, isFetching } = useEnvironments({ categoryId, cursor, searchParam });
   usePrefetchEnvironments({ categoryId, data, searchParam });
 
   const environments = data?.data.data;
@@ -47,7 +49,7 @@ const Home: NextPage = () => {
           onChangeSelect={setCategoryId}
         />
 
-        {isLoading && <LoadingState />}
+        {isFetching && <LoadingState isSkeleton={isSkeleton} />}
 
         <Container mt={10} p={0}>
           {environments?.map((environment) => (
