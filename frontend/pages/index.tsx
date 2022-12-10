@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   usePrefetchEnvironments({ categoryId, data, searchParam });
 
   const environments = data?.data.data;
-  const noData = !environments?.length;
+  const noResults = !isSkeleton && !environments?.length;
   const pageCursors: CursorsObj = {
     next: data?.data.next_cursor,
     prev: data?.data.prev_cursor,
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
             <EnvironmentListItem key={environment.id} name={environment.name} string_id={environment.string_id} />
           ))}
 
-          {!isSkeleton && noData && (
+          {noResults && (
             <Center mt={360}>
               <Text style={{ fontSize: "2.2rem" }}>No search results found!</Text>
             </Center>
