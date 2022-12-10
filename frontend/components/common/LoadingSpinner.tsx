@@ -1,4 +1,6 @@
 import { Box, Loader } from "@mantine/core";
+import { PAGE_SIZE } from "../../config/config";
+import { envListItemHeight } from "./styles";
 
 export const LoadingSpinner = () => {
   return (
@@ -10,7 +12,7 @@ export const LoadingSpinner = () => {
         position: "absolute",
         width: "95%",
         maxWidth: "730px",
-        height: "90%",
+        height: `${envListItemHeight * PAGE_SIZE}px`,
       }}
     >
       <Loader />

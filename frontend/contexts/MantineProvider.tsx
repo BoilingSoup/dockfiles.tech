@@ -64,7 +64,7 @@ export const MantineProvider = (props: Props) => {
             width: "100%",
           },
           ":root": {
-            "color-scheme": colorSchemeHandler(colorScheme, {
+            colorScheme: colorSchemeHandler(colorScheme, {
               light: "initial",
               dark: "dark",
             }),

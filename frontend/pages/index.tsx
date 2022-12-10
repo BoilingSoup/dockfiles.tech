@@ -8,11 +8,12 @@ import { useEnvironments } from "../hooks/api/useEnvironments";
 import { useHomePageCursor } from "../zustand-store/home/useHomePageCursor";
 import { usePrefetchEnvironments } from "../hooks/api/usePrefetchEnvironments";
 import { NavigationButtonsGroup } from "../components/common/NavigationButtonsGroup";
-import { EnvironmentListItem } from "../components/common/EnvironmentListItem";
+import { EnvironmentListItem, EnvironmentListItemSkeleton } from "../components/common/EnvironmentListItem";
 import { mainContainerSx } from "../components/common/styles";
-import { LoadingState } from "../components/home/LoadingState";
 import { CursorsObj } from "../components/common/types";
 import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
+import { LoadingSpinner } from "../components/common/LoadingSpinner";
+import { PAGE_SIZE } from "../config/config";
 
 const Home: NextPage = () => {
   // state management
@@ -50,14 +51,16 @@ const Home: NextPage = () => {
           onChangeSelect={setCategoryId}
         />
 
-        {isFetching && <LoadingState isSkeleton={isSkeleton} />}
+        <Container style={{ position: "relative" }} mt={10} p={0}>
+          {isFetching && <LoadingSpinner />}
 
-        <Container mt={10} p={0}>
+          {isSkeleton && new Array(PAGE_SIZE).fill(null).map((_, index) => <EnvironmentListItemSkeleton key={index} />)}
+
           {environments?.map((environment) => (
             <EnvironmentListItem key={environment.id} name={environment.name} string_id={environment.string_id} />
           ))}
 
-          {noData && (
+          {!isSkeleton && noData && (
             <Center mt={360}>
               <Text style={{ fontSize: "2.2rem" }}>No search results found!</Text>
             </Center>

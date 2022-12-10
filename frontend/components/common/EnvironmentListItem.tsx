@@ -8,7 +8,7 @@ type Props = {
   string_id: string;
 };
 
-export const EnvironmentListItemShell = () => {
+export const EnvironmentListItemSkeleton = () => {
   return (
     <>
       <Paper sx={paperSx} />
