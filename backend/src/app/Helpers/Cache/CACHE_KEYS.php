@@ -15,10 +15,15 @@ class CACHE_KEYS
 
     public const CATEGORIES_VALID_IDS = "CATEGORIES_VALID_IDS";
 
+    public static function CATEGORIZED_ENVIRONMENTS_SEARCH_(string $categoryId, string $cache_id, string | null $cursor)
+    {
+        $cursor = $cursor ?? "NULL";
+        return "CATEGORIZED_ENVIRONMENTS_SEARCH_{$categoryId}_{$cache_id}_{$cursor}";
+    }
+
     public static function ENVIRONMENTS_INDEX_CURSOR_(string | null $cursor)
     {
         $cursor = $cursor ?? "NULL";
-
         return "ENVIRONMENTS_INDEX_CURSOR_{$cursor}";
     }
 

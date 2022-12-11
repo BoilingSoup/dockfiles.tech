@@ -10,6 +10,8 @@ class CACHE_TAGS
 
     public const CATEGORIES_SHOW = "CATEGORIES_SHOW";
 
+    public const CATEGORIES_SEARCH = "CATEGORIES_SEARCH";
+
     public const CATEGORIES_VALID_IDS = "CATEGORIES_VALID_IDS";
 
     public const ENVIRONMENTS = "ENVIRONMENTS";

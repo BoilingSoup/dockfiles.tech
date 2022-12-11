@@ -31,7 +31,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get a cursor paginated JSON response of Environments filtered by category ID.
+     * Get a cursor paginated JSON response of Environments filtered by Category ID.
      *
      * @return FormattedApiResponse
      */
@@ -40,7 +40,26 @@ class CategoriesController extends Controller
         $isValidId = $this->repository->checkValidCategoryId($request->id);
         abort_if(!$isValidId, 404);
 
+        if ($request->search !== null) {
+            return $this->search($request);
+        }
+
         $data = $this->repository->show($request->id, $request->cursor);
+
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
+    }
+
+    /**
+     * Get a cursor paginated JSON response of Environment names and IDs filtered by Category ID and search query param.
+     *
+     * @return FormattedApiResponse
+     */
+    private function search(Request $request)
+    {
+        $data = $this->repository->search($request);
 
         return new FormattedApiResponse(
             success: true,

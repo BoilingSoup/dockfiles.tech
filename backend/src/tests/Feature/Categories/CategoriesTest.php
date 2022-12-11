@@ -74,6 +74,16 @@ class CategoriesTest extends TestCase
         });
     }
 
+    public function test_categories_search_returns_200_with_valid_ids_and_any_search_param()
+    {
+        $this->seedTables();
+        $id = Categories::idsCollection()->first();
+
+        $response = $this->get(route("categories.show", ["id" => $id, "search" => "1234567890QWERTYUIOP"]));
+        $response->assertStatus(200);
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
     private function seedTables()
     {
         User::factory()->admin()->create();

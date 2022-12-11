@@ -6,11 +6,15 @@ use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
 use App\Models\Categories;
 use App\Models\Environments;
+use App\Repositories\Traits\HandleSearchWords;
 use Database\Helpers\ForeignKeyCol;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class CategoriesRepository
 {
+    use HandleSearchWords;
+
     /**
      * Retrieve the name and ID of all Categories.
      *
@@ -21,6 +25,35 @@ class CategoriesRepository
         return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_INDEX])->rememberForever(
             CACHE_KEYS::CATEGORIES_INDEX,
             fn () => Categories::select("id", "name")->orderBy("name")->get()->toArray()
+        );
+    }
+
+    /**
+     * Retrieve a CursorPaginator object of Environments filtered by Category ID and search param. (Cached for 1 day.)
+     *
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     */
+    public function search(Request $request)
+    {
+        $searchWords = $this->getKeyWords($request->search);
+        $cacheId = $this->generateSearchWordsCacheId($searchWords);
+        $categoryId = $request->id;
+
+        return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_SEARCH])->remember(
+            CACHE_KEYS::CATEGORIZED_ENVIRONMENTS_SEARCH_($categoryId, $cacheId, $request->cursor),
+            60 * 60 * 24, // Cache for 1 day
+            fn () => Environments::select(
+                "id",
+                "name",
+                "string_id"
+                // likes ?
+                // comments count ?
+            )->where(ForeignKeyCol::categories, "=", $categoryId)
+            ->where(function ($query) use ($searchWords) {
+                foreach ($searchWords as $keyword) {
+                    $query->orWhere('description', 'like', "%$keyword%");
+                }
+            })->orderBy("id")->cursorPaginate()
         );
     }
 
@@ -38,7 +71,7 @@ class CategoriesRepository
                 "id",
                 "name",
                 "string_id",
-                "description",
+                // "description",
                 // "repo_owner",
                 // "repo_name",
                 // "repo_branch",
