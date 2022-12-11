@@ -37,10 +37,11 @@ class CategoriesRepository
             fn () => Environments::select(
                 "id",
                 "name",
+                "string_id",
                 "description",
-                "repo_owner",
-                "repo_name",
-                "repo_branch",
+                // "repo_owner",
+                // "repo_name",
+                // "repo_branch",
             )->where(ForeignKeyCol::categories, $id)->orderBy("id")->cursorPaginate()
         );
     }

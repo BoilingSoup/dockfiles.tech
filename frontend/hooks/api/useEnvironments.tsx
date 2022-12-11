@@ -16,7 +16,7 @@ export const useEnvironments = ({ categoryId, cursor, searchParam }: QueryParams
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (data && queryClient.getQueryData(queryKeys.initialHomeQueryKey)) {
+    if (data && queryClient.getQueryData(queryKeys.initialHomePageQueryKey)) {
       setIsSkeleton(false);
     }
   }, [data, queryClient]);

@@ -6,11 +6,13 @@ use App\Models\User;
 use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\EnvironmentsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Traits\PaginatedEnvironmentsJsonStructure;
 use Tests\TestCase;
 
-class CategoriesTest extends TestCase
+class EnvironmentsTest extends TestCase
 {
     use RefreshDatabase;
+    use PaginatedEnvironmentsJsonStructure;
 
     public function test_environments_index_response_is_correct_format_with_pagination()
     {
@@ -74,27 +76,7 @@ class CategoriesTest extends TestCase
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
 
-    private function paginatedEnvironmentsJsonStructure()
-    {
-        return [
-                  "success",
-                  "data" => [
-                    "data" => [
-                      "*" => [
-                          "id",
-                          "name",
-                          "string_id"
-                        ],
-                      ],
-                    "path",
-                    "per_page",
-                    "next_cursor",
-                    "next_page_url",
-                    "prev_cursor",
-                    "prev_page_url"
-                  ]
-                ];
-    }
+
 
     private function seedTables()
     {

@@ -7,11 +7,13 @@ use App\Models\User;
 use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\EnvironmentsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Traits\PaginatedEnvironmentsJsonStructure;
 use Tests\TestCase;
 
 class CategoriesTest extends TestCase
 {
     use RefreshDatabase;
+    use PaginatedEnvironmentsJsonStructure;
 
     public function test_categories_index_response()
     {
@@ -68,6 +70,7 @@ class CategoriesTest extends TestCase
         $ids->each(function ($id) {
             $response = $this->get(route("categories.show", ["id" => $id]));
             $response->assertStatus(200);
+            $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
         });
     }
 

@@ -18,5 +18,5 @@ export const queryKeys = {
 
     return sortedLowerCase.join("");
   },
-  initialHomeQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, "", INITIAL_PAGE_CURSOR],
+  initialHomePageQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, "", INITIAL_PAGE_CURSOR],
 };
