@@ -17,7 +17,7 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
 });
 
 export const textSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
-  fontSize: "1.4rem",
+  fontSize: "1rem",
   marginLeft: "14px",
   fontWeight: "normal",
   color: colorSchemeHandler(colorScheme, {
