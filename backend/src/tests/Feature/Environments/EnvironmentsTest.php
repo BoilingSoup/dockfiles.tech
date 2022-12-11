@@ -19,24 +19,7 @@ class CategoriesTest extends TestCase
         $response = $this->get(route('environments.index'));
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-          "success",
-          "data" => [
-            "data" => [
-              "*" => [
-                  "id",
-                  "name",
-                  "string_id"
-                ],
-              ],
-            "path",
-            "per_page",
-            "next_cursor",
-            "next_page_url",
-            "prev_cursor",
-            "prev_page_url"
-          ]
-        ]);
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
 
     public function test_environments_show_response_has_expected_fields()
@@ -61,12 +44,7 @@ class CategoriesTest extends TestCase
         });
     }
 
-    /**
-     * @expectedException App\Exceptions\InvalidEnvironmentIdException
-     *
-     * @return void
-     */
-    public function test_environments_show_throws_custom_exception_if_stringid_is_invalid()
+    public function test_environments_show_response_404_if_stringid_is_invalid()
     {
         $this->seedTables();
         $invalidId = "INVALID ID";
@@ -74,6 +52,48 @@ class CategoriesTest extends TestCase
         $response =$this->get(route("environments.show", $invalidId));
 
         $response->assertStatus(404);
+    }
+
+    public function test_environments_search_success_returns_paginated_collection()
+    {
+        $this->seedTables();
+
+        $response = $this->get(route('environments.index', ["search" => "angular"]));
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
+    public function test_environments_search_with_no_results_returns_200_status_code()
+    {
+        $this->seedTables();
+
+        $response = $this->get(route('environments.index', ["search" => "1234567890QWERTYUIOP"]));
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
+    private function paginatedEnvironmentsJsonStructure()
+    {
+        return [
+                  "success",
+                  "data" => [
+                    "data" => [
+                      "*" => [
+                          "id",
+                          "name",
+                          "string_id"
+                        ],
+                      ],
+                    "path",
+                    "per_page",
+                    "next_cursor",
+                    "next_page_url",
+                    "prev_cursor",
+                    "prev_page_url"
+                  ]
+                ];
     }
 
     private function seedTables()
