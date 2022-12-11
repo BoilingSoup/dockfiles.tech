@@ -21,4 +21,8 @@ class CACHE_TAGS
     public const ENVIRONMENTS_SHOW = "ENVIRONMENTS_SHOW";
 
     public const ENVIRONMENTS_SEARCH = "ENVIRONMENTS_SEARCH";
+
+    public const COMMENTS = "COMMENTS";
+
+    public const COMMENTS_INDEX = "COMMENTS_INDEX";
 }

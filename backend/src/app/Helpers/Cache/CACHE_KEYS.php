@@ -15,10 +15,10 @@ class CACHE_KEYS
 
     public const CATEGORIES_VALID_IDS = "CATEGORIES_VALID_IDS";
 
-    public static function CATEGORIZED_ENVIRONMENTS_SEARCH_(string $categoryId, string $cache_id, string | null $cursor)
+    public static function CATEGORIZED_ENVIRONMENTS_SEARCH_(string $categoryId, string $cacheId, string | null $cursor)
     {
         $cursor = $cursor ?? "NULL";
-        return "CATEGORIZED_ENVIRONMENTS_SEARCH_{$categoryId}_{$cache_id}_{$cursor}";
+        return "CATEGORIZED_ENVIRONMENTS_SEARCH_{$categoryId}_{$cacheId}_{$cursor}";
     }
 
     public static function ENVIRONMENTS_INDEX_CURSOR_(string | null $cursor)
@@ -27,14 +27,20 @@ class CACHE_KEYS
         return "ENVIRONMENTS_INDEX_CURSOR_{$cursor}";
     }
 
-    public static function ENVIRONMENTS_SHOW_(string $string_id)
+    public static function ENVIRONMENTS_SHOW_(string $stringId)
     {
-        return "ENVIRONMENTS_SHOW_{$string_id}";
+        return "ENVIRONMENTS_SHOW_{$stringId}";
     }
 
-    public static function ENVIRONMENTS_SEARCH_(string $cache_id, string | null $cursor)
+    public static function ENVIRONMENTS_SEARCH_(string $cacheId, string | null $cursor)
     {
         $cursor = $cursor ?? "NULL";
-        return "ENVIRONMENTS_SEARCH_{$cache_id}_{$cursor}";
+        return "ENVIRONMENTS_SEARCH_{$cacheId}_{$cursor}";
+    }
+
+    public static function ENVIRONMENTS_COMMENTS_(string $stringId, string | null $cursor)
+    {
+        $cursor = $cursor ?? "NULL";
+        return "ENVIRONMENTS_COMMENTS_{$stringId}_{$cursor}";
     }
 }

@@ -44,7 +44,7 @@ class CategoriesController extends Controller
             return $this->search($request);
         }
 
-        $data = $this->repository->show($request->id, $request->cursor);
+        $data = $this->repository->show($request);
 
         return new FormattedApiResponse(
             success: true,

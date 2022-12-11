@@ -57,7 +57,7 @@ class EnvironmentsController extends Controller
      */
     public function show(Request $request)
     {
-        $data = $this->repository->show($request->string_id);
+        $data = $this->repository->show($request);
 
         throw_if(!$data, new InvalidEnvironmentIdException());
 

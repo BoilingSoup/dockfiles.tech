@@ -62,10 +62,12 @@ class CategoriesRepository
      *
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
-    public function show(int $id, string | null $cursor)
+    public function show(Request $request)
     {
+        $categoryId= $request->id;
+        $cursor = $request->cursor;
         return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_SHOW])->remember(
-            CACHE_KEYS::CATEGORIES_SHOW_($id, $cursor),
+            CACHE_KEYS::CATEGORIES_SHOW_($categoryId, $cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
                 "id",
@@ -75,7 +77,7 @@ class CategoriesRepository
                 // "repo_owner",
                 // "repo_name",
                 // "repo_branch",
-            )->where(ForeignKeyCol::categories, $id)->orderBy("id")->cursorPaginate()
+            )->where(ForeignKeyCol::categories, $categoryId)->orderBy("id")->cursorPaginate()
         );
     }
 

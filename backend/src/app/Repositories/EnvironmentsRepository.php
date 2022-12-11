@@ -65,12 +65,13 @@ class EnvironmentsRepository
      *
      * @return Environments
      */
-    public function show(string $string_id)
+    public function show(Request $request)
     {
+        $stringId = $request->string_id;
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SHOW])->remember(
-            CACHE_KEYS::ENVIRONMENTS_SHOW_($string_id),
+            CACHE_KEYS::ENVIRONMENTS_SHOW_($stringId),
             60 * 60 * 24,
-            fn () => Environments::where('string_id', '=', $string_id)->select(
+            fn () => Environments::where('string_id', '=', $stringId)->select(
                 "id",
                 "name",
                 "repo_owner",
