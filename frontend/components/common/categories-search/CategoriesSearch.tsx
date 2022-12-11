@@ -23,7 +23,7 @@ export const CategoriesSearch = ({
   inputValue,
   onChangeInput: inputChangeHandler,
   selectValue,
-  onChangeSelect: setSelectValue,
+  onChangeSelect: selectChangeHandler,
 }: Props) => {
   const { data: categoriesData } = useCategories();
   const categories: LabelData[] | undefined = categoriesData?.data.map((obj) => ({
@@ -34,7 +34,7 @@ export const CategoriesSearch = ({
   return (
     <Center style={{ width: "100%" }}>
       <Search inputValue={inputValue} onChangeInput={inputChangeHandler} />
-      <Select data={categories} selectValue={selectValue} onChangeSelect={setSelectValue} />
+      <Select data={categories} selectValue={selectValue} onChangeSelect={selectChangeHandler} />
     </Center>
   );
 };

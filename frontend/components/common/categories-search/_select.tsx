@@ -23,14 +23,14 @@ const getOptions = (defaultOption: LabelData, data: LabelData[] | undefined): La
   return [defaultOption];
 };
 
-export const Select = ({ data, ml = 12, selectValue, onChangeSelect: setSelectValue }: Props) => {
+export const Select = ({ data, ml = 12, selectValue, onChangeSelect: selectChangeHandler }: Props) => {
   const defaultOption: LabelData = { label: ALL_CATEGORIES, value: ALL_CATEGORIES };
   const options = getOptions(defaultOption, data);
 
   return (
     <NativeSelect
       defaultValue={selectValue}
-      onChange={setSelectValue}
+      onChange={selectChangeHandler}
       data={options}
       rightSectionWidth={40}
       ml={ml}

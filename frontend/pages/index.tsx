@@ -14,6 +14,7 @@ import { CursorsObj } from "../components/common/types";
 import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 import { LoadingSpinner } from "../components/common/LoadingSpinner";
 import { PAGE_SIZE } from "../config/config";
+import { ChangeEvent } from "react";
 
 const Home: NextPage = () => {
   // state management
@@ -37,6 +38,11 @@ const Home: NextPage = () => {
     setInput(input);
   };
 
+  const selectChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+    setCursor(INITIAL_PAGE_CURSOR);
+    setCategoryId(event);
+  };
+
   return (
     <>
       <Head>
@@ -48,7 +54,7 @@ const Home: NextPage = () => {
           inputValue={input}
           onChangeInput={inputChangeHandler}
           selectValue={categoryId}
-          onChangeSelect={setCategoryId}
+          onChangeSelect={selectChangeHandler}
         />
 
         <Container style={{ position: "relative" }} mt={10} p={0}>
