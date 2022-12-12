@@ -40,7 +40,8 @@ class EnvironmentsTest extends TestCase
                 "name",
                 "repo_owner",
                 "repo_name",
-                "repo_branch"
+                "repo_branch",
+                "comments_count"
               ]
             ]);
         });

@@ -13,7 +13,8 @@ trait PaginatedEnvironmentsJsonStructure
                       "*" => [
                           "id",
                           "name",
-                          "string_id"
+                          "string_id",
+                          "comments_count"
                         ],
                       ],
                     "path",
