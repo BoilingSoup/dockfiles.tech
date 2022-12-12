@@ -26,10 +26,9 @@ class EnvironmentsRepository
             fn () => Environments::select(
                 "id",
                 "name",
-                "string_id"
+                "string_id",
                 // likes ?
-                // comments count ?
-            )->orderBy("id")->cursorPaginate()
+            )->withCount('comments')->orderBy("id")->cursorPaginate()
         );
     }
 
@@ -49,14 +48,13 @@ class EnvironmentsRepository
             fn () => Environments::select(
                 "id",
                 "name",
-                "string_id"
+                "string_id",
                 // likes ?
-                // comments count ?
             )->where(function ($query) use ($searchWords) {
                 foreach ($searchWords as $keyword) {
                     $query->orWhere('description', 'like', "%$keyword%");
                 }
-            })->orderBy("id")->cursorPaginate()
+            })->withCount('comments')->orderBy("id")->cursorPaginate()
         );
     }
 
@@ -71,13 +69,13 @@ class EnvironmentsRepository
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SHOW])->remember(
             CACHE_KEYS::ENVIRONMENTS_SHOW_($stringId),
             60 * 60 * 24,
-            fn () => Environments::where('string_id', '=', $stringId)->select(
+            fn () => Environments::select(
                 "id",
                 "name",
                 "repo_owner",
                 "repo_name",
-                "repo_branch"
-            )->get()->first()
+                "repo_branch",
+            )->withCount('comments')->where('string_id', '=', $stringId)->get()->first()
         );
     }
 }

@@ -10,7 +10,7 @@ class Environments extends Model
 {
     use HasFactory;
 
-    public function categories()
+    public function category()
     {
         return $this->belongsTo(Categories::class, ForeignKeyCol::categories);
     }
