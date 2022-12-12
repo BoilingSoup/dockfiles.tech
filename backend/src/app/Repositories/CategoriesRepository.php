@@ -53,7 +53,7 @@ class CategoriesRepository
                 foreach ($searchWords as $keyword) {
                     $query->orWhere('description', 'like', "%$keyword%");
                 }
-            })->orderBy("id")->cursorPaginate()
+            })->withCount('comments')->orderBy("id")->cursorPaginate()
         );
     }
 
@@ -77,7 +77,7 @@ class CategoriesRepository
                 // "repo_owner",
                 // "repo_name",
                 // "repo_branch",
-            )->where(ForeignKeyCol::categories, $categoryId)->orderBy("id")->cursorPaginate()
+            )->where(ForeignKeyCol::categories, $categoryId)->withCount('comments')->orderBy("id")->cursorPaginate()
         );
     }
 
