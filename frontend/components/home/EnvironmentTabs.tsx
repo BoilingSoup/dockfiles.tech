@@ -1,5 +1,5 @@
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
-import { Tabs } from "@mantine/core";
+import { Badge, Tabs } from "@mantine/core";
 import { IconPhoto, IconMessageCircle, IconSettings } from "@tabler/icons";
 
 const README = "readme";
@@ -24,6 +24,9 @@ export const EnvironmentTabs = ({ readMe, download, comments }: Props) => {
         </Tabs.Tab>
         <Tabs.Tab value={COMMENTS} icon={<IconSettings size={14} />}>
           Comments
+          <Badge variant="gradient" ml={4} gradient={{ from: "indigo", to: "cyan" }}>
+            0 {/*Add comments_count here when I implement prefetching comments*/}
+          </Badge>
         </Tabs.Tab>
       </Tabs.List>
 
