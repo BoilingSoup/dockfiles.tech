@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,11 @@ class Categories extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function environments()
+    {
+        return $this->hasMany(Environments::class, ForeignKeyCol::categories);
+    }
 
     /**
      * Retrieve a flattened Collection object of category IDs.
