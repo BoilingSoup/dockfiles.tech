@@ -2,10 +2,12 @@ import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 
 const CATEGORIES = "categories";
 const ENVIRONMENTS = "environments";
+const COMMENTS = "comments";
 
 export const queryKeys = {
   categories: CATEGORIES,
   environments: ENVIRONMENTS,
+  comments: COMMENTS,
   searchStrToKey(input: string): string {
     let trimmed = input?.trim();
     if (trimmed === "" || trimmed === undefined) {

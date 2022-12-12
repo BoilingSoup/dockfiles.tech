@@ -28,6 +28,7 @@ export type EnvironmentPath = {
 
 export type EnvironmentDetailsData = {
   id: number;
+  string_id: string;
   name: string;
   description: string;
   repo_owner: string;
@@ -68,7 +69,7 @@ export const getEnvironmentReadMe = async (url: string) => {
   return (await fetch(url)).text();
 };
 
-/**Generate a dynamic fetcher function for react-query to use.*/
+/**React Query fetcher functions*/
 export function getEnvironments({ categoryId, cursor, searchParam }: QueryParams) {
   return async function () {
     const isFilteredByCategory = categoryId !== ALL_CATEGORIES;
@@ -91,4 +92,32 @@ async function getUnfilteredEnvironments({ cursor, searchParam }: { cursor: stri
   const endpoint = `environments?cursor=${cursor}&search=${searchParam}`;
 
   return (await apiFetch.get(endpoint)) as EnvironmentsData;
+}
+
+export type CommentsParam = {
+  stringId: string;
+  cursor: string;
+};
+
+type CommentsData = {
+  success: boolean;
+  data: {
+    data: {
+      data: Array<{ id: number; name: string; content: string; created_at: string }>;
+    };
+    path: string;
+    per_page: number;
+    next_cursor: string | null;
+    next_page_url: string | null;
+    prev_cursor: string | null;
+    prev_page_url: string | null;
+    comments_count: number;
+  };
+};
+
+export function getComments({ stringId, cursor }: CommentsParam) {
+  return async function () {
+    const endpoint = `environments/${stringId}/comments?cursor=${cursor}`;
+    return (await apiFetch.get(endpoint)) as CommentsData;
+  };
 }

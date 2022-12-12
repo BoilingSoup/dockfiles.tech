@@ -28,7 +28,7 @@ class CommentsController extends Controller
 
         return new FormattedApiResponse(
             success: true,
-            data: collect($data)
+            data: $data
         );
     }
 
