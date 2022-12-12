@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\PasswordReset;
 use App\Notifications\VerifyEmail;
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -62,6 +63,36 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class, ForeignKeyCol::users);
+    }
+
+    public function repliesAuthored()
+    {
+        return $this->hasMany(Replies::class, ForeignKeyCol::reply_author);
+    }
+
+    public function repliesReceived()
+    {
+        return $this->hasMany(Replies::class, ForeignKeyCol::reply_recipient);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmarks::class, ForeignKeyCol::users);
+    }
+
+    public function environments()
+    {
+        return $this->hasMany(Environments::class, ForeignKeyCol::users);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Likes::class, ForeignKeyCol::users);
+    }
 
     public function sendEmailVerificationNotification()
     {

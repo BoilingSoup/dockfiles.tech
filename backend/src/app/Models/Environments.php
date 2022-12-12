@@ -19,4 +19,14 @@ class Environments extends Model
     {
         return $this->hasMany(Comments::class, ForeignKeyCol::environments);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, ForeignKeyCol::users);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Likes::class, ForeignKeyCol::environments);
+    }
 }

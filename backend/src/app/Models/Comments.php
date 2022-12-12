@@ -12,11 +12,16 @@ class Comments extends Model
 
     public function environment()
     {
-        return $this->belongsToMany(Environments::class, ForeignKeyCol::environments);
+        return $this->belongsTo(Environments::class, ForeignKeyCol::environments);
     }
 
     public function user()
     {
         return $this->belongsTo(User::class, ForeignKeyCol::users);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Replies::class, ForeignKeyCol::comments);
     }
 }
