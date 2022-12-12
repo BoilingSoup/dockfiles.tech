@@ -10,7 +10,7 @@ export type QueryParams = {
 export type EnvironmentsData = {
   success: boolean;
   data: {
-    data: Array<{ id: number; name: string; string_id: string }>;
+    data: Array<{ id: number; name: string; string_id: string; comments_count: number }>;
     next_cursor: string | null;
     next_page_url: string | null;
     path: string;
@@ -33,6 +33,7 @@ export type EnvironmentDetailsData = {
   repo_owner: string;
   repo_name: string;
   repo_branch: string;
+  comments_count: number;
 };
 
 export type EnvironmentDetailsResponse = {

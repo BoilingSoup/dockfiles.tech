@@ -6,6 +6,7 @@ import { iconBoxSx, iconGroupBoxSx, paperSx, textSx } from "./styles";
 type Props = {
   name: string;
   string_id: string;
+  comments_count: number;
 };
 
 export const EnvironmentListItemSkeleton = () => {
@@ -17,7 +18,7 @@ export const EnvironmentListItemSkeleton = () => {
   );
 };
 
-export const EnvironmentListItem = ({ name, string_id }: Props) => {
+export const EnvironmentListItem = ({ name, string_id, comments_count }: Props) => {
   return (
     <>
       <Link href={string_id}>
@@ -34,7 +35,7 @@ export const EnvironmentListItem = ({ name, string_id }: Props) => {
               </Box>
               <Box sx={iconBoxSx}>
                 <IconMessage />
-                <Text>2</Text>
+                <Text>{comments_count.toString()}</Text>
               </Box>
             </Box>
           </Paper>
