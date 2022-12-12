@@ -15,6 +15,4 @@ class ForeignKeyCol
     public const reply_author = 'author_id';
 
     public const reply_recipient = 'recipient_id';
-
-    public const replies = 'reply_id';
 }

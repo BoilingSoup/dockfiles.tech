@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             CategoriesSeeder::class,
             EnvironmentsSeeder::class,
+            CommentsSeeder::class
         ]);
 
         Cache::flush();
