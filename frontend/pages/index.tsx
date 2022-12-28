@@ -62,14 +62,15 @@ const Home: NextPage = () => {
 
           {isSkeleton && new Array(PAGE_SIZE).fill(null).map((_, index) => <EnvironmentListItemSkeleton key={index} />)}
 
-          {environments?.map((environment) => (
-            <EnvironmentListItem
-              key={environment.id}
-              name={environment.name}
-              string_id={environment.string_id}
-              comments_count={environment.comments_count}
-            />
-          ))}
+          {!isSkeleton &&
+            environments?.map((environment) => (
+              <EnvironmentListItem
+                key={environment.id}
+                name={environment.name}
+                string_id={environment.string_id}
+                comments_count={environment.comments_count}
+              />
+            ))}
 
           {noResults && (
             <Center mt={360}>
