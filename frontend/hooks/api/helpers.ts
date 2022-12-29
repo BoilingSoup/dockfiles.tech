@@ -104,20 +104,27 @@ type CommentsData = {
   data: {
     data: {
       data: Array<{ id: number; name: string; content: string; created_at: string }>;
+      path: string;
+      per_page: number;
+      next_cursor: string | null;
+      next_page_url: string | null;
+      prev_cursor: string | null;
+      prev_page_url: string | null;
+      comments_count: number;
     };
-    path: string;
-    per_page: number;
-    next_cursor: string | null;
-    next_page_url: string | null;
-    prev_cursor: string | null;
-    prev_page_url: string | null;
-    comments_count: number;
   };
 };
 
-export function getComments({ stringId, cursor }: CommentsParam) {
-  return async function () {
-    const endpoint = `environments/${stringId}/comments?cursor=${cursor}`;
-    return (await apiFetch.get(endpoint)) as CommentsData;
+// export function getComments({ stringId, cursor }: CommentsParam) {
+//   return async function () {
+//     const endpoint = `environments/${stringId}/comments?cursor=${cursor}`;
+//     return (await apiFetch.get(endpoint)) as CommentsData;
+//   };
+// }
+
+export function getComments(stringId: string) {
+  return function ({ pageParam = "" }) {
+    const endpoint = `environments/${stringId}/comments?cursor=${pageParam}`;
+    return apiFetch.get(endpoint) as Promise<CommentsData>;
   };
 }
