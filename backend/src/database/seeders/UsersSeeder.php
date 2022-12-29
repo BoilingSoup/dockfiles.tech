@@ -15,8 +15,9 @@ class UsersSeeder extends Seeder
     public function run()
     {
         User::factory()->admin()->create();
+        $this->command->info("Admin user seeded");
 
-        $seedUsers = $this->command->confirm(question: 'Seed Users?', default: true);
+        $seedUsers = $this->command->confirm(question: 'Seed dummy users?', default: true);
         if ($seedUsers) {
             User::factory(50)->create();
         }
