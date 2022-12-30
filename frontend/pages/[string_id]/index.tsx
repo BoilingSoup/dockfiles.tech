@@ -26,19 +26,7 @@ const Environment = ({ environment }: Props) => {
   const router = useRouter();
   const stringId = router.query.string_id as string;
 
-  const { data, lastCommentRef } = useInfiniteScrollComments(stringId);
-
-  const content = data?.pages.map((pg, i) => {
-    const isLastPage = data.pages.length === i + 1;
-    const commentsPerPage = data.pages[0].data.data.per_page;
-    return pg.data.data.data.map((comment: CommentData, i: number) => {
-      const isLastComment = commentsPerPage === i + 1;
-      if (isLastPage && isLastComment) {
-        return <Comment ref={lastCommentRef} key={comment.id} data={comment} />;
-      }
-      return <Comment key={comment.id} data={comment} />;
-    });
-  });
+  const { comments } = useInfiniteScrollComments(stringId);
 
   return (
     <>
@@ -49,7 +37,7 @@ const Environment = ({ environment }: Props) => {
       <EnvironmentTabs
         readMe={<ReadMeTab environment={environment} />}
         download={<DownloadTab environment={environment} />}
-        comments={<CommentTab content={content} />}
+        comments={<CommentTab content={comments} />}
       />
     </>
   );

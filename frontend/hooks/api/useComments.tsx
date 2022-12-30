@@ -1,6 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
-import { getComments } from "./helpers";
+import { Comment } from "../../components/details/Comment";
+import { CommentData, getComments } from "./helpers";
 
 export const useInfiniteScrollComments = (stringId: string) => {
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, isError, error } = useInfiniteQuery(
@@ -33,5 +34,21 @@ export const useInfiniteScrollComments = (stringId: string) => {
     [isFetchingNextPage, fetchNextPage, hasNextPage]
   );
 
-  return { data, lastCommentRef, isFetchingNextPage, isError, error };
+  const comments = data?.pages.map((pg, i) => {
+    const isLastPage = data.pages.length === i + 1;
+    const commentsPerPage = data.pages[0].data.data.per_page;
+
+    return pg.data.data.data.map((comment: CommentData, i) => {
+      const isSecondToLastComment = commentsPerPage === i + 2;
+
+      // attach observer ref if 2nd last comment
+      if (isLastPage && isSecondToLastComment) {
+        return <Comment ref={lastCommentRef} key={comment.id} data={comment} />;
+      }
+
+      return <Comment key={comment.id} data={comment} />;
+    });
+  });
+
+  return { comments, isFetchingNextPage, isError, error };
 };
