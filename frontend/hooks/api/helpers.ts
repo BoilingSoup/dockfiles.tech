@@ -97,6 +97,7 @@ async function getUnfilteredEnvironments({ cursor, searchParam }: { cursor: stri
 export type CommentData = {
   id: number;
   name: string;
+  avatar: string;
   content: string;
   created_at: string;
 };
