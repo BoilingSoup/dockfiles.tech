@@ -1,5 +1,4 @@
 import {
-  CommentData,
   EnvironmentDetailsData,
   getAllEnvironmentPaths,
   getEnvironmentByStringId,
@@ -13,8 +12,6 @@ import { DownloadTab } from "../../components/home/DownloadTab";
 import { ReadMeTab } from "../../components/home/ReadMeTab";
 import { CommentTab } from "../../components/home/CommentTab";
 import { useInfiniteScrollComments } from "../../hooks/api/useComments";
-import React from "react";
-import { Comment } from "../../components/details/Comment";
 
 export type Props = {
   environment: EnvironmentDetailsData & {
