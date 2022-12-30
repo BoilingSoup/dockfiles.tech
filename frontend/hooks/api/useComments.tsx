@@ -1,12 +1,37 @@
-import { useQuery } from "react-query";
-import { queryKeys } from "../../query-client/constants";
-import { CommentsParam, getComments } from "./helpers";
+import { useCallback, useRef } from "react";
+import { useInfiniteQuery } from "react-query";
+import { getComments } from "./helpers";
 
-export const useComments = ({ stringId, cursor }: CommentsParam) => {
-  const { data, isLoading, isFetching, isError, error } = useQuery(
-    [queryKeys.comments, stringId, cursor],
-    getComments({ stringId, cursor })
+export const useInfiniteScrollComments = (stringId: string) => {
+  const { fetchNextPage, hasNextPage, isFetchingNextPage, data, isError, error } = useInfiniteQuery(
+    [stringId, "comments"],
+    getComments(stringId),
+    {
+      getNextPageParam: (lastPage) => lastPage.data.data.next_cursor ?? undefined,
+    }
   );
 
-  return { data, isLoading, isFetching, isError, error };
+  const observer = useRef<IntersectionObserver>();
+  const lastCommentRef = useCallback(
+    (el: HTMLElement) => {
+      if (isFetchingNextPage) {
+        return;
+      }
+
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+
+      observer.current = new IntersectionObserver((elements) => {
+        if (elements[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+
+      if (el) observer.current.observe(el);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
+  );
+
+  return { data, lastCommentRef, isFetchingNextPage, isError, error };
 };

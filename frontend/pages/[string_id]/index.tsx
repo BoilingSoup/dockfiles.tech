@@ -1,7 +1,7 @@
 import {
+  CommentData,
   EnvironmentDetailsData,
   getAllEnvironmentPaths,
-  getComments,
   getEnvironmentByStringId,
   getEnvironmentReadMe,
 } from "../../hooks/api/helpers";
@@ -12,10 +12,9 @@ import { EnvironmentTabs } from "../../components/home/EnvironmentTabs";
 import { DownloadTab } from "../../components/home/DownloadTab";
 import { ReadMeTab } from "../../components/home/ReadMeTab";
 import { CommentTab } from "../../components/home/CommentTab";
-import { useComments } from "../../hooks/api/useComments";
-import { useInfiniteQuery } from "react-query";
-import { queryKeys } from "../../query-client/constants";
+import { useInfiniteScrollComments } from "../../hooks/api/useComments";
 import React from "react";
+import { Comment } from "../../components/details/Comment";
 
 export type Props = {
   environment: EnvironmentDetailsData & {
@@ -25,58 +24,35 @@ export type Props = {
 
 const Environment = ({ environment }: Props) => {
   const router = useRouter();
-  const cursor = "";
   const stringId = router.query.string_id as string;
 
-  // const fetchProjects = ({ pageParam = 0 }) => fetch("/api/projects?cursor=" + pageParam);
+  const { data, lastCommentRef } = useInfiniteScrollComments(stringId);
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
-    [stringId, "comments"],
-    getComments(stringId),
-    {
-      getNextPageParam: (lastPage, pages) => lastPage.data.data.next_cursor ?? undefined,
-    }
-  );
+  const content = data?.pages.map((pg, i) => {
+    const isLastPage = data.pages.length === i + 1;
+    const commentsPerPage = data.pages[0].data.data.per_page;
+    return pg.data.data.data.map((comment: CommentData, i: number) => {
+      const isLastComment = commentsPerPage === i + 1;
+      if (isLastPage && isLastComment) {
+        return <Comment ref={lastCommentRef} key={comment.id} data={comment} />;
+      }
+      return <Comment key={comment.id} data={comment} />;
+    });
+  });
 
-  return status === "loading" ? (
-    <p>Loading...</p>
-  ) : status === "error" && error instanceof Error ? (
-    <p>Error: {error.message}</p>
-  ) : (
+  return (
     <>
-      {data?.pages.map((group, i) => (
-        <React.Fragment key={i}>
-          {group.data.data.data.map((comment) => (
-            <>
-              <p key={comment.id}>{comment.name}</p>
-              <p>{comment.content}</p>
-            </>
-          ))}
-        </React.Fragment>
-      ))}
-      <div>
-        <button onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
-          {isFetchingNextPage ? "Loading more..." : hasNextPage ? "Load More" : "Nothing more to load"}
-        </button>
-      </div>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <Head>
+        <title>Dockfiles.io | {environment.name}</title>
+      </Head>
+
+      <EnvironmentTabs
+        readMe={<ReadMeTab environment={environment} />}
+        download={<DownloadTab environment={environment} />}
+        comments={<CommentTab content={content} />}
+      />
     </>
   );
-  // const { data } = useComments({ stringId, cursor });
-  // console.log(data);
-  // return (
-  //   <>
-  //     <Head>
-  //       <title>Dockfiles.io | {environment.name}</title>
-  //     </Head>
-  //
-  //     <EnvironmentTabs
-  //       readMe={<ReadMeTab environment={environment} />}
-  //       download={<DownloadTab environment={environment} />}
-  //       comments={<CommentTab />}
-  //     />
-  //   </>
-  // );
 };
 
 export default Environment;

@@ -1,3 +1,7 @@
-export const CommentTab = () => {
-  return <div>hi</div>;
+type Props = {
+  content: JSX.Element[][] | undefined;
+};
+
+export const CommentTab = ({ content }: Props) => {
+  return <>{content}</>;
 };

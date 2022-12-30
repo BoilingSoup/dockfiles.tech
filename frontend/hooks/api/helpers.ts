@@ -94,16 +94,18 @@ async function getUnfilteredEnvironments({ cursor, searchParam }: { cursor: stri
   return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
-export type CommentsParam = {
-  stringId: string;
-  cursor: string;
+export type CommentData = {
+  id: number;
+  name: string;
+  content: string;
+  created_at: string;
 };
 
-type CommentsData = {
+type CommentsPage = {
   success: boolean;
   data: {
     data: {
-      data: Array<{ id: number; name: string; content: string; created_at: string }>;
+      data: CommentData[];
       path: string;
       per_page: number;
       next_cursor: string | null;
@@ -115,16 +117,9 @@ type CommentsData = {
   };
 };
 
-// export function getComments({ stringId, cursor }: CommentsParam) {
-//   return async function () {
-//     const endpoint = `environments/${stringId}/comments?cursor=${cursor}`;
-//     return (await apiFetch.get(endpoint)) as CommentsData;
-//   };
-// }
-
 export function getComments(stringId: string) {
   return function ({ pageParam = "" }) {
     const endpoint = `environments/${stringId}/comments?cursor=${pageParam}`;
-    return apiFetch.get(endpoint) as Promise<CommentsData>;
+    return apiFetch.get(endpoint) as Promise<CommentsPage>;
   };
 }
