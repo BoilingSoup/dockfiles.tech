@@ -29,9 +29,10 @@ class CommentsSeeder extends Seeder
 
         $gitea = Environments::where("string_id", "gitea")->first();
         $admin = User::admin();
-        $comments = Comments::factory(20)->make();
-        $i = 20;
-        $paginationPerPage = 5;
+        $seedCount = 100;
+        $comments = Comments::factory($seedCount)->make();
+        $i = $seedCount;
+        $paginationPerPage = 10;
 
         $comments->each(function ($comment) use ($gitea, $admin, &$i, $paginationPerPage) {
             $pageNum = ceil($i / $paginationPerPage);
