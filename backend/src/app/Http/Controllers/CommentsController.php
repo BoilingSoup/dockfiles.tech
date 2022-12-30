@@ -18,7 +18,7 @@ class CommentsController extends Controller
     }
 
     /**
-       * Get Comments by Environment string_id.
+       * Get cursor paginated list of Comments by Environment string_id.
        *
        * @return FormattedApiResponse
        */

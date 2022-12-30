@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class CommentsRepository
 {
     /**
-     * Retrieve Environment Comments data and Comments count by string_id.
+     * Retrieve cursor paginated list of Environment Comments data and Comments count by string_id.
      *
      * @return array
      */
@@ -28,7 +28,7 @@ class CommentsRepository
                 ->where("environments.string_id", "=", $stringId)                             // only Environments that match the given string_id...
                     ->join("environments", "comments.environment_id", "=", "environments.id") // join the Comments.environment_id to Environments table...
                     ->join("users", "comments.user_id", "=", "users.id")                      // join the Comments.user_id to Users table...
-                ->select("users.id", "users.name", "comments.content", "comments.created_at") // Select these fields...
+                ->select("comments.id", "users.name", "comments.content", "comments.created_at") // Select these fields...
                 ->orderByDesc("comments.created_at")->cursorPaginate(perPage: 5);             // order by newest comment
 
                 $commentsCount = Comments::join("environments", "comments.environment_id", "=", "environments.id")
