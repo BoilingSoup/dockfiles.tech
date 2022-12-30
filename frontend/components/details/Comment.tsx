@@ -16,7 +16,13 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
     </>
   );
 
-  const content = ref ? <article ref={ref}>{commentBody}</article> : <article>{commentBody}</article>;
+  let content: JSX.Element;
+
+  if (ref) {
+    content = <article ref={ref}>{commentBody}</article>;
+  } else {
+    content = <article>{commentBody}</article>;
+  }
 
   return content;
 });

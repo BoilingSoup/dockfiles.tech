@@ -13,6 +13,7 @@ export const useInfiniteScrollComments = (stringId: string) => {
   );
 
   const observer = useRef<IntersectionObserver>();
+
   const lastCommentRef = useCallback(
     (el: HTMLElement) => {
       if (isFetchingNextPage) {

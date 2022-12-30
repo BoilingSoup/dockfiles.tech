@@ -6,12 +6,12 @@ import {
 } from "../../hooks/api/helpers";
 import markdownToHtml from "../../lib/markdownToHtml";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { EnvironmentTabs } from "../../components/home/EnvironmentTabs";
 import { DownloadTab } from "../../components/home/DownloadTab";
 import { ReadMeTab } from "../../components/home/ReadMeTab";
 import { CommentTab } from "../../components/home/CommentTab";
-import { useInfiniteScrollComments } from "../../hooks/api/useComments";
+import { useInfiniteScrollComments } from "../../hooks/api/useInfiniteScrollComments";
+import { useStringId } from "../../hooks/api/useStringId";
 
 export type Props = {
   environment: EnvironmentDetailsData & {
@@ -20,9 +20,7 @@ export type Props = {
 };
 
 const Environment = ({ environment }: Props) => {
-  const router = useRouter();
-  const stringId = router.query.string_id as string;
-
+  const stringId = useStringId();
   const { comments } = useInfiniteScrollComments(stringId);
 
   return (
