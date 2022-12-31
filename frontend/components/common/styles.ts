@@ -16,6 +16,8 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   borderRadius: "1px",
 });
 
+const iconBoxWidth = "150px";
+
 export const textSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   fontSize: "1rem",
   marginLeft: "14px",
@@ -24,11 +26,15 @@ export const textSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
     light: colors.navy[8],
     dark: colors.slate[3],
   }),
+  textOverflow: "ellipsis",
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  width: `calc(100% - ${iconBoxWidth})`,
 });
 
 export const iconGroupBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   display: "flex",
-  width: "150px",
+  width: iconBoxWidth,
   color: colorSchemeHandler(colorScheme, {
     light: colors.navy[8],
     dark: colors.slate[3],
