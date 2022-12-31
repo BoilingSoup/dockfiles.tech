@@ -26,7 +26,7 @@ export const EnvironmentTabs = ({ readMe, download, comments, commentsCount }: P
         <Tabs.Tab value={COMMENTS} icon={<IconSettings size={14} />}>
           Comments
           <Badge variant="gradient" ml={4} gradient={{ from: "indigo", to: "cyan" }}>
-            {commentsCount} {/*Add comments_count here when I implement prefetching comments*/}
+            {commentsCount}
           </Badge>
         </Tabs.Tab>
       </Tabs.List>

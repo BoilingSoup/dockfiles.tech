@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const CommentTab = ({ content }: Props) => {
-  return <Container>{content}</Container>;
+  return <Container style={{ whiteSpace: "pre-line" }}>{content}</Container>;
 };
