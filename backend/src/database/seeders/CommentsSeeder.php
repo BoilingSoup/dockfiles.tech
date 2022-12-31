@@ -29,19 +29,24 @@ class CommentsSeeder extends Seeder
 
         $gitea = Environments::where("string_id", "gitea")->first();
         $admin = User::admin();
-        $seedCount = 100;
+        $seedCount = 1000;
         $comments = Comments::factory($seedCount)->make();
         $i = $seedCount;
         $paginationPerPage = 10;
 
-        $comments->each(function ($comment) use ($gitea, $admin, &$i, $paginationPerPage) {
-            $pageNum = ceil($i / $paginationPerPage);
-
-            $comment->content =
-            <<<COMMENT
-              Infinite scroll demo:
-              Comment {$i}, Page {$pageNum}
-            COMMENT;
+        $comments->each(function ($comment) use ($gitea, $admin, &$i, $paginationPerPage, $seedCount) {
+            if ($i === 1) {
+                $comment->content =
+                <<<COMMENT
+                  This environment was seeded with {$seedCount} dummy comments to demonstrate the infinite scroll UI.
+                  More comments are fetched {$paginationPerPage} at a time as you scroll near the end of the page.
+                COMMENT;
+            } else {
+                $comment->content =
+                <<<COMMENT
+                  This is comment {$i} of {$seedCount}.
+                COMMENT;
+            }
             $comment->user_id = $admin->id;
             $comment->environment_id = $gitea->id;
             $comment->created_at = now()->subMinutes($i);

@@ -70,7 +70,7 @@ export const useInfiniteScrollComments = (stringId: string) => {
       const isSecondToLastComment = commentsPerPage === i + 2;
       const isNearEndOfPage = isLastPage && isSecondToLastComment;
 
-      // attach observer ref if 2nd last comment
+      // attach callback ref if 2nd last comment
       if (isNearEndOfPage) {
         return <Comment ref={lastCommentRef} key={comment.id} data={comment} />;
       }
