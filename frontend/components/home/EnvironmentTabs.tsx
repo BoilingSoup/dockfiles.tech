@@ -10,9 +10,10 @@ type Props = {
   readMe: ReactJSXElement;
   download: ReactJSXElement;
   comments: ReactJSXElement;
+  commentsCount: number;
 };
 
-export const EnvironmentTabs = ({ readMe, download, comments }: Props) => {
+export const EnvironmentTabs = ({ readMe, download, comments, commentsCount }: Props) => {
   return (
     <Tabs defaultValue={README}>
       <Tabs.List>
@@ -25,7 +26,7 @@ export const EnvironmentTabs = ({ readMe, download, comments }: Props) => {
         <Tabs.Tab value={COMMENTS} icon={<IconSettings size={14} />}>
           Comments
           <Badge variant="gradient" ml={4} gradient={{ from: "indigo", to: "cyan" }}>
-            0 {/*Add comments_count here when I implement prefetching comments*/}
+            {commentsCount} {/*Add comments_count here when I implement prefetching comments*/}
           </Badge>
         </Tabs.Tab>
       </Tabs.List>

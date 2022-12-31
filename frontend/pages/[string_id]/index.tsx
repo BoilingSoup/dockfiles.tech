@@ -33,6 +33,7 @@ const Environment = ({ environment }: Props) => {
         readMe={<ReadMeTab environment={environment} />}
         download={<DownloadTab environment={environment} />}
         comments={<CommentTab content={comments} />}
+        commentsCount={environment.comments_count}
       />
     </>
   );

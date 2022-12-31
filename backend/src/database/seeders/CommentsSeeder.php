@@ -37,11 +37,7 @@ class CommentsSeeder extends Seeder
         $comments->each(function ($comment) use ($gitea, $admin, &$i, $paginationPerPage) {
             $pageNum = ceil($i / $paginationPerPage);
 
-            $comment->content =
-            <<<COMMENT
-              Infinite scroll demo:
-              Comment {$i}, Page {$pageNum}
-            COMMENT;
+            $comment->content ="Infinite scroll demo:<br>Comment {$i}, Page {$pageNum}";
             $comment->user_id = $admin->id;
             $comment->environment_id = $gitea->id;
             $comment->created_at = now()->subMinutes($i);

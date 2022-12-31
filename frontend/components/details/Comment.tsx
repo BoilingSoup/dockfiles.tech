@@ -1,4 +1,4 @@
-import { Box, Image, Paper } from "@mantine/core";
+import { Group, Image, Paper, Text } from "@mantine/core";
 import { forwardRef } from "react";
 import { CommentData } from "../../hooks/api/helpers";
 
@@ -11,8 +11,10 @@ type Ref = HTMLElement;
 export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
   const commentBody = (
     <Paper>
-      <Image src={data.avatar} alt="user avatar" height={50} width={50} />
-      <h2>{data.name}</h2>
+      <Group>
+        <Image src={data.avatar} alt="user avatar" ml={20} height={50} width={50} />
+        <Text component="h2">{data.name}</Text>
+      </Group>
       <p>{data.content}</p>
       {/* <p>Comment ID: {data.id}</p> */}
     </Paper>
