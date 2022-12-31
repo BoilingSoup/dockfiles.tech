@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentsRequest;
+use App\Http\Resources\CommentsCollection;
 use App\Http\Responses\FormattedApiResponse;
 use App\Models\Comments;
 use App\Repositories\CommentsRepository;
@@ -26,10 +27,7 @@ class CommentsController extends Controller
     {
         $data = $this->repository->index($request);
 
-        return new FormattedApiResponse(
-            success: true,
-            data: $data
-        );
+        return new CommentsCollection($data);
     }
 
     public function store(StoreCommentsRequest $request)

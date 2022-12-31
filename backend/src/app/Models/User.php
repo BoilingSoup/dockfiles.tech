@@ -43,6 +43,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $hidden = [
+        'created_at',
+        'updated_at',
+        'is_banned',
         'email',
         'email_verified_at',
         'password',
@@ -62,6 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean'
     ];
 
     public function comments()

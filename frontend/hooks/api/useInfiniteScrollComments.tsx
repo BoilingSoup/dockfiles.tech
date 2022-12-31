@@ -13,7 +13,7 @@ export const useInfiniteScrollComments = (stringId: string) => {
     [stringId, "comments"],
     getComments(stringId),
     {
-      getNextPageParam: (lastPage) => lastPage.data.data.next_cursor ?? undefined,
+      getNextPageParam: (lastPage) => lastPage.meta.next_cursor ?? undefined,
     }
   );
 
@@ -59,18 +59,19 @@ export const useInfiniteScrollComments = (stringId: string) => {
   /**
    * comments maps through all the pages returned by react-query,
    * and creates a Comment component for each piece of data.
-   * Only when the comment is near the end of page, a ref attribute is also added to the Comment to add the Comment to the IntersectionObserver
+   * Only the `nthFromLast` comment receives the callback ref to add that Comment to the IntersectionObserver
    * @returns 2d array of Comments components.
    */
+  const nthFromLast = 6; // when 6th from last comment is visible in the viewport, fetch more data.
   const comments = data?.pages.map((pg, i) => {
     const isLastPage = data.pages.length === i + 1;
-    const commentsPerPage = data.pages[0].data.data.per_page;
+    const commentsPerPage = data.pages[0].meta.per_page;
 
-    return pg.data.data.data.map((comment: CommentData, i) => {
-      const isSecondToLastComment = commentsPerPage === i + 2;
-      const isNearEndOfPage = isLastPage && isSecondToLastComment;
+    return pg.data.map((comment: CommentData, i) => {
+      const isNthToLastComment = commentsPerPage === i + nthFromLast;
+      const isNearEndOfPage = isLastPage && isNthToLastComment;
 
-      // attach callback ref if 2nd last comment
+      // attach callback ref if 6th from last comment
       if (isNearEndOfPage) {
         return <Comment ref={lastCommentRef} key={comment.id} data={comment} />;
       }

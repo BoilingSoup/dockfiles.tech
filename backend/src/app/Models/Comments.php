@@ -10,12 +10,21 @@ class Comments extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+      "user_id",
+      "updated_at"
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function environment()
     {
         return $this->belongsTo(Environments::class, ForeignKeyCol::environments);
     }
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class, ForeignKeyCol::users);
     }

@@ -14,15 +14,17 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
     <Paper sx={paperSx}>
       <Box sx={boxSx}>
         <Group sx={avatarGroupSx}>
-          <Avatar sx={avatarSx} src={data.avatar} alt="user avatar" />
+          <Avatar sx={avatarSx} src={data.author.avatar} alt="user avatar" />
         </Group>
         <Text sx={nameSx} component="h2">
-          {data.name}
+          {data.author.name}
         </Text>
+        <Text>{data.created_at}</Text>
       </Box>
       <Text sx={contentSx} component="p">
         {data.content}
       </Text>
+      <Text>{data.replies_count} replies</Text>
     </Paper>
   );
 
