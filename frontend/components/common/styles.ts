@@ -28,9 +28,7 @@ export const textSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
 
 export const iconGroupBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   display: "flex",
-  justifyContent: "space-between",
-  width: "80px",
-  marginRight: "14px",
+  width: "150px",
   color: colorSchemeHandler(colorScheme, {
     light: colors.navy[8],
     dark: colors.slate[3],
@@ -39,6 +37,7 @@ export const iconGroupBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject
 
 export const iconBoxSx = (): CSSObject => ({
   display: "flex",
+  width: "50%",
 });
 
 export const mainContainerSx = (): CSSObject => ({
