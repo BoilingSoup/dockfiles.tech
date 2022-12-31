@@ -1,6 +1,7 @@
-import { Group, Image, Paper, Text } from "@mantine/core";
+import { Avatar, CSSObject, Group, Image, MantineTheme, Paper, Text } from "@mantine/core";
 import { forwardRef } from "react";
 import { CommentData } from "../../hooks/api/helpers";
+import { paperSx } from "./styles";
 
 type Props = {
   data: CommentData;
@@ -10,13 +11,12 @@ type Ref = HTMLElement;
 
 export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
   const commentBody = (
-    <Paper>
+    <Paper sx={paperSx}>
       <Group>
-        <Image src={data.avatar} alt="user avatar" ml={20} height={50} width={50} />
+        <Avatar src={data.avatar} alt="user avatar" radius="xl" style={{ border: "1px solid white" }} />
         <Text component="h2">{data.name}</Text>
       </Group>
       <p>{data.content}</p>
-      {/* <p>Comment ID: {data.id}</p> */}
     </Paper>
   );
 
