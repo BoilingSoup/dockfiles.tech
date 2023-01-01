@@ -19,8 +19,8 @@ export const boxSx = (): CSSObject => ({
   width: "100%",
 });
 
-export const avatarSx = ({ colors, colorScheme, radius }: MantineTheme): CSSObject => ({
-  borderRadius: radius.xl,
+export const avatarStyles = ({ colors, colorScheme }: MantineTheme) => ({
+  borderRadius: "999px",
   border: colorSchemeHandler(colorScheme, {
     light: `1px solid ${colors.blue[8]}`,
     dark: `1px solid ${colors.blue[6]}`,
@@ -41,4 +41,15 @@ export const contentSx = (): CSSObject => ({
   marginBottom: 0,
   marginLeft: avatarContainerWidth,
   paddingBottom: 10,
+});
+
+export const tabsSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  position: "fixed",
+  width: "100%",
+  top: 56,
+  paddingTop: 20,
+  background: colorSchemeHandler(colorScheme, {
+    light: colors.blue[2],
+    dark: colors.slate[9],
+  }),
 });
