@@ -1,7 +1,7 @@
 import { Badge, Tabs, TabsValue } from "@mantine/core";
 import { IconPhoto, IconMessageCircle, IconSettings } from "@tabler/icons";
 import { useRouter } from "next/router";
-import {  MouseEventHandler } from "react";
+import { PseudoLink } from "../common/PseudoLink";
 
 export const README = "readme";
 export const DOWNLOAD = "download";
@@ -12,7 +12,7 @@ type Props = {
   commentsCount: number;
 };
 
-export const EnvironmentTabs = ({ /*readMe, download, comments,*/ active, commentsCount }: Props) => {
+export const EnvironmentTabs = ({ active, commentsCount }: Props) => {
   const router = useRouter();
   const stringId = router.query.string_id;
 
@@ -24,42 +24,28 @@ export const EnvironmentTabs = ({ /*readMe, download, comments,*/ active, commen
     router.push(`/${stringId}/${value}`);
   };
 
-  const preventDefaultHandler: MouseEventHandler<HTMLAnchorElement> = (event) => event.preventDefault();
-  const noUnderline = {textDecoration: "none"}
-
   return (
     <Tabs value={active} onTabChange={tabChangeHandler}>
       <Tabs.List>
-        <a href={`/${stringId}`} style={noUnderline} onClick={preventDefaultHandler}>
+        <PseudoLink href={`/${stringId}`}>
           <Tabs.Tab value={README} icon={<IconPhoto size={14} />}>
             View ReadMe
           </Tabs.Tab>
-        </a>
-        <a href={`/${stringId}/${DOWNLOAD}`} style={noUnderline} onClick={preventDefaultHandler}>
+        </PseudoLink>
+        <PseudoLink href={`/${stringId}/${DOWNLOAD}`}>
           <Tabs.Tab value={DOWNLOAD} icon={<IconMessageCircle size={14} />}>
             Download
           </Tabs.Tab>
-        </a>
-        <a href={`/${stringId}/${COMMENTS}`} style={noUnderline} onClick={preventDefaultHandler}>
+        </PseudoLink>
+        <PseudoLink href={`/${stringId}/${COMMENTS}`}>
           <Tabs.Tab value={COMMENTS} icon={<IconSettings size={14} />}>
             Comments
             <Badge variant="gradient" ml={4} gradient={{ from: "indigo", to: "cyan" }}>
-              {commentsCount}
+              {commentsCount /*TODO: populate this with CSR, make api route*/}
             </Badge>
           </Tabs.Tab>
-        </a>
+        </PseudoLink>
       </Tabs.List>
-      {/* <Tabs.Panel value={README} pt="xs"> */}
-      {/*   {readMe} */}
-      {/* </Tabs.Panel> */}
-      {/**/}
-      {/* <Tabs.Panel value={DOWNLOAD} pt="xs"> */}
-      {/*   {download} */}
-      {/* </Tabs.Panel> */}
-      {/**/}
-      {/* <Tabs.Panel value={COMMENTS} pt="xs"> */}
-      {/*   {comments} */}
-      {/* </Tabs.Panel> */}
     </Tabs>
   );
 };

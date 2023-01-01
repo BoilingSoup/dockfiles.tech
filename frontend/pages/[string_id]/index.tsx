@@ -6,8 +6,7 @@ import {
 } from "../../hooks/api/helpers";
 import markdownToHtml from "../../lib/markdownToHtml";
 import Head from "next/head";
-import { EnvironmentTabs, README } from "../../components/home/EnvironmentTabs";
-// import { useInfiniteScrollComments } from "../../hooks/api/useInfiniteScrollComments";
+import { EnvironmentTabs, README } from "../../components/details/EnvironmentTabs";
 import { useStringId } from "../../hooks/api/useStringId";
 import { Container, Text } from "@mantine/core";
 import { markdownClass } from "../../contexts/MantineProvider";
@@ -21,7 +20,6 @@ export type Props = {
 
 const Environment = ({ environment }: Props) => {
   const stringId = useStringId();
-  // const { comments } = useInfiniteScrollComments(stringId);
   usePrefetchComments(stringId);
 
   return (
@@ -30,13 +28,8 @@ const Environment = ({ environment }: Props) => {
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
 
-      <EnvironmentTabs
-        // readMe={<ReadMeTab environment={environment} />}
-        // download={<DownloadTab environment={environment} />}
-        // comments={<CommentTab content={comments} />}
-        active={README}
-        commentsCount={environment.comments_count}
-      />
+      <EnvironmentTabs active={README} commentsCount={environment.comments_count} />
+
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>
           README.md
