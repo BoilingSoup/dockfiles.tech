@@ -6,6 +6,7 @@ import { CodeBlock } from "../../components/details/CodeBlock";
 import { EnvironmentDetailsData, getAllEnvironmentPaths, getEnvironmentByStringId } from "../../hooks/api/helpers";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { useStringId } from "../../hooks/api/useStringId";
+import { buttonSx } from "../../components/common/styles";
 
 type Props = {
   environment: EnvironmentDetailsData;
@@ -38,7 +39,7 @@ const Download = ({ environment }: Props) => {
           <Text component="h3" style={{ fontSize: "2rem", display: "inline" }}>
             or Download zip
           </Text>
-          <Button size="md" ml={50}>
+          <Button size="md" ml={50} sx={buttonSx}>
             Download
           </Button>
         </Center>
