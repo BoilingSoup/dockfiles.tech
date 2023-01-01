@@ -1,5 +1,5 @@
 import { Badge, Tabs, TabsValue } from "@mantine/core";
-import { IconPhoto, IconMessageCircle, IconSettings } from "@tabler/icons";
+import { IconBook, IconDownload, IconMessage } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { PseudoLink } from "../common/PseudoLink";
 
@@ -24,23 +24,25 @@ export const EnvironmentTabs = ({ active, commentsCount }: Props) => {
     router.push(`/${stringId}/${value}`);
   };
 
+  const iconSize = 18;
+
   return (
     <Tabs value={active} onTabChange={tabChangeHandler}>
       <Tabs.List>
         <PseudoLink href={`/${stringId}`}>
-          <Tabs.Tab value={README} icon={<IconPhoto size={14} />}>
+          <Tabs.Tab value={README} icon={<IconBook size={iconSize} />}>
             View ReadMe
           </Tabs.Tab>
         </PseudoLink>
         <PseudoLink href={`/${stringId}/${DOWNLOAD}`}>
-          <Tabs.Tab value={DOWNLOAD} icon={<IconMessageCircle size={14} />}>
+          <Tabs.Tab value={DOWNLOAD} icon={<IconDownload size={iconSize} />}>
             Download
           </Tabs.Tab>
         </PseudoLink>
         <PseudoLink href={`/${stringId}/${COMMENTS}`}>
-          <Tabs.Tab value={COMMENTS} icon={<IconSettings size={14} />}>
+          <Tabs.Tab value={COMMENTS} icon={<IconMessage size={iconSize} />}>
             Comments
-            <Badge variant="gradient" ml={4} gradient={{ from: "indigo", to: "cyan" }}>
+            <Badge variant="gradient" ml={8} gradient={{ from: "indigo", to: "cyan" }}>
               {commentsCount /*TODO: populate this with CSR, make api route*/}
             </Badge>
           </Tabs.Tab>
