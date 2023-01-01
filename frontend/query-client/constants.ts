@@ -24,6 +24,6 @@ export const queryKeys = {
     return [COMMENTS, stringId];
   },
   commentsCount(stringId: string) {
-    return [COMMENTS, "count", stringId];
+    return [COMMENTS, stringId, "count"];
   },
 };
