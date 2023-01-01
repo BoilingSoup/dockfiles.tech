@@ -65,3 +65,13 @@ export const navigationButtonSx = ({ colors, colorScheme, fn }: MantineTheme): C
     background: "none",
   },
 });
+
+export const buttonSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
+  backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
+  "&:hover": {
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: fn.darken(colors.indigo[9], 0.05),
+      dark: fn.lighten(colors.blue[8], 0.05),
+    }),
+  },
+});

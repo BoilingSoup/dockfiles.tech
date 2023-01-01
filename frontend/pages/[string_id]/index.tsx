@@ -11,6 +11,7 @@ import { useStringId } from "../../hooks/api/useStringId";
 import { Container, Text } from "@mantine/core";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
+import { ScrollToTop } from "../../components/common/ScrollToTop";
 
 export type Props = {
   environment: EnvironmentDetailsData & {
@@ -36,6 +37,8 @@ const Environment = ({ environment }: Props) => {
         </Text>
         <Container className={markdownClass} dangerouslySetInnerHTML={{ __html: environment.readMe }} />
       </Container>
+
+      <ScrollToTop />
     </>
   );
 };

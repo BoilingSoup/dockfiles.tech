@@ -13,21 +13,23 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
   const theme = useMantineTheme();
 
   const commentBody = (
-    <Paper sx={paperSx}>
-      <Box sx={boxSx}>
-        <Group sx={avatarGroupSx}>
-          <img height={40} width={40} style={avatarStyles(theme)} src={data.author.avatar} alt="user avatar" />
-        </Group>
-        <Text sx={nameSx} component="h2">
-          {data.author.name}
+    <>
+      <Paper sx={paperSx}>
+        <Box sx={boxSx}>
+          <Group sx={avatarGroupSx}>
+            <img height={40} width={40} style={avatarStyles(theme)} src={data.author.avatar} alt="user avatar" />
+          </Group>
+          <Text sx={nameSx} component="h2">
+            {data.author.name}
+          </Text>
+          <Text>{data.created_at}</Text>
+        </Box>
+        <Text sx={contentSx} component="p">
+          {data.content}
         </Text>
-        <Text>{data.created_at}</Text>
-      </Box>
-      <Text sx={contentSx} component="p">
-        {data.content}
-      </Text>
-      <Text>{data.replies_count} replies</Text>
-    </Paper>
+        <Text>{data.replies_count} replies</Text>
+      </Paper>
+    </>
   );
 
   let content: JSX.Element;
