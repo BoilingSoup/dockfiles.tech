@@ -1,4 +1,5 @@
 import { Box, MediaQuery } from "@mantine/core";
+import { PseudoLink } from "../common/PseudoLink";
 import { NavLink } from "./_navLink";
 
 type Props = {
@@ -6,15 +7,27 @@ type Props = {
 };
 
 const UserLinks = ({ onLinkClick: navbarCloseHandler }: Props) => {
+  const bookmarksHref = "/bookmarks";
+  const notificationsHref = "/notifications";
+  const settingsHref = "/settings";
+
   return (
     <Box onClick={navbarCloseHandler}>
-      <NavLink href="/bookmarks" text="Bookmarks" />
+      <PseudoLink href={bookmarksHref}>
+        <NavLink href={bookmarksHref} text="Bookmarks" />
+      </PseudoLink>
+
       <MediaQuery largerThan="xl" styles={{ display: "none" }}>
         <Box>
-          <NavLink href="/notifications" text="Notifications" />
+          <PseudoLink href={notificationsHref}>
+            <NavLink href={notificationsHref} text="Notifications" />
+          </PseudoLink>
         </Box>
       </MediaQuery>
-      <NavLink href="/settings" text="Settings" />
+
+      <PseudoLink href={settingsHref}>
+        <NavLink href={settingsHref} text="Settings" />
+      </PseudoLink>
     </Box>
   );
 };

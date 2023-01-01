@@ -2,7 +2,7 @@ import { Button, Center, Container, Text } from "@mantine/core";
 import { Params } from ".";
 import { Divider } from "../../components/common/Divider";
 import { DOWNLOAD, EnvironmentTabs } from "../../components/details/EnvironmentTabs";
-import { CodeBlock } from "../../components/details/_codeBlock";
+import { CodeBlock } from "../../components/details/CodeBlock";
 import { EnvironmentDetailsData, getAllEnvironmentPaths, getEnvironmentByStringId } from "../../hooks/api/helpers";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { useStringId } from "../../hooks/api/useStringId";

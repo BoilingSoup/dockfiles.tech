@@ -1,4 +1,5 @@
 import { Box, MediaQuery } from "@mantine/core";
+import { PseudoLink } from "../common/PseudoLink";
 import { NavLink } from "./_navLink";
 
 type Props = {
@@ -6,18 +7,22 @@ type Props = {
 };
 
 export const BrowseNavLink = ({ onLinkClick: navbarCloseHandler }: Props) => {
+  const href = "/";
+
+  const link = (
+    <PseudoLink href={href}>
+      <NavLink href={href} text="Browse" />
+    </PseudoLink>
+  );
+
   return (
     <>
       <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-        <Box onClick={navbarCloseHandler}>
-          <NavLink href="/" text="Browse" />
-        </Box>
+        <Box onClick={navbarCloseHandler}>{link}</Box>
       </MediaQuery>
 
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-        <Box>
-          <NavLink href="/" text="Browse" />
-        </Box>
+        <Box>{link}</Box>
       </MediaQuery>
     </>
   );
