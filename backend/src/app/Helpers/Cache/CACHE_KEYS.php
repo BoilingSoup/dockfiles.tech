@@ -43,4 +43,9 @@ class CACHE_KEYS
         $cursor = $cursor ?? "NULL";
         return "ENVIRONMENTS_COMMENTS_{$stringId}_{$cursor}";
     }
+
+    public static function ENVIRONMENTS_COMMENTS_COUNT_(string $stringId)
+    {
+        return "ENVIRONMENTS_COMMENTS_COUNT_{$stringId}";
+    }
 }

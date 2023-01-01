@@ -25,4 +25,6 @@ class CACHE_TAGS
     public const COMMENTS = "COMMENTS";
 
     public const COMMENTS_INDEX = "COMMENTS_INDEX";
+
+    public const COMMENTS_COUNT = "COMMENTS_COUNT";
 }

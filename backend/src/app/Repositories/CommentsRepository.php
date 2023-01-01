@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Cache;
 class CommentsRepository
 {
     /**
-     * Retrieve cursor paginated list of Environment Comments data and Comments count by string_id.
+     * Retrieve cursor paginated list of Environment Comments data and Replies count by string_id.
      *
      * @return array
      */
@@ -25,12 +25,30 @@ class CommentsRepository
         return Cache::tags([CACHE_TAGS::COMMENTS, CACHE_TAGS::COMMENTS_INDEX])->rememberForever(
             CACHE_KEYS::ENVIRONMENTS_COMMENTS_($stringId, $cursor),
             function () use ($stringId) {
-                $environmentId = Environments::where("string_id", $stringId)->first()->id;
+                $environmentId = Environments::where("string_id", $stringId)->firstOrFail()->id;
                 return Comments::where(ForeignKeyCol::environments, $environmentId)
                 ->with("author")
                 ->withCount("replies")
                 ->orderByDesc("created_at")
                 ->cursorPaginate(perPage: 10);
+            }
+        );
+    }
+
+    /**
+     * Retrieve a count of an Environment's Comments by string_id.
+     *
+     * @return int
+     */
+    public function count(Request $request)
+    {
+        $stringId= $request->string_id;
+
+        return Cache::tags([CACHE_TAGS::COMMENTS, CACHE_TAGS::COMMENTS_COUNT])->rememberForever(
+            CACHE_KEYS::ENVIRONMENTS_COMMENTS_COUNT_($stringId),
+            function () use ($stringId) {
+                $environmentId = Environments::where("string_id", $stringId)->firstOrFail()->id;
+                return Comments::where(ForeignKeyCol::environments, $environmentId)->count();
             }
         );
     }

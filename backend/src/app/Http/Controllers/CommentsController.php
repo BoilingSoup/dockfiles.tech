@@ -19,15 +19,30 @@ class CommentsController extends Controller
     }
 
     /**
-       * Get cursor paginated list of Comments by Environment string_id.
-       *
-       * @return FormattedApiResponse
-       */
+     * Get cursor paginated list of Comments by Environment string_id.
+     *
+     * @return FormattedApiResponse
+     */
     public function index(Request $request)
     {
         $data = $this->repository->index($request);
 
         return new CommentsCollection($data);
+    }
+
+    /**
+     * Get count of Comments by Environment string_id.
+     *
+     * @return FormattedApiResponse
+     */
+    public function count(Request $request)
+    {
+        $data = $this->repository->count($request);
+
+        return new FormattedApiResponse(
+            success: true,
+            data: ["comments_count" => $data]
+        );
     }
 
     public function store(StoreCommentsRequest $request)
