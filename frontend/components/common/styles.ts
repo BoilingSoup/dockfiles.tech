@@ -39,6 +39,9 @@ export const iconGroupBoxSx = ({ colors, colorScheme }: MantineTheme): CSSObject
     light: colors.navy[8],
     dark: colors.slate[3],
   }),
+  "@media (max-width: 500px)": {
+    width: "100px",
+  },
 });
 
 export const iconBoxSx = (): CSSObject => ({

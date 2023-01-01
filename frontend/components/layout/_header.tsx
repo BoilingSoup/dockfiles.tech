@@ -8,6 +8,7 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
 import Image from "next/image";
 import { LIGHT } from "../../contexts/ColorSchemeProvider";
@@ -27,6 +28,8 @@ type Props = {
 export const Header = ({ hamburgerOpened, onHamburgerClick: navbarToggleHandler }: Props) => {
   const { classes } = useHeaderStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const breakPoint1 = useMediaQuery("(min-width: 430px)");
+  const breakPoint2 = useMediaQuery("(min-width: 370px)");
 
   const darkModeIcon = colorScheme === LIGHT ? <IconMoon size={iconSize} /> : <IconSun size={iconSize} />;
   const darkModeTooltip = colorScheme === LIGHT ? "Dark Mode (CTRL + J)" : "Light Mode (CTRL + J)";
@@ -49,7 +52,10 @@ export const Header = ({ hamburgerOpened, onHamburgerClick: navbarToggleHandler 
             />
           </MediaQuery>
           <Image height={50} width={50} src={Logo} alt="logo" />
-          <Text component="h1" sx={{ fontSize: "1.8rem" }}>
+          <Text
+            component="h1"
+            sx={{ fontSize: breakPoint1 ? "1.8rem" : "1.4rem", display: breakPoint2 ? "initial" : "none" }}
+          >
             Dockfiles.io
           </Text>
         </Group>
