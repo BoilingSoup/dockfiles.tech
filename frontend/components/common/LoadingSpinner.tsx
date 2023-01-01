@@ -10,7 +10,7 @@ export const LoadingSpinner = () => {
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        width: "95%",
+        width: "100%",
         maxWidth: "730px",
         height: `${envListItemHeight * PAGE_SIZE}px`,
       }}
