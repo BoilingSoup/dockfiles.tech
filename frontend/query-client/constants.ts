@@ -21,6 +21,9 @@ export const queryKeys = {
   },
   initialHomePageQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, "", INITIAL_PAGE_CURSOR],
   comments(stringId: string) {
-    return [COMMENTS, stringId]
-  } 
+    return [COMMENTS, stringId];
+  },
+  commentsCount(stringId: string) {
+    return [COMMENTS, "count", stringId];
+  },
 };

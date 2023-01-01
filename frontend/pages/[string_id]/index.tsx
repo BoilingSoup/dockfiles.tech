@@ -12,6 +12,7 @@ import { Container, Text } from "@mantine/core";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { ScrollToTop } from "../../components/common/ScrollToTop";
+import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 
 export type Props = {
   environment: EnvironmentDetailsData & {
@@ -22,6 +23,7 @@ export type Props = {
 const Environment = ({ environment }: Props) => {
   const stringId = useStringId();
   usePrefetchComments(stringId);
+  useCommentsCount(stringId);
 
   return (
     <>
