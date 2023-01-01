@@ -16,5 +16,5 @@ const getCommentsCount = (stringId: string) => async () => {
 export const useCommentsCount = (stringId: string) => {
   const { data, isLoading, isError, error } = useQuery(queryKeys.commentsCount(stringId), getCommentsCount(stringId));
 
-  return { data, isLoading, isError, error };
+  return { count: data?.data.comments_count, isLoading, isError, error };
 };

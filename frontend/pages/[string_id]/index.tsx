@@ -23,7 +23,7 @@ export type Props = {
 const Environment = ({ environment }: Props) => {
   const stringId = useStringId();
   usePrefetchComments(stringId);
-  useCommentsCount(stringId);
+  const { count, isLoading } = useCommentsCount(stringId);
 
   return (
     <>
@@ -31,7 +31,7 @@ const Environment = ({ environment }: Props) => {
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
 
-      <EnvironmentTabs active={README} commentsCount={undefined} />
+      <EnvironmentTabs active={README} commentsCount={{ count, isLoading }} />
 
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>

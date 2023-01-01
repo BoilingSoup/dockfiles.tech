@@ -7,6 +7,7 @@ import { EnvironmentDetailsData, getAllEnvironmentPaths, getEnvironmentByStringI
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { useStringId } from "../../hooks/api/useStringId";
 import { buttonSx } from "../../components/common/styles";
+import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 
 type Props = {
   environment: EnvironmentDetailsData;
@@ -15,12 +16,13 @@ type Props = {
 const Download = ({ environment }: Props) => {
   const stringId = useStringId();
   usePrefetchComments(stringId);
+  const { count, isLoading } = useCommentsCount(stringId);
 
   const directLink = `https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`;
 
   return (
     <>
-      <EnvironmentTabs active={DOWNLOAD} commentsCount={undefined} />
+      <EnvironmentTabs active={DOWNLOAD} commentsCount={{ count, isLoading }} />
 
       <Container>
         <CodeBlock

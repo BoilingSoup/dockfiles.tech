@@ -1,4 +1,4 @@
-import { Badge, Box, Tabs, TabsValue } from "@mantine/core";
+import { Badge, Box, Center, Loader, Tabs, TabsValue } from "@mantine/core";
 import { IconBook, IconDownload, IconMessage } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { PseudoLink } from "../common/PseudoLink";
@@ -10,7 +10,10 @@ export const COMMENTS = "comments";
 
 type Props = {
   active: typeof README | typeof DOWNLOAD | typeof COMMENTS;
-  commentsCount: number | undefined;
+  commentsCount: {
+    count: number | undefined;
+    isLoading: boolean;
+  };
 };
 
 export const EnvironmentTabs = ({ active, commentsCount }: Props) => {
@@ -45,7 +48,7 @@ export const EnvironmentTabs = ({ active, commentsCount }: Props) => {
             <Tabs.Tab value={COMMENTS} icon={<IconMessage size={iconSize} />}>
               Comments
               <Badge variant="gradient" ml={8} gradient={{ from: "indigo", to: "cyan" }}>
-                {commentsCount /*TODO: populate this with CSR, make api route*/}
+                {commentsCount.isLoading ? <Loader color="#ffffff" size="xs" variant="dots" /> : commentsCount.count}
               </Badge>
             </Tabs.Tab>
           </PseudoLink>
