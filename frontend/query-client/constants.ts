@@ -7,7 +7,6 @@ const COMMENTS = "comments";
 export const queryKeys = {
   categories: CATEGORIES,
   environments: ENVIRONMENTS,
-  comments: COMMENTS,
   searchStrToKey(input: string): string {
     let trimmed = input?.trim();
     if (trimmed === "" || trimmed === undefined) {
@@ -21,4 +20,7 @@ export const queryKeys = {
     return sortedLowerCase.join("");
   },
   initialHomePageQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, "", INITIAL_PAGE_CURSOR],
+  comments(stringId: string) {
+    return [COMMENTS, stringId]
+  } 
 };

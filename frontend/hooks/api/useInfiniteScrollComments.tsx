@@ -1,6 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Comment } from "../../components/details/Comment";
+import { queryKeys } from "../../query-client/constants";
 import { CommentData, getComments } from "./helpers";
 
 /**
@@ -10,7 +11,7 @@ import { CommentData, getComments } from "./helpers";
  **/
 export const useInfiniteScrollComments = (stringId: string) => {
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, isError, error } = useInfiniteQuery(
-    [stringId, "comments"],
+    queryKeys.comments(stringId),
     getComments(stringId),
     {
       getNextPageParam: (lastPage) => lastPage.meta.next_cursor ?? undefined,
