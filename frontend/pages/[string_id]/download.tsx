@@ -20,7 +20,7 @@ const Download = ({ environment }: Props) => {
 
   return (
     <>
-      <EnvironmentTabs active={DOWNLOAD} commentsCount={1000} />
+      <EnvironmentTabs active={DOWNLOAD} commentsCount={undefined} />
 
       <Container>
         <CodeBlock

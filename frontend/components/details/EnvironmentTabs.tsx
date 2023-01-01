@@ -10,7 +10,7 @@ export const COMMENTS = "comments";
 
 type Props = {
   active: typeof README | typeof DOWNLOAD | typeof COMMENTS;
-  commentsCount: number;
+  commentsCount: number | undefined;
 };
 
 export const EnvironmentTabs = ({ active, commentsCount }: Props) => {

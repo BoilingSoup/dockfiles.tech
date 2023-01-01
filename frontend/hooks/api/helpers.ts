@@ -34,7 +34,6 @@ export type EnvironmentDetailsData = {
   repo_owner: string;
   repo_name: string;
   repo_branch: string;
-  comments_count: number;
 };
 
 export type EnvironmentDetailsResponse = {

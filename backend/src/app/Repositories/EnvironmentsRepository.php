@@ -75,7 +75,7 @@ class EnvironmentsRepository
                 "repo_owner",
                 "repo_name",
                 "repo_branch",
-            )->withCount('comments')->where('string_id', '=', $stringId)->get()->first()
+            )->where('string_id', '=', $stringId)->get()->first()
         );
     }
 }

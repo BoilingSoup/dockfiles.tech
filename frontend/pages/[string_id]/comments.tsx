@@ -9,7 +9,7 @@ const Comments = () => {
   const { comments } = useInfiniteScrollComments(stringId);
   return (
     <>
-      <EnvironmentTabs active={COMMENTS} commentsCount={1000} />
+      <EnvironmentTabs active={COMMENTS} commentsCount={undefined} />
 
       <Container style={{ whiteSpace: "pre-line" }}>{comments}</Container>
 

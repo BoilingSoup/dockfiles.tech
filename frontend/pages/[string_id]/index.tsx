@@ -29,7 +29,7 @@ const Environment = ({ environment }: Props) => {
         <title>Dockfiles.io | {environment.name}</title>
       </Head>
 
-      <EnvironmentTabs active={README} commentsCount={environment.comments_count} />
+      <EnvironmentTabs active={README} commentsCount={undefined} />
 
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>
