@@ -208,6 +208,11 @@ class EnvironmentsSeeder extends Seeder
      */
     public function run()
     {
+        $seedEnvironments = $this->command->confirm(question: "Seed environments?", default: true);
+        if (!$seedEnvironments) {
+            return;
+        }
+
         $adminId = User::admin()->id;
 
         $this->environments()->each(

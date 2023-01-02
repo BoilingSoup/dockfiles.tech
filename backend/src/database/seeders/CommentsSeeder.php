@@ -38,13 +38,18 @@ class CommentsSeeder extends Seeder
             if ($i === 1) {
                 $comment->content =
                 <<<COMMENT
-                  This environment was seeded with {$seedCount} dummy comments to demonstrate the infinite scroll UI.
-                  More comments are fetched {$paginationPerPage} at a time as you scroll near the end of the page.
+                This environment was seeded with {$seedCount} dummy comments to demonstrate the infinite scroll UI.
+                More comments are fetched {$paginationPerPage} at a time as you scroll near the end of the page.
+                COMMENT;
+            } elseif ($i === 2) {
+                $comment->content =
+                <<<COMMENT
+                This comment was seeded with replies to demonstrate the replies UI.
                 COMMENT;
             } else {
                 $comment->content =
                 <<<COMMENT
-                  This is comment {$i} of {$seedCount}.
+                This is comment {$i} of {$seedCount}.
                 COMMENT;
             }
             $comment->user_id = $admin->id;
