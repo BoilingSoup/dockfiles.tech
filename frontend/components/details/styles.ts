@@ -35,7 +35,7 @@ export const avatarGroupSx = (): CSSObject => ({
 });
 
 export const nameSx = (): CSSObject => ({
-  fontSize: "1.2rem",
+  fontSize: "1.4rem",
 });
 
 export const contentSx = (): CSSObject => ({
@@ -52,13 +52,24 @@ export const repliesBoxSx = (): CSSObject => ({
   marginLeft: avatarContainerWidth,
 });
 
-export const expandRepliesSx = (): CSSObject => ({
+export const expandRepliesSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  padding: 0,
   display: "flex",
+  fontWeight: 500,
+  fontSize: "1.1rem",
+  cursor: "pointer",
+  color: colorSchemeHandler(colorScheme, {
+    light: colors.indigo[9],
+    dark: colors.blue[4],
+  }),
+  background: "none",
+  "&:hover": {
+    background: "none",
+  },
 });
 
 export const replyButtonSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   padding: 0,
-  border: 0,
   display: "flex",
   fontWeight: 500,
   fontSize: "1.1rem",

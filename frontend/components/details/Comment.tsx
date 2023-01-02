@@ -33,7 +33,9 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
           <Text sx={nameSx} component="h2">
             {data.author.name}
           </Text>
-          <Text>{data.created_at}</Text>
+          <Text ml="auto" mr={40} size="sm">
+            {data.created_at}
+          </Text>
         </Box>
         <Text sx={contentSx} component="p">
           {data.content}
@@ -44,10 +46,13 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
             <Text ml={6}>reply</Text>
           </Button>
           {data.replies_count > 0 && (
-            <Box component="button" ml={10} sx={expandRepliesSx}>
+            <Button component="button" ml={40} sx={expandRepliesSx}>
               <IconChevronDown />
-              <Text>{data.replies_count} replies</Text>
-            </Box>
+              <Text ml={4}>
+                {data.replies_count > 1 && `${data.replies_count} replies`}
+                {data.replies_count === 1 && `${data.replies_count} reply`}
+              </Text>
+            </Button>
           )}
         </Box>
       </Paper>
