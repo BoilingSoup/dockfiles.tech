@@ -81,9 +81,7 @@ class EnvironmentsTest extends TestCase
     private function seedTables()
     {
         User::factory()->admin()->create();
-        $this->seed([
-          CategoriesSeeder::class,
-          EnvironmentsSeeder::class
-        ]);
+        CategoriesSeeder::seedTest();
+        EnvironmentsSeeder::seedTest();
     }
 }

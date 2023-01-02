@@ -54,7 +54,7 @@ class CommentsSeeder extends Seeder
             }
             $comment->user_id = $admin->id;
             $comment->environment_id = $gitea->id;
-            $comment->created_at = now()->subMinutes($i);
+            $comment->created_at = now()->subDays($i);
             $comment->save();
 
             $i--;

@@ -17,7 +17,7 @@ class CategoriesTest extends TestCase
 
     public function test_categories_index_response()
     {
-        $this->seed(CategoriesSeeder::class);
+        CategoriesSeeder::seedTest();
 
         $response = $this->get(route("categories.index"));
 
@@ -87,9 +87,7 @@ class CategoriesTest extends TestCase
     private function seedTables()
     {
         User::factory()->admin()->create();
-        $this->seed([
-          CategoriesSeeder::class,
-          EnvironmentsSeeder::class
-        ]);
+        CategoriesSeeder::seedTest();
+        EnvironmentsSeeder::seedTest();
     }
 }

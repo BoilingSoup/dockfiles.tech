@@ -12,7 +12,7 @@ class CategoriesSeeder extends Seeder
      *
      * @return \Illuminate\Support\Collection
      */
-    private function categories()
+    private static function categories()
     {
         return collect([
             'Web Development',
@@ -34,7 +34,14 @@ class CategoriesSeeder extends Seeder
             return;
         }
 
-        $this->categories()->each(
+        CategoriesSeeder::categories()->each(
+            fn ($category) => Categories::create(['name' => $category])
+        );
+    }
+
+    public static function seedTest()
+    {
+        CategoriesSeeder::categories()->each(
             fn ($category) => Categories::create(['name' => $category])
         );
     }

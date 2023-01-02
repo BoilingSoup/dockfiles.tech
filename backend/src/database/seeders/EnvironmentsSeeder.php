@@ -15,7 +15,7 @@ class EnvironmentsSeeder extends Seeder
      *
      * @return \Illuminate\Support\Collection
      */
-    private function environments()
+    private static function environments()
     {
         return collect([
             [
@@ -219,7 +219,7 @@ class EnvironmentsSeeder extends Seeder
             fn ($environment) => Environments::create([
                 'name' => $environment['name'],
                 'description' => $environment['description'],
-                'string_id' => $this->formatStringId($environment['name']),
+                'string_id' => EnvironmentsSeeder::formatStringId($environment['name']),
                 'repo_owner' => 'dockfiles',
                 'repo_name' => $environment['repo_name'],
                 'repo_branch' => 'master',
@@ -229,7 +229,7 @@ class EnvironmentsSeeder extends Seeder
         );
     }
 
-    private function formatStringId(string $name)
+    private static function formatStringId(string $name)
     {
         $formattedName = Str::lower($name);
         $formattedName = Str::replace(" + ", "_", $formattedName);
@@ -238,5 +238,23 @@ class EnvironmentsSeeder extends Seeder
         $formattedName = Str::replace("-", "_", $formattedName);
         $formattedName = Str::replace(".", "", $formattedName);
         return $formattedName;
+    }
+
+    public static function seedTest()
+    {
+        $adminId = User::admin()->id;
+
+        EnvironmentsSeeder::environments()->each(
+            fn ($environment) => Environments::create([
+                'name' => $environment['name'],
+                'description' => $environment['description'],
+                'string_id' => EnvironmentsSeeder::formatStringId($environment['name']),
+                'repo_owner' => 'dockfiles',
+                'repo_name' => $environment['repo_name'],
+                'repo_branch' => 'master',
+                'category_id' => $environment['category_id'],
+                'user_id' => $adminId,
+            ])
+        );
     }
 }

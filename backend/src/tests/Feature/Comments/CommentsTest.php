@@ -79,10 +79,8 @@ class CommentsTest extends TestCase
     private function seedTables()
     {
         $admin = User::factory()->admin()->create();
-        $this->seed([
-          CategoriesSeeder::class,
-          EnvironmentsSeeder::class
-        ]);
+        CategoriesSeeder::seedTest();
+        EnvironmentsSeeder::seedTest();
         $environmentId = Environments::where("string_id", "gitea")->first()->id;
 
         Comments::factory()->create([
