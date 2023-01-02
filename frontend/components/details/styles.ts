@@ -53,6 +53,7 @@ export const repliesBoxSx = (): CSSObject => ({
 });
 
 export const expandRepliesSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  border: 0,
   padding: 0,
   display: "flex",
   fontWeight: 500,
@@ -66,9 +67,13 @@ export const expandRepliesSx = ({ colors, colorScheme }: MantineTheme): CSSObjec
   "&:hover": {
     background: "none",
   },
+  "&:active": {
+    transform: "translateY(1px)",
+  },
 });
 
 export const replyButtonSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  border: 0,
   padding: 0,
   display: "flex",
   fontWeight: 500,
@@ -81,6 +86,9 @@ export const replyButtonSx = ({ colors, colorScheme }: MantineTheme): CSSObject 
   background: "none",
   "&:hover": {
     background: "none",
+  },
+  "&:active": {
+    transform: "translateY(1px)",
   },
 });
 
