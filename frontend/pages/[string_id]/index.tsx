@@ -22,8 +22,8 @@ export type Props = {
 
 const Environment = ({ environment }: Props) => {
   const stringId = useStringId();
-  usePrefetchComments(stringId);
   const { count, isLoading } = useCommentsCount(stringId);
+  usePrefetchComments(stringId);
 
   return (
     <>

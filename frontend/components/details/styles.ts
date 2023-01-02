@@ -10,6 +10,8 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
     dark: colors.slate[8],
   }),
   margin: 14,
+  padding: 14,
+  paddingBottom: 8,
 });
 
 export const boxSx = (): CSSObject => ({
@@ -41,6 +43,34 @@ export const contentSx = (): CSSObject => ({
   marginBottom: 0,
   marginLeft: avatarContainerWidth,
   paddingBottom: 10,
+  fontSize: "1.1rem",
+});
+
+export const repliesBoxSx = (): CSSObject => ({
+  display: "flex",
+  margin: 10,
+  marginLeft: avatarContainerWidth,
+});
+
+export const expandRepliesSx = (): CSSObject => ({
+  display: "flex",
+});
+
+export const replyButtonSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  padding: 0,
+  border: 0,
+  display: "flex",
+  fontWeight: 500,
+  fontSize: "1.1rem",
+  cursor: "pointer",
+  color: colorSchemeHandler(colorScheme, {
+    light: colors.indigo[9],
+    dark: colors.blue[4],
+  }),
+  background: "none",
+  "&:hover": {
+    background: "none",
+  },
 });
 
 export const tabsSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({

@@ -15,8 +15,8 @@ type Props = {
 
 const Download = ({ environment }: Props) => {
   const stringId = useStringId();
-  usePrefetchComments(stringId);
   const { count, isLoading } = useCommentsCount(stringId);
+  usePrefetchComments(stringId);
 
   const directLink = `https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`;
 

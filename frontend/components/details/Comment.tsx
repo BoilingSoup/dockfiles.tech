@@ -1,7 +1,18 @@
-import { Box, Group, Paper, Text, useMantineTheme } from "@mantine/core";
+import { Box, Button, Group, Paper, Text, useMantineTheme } from "@mantine/core";
+import { IconArrowBackUp, IconChevronDown } from "@tabler/icons";
 import { forwardRef } from "react";
 import { CommentData } from "../../hooks/api/helpers";
-import { avatarGroupSx, avatarStyles, boxSx, contentSx, nameSx, paperSx } from "./styles";
+import {
+  avatarGroupSx,
+  avatarStyles,
+  boxSx,
+  contentSx,
+  expandRepliesSx,
+  nameSx,
+  paperSx,
+  repliesBoxSx,
+  replyButtonSx,
+} from "./styles";
 
 type Props = {
   data: CommentData;
@@ -27,7 +38,18 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
         <Text sx={contentSx} component="p">
           {data.content}
         </Text>
-        <Text>{data.replies_count} replies</Text>
+        <Box sx={repliesBoxSx}>
+          <Button sx={replyButtonSx}>
+            <IconArrowBackUp />
+            <Text ml={6}>reply</Text>
+          </Button>
+          {data.replies_count > 0 && (
+            <Box component="button" ml={10} sx={expandRepliesSx}>
+              <IconChevronDown />
+              <Text>{data.replies_count} replies</Text>
+            </Box>
+          )}
+        </Box>
       </Paper>
     </>
   );
