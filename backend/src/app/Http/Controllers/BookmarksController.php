@@ -7,7 +7,6 @@ use App\Http\Responses\FormattedApiResponse;
 use App\Models\Bookmarks;
 use App\Repositories\BookmarksRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BookmarksController extends Controller
 {

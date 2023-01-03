@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean'
+        'is_admin' => 'boolean',
     ];
 
     public function comments()
@@ -85,7 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function bookmarks()
     {
-        return $this->belongsToMany(Environments::class, "bookmarks", ForeignKeyCol::users, ForeignKeyCol::environments);
+        return $this->belongsToMany(Environments::class, 'bookmarks', ForeignKeyCol::users, ForeignKeyCol::environments);
     }
 
     public function environments()

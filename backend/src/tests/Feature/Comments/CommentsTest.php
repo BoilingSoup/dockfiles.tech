@@ -24,34 +24,34 @@ class CommentsTest extends TestCase
             $response->assertStatus(200);
             $response->assertJsonStructure(
                 [
-                  "success",
-                  "data" => [
-                    "*" => [
-                      "id",
-                      "content",
-                      "environment_id",
-                      "created_at",
-                      "replies_count",
-                      "author" => [
-                        "id",
-                        "name",
-                        "avatar",
-                        "is_admin"
-                      ]
+                    'success',
+                    'data' => [
+                        '*' => [
+                            'id',
+                            'content',
+                            'environment_id',
+                            'created_at',
+                            'replies_count',
+                            'author' => [
+                                'id',
+                                'name',
+                                'avatar',
+                                'is_admin',
+                            ],
+                        ],
                     ],
-                  ],
-                  "links" => [
-                    "first",
-                    "last",
-                    "prev",
-                    "next"
-                  ],
-                  "meta" => [
-                    "path",
-                    "per_page",
-                    "next_cursor",
-                    "prev_cursor"
-                  ],
+                    'links' => [
+                        'first',
+                        'last',
+                        'prev',
+                        'next',
+                    ],
+                    'meta' => [
+                        'path',
+                        'per_page',
+                        'next_cursor',
+                        'prev_cursor',
+                    ],
                 ]
             );
         });
@@ -67,10 +67,10 @@ class CommentsTest extends TestCase
             $response->assertStatus(200);
             $response->assertJsonStructure(
                 [
-                  "success",
-                  "data" => [
-                    "comments_count"
-                  ]
+                    'success',
+                    'data' => [
+                        'comments_count',
+                    ],
                 ]
             );
         });
@@ -81,11 +81,11 @@ class CommentsTest extends TestCase
         $admin = User::factory()->admin()->create();
         CategoriesSeeder::seedTest();
         EnvironmentsSeeder::seedTest();
-        $environmentId = Environments::where("string_id", "gitea")->first()->id;
+        $environmentId = Environments::where('string_id', 'gitea')->first()->id;
 
         Comments::factory()->create([
-          "environment_id" =>$environmentId,
-          "user_id" => $admin->id
+            'environment_id' => $environmentId,
+            'user_id' => $admin->id,
         ]);
     }
 }

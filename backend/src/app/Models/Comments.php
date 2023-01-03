@@ -11,8 +11,8 @@ class Comments extends Model
     use HasFactory;
 
     protected $hidden = [
-      "user_id",
-      "updated_at"
+        'user_id',
+        'updated_at',
     ];
 
     protected $casts = [

@@ -14,10 +14,10 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        $seedAdmin = $this->command->confirm(question: "Seed admin user?", default: true);
+        $seedAdmin = $this->command->confirm(question: 'Seed admin user?', default: true);
         if ($seedAdmin) {
             User::factory()->admin()->create();
-            $this->command->info("Admin user seeded");
+            $this->command->info('Admin user seeded');
         }
 
         $seedUsers = $this->command->confirm(question: 'Seed dummy users?', default: false);

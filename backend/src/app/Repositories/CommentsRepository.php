@@ -25,11 +25,12 @@ class CommentsRepository
         return Cache::tags([CACHE_TAGS::COMMENTS, CACHE_TAGS::COMMENTS_INDEX])->rememberForever(
             CACHE_KEYS::ENVIRONMENTS_COMMENTS_($stringId, $cursor),
             function () use ($stringId) {
-                $environmentId = Environments::where("string_id", $stringId)->firstOrFail()->id;
+                $environmentId = Environments::where('string_id', $stringId)->firstOrFail()->id;
+
                 return Comments::where(ForeignKeyCol::environments, $environmentId)
-                ->with("author")
-                ->withCount("replies")
-                ->orderByDesc("created_at")
+                ->with('author')
+                ->withCount('replies')
+                ->orderByDesc('created_at')
                 ->cursorPaginate(perPage: 10);
             }
         );
@@ -42,12 +43,13 @@ class CommentsRepository
      */
     public function count(Request $request)
     {
-        $stringId= $request->string_id;
+        $stringId = $request->string_id;
 
         return Cache::tags([CACHE_TAGS::COMMENTS, CACHE_TAGS::COMMENTS_COUNT])->rememberForever(
             CACHE_KEYS::ENVIRONMENTS_COMMENTS_COUNT_($stringId),
             function () use ($stringId) {
-                $environmentId = Environments::where("string_id", $stringId)->firstOrFail()->id;
+                $environmentId = Environments::where('string_id', $stringId)->firstOrFail()->id;
+
                 return Comments::where(ForeignKeyCol::environments, $environmentId)->count();
             }
         );

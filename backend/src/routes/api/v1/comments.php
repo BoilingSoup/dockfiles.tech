@@ -4,7 +4,7 @@ use App\Http\Controllers\CommentsController;
 
 Route::get('environments/{string_id}/comments/', [CommentsController::class, 'index'])->name('comments.index');
 
-Route::get("environments/{string_id}/comments/count", [CommentsController::class, 'count'])->name('comments.count');
+Route::get('environments/{string_id}/comments/count', [CommentsController::class, 'count'])->name('comments.count');
 
 Route::post('environments/{string_id}/comments/{comment}', [CommentsController::class, 'store'])
 ->middleware('auth')

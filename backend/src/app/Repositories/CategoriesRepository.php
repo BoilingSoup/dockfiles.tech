@@ -24,7 +24,7 @@ class CategoriesRepository
     {
         return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_INDEX])->rememberForever(
             CACHE_KEYS::CATEGORIES_INDEX,
-            fn () => Categories::select("id", "name")->orderBy("name")->get()->toArray()
+            fn () => Categories::select('id', 'name')->orderBy('name')->get()->toArray()
         );
     }
 
@@ -43,17 +43,17 @@ class CategoriesRepository
             CACHE_KEYS::CATEGORIZED_ENVIRONMENTS_SEARCH_($categoryId, $cacheId, $request->cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
-                "id",
-                "name",
-                "string_id"
+                'id',
+                'name',
+                'string_id'
                 // likes ?
                 // comments count ?
-            )->where(ForeignKeyCol::categories, "=", $categoryId)
+            )->where(ForeignKeyCol::categories, '=', $categoryId)
             ->where(function ($query) use ($searchWords) {
                 foreach ($searchWords as $keyword) {
                     $query->orWhere('description', 'like', "%$keyword%");
                 }
-            })->withCount('comments')->orderBy("id")->cursorPaginate()
+            })->withCount('comments')->orderBy('id')->cursorPaginate()
         );
     }
 
@@ -64,20 +64,21 @@ class CategoriesRepository
      */
     public function show(Request $request)
     {
-        $categoryId= $request->id;
+        $categoryId = $request->id;
         $cursor = $request->cursor;
+
         return Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_SHOW])->remember(
             CACHE_KEYS::CATEGORIES_SHOW_($categoryId, $cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
-                "id",
-                "name",
-                "string_id",
+                'id',
+                'name',
+                'string_id',
                 // "description",
                 // "repo_owner",
                 // "repo_name",
                 // "repo_branch",
-            )->where(ForeignKeyCol::categories, $categoryId)->withCount('comments')->orderBy("id")->cursorPaginate()
+            )->where(ForeignKeyCol::categories, $categoryId)->withCount('comments')->orderBy('id')->cursorPaginate()
         );
     }
 
@@ -88,7 +89,7 @@ class CategoriesRepository
      */
     public function checkValidCategoryId(int $id)
     {
-        /**@var array*/
+        /** @var array */
         $categoryIds = Cache::tags([CACHE_TAGS::CATEGORIES, CACHE_TAGS::CATEGORIES_VALID_IDS])->rememberForever(
             CACHE_KEYS::CATEGORIES_VALID_IDS,
             fn () => Categories::idsMap()

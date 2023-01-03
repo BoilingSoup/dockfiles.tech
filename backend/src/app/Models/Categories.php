@@ -26,7 +26,8 @@ class Categories extends Model
      */
     public static function idsCollection()
     {
-        $categories = static::select("id")->get();
+        $categories = static::select('id')->get();
+
         return $categories->map(fn ($category) => $category->id);
     }
 
@@ -42,6 +43,7 @@ class Categories extends Model
         foreach ($idsArray as $value) {
             $idsMap[$value] = true;
         }
+
         return $idsMap;
     }
 }

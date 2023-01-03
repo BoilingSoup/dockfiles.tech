@@ -208,8 +208,8 @@ class EnvironmentsSeeder extends Seeder
      */
     public function run()
     {
-        $seedEnvironments = $this->command->confirm(question: "Seed environments?", default: true);
-        if (!$seedEnvironments) {
+        $seedEnvironments = $this->command->confirm(question: 'Seed environments?', default: true);
+        if (! $seedEnvironments) {
             return;
         }
 
@@ -232,11 +232,12 @@ class EnvironmentsSeeder extends Seeder
     private static function formatStringId(string $name)
     {
         $formattedName = Str::lower($name);
-        $formattedName = Str::replace(" + ", "_", $formattedName);
-        $formattedName = Str::replace(" - ", "_", $formattedName);
-        $formattedName = Str::replace(" ", "_", $formattedName);
-        $formattedName = Str::replace("-", "_", $formattedName);
-        $formattedName = Str::replace(".", "", $formattedName);
+        $formattedName = Str::replace(' + ', '_', $formattedName);
+        $formattedName = Str::replace(' - ', '_', $formattedName);
+        $formattedName = Str::replace(' ', '_', $formattedName);
+        $formattedName = Str::replace('-', '_', $formattedName);
+        $formattedName = Str::replace('.', '', $formattedName);
+
         return $formattedName;
     }
 

@@ -19,28 +19,28 @@ class CategoriesTest extends TestCase
     {
         CategoriesSeeder::seedTest();
 
-        $response = $this->get(route("categories.index"));
+        $response = $this->get(route('categories.index'));
 
         $response->assertExactJson([
-          "success" => true,
-          "data" => [
-              [
-                "name" => "Data Science",
-                "id" => 3
-              ],
-              [
-                "name" => "Penetration Testing",
-                "id" => 2
-              ],
-              [
-                "name" => "Utilities",
-                "id" => 4
-              ],
-              [
-                "name" => "Web Development",
-                "id" => 1
-              ]
-          ]
+            'success' => true,
+            'data' => [
+                [
+                    'name' => 'Data Science',
+                    'id' => 3,
+                ],
+                [
+                    'name' => 'Penetration Testing',
+                    'id' => 2,
+                ],
+                [
+                    'name' => 'Utilities',
+                    'id' => 4,
+                ],
+                [
+                    'name' => 'Web Development',
+                    'id' => 1,
+                ],
+            ],
         ]);
     }
 
@@ -48,7 +48,7 @@ class CategoriesTest extends TestCase
     {
         $this->seedTables();
 
-        $response = $this->get(route("categories.show", ["id" => 1000]));
+        $response = $this->get(route('categories.show', ['id' => 1000]));
 
         $response->assertStatus(404);
     }
@@ -57,7 +57,7 @@ class CategoriesTest extends TestCase
     {
         $this->seedTables();
 
-        $response = $this->get(route("categories.show", ["id" => "invalid_param"]));
+        $response = $this->get(route('categories.show', ['id' => 'invalid_param']));
 
         $response->assertStatus(404);
     }
@@ -68,7 +68,7 @@ class CategoriesTest extends TestCase
         $ids = Categories::idsCollection();
 
         $ids->each(function ($id) {
-            $response = $this->get(route("categories.show", ["id" => $id]));
+            $response = $this->get(route('categories.show', ['id' => $id]));
             $response->assertStatus(200);
             $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
         });
@@ -79,7 +79,7 @@ class CategoriesTest extends TestCase
         $this->seedTables();
         $id = Categories::idsCollection()->first();
 
-        $response = $this->get(route("categories.show", ["id" => $id, "search" => "1234567890QWERTYUIOP"]));
+        $response = $this->get(route('categories.show', ['id' => $id, 'search' => '1234567890QWERTYUIOP']));
         $response->assertStatus(200);
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }

@@ -17,8 +17,8 @@ class BookmarksSeeder extends Seeder
      */
     public function run()
     {
-        $seedBookmarks = $this->command->confirm(question: "Seed admin bookmarks?", default: true);
-        if (!$seedBookmarks) {
+        $seedBookmarks = $this->command->confirm(question: 'Seed admin bookmarks?', default: true);
+        if (! $seedBookmarks) {
             return;
         }
 
@@ -27,8 +27,8 @@ class BookmarksSeeder extends Seeder
 
         $environments->each(function ($env) use ($admin) {
             Bookmarks::create([
-              ForeignKeyCol::environments => $env->id,
-              ForeignKeyCol::users => $admin->id
+                ForeignKeyCol::environments => $env->id,
+                ForeignKeyCol::users => $admin->id,
             ]);
         });
     }

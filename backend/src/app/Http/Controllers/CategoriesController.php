@@ -38,7 +38,7 @@ class CategoriesController extends Controller
     public function show(Request $request)
     {
         $isValidId = $this->repository->checkValidCategoryId($request->id);
-        abort_if(!$isValidId, 404);
+        abort_if(! $isValidId, 404);
 
         if ($request->search !== null) {
             return $this->search($request);

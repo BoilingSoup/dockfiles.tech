@@ -59,7 +59,7 @@ class EnvironmentsController extends Controller
     {
         $data = $this->repository->show($request);
 
-        throw_if(!$data, new InvalidEnvironmentIdException());
+        throw_if(! $data, new InvalidEnvironmentIdException());
 
         return new FormattedApiResponse(
             success: true,

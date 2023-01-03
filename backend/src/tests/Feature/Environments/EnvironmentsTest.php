@@ -31,17 +31,17 @@ class EnvironmentsTest extends TestCase
         $environments = collect($environments['data']['data']);
 
         $environments->each(function ($environment) {
-            $response = $this->get(route('environments.show', $environment["string_id"]));
+            $response = $this->get(route('environments.show', $environment['string_id']));
             $response->assertStatus(200);
             $response->assertJsonStructure([
-              "success",
-              "data" => [
-                "id",
-                "name",
-                "repo_owner",
-                "repo_name",
-                "repo_branch",
-              ]
+                'success',
+                'data' => [
+                    'id',
+                    'name',
+                    'repo_owner',
+                    'repo_name',
+                    'repo_branch',
+                ],
             ]);
         });
     }
@@ -49,9 +49,9 @@ class EnvironmentsTest extends TestCase
     public function test_environments_show_response_404_if_stringid_is_invalid()
     {
         $this->seedTables();
-        $invalidId = "INVALID ID";
+        $invalidId = 'INVALID ID';
 
-        $response =$this->get(route("environments.show", $invalidId));
+        $response = $this->get(route('environments.show', $invalidId));
 
         $response->assertStatus(404);
     }
@@ -60,7 +60,7 @@ class EnvironmentsTest extends TestCase
     {
         $this->seedTables();
 
-        $response = $this->get(route('environments.index', ["search" => "angular"]));
+        $response = $this->get(route('environments.index', ['search' => 'angular']));
 
         $response->assertStatus(200);
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
@@ -70,13 +70,11 @@ class EnvironmentsTest extends TestCase
     {
         $this->seedTables();
 
-        $response = $this->get(route('environments.index', ["search" => "1234567890QWERTYUIOP"]));
+        $response = $this->get(route('environments.index', ['search' => '1234567890QWERTYUIOP']));
 
         $response->assertStatus(200);
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
-
-
 
     private function seedTables()
     {

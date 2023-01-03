@@ -32,6 +32,6 @@ class Environments extends Model
 
     public function bookmarkedBy()
     {
-        return $this->belongsToMany(User::class, "bookmarks", ForeignKeyCol::environments, ForeignKeyCol::users);
+        return $this->belongsToMany(User::class, 'bookmarks', ForeignKeyCol::environments, ForeignKeyCol::users);
     }
 }

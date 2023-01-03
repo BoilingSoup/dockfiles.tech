@@ -23,11 +23,11 @@ class CommentsSeeder extends Seeder
     private function infiniteScrollDemo()
     {
         $seedComments = $this->command->confirm(question: 'Seed infinite scroll demo comments?', default: true);
-        if (!$seedComments) {
+        if (! $seedComments) {
             return;
         }
 
-        $gitea = Environments::where("string_id", "gitea")->first();
+        $gitea = Environments::where('string_id', 'gitea')->first();
         $admin = User::admin();
         $seedCount = 1000;
         $comments = Comments::factory($seedCount)->make();
@@ -43,7 +43,7 @@ class CommentsSeeder extends Seeder
                 COMMENT;
             } elseif ($i === 2) {
                 $comment->content =
-                <<<COMMENT
+                <<<'COMMENT'
                 This comment was seeded with replies to demonstrate the replies UI.
                 COMMENT;
             } else {
@@ -64,7 +64,7 @@ class CommentsSeeder extends Seeder
     private function dummyComments()
     {
         $seedComments = $this->command->confirm(question: 'Seed dummy comments?', default: false);
-        if (!$seedComments) {
+        if (! $seedComments) {
             return;
         }
 

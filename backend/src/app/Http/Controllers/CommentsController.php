@@ -41,7 +41,7 @@ class CommentsController extends Controller
 
         return new FormattedApiResponse(
             success: true,
-            data: ["comments_count" => $data]
+            data: ['comments_count' => $data]
         );
     }
 

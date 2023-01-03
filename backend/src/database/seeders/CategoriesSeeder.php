@@ -29,8 +29,8 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-        $seedCategories = $this->command->confirm(question: "Seed categories?", default: true);
-        if (!$seedCategories) {
+        $seedCategories = $this->command->confirm(question: 'Seed categories?', default: true);
+        if (! $seedCategories) {
             return;
         }
 

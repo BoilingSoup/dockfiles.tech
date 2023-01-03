@@ -24,11 +24,11 @@ class EnvironmentsRepository
             CACHE_KEYS::ENVIRONMENTS_INDEX_CURSOR_($request->cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
-                "id",
-                "name",
-                "string_id",
+                'id',
+                'name',
+                'string_id',
                 // likes ?
-            )->withCount('comments')->orderBy("id")->cursorPaginate()
+            )->withCount('comments')->orderBy('id')->cursorPaginate()
         );
     }
 
@@ -46,15 +46,15 @@ class EnvironmentsRepository
             CACHE_KEYS::ENVIRONMENTS_SEARCH_($cacheId, $request->cursor),
             60 * 60 * 24, // Cache for 1 day
             fn () => Environments::select(
-                "id",
-                "name",
-                "string_id",
+                'id',
+                'name',
+                'string_id',
                 // likes ?
             )->where(function ($query) use ($searchWords) {
                 foreach ($searchWords as $keyword) {
                     $query->orWhere('description', 'like', "%$keyword%");
                 }
-            })->withCount('comments')->orderBy("id")->cursorPaginate()
+            })->withCount('comments')->orderBy('id')->cursorPaginate()
         );
     }
 
@@ -66,15 +66,16 @@ class EnvironmentsRepository
     public function show(Request $request)
     {
         $stringId = $request->string_id;
+
         return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SHOW])->remember(
             CACHE_KEYS::ENVIRONMENTS_SHOW_($stringId),
             60 * 60 * 24,
             fn () => Environments::select(
-                "id",
-                "name",
-                "repo_owner",
-                "repo_name",
-                "repo_branch",
+                'id',
+                'name',
+                'repo_owner',
+                'repo_name',
+                'repo_branch',
             )->where('string_id', '=', $stringId)->get()->first()
         );
     }

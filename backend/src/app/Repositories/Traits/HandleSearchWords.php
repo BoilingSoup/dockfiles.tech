@@ -11,7 +11,8 @@ trait HandleSearchWords
      */
     private function getKeyWords(string $param)
     {
-        $searchTerms = array_filter(explode(" ", $param), fn ($el) => $el !== "");
+        $searchTerms = array_filter(explode(' ', $param), fn ($el) => $el !== '');
+
         return array_map(fn ($el) => strtolower($el), $searchTerms);
     }
 
@@ -26,6 +27,6 @@ trait HandleSearchWords
         sort($words);
 
         // Join the array into a string
-        return implode("", $words);
+        return implode('', $words);
     }
 }
