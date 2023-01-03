@@ -85,7 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function bookmarks()
     {
-        return $this->hasMany(Bookmarks::class, ForeignKeyCol::users);
+        return $this->belongsToMany(Environments::class, "bookmarks", ForeignKeyCol::users, ForeignKeyCol::environments);
     }
 
     public function environments()

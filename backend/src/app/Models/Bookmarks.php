@@ -10,13 +10,13 @@ class Bookmarks extends Model
 {
     use HasFactory;
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, ForeignKeyCol::users);
-    }
-
-    public function environment()
-    {
-        return $this->hasOne(Environments::class, ForeignKeyCol::environments);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, ForeignKeyCol::users);
+    // }
+    //
+    // public function environment()
+    // {
+    //     return $this->belongsTo(Environments::class, ForeignKeyCol::environments);
+    // }
 }

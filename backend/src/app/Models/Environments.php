@@ -29,4 +29,9 @@ class Environments extends Model
     {
         return $this->hasMany(Likes::class, ForeignKeyCol::environments);
     }
+
+    public function bookmarkedBy()
+    {
+        return $this->belongsToMany(User::class, "bookmarks", ForeignKeyCol::environments, ForeignKeyCol::users);
+    }
 }

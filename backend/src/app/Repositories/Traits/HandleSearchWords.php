@@ -16,10 +16,10 @@ trait HandleSearchWords
     }
 
     /**
-       * Convert the words array into a consistent cache-ID string. A search of the same terms [ "redis", "flask" ], ["flask", "redis"] returns the same ID "flaskredis" regardless of order.
-       *
-       * @return string
-       */
+     * Convert the words array into a consistent cache-ID string. A search of the same terms [ "redis", "flask" ], ["flask", "redis"] returns the same ID "flaskredis" regardless of order.
+     *
+     * @return string
+     */
     private function generateSearchWordsCacheId(array $words)
     {
         // Sort the words array alphabetically

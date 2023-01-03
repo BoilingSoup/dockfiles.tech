@@ -48,4 +48,10 @@ class CACHE_KEYS
     {
         return "ENVIRONMENTS_COMMENTS_COUNT_{$stringId}";
     }
+
+    public static function BOOKMARKS_INDEX_CURSOR_(string | null $cursor)
+    {
+        $cursor = $cursor ?? "NULL";
+        return "BOOKMARKS_INDEX_CURSOR_{$cursor}";
+    }
 }

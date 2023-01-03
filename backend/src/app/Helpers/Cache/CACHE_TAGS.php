@@ -27,4 +27,8 @@ class CACHE_TAGS
     public const COMMENTS_INDEX = "COMMENTS_INDEX";
 
     public const COMMENTS_COUNT = "COMMENTS_COUNT";
+
+    public const BOOKMARKS = "BOOKMARKS";
+
+    public const BOOKMARKS_INDEX = "BOOKMARKS_INDEX";
 }
