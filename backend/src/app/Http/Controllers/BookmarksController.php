@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookmarksRequest;
 use App\Http\Responses\FormattedApiResponse;
 use App\Models\Bookmarks;
-use App\Models\User;
 use App\Repositories\BookmarksRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +18,14 @@ class BookmarksController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * Get a cursor paginated JSON response of the authenticated User's Bookmarks.
+     *
+     * @return FormattedApiResponse
+     */
     public function index(Request $request)
     {
-        // $data = $this->repository->index($request);
-        $data = Auth::user()->bookmarks()->cursorPaginate();
+        $data = $this->repository->index($request);
 
         return new FormattedApiResponse(
             success: true,

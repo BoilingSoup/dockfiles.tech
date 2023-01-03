@@ -28,7 +28,10 @@ class CACHE_TAGS
 
     public const COMMENTS_COUNT = "COMMENTS_COUNT";
 
-    public const BOOKMARKS = "BOOKMARKS";
+    public static function USER_BOOKMARKS_(string $userId)
+    {
+        return "USER_BOOKMARKS_{$userId}";
+    }
 
-    public const BOOKMARKS_INDEX = "BOOKMARKS_INDEX";
+    public const USER_BOOKMARKS_INDEX = "USER_BOOKMARKS_INDEX";
 }

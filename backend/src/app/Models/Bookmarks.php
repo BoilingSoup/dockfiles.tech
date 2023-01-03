@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Helpers\ForeignKeyCol;
+// use Database\Helpers\ForeignKeyCol;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
