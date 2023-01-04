@@ -3,6 +3,7 @@
 namespace Tests\Feature\Bookmarks;
 
 use App\Models\User;
+use Database\Helpers\ForeignKeyCol;
 use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\EnvironmentsSeeder;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -44,6 +45,13 @@ class BookmarksTest extends TestCase
         $response = $this->get(route("bookmarks.index"));
 
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
+    public function test_bookmarks_store_returns_401_response_if_not_authenticated()
+    {
+        $response = $this->post(route("bookmarks.store", [ForeignKeyCol::environments, "1"]));
+
+        $response->assertStatus(401);
     }
 
     private function seedTables()
