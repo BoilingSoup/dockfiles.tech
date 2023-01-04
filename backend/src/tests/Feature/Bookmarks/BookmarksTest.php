@@ -56,7 +56,7 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => "non-numeric param"]);
+        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => "non-numeric"]);
 
         $response->assertStatus(422);
         $response->assertExactJson([
@@ -84,7 +84,7 @@ class BookmarksTest extends TestCase
         ]);
     }
 
-    public function test_bookmarks_store_returns_500_error_and_does_not_write_duplicate_record_to_database_if_environment_id_is_already_bookmarked_by_the_user()
+    public function test_bookmarks_store_returns_500_response_and_does_not_write_duplicate_record_to_database_if_environment_id_is_already_bookmarked_by_the_user()
     {
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
@@ -95,6 +95,49 @@ class BookmarksTest extends TestCase
 
         $response->assertStatus(500);
         $this->assertDatabaseCount("bookmarks", 1);
+    }
+
+    public function test_bookmarks_destroy_returns_401_response_if_not_authenticated()
+    {
+        $response = $this->deleteJson(route("bookmarks.destroy"), [ForeignKeyCol::environments => "1"]);
+
+        $response->assertStatus(401);
+    }
+
+    public function test_bookmarks_destroy_returns_204_no_content_response_and_deletes_the_record_from_the_database_if_successful()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+        $envId = Environments::first()->id;
+        $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $envId])->assertStatus(201);
+        $record = [
+          ForeignKeyCol::environments => $envId,
+          ForeignKeyCol::users => $user->id
+        ];
+        $this->assertDatabaseHas("bookmarks", $record);
+
+        $response = $this->deleteJson(route("bookmarks.destroy"), [ForeignKeyCol::environments => $envId]);
+
+        $response->assertStatus(204)->assertNoContent();
+        $this->assertDatabaseMissing("bookmarks", $record);
+    }
+
+    public function test_bookmarks_destroy_returns_422_reponse_if_environment_id_in_request_body_is_not_numeric()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+
+        $response = $this->postJson(route("bookmarks.destroy"), [ForeignKeyCol::environments => "non numeric"]);
+
+        $response->assertStatus(422);
+        $response->assertExactJson([
+          "message" => "The environment id must be an integer.",
+          "errors" => [
+            ForeignKeyCol::environments => [
+              "The environment id must be an integer."
+            ]
+          ]
+        ]);
     }
 
     /** @return Authenticatable */

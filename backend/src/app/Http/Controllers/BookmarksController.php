@@ -43,7 +43,7 @@ class BookmarksController extends Controller
      *
      * @return FormattedApiResponse
      */
-    private function search(Request $request)
+    public function search(Request $request)
     {
         $data = $this->repository->search($request);
 
