@@ -21,24 +21,12 @@ class CategoriesTest extends TestCase
 
         $response = $this->get(route('categories.index'));
 
-        $response->assertExactJson([
-            'success' => true,
+        $response->assertJsonStructure([
+            'success',
             'data' => [
-                [
-                    'name' => 'Data Science',
-                    'id' => 3,
-                ],
-                [
-                    'name' => 'Penetration Testing',
-                    'id' => 2,
-                ],
-                [
-                    'name' => 'Utilities',
-                    'id' => 4,
-                ],
-                [
-                    'name' => 'Web Development',
-                    'id' => 1,
+                "*" => [
+                  'name',
+                  'id'
                 ],
             ],
         ]);

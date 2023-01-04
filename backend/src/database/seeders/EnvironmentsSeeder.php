@@ -243,7 +243,8 @@ class EnvironmentsSeeder extends Seeder
 
     public static function seedTest()
     {
-        $adminId = User::admin()->id;
+        $admin = User::admin() ?? User::factory()->admin()->create();
+        $adminId = $admin->id;
 
         EnvironmentsSeeder::environments()->each(
             fn ($environment) => Environments::create([
