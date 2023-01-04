@@ -9,6 +9,7 @@ use App\Models\Bookmarks;
 use App\Repositories\BookmarksRepository;
 use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BookmarksController extends Controller
 {
@@ -37,7 +38,7 @@ class BookmarksController extends Controller
     /**
      * Add an Environment to the User's Bookmarks.
      *
-     * @return
+     * @return FormattedApiResponse
      */
     public function store(StoreBookmarksRequest $request)
     {
@@ -59,7 +60,9 @@ class BookmarksController extends Controller
     }
 
     /**
+     * Delete a Bookmark.
      *
+     * @return Response
      */
     public function destroy(DeleteBookmarksRequest $request)
     {
@@ -76,16 +79,26 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Confirm if the int is a valid Environment ID because PlanetScale DB does not allow foreign keys for data integrity.
+     * Confirm if the numeric (string) value is a valid Environment ID because PlanetScale DB does not allow foreign keys for data integrity.
      */
-    private function validateEnvironmentId(int $environmentId)
+    private function validateEnvironmentId(string $environmentId)
     {
         $isValid = $this->repository->validateEnvironmentId($environmentId);
         throw_if(!$isValid);
     }
 
-    public function search()
+    /**
+     * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param.
+     *
+     * @return FormattedApiResponse
+     */
+    public function search(Request $request)
     {
-      //
+        $data = $this->repository->search($request);
+
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
     }
 }
