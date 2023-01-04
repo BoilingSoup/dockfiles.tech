@@ -4,8 +4,11 @@ namespace App\Repositories;
 
 use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
+use App\Http\Requests\DeleteBookmarksRequest;
+use App\Models\Bookmarks;
 use App\Models\Environments;
 use App\Repositories\Traits\HandleSearchWords;
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -73,10 +76,24 @@ class BookmarksRepository
     }
 
     /**
-     * Use the cache to quickly confirm if a given numeric (string) value is a valid Environment ID.
-     *
-     * @return bool
+     * Delete a bookmark from the database and flush the User's Bookmarks cache.
      */
+    public function destroy(string $userId, string $environmentId)
+    {
+        $deleted = Bookmarks::where(ForeignKeyCol::environments, $environmentId)
+        ->where(ForeignKeyCol::users, $userId)
+        ->delete();
+
+        if ($deleted) {
+            Cache::tags(CACHE_TAGS::USER_BOOKMARKS_($userId))->flush();
+        }
+    }
+
+    /**
+       * Use the cache to quickly confirm if a given numeric (string) value is a valid Environment ID.
+       *
+       * @return bool
+       */
     public function validateEnvironmentId(string $environmentId)
     {
         $idsLookup = Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_IDS])->rememberForever(

@@ -25,9 +25,7 @@ class BookmarksTest extends TestCase
 
     public function test_bookmarks_index_returns_200_response_if_authenticated()
     {
-        $this->seedTables();
-        /** @var Authenticatable */
-        $user = User::all()->first();
+        $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
         $response = $this->get(route("bookmarks.index"));
@@ -37,9 +35,7 @@ class BookmarksTest extends TestCase
 
     public function test_bookmarks_index_response_json_structure_is_expected_shape()
     {
-        $this->seedTables();
-        /** @var Authenticatable */
-        $user = User::all()->first();
+        $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
         $response = $this->get(route("bookmarks.index"));
@@ -52,6 +48,23 @@ class BookmarksTest extends TestCase
         $response = $this->post(route("bookmarks.store", [ForeignKeyCol::environments, "1"]));
 
         $response->assertStatus(401);
+    }
+
+    // public function test_bookmarks_store_writes_to_database_and_returns_200_response_if_user_is_authenticated_and_environment_id_is_not_already_bookmarked_by_the_user()
+    // {
+    //     $user = $this->seedTablesAndGetUser();
+    //     $this->actingAs($user);
+    //
+    //     $response = $this->post(route("bookmarks.store", [ForeignKeyCol::environments, "1"]));
+    //
+    //     $response->assertStatus(401);
+    // }
+
+    /** @return Authenticatable */
+    private function seedTablesAndGetUser()
+    {
+        $this->seedTables();
+        return User::all()->first();
     }
 
     private function seedTables()

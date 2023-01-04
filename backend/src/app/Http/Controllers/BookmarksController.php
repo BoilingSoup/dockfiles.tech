@@ -61,7 +61,7 @@ class BookmarksController extends Controller
      */
     public function store(StoreBookmarksRequest $request)
     {
-        $environmentId = $request->validated()[ForeignKeyCol::environments];
+        $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
         $this->validateEnvironmentId($environmentId);
 
         $userId = $request->user()->id;
@@ -85,14 +85,11 @@ class BookmarksController extends Controller
      */
     public function destroy(DeleteBookmarksRequest $request)
     {
-        $environmentId = $request->validated()[ForeignKeyCol::environments];
+        $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
         $this->validateEnvironmentId($environmentId);
+        $userId = (string) $request->user()->id;
 
-        $userId = $request->user()->id;
-
-        Bookmarks::where(ForeignKeyCol::environments, $environmentId)
-        ->where(ForeignKeyCol::users, $userId)
-        ->delete();
+        $this->repository->destroy($userId, $environmentId);
 
         return response()->noContent();
     }
