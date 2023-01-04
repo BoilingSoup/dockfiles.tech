@@ -9,7 +9,7 @@ trait HandleSearchWords
      *
      * @return array
      */
-    private function getKeyWords(string $param)
+    public function getKeyWords(string $param)
     {
         $searchTerms = array_filter(explode(' ', $param), fn ($el) => $el !== '');
 
@@ -21,7 +21,7 @@ trait HandleSearchWords
      *
      * @return string
      */
-    private function generateSearchWordsCacheId(array $words)
+    public function generateSearchWordsCacheId(array $words)
     {
         // Sort the words array alphabetically
         sort($words);
