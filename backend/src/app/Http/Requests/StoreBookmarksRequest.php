@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBookmarksRequest extends FormRequest
@@ -13,7 +14,7 @@ class StoreBookmarksRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,7 @@ class StoreBookmarksRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+          ForeignKeyCol::environments => "required|integer"
         ];
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBookmarksRequest extends FormRequest
+class DeleteBookmarksRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class UpdateBookmarksRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,7 @@ class UpdateBookmarksRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+          ForeignKeyCol::environments => "required|integer"
         ];
     }
 }

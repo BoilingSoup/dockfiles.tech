@@ -28,4 +28,28 @@ class BookmarksRepository
               ->cursorPaginate()
         );
     }
+
+    /**
+     * Use the cache to quickly confirm if a given integer is a valid Environment ID.
+     *
+     * @return bool
+     */
+    public function validateEnvironmentId(int $environmentId)
+    {
+        $idsLookup = Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_IDS])->rememberForever(
+            CACHE_KEYS::ENVIRONMENTS_VALID_IDS,
+            function () {
+                $idsCollection = Environments::all()->pluck('id');
+                $lookup = [];
+
+                $idsCollection->each(function ($id) use (&$lookup) {
+                    $lookup[$id] = 1;
+                });
+
+                return $lookup;
+            }
+        );
+
+        return isset($idsLookup[$environmentId]);
+    }
 }
