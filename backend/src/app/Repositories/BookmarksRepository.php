@@ -26,7 +26,7 @@ class BookmarksRepository
 
         return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX])->rememberForever(
             CACHE_KEYS::USER_BOOKMARKS_INDEX_CURSOR_($userId, $request->cursor),
-            fn () => Environments::select('id', 'name', 'string_id')
+            fn () => Environments::select('id', 'name', 'string_id') // likes ?
               ->withCount('comments')
               ->whereIn('id', $this->allBookmarkedIds($userId))
               ->cursorPaginate()
@@ -49,10 +49,34 @@ class BookmarksRepository
     }
 
     /**
-       * Use the cache to quickly confirm if a given numeric (string) value is a valid Environment ID.
-       *
-       * @return bool
-       */
+     * Retrieve a CursorPaginator object of Bookmarked Environments filtered by search param.
+     *
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     */
+    public function search(Request $request)
+    {
+        $searchWords = $this->getKeyWords($request->search);
+        $cacheId = $this->generateSearchWordsCacheId($searchWords);
+        $userId = (string) Auth::user()->id;
+
+        return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH])->rememberForever(
+            CACHE_KEYS::USER_BOOKMARKS_SEARCH_($userId, $cacheId, $request->cursor),
+            fn () => Environments::select('id', 'name', 'string_id') // likes ?
+              ->withCount('comments')
+              ->whereIn('id', $this->allBookmarkedIds($userId))
+              ->where(function ($query) use ($searchWords) {
+                  foreach ($searchWords as $keyword) {
+                      $query->orWhere('description', 'like', "%$keyword%");
+                  }
+              })->orderBy('id')->cursorPaginate()
+        );
+    }
+
+    /**
+     * Use the cache to quickly confirm if a given numeric (string) value is a valid Environment ID.
+     *
+     * @return bool
+     */
     public function validateEnvironmentId(string $environmentId)
     {
         $idsLookup = Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_IDS])->rememberForever(
@@ -70,29 +94,5 @@ class BookmarksRepository
         );
 
         return isset($idsLookup[$environmentId]);
-    }
-
-    /**
-     * Retrieve a CursorPaginator object of Bookmarked Environments filtered by search param.
-     *
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
-     */
-    public function search(Request $request)
-    {
-        $searchWords = $this->getKeyWords($request->search);
-        $cacheId = $this->generateSearchWordsCacheId($searchWords);
-        $userId = (string) Auth::user()->id;
-
-        return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH])->rememberForever(
-            CACHE_KEYS::USER_BOOKMARKS_SEARCH_($userId, $cacheId, $request->cursor),
-            fn () => Environments::select('id', 'name', 'string_id')
-              ->withCount('comments')
-              ->whereIn('id', $this->allBookmarkedIds($userId))
-              ->where(function ($query) use ($searchWords) {
-                  foreach ($searchWords as $keyword) {
-                      $query->orWhere('description', 'like', "%$keyword%");
-                  }
-              })->orderBy('id')->cursorPaginate()
-        );
     }
 }
