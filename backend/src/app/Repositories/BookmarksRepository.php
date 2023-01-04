@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Helpers\Cache\CACHE_KEYS;
 use App\Helpers\Cache\CACHE_TAGS;
-use App\Http\Requests\DeleteBookmarksRequest;
 use App\Models\Bookmarks;
 use App\Models\Environments;
 use App\Repositories\Traits\HandleSearchWords;
@@ -73,6 +72,26 @@ class BookmarksRepository
                   }
               })->orderBy('id')->cursorPaginate()
         );
+    }
+
+    /**
+     * Store a new bookmark in the database and flush the User's Bookmarks cache.
+     *
+     * @return Bookmarks
+     */
+    public function store(string $userId, string $environmentId)
+    {
+        $bookmark = Bookmarks::make([
+          ForeignKeyCol::environments => $environmentId,
+          ForeignKeyCol::users => $userId
+        ]);
+        $isSuccess = $bookmark->save();
+
+        if ($isSuccess) {
+            Cache::tags(CACHE_TAGS::USER_BOOKMARKS_($userId))->flush();
+        }
+
+        return $bookmark;
     }
 
     /**

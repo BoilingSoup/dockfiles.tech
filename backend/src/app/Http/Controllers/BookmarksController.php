@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DeleteBookmarksRequest;
 use App\Http\Requests\StoreBookmarksRequest;
 use App\Http\Responses\FormattedApiResponse;
-use App\Models\Bookmarks;
 use App\Repositories\BookmarksRepository;
 use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
@@ -63,13 +62,9 @@ class BookmarksController extends Controller
     {
         $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
         $this->validateEnvironmentId($environmentId);
-
         $userId = $request->user()->id;
 
-        $bookmark = Bookmarks::create([
-          ForeignKeyCol::environments => $environmentId,
-          ForeignKeyCol::users => $userId
-        ]);
+        $bookmark = $this->repository->store($userId, $environmentId);
 
         return new FormattedApiResponse(
             success: true,
