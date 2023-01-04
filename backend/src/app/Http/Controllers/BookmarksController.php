@@ -27,7 +27,26 @@ class BookmarksController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->search !== null) {
+            return $this->search($request);
+        }
+
         $data = $this->repository->index($request);
+
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
+    }
+
+    /**
+     * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param.
+     *
+     * @return FormattedApiResponse
+     */
+    private function search(Request $request)
+    {
+        $data = $this->repository->search($request);
 
         return new FormattedApiResponse(
             success: true,
@@ -79,26 +98,11 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Confirm if the numeric (string) value is a valid Environment ID because PlanetScale DB does not allow foreign keys for data integrity.
+     * Confirm if the numeric (string) value is a valid Environment ID because PlanetScale DB does not allow foreign keys constraints for data integrity.
      */
     private function validateEnvironmentId(string $environmentId)
     {
         $isValid = $this->repository->validateEnvironmentId($environmentId);
         throw_if(!$isValid);
-    }
-
-    /**
-     * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param.
-     *
-     * @return FormattedApiResponse
-     */
-    public function search(Request $request)
-    {
-        $data = $this->repository->search($request);
-
-        return new FormattedApiResponse(
-            success: true,
-            data: collect($data)
-        );
     }
 }

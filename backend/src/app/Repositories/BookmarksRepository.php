@@ -79,13 +79,10 @@ class BookmarksRepository
      */
     public function search(Request $request)
     {
-        $searchWords = $this->getKeyWords($request->slug);
+        $searchWords = $this->getKeyWords($request->search);
         $cacheId = $this->generateSearchWordsCacheId($searchWords);
         $userId = (string) Auth::user()->id;
 
-        // TODO: write the query
-        // TODO: write unit tests for HandleSearchWords trait
-    //
         return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH])->rememberForever(
             CACHE_KEYS::USER_BOOKMARKS_SEARCH_($userId, $cacheId, $request->cursor),
             fn () => Environments::select('id', 'name', 'string_id')
@@ -97,21 +94,5 @@ class BookmarksRepository
                   }
               })->orderBy('id')->cursorPaginate()
         );
-
-
-        // return Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_SEARCH])->remember(
-        //     CACHE_KEYS::ENVIRONMENTS_SEARCH_($cacheId, $request->cursor),
-        //     60 * 60 * 24, // Cache for 1 day
-        //     fn () => Environments::select(
-        //         'id',
-        //         'name',
-        //         'string_id',
-        //         // likes ?
-        //     )->where(function ($query) use ($searchWords) {
-        //         foreach ($searchWords as $keyword) {
-        //             $query->orWhere('description', 'like', "%$keyword%");
-        //         }
-        //     })->withCount('comments')->orderBy('id')->cursorPaginate()
-        // );
     }
 }

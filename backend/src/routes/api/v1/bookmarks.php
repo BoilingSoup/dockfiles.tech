@@ -9,6 +9,4 @@ Route::middleware("auth:sanctum")->name("bookmarks.")->group(function () {
     Route::post("bookmarks", [BookmarksController::class, "store"])->name("store");
 
     Route::delete("bookmarks", [BookmarksController::class, "destroy"])->name("destroy");
-
-    Route::get('bookmarks/search/{slug}', [BookmarksController::class, 'search'])->name("search");
 });
