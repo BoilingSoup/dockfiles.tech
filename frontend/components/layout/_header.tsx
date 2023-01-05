@@ -11,6 +11,7 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import { IconMoon, IconSun, IconBrandGithub } from "@tabler/icons";
 import Image from "next/image";
+import { SITE_NAME } from "../../config/config";
 import { LIGHT } from "../../contexts/ColorSchemeProvider";
 import { useHeaderStyles } from "../../hooks/layout/useHeaderStyles";
 import Logo from "../../public/logo.svg";
@@ -56,7 +57,7 @@ export const Header = ({ hamburgerOpened, onHamburgerClick: navbarToggleHandler 
             component="h1"
             sx={{ fontSize: breakPoint1 ? "1.8rem" : "1.4rem", display: breakPoint2 ? "initial" : "none" }}
           >
-            Dockfiles.io
+            {SITE_NAME}
           </Text>
         </Group>
 

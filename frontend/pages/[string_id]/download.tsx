@@ -1,40 +1,40 @@
 import { Button, Center, Container, Text } from "@mantine/core";
-import { Params } from ".";
 import { Divider } from "../../components/common/Divider";
 import { DOWNLOAD, EnvironmentTabs } from "../../components/details/EnvironmentTabs";
 import { CodeBlock } from "../../components/details/CodeBlock";
-import { EnvironmentDetailsData, getAllEnvironmentPaths, getEnvironmentByStringId } from "../../hooks/api/helpers";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { useStringId } from "../../hooks/api/useStringId";
 import { buttonSx } from "../../components/common/styles";
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
+import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
+import { NextPage } from "next";
 
-type Props = {
-  environment: EnvironmentDetailsData;
-};
-
-const Download = ({ environment }: Props) => {
+const Download: NextPage = () => {
   const stringId = useStringId();
-  const { count, isLoading } = useCommentsCount(stringId);
+  const { count, isLoading: commentsCountIsLoading } = useCommentsCount(stringId);
+  const { data, isLoading } = useEnvironmentDetails(stringId);
   usePrefetchComments(stringId);
 
-  const directLink = `https://github.com/${environment.repo_owner}/${environment.repo_name}/archive/${environment.repo_branch}.zip`;
+  const directLink = data
+    ? `https://github.com/${data?.repo_owner}/${data?.repo_name}/archive/${data?.repo_branch}.zip`
+    : null;
 
   return (
     <>
-      <EnvironmentTabs active={DOWNLOAD} commentsCount={{ count, isLoading }} />
+      <EnvironmentTabs active={DOWNLOAD} commentsCount={{ count, isLoading: commentsCountIsLoading }} />
 
       <Container>
         <CodeBlock
           title="Git clone"
-          code={`git clone https://github.com/${environment.repo_owner}/${environment.repo_name}`}
+          code={`git clone https://github.com/${data?.repo_owner}/${data?.repo_name}`}
+          isLoading={isLoading}
         />
         <Divider />
 
-        <CodeBlock title="Curl" code={`curl -L -O ${directLink}`} />
+        <CodeBlock title="Curl" code={`curl -L -O ${directLink}`} isLoading={isLoading} />
         <Divider />
 
-        <CodeBlock title="Wget" code={`wget ${directLink}`} />
+        <CodeBlock title="Wget" code={`wget ${directLink}`} isLoading={isLoading} />
         <Divider />
 
         <Center mt={46} style={{ display: "flex", alignItems: "center" }}>
@@ -51,21 +51,3 @@ const Download = ({ environment }: Props) => {
 };
 
 export default Download;
-
-export const getStaticProps = async ({ params }: Params): Promise<{ props: Props }> => {
-  const stringId = params.string_id;
-  const data = await getEnvironmentByStringId(stringId);
-
-  return {
-    props: { environment: data.data },
-  };
-};
-
-export const getStaticPaths = async () => {
-  const paths = await getAllEnvironmentPaths();
-
-  return {
-    paths,
-    fallback: false,
-  };
-};

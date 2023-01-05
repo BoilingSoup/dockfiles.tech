@@ -16,8 +16,10 @@ type Props = {
 };
 
 export const ColorSchemeProvider = (props: Props) => {
+  // colorScheme initialized by cookie value (or DEFAULT_COLOR_SCHEME if cookie value is invalid)
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.value);
 
+  /** toggleColorScheme updates both the MantineTheme colorScheme and the cookie so there is no flash when a user enters the application. */
   const toggleColorScheme = (value?: ColorScheme) => {
     const updateStates = (newColorScheme: ColorScheme) => {
       setColorScheme(newColorScheme);

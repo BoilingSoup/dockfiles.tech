@@ -26,4 +26,7 @@ export const queryKeys = {
   commentsCount(stringId: string) {
     return [COMMENTS, stringId, "count"];
   },
+  environmentDetails(stringId: string) {
+    return [ENVIRONMENTS, stringId, "details"];
+  },
 };

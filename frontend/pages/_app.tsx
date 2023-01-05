@@ -7,6 +7,7 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../components/layout/Layout";
 import { ServerData } from "../components/layout/types";
+import { SITE_NAME } from "../config/config";
 import {
   ColorSchemeProvider,
   COLOR_SCHEME_COOKIE_KEY,
@@ -22,7 +23,7 @@ export default function App(props: AppProps & { data: ServerData }) {
   return (
     <>
       <Head>
-        <title>Dockfiles.io</title>
+        <title>{SITE_NAME}</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <meta
           name="description"

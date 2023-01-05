@@ -13,7 +13,7 @@ import { mainContainerSx } from "../components/common/styles";
 import { CursorsObj } from "../components/common/types";
 import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 import { LoadingSpinner } from "../components/common/LoadingSpinner";
-import { PAGE_SIZE } from "../config/config";
+import { PAGE_SIZE, SITE_NAME } from "../config/config";
 import { ChangeEvent } from "react";
 
 const Home: NextPage = () => {
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Dockfiles.io | Home</title>
+        <title>{SITE_NAME} | Home</title>
       </Head>
 
       <Container sx={mainContainerSx}>

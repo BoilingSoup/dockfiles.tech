@@ -1,13 +1,14 @@
-import { ActionIcon, Box, Container, CopyButton, Text, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Container, CopyButton, Loader, Text, Tooltip } from "@mantine/core";
 import { IconCheck, IconCopy } from "@tabler/icons";
 import { markdownClass } from "../../contexts/MantineProvider";
 
 type Props = {
   code: string;
   title: string;
+  isLoading: boolean;
 };
 
-export const CodeBlock = ({ code, title }: Props) => {
+export const CodeBlock = ({ code, title, isLoading }: Props) => {
   return (
     <Container className={markdownClass}>
       <Text component="h3" style={{ fontSize: "2rem" }}>
@@ -15,7 +16,7 @@ export const CodeBlock = ({ code, title }: Props) => {
       </Text>
       <Container>
         <Box style={{ position: "relative" }}>
-          <pre>{code}</pre>
+          <pre>{isLoading ? <Loader /> : code}</pre>
           <Box style={{ position: "absolute", top: 5, right: 5 }}>
             <CopyButton value={code} timeout={2000}>
               {({ copied, copy }) => (
