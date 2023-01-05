@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../components/layout/Layout";
 import { ServerData } from "../components/layout/types";
 import { SITE_NAME } from "../config/config";
+import { AuthProvider } from "../contexts/AuthProvider";
 import {
   ColorSchemeProvider,
   COLOR_SCHEME_COOKIE_KEY,
@@ -15,6 +16,7 @@ import {
   isValidColorScheme,
 } from "../contexts/ColorSchemeProvider";
 import { MantineProvider } from "../contexts/MantineProvider";
+import { getUser } from "../hooks/api/helpers";
 import { queryClient } from "../query-client/queryClient";
 
 export default function App(props: AppProps & { data: ServerData }) {
@@ -35,9 +37,11 @@ export default function App(props: AppProps & { data: ServerData }) {
       <QueryClientProvider client={queryClient}>
         <ColorSchemeProvider value={props.data.colorScheme}>
           <MantineProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <AuthProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </AuthProvider>
           </MantineProvider>
         </ColorSchemeProvider>
         <ReactQueryDevtools />
@@ -47,6 +51,8 @@ export default function App(props: AppProps & { data: ServerData }) {
 }
 
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
+  const [user] = await getUser();
+
   let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
 
   if (!isValidColorScheme(colorScheme)) {
@@ -56,7 +62,7 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
   // TODO: populate correct data, placeholder for now
   return {
     data: {
-      user: { avatar: "", id: 1, is_admin: false, name: "c" },
+      user,
       colorScheme: colorScheme as ColorScheme,
       authenticated: false,
     },

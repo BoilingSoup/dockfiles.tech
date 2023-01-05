@@ -1,11 +1,5 @@
 import { ColorScheme } from "@mantine/core";
-
-export type User = {
-  id: number;
-  name: string;
-  avatar: string; // optional maybe?
-  is_admin: boolean;
-};
+import { User } from "../../contexts/AuthProvider";
 
 export type ServerData = {
   user: User;

@@ -1,4 +1,5 @@
-import { apiFetch } from "../../query-client/baseFetcher";
+import { User } from "../../contexts/AuthProvider";
+import { apiFetch, authFetch } from "../../query-client/baseFetcher";
 import { ALL_CATEGORIES } from "../../zustand-store/types";
 
 export type QueryParams = {
@@ -108,4 +109,12 @@ export function getComments(stringId: string) {
 
 export const getEnvironmentDetails = (stringId: string) => async () => {
   return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
+};
+
+export const getUser = async (): Promise<[User, null] | [null, Error]> => {
+  try {
+    return [(await authFetch.get("user")) as User, null];
+  } catch (err) {
+    return [null, err as Error];
+  }
 };
