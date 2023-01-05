@@ -3,11 +3,12 @@ import Head from "next/head";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../components/layout/Layout";
+import { ServerData } from "../components/layout/types";
 import { ColorSchemeProvider } from "../contexts/ColorSchemeProvider";
 import { MantineProvider } from "../contexts/MantineProvider";
 import { queryClient } from "../query-client/queryClient";
 
-export default function App(props: AppProps) {
+export default function App(props: AppProps<{ data: ServerData }>) {
   const { Component, pageProps } = props;
 
   return (
@@ -23,7 +24,7 @@ export default function App(props: AppProps) {
       </Head>
 
       <QueryClientProvider client={queryClient}>
-        <ColorSchemeProvider>
+        <ColorSchemeProvider value={pageProps.data.colorScheme}>
           <MantineProvider>
             <Layout>
               <Component {...pageProps} />

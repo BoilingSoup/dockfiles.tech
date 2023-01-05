@@ -1,5 +1,5 @@
-import type { NextPage } from "next";
-import { Center, Container, Text } from "@mantine/core";
+import type { GetServerSideProps, NextPage } from "next";
+import { Center, ColorScheme, Container, Text } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import Head from "next/head";
 import { CategoriesSearch } from "../components/common/categories-search/CategoriesSearch";
@@ -15,6 +15,28 @@ import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 import { LoadingSpinner } from "../components/common/LoadingSpinner";
 import { PAGE_SIZE } from "../config/config";
 import { ChangeEvent } from "react";
+import { ServerData } from "../components/layout/types";
+import { getCookie } from "cookies-next";
+import { COLOR_SCHEME_COOKIE_KEY, DEFAULT_COLOR_SCHEME, isValidColorScheme } from "../contexts/ColorSchemeProvider";
+
+export const getServerSideProps: GetServerSideProps<{ data: ServerData }> = async (ctx) => {
+  let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
+
+  if (!isValidColorScheme(colorScheme)) {
+    colorScheme = DEFAULT_COLOR_SCHEME;
+  }
+
+  // TODO: populate correct data, placeholder for now
+  return {
+    props: {
+      data: {
+        user: { avatar: "", id: 1, is_admin: false, name: "c" },
+        colorScheme: colorScheme as ColorScheme,
+        authenticated: false,
+      },
+    },
+  };
+};
 
 const Home: NextPage = () => {
   // state management
