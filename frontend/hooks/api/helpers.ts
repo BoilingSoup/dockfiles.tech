@@ -52,6 +52,15 @@ export const getEnvironmentReadMe = async (url: string) => {
   return (await fetch(url)).text();
 };
 
+/** SSR helper */
+export const getUserInitialData = async (): Promise<[User, null] | [null, Error]> => {
+  try {
+    return [(await authFetch.get("user")) as User, null];
+  } catch (err) {
+    return [null, err as Error];
+  }
+};
+
 /**React Query fetcher functions*/
 export function getEnvironments({ categoryId, cursor, searchParam }: QueryParams) {
   return async function () {
@@ -109,12 +118,4 @@ export function getComments(stringId: string) {
 
 export const getEnvironmentDetails = (stringId: string) => async () => {
   return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
-};
-
-export const getUser = async (): Promise<[User, null] | [null, Error]> => {
-  try {
-    return [(await authFetch.get("user")) as User, null];
-  } catch (err) {
-    return [null, err as Error];
-  }
 };

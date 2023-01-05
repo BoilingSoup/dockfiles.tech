@@ -16,7 +16,7 @@ import {
   isValidColorScheme,
 } from "../contexts/ColorSchemeProvider";
 import { MantineProvider } from "../contexts/MantineProvider";
-import { getUser } from "../hooks/api/helpers";
+import { getUserInitialData } from "../hooks/api/helpers";
 import { queryClient } from "../query-client/queryClient";
 
 export default function App(props: AppProps & { data: ServerData }) {
@@ -51,7 +51,7 @@ export default function App(props: AppProps & { data: ServerData }) {
 }
 
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
-  const [user] = await getUser();
+  const [user] = await getUserInitialData();
 
   let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
 
@@ -59,12 +59,11 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
     colorScheme = DEFAULT_COLOR_SCHEME;
   }
 
-  // TODO: populate correct data, placeholder for now
   return {
     data: {
       user,
       colorScheme: colorScheme as ColorScheme,
-      authenticated: false,
+      authenticated: user !== null && user !== undefined,
     },
   };
 };
