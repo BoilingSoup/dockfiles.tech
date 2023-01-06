@@ -1,4 +1,4 @@
-import { CSSObject, MantineTheme } from "@mantine/core";
+import { CSSObject, MantineTheme, TextInputStylesNames } from "@mantine/core";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
 export const iconSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
@@ -103,16 +103,24 @@ export const oAuthBtnSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject
 type modalStylesApi = "title" | "body" | "header" | "root" | "overlay" | "modal" | "close" | "inner";
 type modalStylesObj = { [key in modalStylesApi]?: CSSObject };
 
-export const modalStyles: modalStylesObj = {
+export const modalStyles = ({ colors, colorScheme }: MantineTheme): modalStylesObj => ({
   title: {
     fontWeight: "bold",
     fontSize: "1.4rem",
   },
-};
+  modal: {
+    background: colorSchemeHandler(colorScheme, {
+      light: colors.blue[2],
+      dark: colors.slate[9],
+    }),
+  },
+});
 
 export const submitSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
   boxShadow: shadows.xl,
-  backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
+  backgroundColor: colorSchemeHandler(colorScheme, {
+    light: colors.indigo[9],
+  }),
   "&:hover": {
     backgroundColor: colorSchemeHandler(colorScheme, {
       light: fn.darken(colors.indigo[9], 0.05),
@@ -130,10 +138,23 @@ export const loginErrorStyles = () => ({
   },
 });
 
-export const formInputStyles = () => ({
+export const formInputStyles = ({ colors, colorScheme }: MantineTheme): { [key: string]: CSSObject } => ({
   label: {
     fontSize: "1rem",
     marginBottom: "2px",
     fontWeight: 500,
+  },
+  input: {
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: colors.gray[2],
+    }),
+  },
+});
+
+export const checkboxStyles = ({ colors, colorScheme }: MantineTheme): { [key: string]: CSSObject } => ({
+  input: {
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: colors.gray[2],
+    }),
   },
 });

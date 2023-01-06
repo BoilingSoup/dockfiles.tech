@@ -1,7 +1,7 @@
 import { Button, Checkbox, Group, Loader, TextInput } from "@mantine/core";
 import { useLoginMutation } from "../../hooks/api/useLoginMutation";
 import { useLoginForm } from "./hooks/useLoginForm";
-import { formInputStyles, submitSx } from "./styles";
+import { checkboxStyles, formInputStyles, submitSx } from "./styles";
 
 export const LoginForm = () => {
   const loginForm = useLoginForm();
@@ -17,7 +17,12 @@ export const LoginForm = () => {
       />
       <TextInput mt={14} styles={formInputStyles} label="Password" {...loginForm.getInputProps("password")} />
       <Group align="end">
-        <Checkbox mt="md" label="Remember me" {...loginForm.getInputProps("rememberMe", { type: "checkbox" })} />
+        <Checkbox
+          styles={checkboxStyles}
+          mt="md"
+          label="Remember me"
+          {...loginForm.getInputProps("rememberMe", { type: "checkbox" })}
+        />
       </Group>
 
       <Group position="right">

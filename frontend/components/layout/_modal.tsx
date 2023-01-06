@@ -16,8 +16,9 @@ export const Modal = ({ opened, onClose: modalCloseHandler }: Props) => {
     <MantineModal centered opened={opened} onClose={modalCloseHandler} title="Sign In" styles={modalStyles}>
       <Stack>
         <LoginForm />
+        {/*TODO: on successful login, show success notification and close modal*/}
 
-        <Divider />
+        <Divider size="xl" />
         <Button variant="white" sx={oAuthBtnSx} leftIcon={<IconBrandGithub size={iconSize} />}>
           <Text size="lg">Sign in with GitHub</Text>
         </Button>
