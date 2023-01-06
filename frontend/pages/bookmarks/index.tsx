@@ -5,10 +5,13 @@ import React from "react";
 import { CategoriesSearch } from "../../components/common/categories-search/CategoriesSearch";
 import { mainContainerSx } from "../../components/common/styles";
 import { SITE_NAME } from "../../config/config";
+import { useAuth } from "../../contexts/AuthProvider";
 import { useBookmarksCategoriesSearch } from "../../zustand-store/bookmarks/useBookmarksCategoriesSearch";
 
 const Bookmarks: NextPage = () => {
   const { input, setInput, select, setSelect } = useBookmarksCategoriesSearch();
+  const { user } = useAuth();
+  console.log(user);
 
   return (
     <>

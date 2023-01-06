@@ -63,7 +63,6 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
     data: {
       user,
       colorScheme: colorScheme as ColorScheme,
-      authenticated: user !== null && user !== undefined,
     },
   };
 };
