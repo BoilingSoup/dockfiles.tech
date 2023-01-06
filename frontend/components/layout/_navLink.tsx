@@ -8,9 +8,10 @@ type Props = {
   href?: string;
   text: string;
   children?: ReactElement;
+  disabled?: boolean;
 };
 
-export const NavLink = ({ href, text, children }: Props) => {
+export const NavLink = ({ href, text, children, disabled = false }: Props) => {
   const router = useRouter();
 
   const sharedProps: NavLinkProps = {
@@ -23,7 +24,7 @@ export const NavLink = ({ href, text, children }: Props) => {
   if (href !== undefined) {
     return (
       <Link href={href} passHref>
-        <MantineNavLink styles={navLinkStyles} sx={navLinkSx} {...sharedProps} />
+        <MantineNavLink styles={navLinkStyles} sx={navLinkSx} {...sharedProps} disabled={disabled} />
       </Link>
     );
   }
@@ -34,6 +35,7 @@ export const NavLink = ({ href, text, children }: Props) => {
       sx={navLinkSx}
       {...sharedProps}
       childrenOffset={0}
+      disabled={disabled}
     >
       {children}
     </MantineNavLink>
