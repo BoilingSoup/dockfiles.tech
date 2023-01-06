@@ -120,3 +120,20 @@ export const submitSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CS
     }),
   },
 });
+
+export const loginErrorStyles = () => ({
+  title: {
+    fontSize: "1.1rem",
+  },
+  description: {
+    fontSize: "1.1rem",
+  },
+});
+
+export const formInputStyles = () => ({
+  label: {
+    fontSize: "1rem",
+    marginBottom: "2px",
+    fontWeight: 500,
+  },
+});

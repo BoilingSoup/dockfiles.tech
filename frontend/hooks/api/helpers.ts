@@ -1,3 +1,5 @@
+import { showNotification } from "@mantine/notifications";
+import { loginErrorStyles } from "../../components/layout/styles";
 import { User } from "../../contexts/AuthProvider";
 import { apiFetch, authFetch } from "../../query-client/baseFetcher";
 import { ALL_CATEGORIES } from "../../zustand-store/types";
@@ -119,3 +121,19 @@ export function getComments(stringId: string) {
 export const getEnvironmentDetails = (stringId: string) => async () => {
   return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
 };
+
+export type LoginFormValues = {
+  email: string;
+  password: string;
+};
+
+export const attemptLogin = async (values: LoginFormValues) =>
+  (await authFetch.post("login", { email: values.email, password: values.password })) as User;
+
+export const loginErrorNotification = () =>
+  showNotification({
+    color: "red",
+    title: "Invalid login!",
+    message: "Your email or password is incorrect.",
+    styles: loginErrorStyles,
+  });

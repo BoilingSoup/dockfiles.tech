@@ -18,6 +18,7 @@ import {
 import { MantineProvider } from "../contexts/MantineProvider";
 import { getUserInitialData } from "../hooks/api/helpers";
 import { queryClient } from "../query-client/queryClient";
+import { NotificationsProvider } from "@mantine/notifications";
 
 export default function App(props: AppProps & { data: ServerData }) {
   const { Component, pageProps } = props;
@@ -37,11 +38,13 @@ export default function App(props: AppProps & { data: ServerData }) {
       <QueryClientProvider client={queryClient}>
         <ColorSchemeProvider value={props.data.colorScheme}>
           <MantineProvider>
-            <AuthProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </AuthProvider>
+            <NotificationsProvider>
+              <AuthProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </AuthProvider>
+            </NotificationsProvider>
           </MantineProvider>
         </ColorSchemeProvider>
         <ReactQueryDevtools />
