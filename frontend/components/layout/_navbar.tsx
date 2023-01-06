@@ -5,6 +5,7 @@ import { UserNavLinksGroup } from "./_userNavLinksGroup";
 import { BrowseNavLink } from "./_browseNavLink";
 import { LoginModal } from "./_loginModal";
 import { RegisterModal } from "./_registerModal";
+import { useAuth } from "../../contexts/AuthProvider";
 
 export const navBarHiddenBreakPoint = "sm";
 
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }: Props) => {
+  const { user } = useAuth();
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
 
@@ -35,7 +37,7 @@ export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }
         sx={navbarSx}
       >
         <BrowseNavLink onLinkClick={navbarCloseHandler} />
-        <UserNavLinksGroup onLinkClick={navbarCloseHandler} />
+        {user && <UserNavLinksGroup onLinkClick={navbarCloseHandler} />}
         <Center style={{ flexDirection: "column" }}>
           <Button onClick={loginModalOpenHandler} sx={signInOrRegisterBtnSx}>
             Sign In
