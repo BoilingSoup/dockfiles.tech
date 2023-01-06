@@ -9,12 +9,7 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={registerForm.onSubmit((values) => register(values))}>
-      <TextInput
-        styles={formInputStyles}
-        label="Email"
-        placeholder="your@email.com"
-        {...registerForm.getInputProps("email")}
-      />
+      <TextInput styles={formInputStyles} label="Email" {...registerForm.getInputProps("email")} />
       <TextInput mt={14} styles={formInputStyles} label="Password" {...registerForm.getInputProps("password")} />
       <TextInput
         mt={14}
