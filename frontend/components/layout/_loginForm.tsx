@@ -9,8 +9,14 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={loginForm.onSubmit((values) => login(values))}>
-      <TextInput styles={formInputStyles} label="Email" {...loginForm.getInputProps("email")} />
-      <TextInput mt={14} styles={formInputStyles} label="Password" {...loginForm.getInputProps("password")} />
+      <TextInput type="email" styles={formInputStyles} label="Email" {...loginForm.getInputProps("email")} />
+      <TextInput
+        type="password"
+        mt={14}
+        styles={formInputStyles}
+        label="Password"
+        {...loginForm.getInputProps("password")}
+      />
       <Group align="end">
         <Checkbox
           styles={checkboxStyles}
