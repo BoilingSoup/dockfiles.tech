@@ -28,6 +28,7 @@ export const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => 
 
 export const signInOrRegisterBtnSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
   width: "85%",
+  maxWidth: 360,
   marginTop: "1rem",
   marginRight: "1rem",
   marginLeft: "1rem",
@@ -38,6 +39,9 @@ export const signInOrRegisterBtnSx = ({ colors, colorScheme, fn, shadows }: Mant
       light: fn.darken(colors.indigo[9], 0.05),
       dark: fn.lighten(colors.blue[8], 0.05),
     }),
+  },
+  "@media (min-width: 768px)": {
+    maxWidth: 180,
   },
 });
 
@@ -91,10 +95,10 @@ export const asideSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   }),
 });
 
-export const unAuthSidebarSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
+export const unauthSidebarSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   background: colorSchemeHandler(colorScheme, {
     dark: fn.darken(colors.slate[9], 0.25),
-    light: fn.darken(colors.blue[2], 0.25),
+    light: fn.darken(colors.blue[2], 0.1),
   }),
   height: "100%",
   flexDirection: "column",
