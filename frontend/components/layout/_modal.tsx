@@ -1,4 +1,4 @@
-import { Button, Checkbox, Group, Input, Modal as MantineModal, Stack, Text, TextInput } from "@mantine/core";
+import { Button, Checkbox, Group, Modal as MantineModal, Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconBrandGithub, IconBrandGitlab } from "@tabler/icons";
 import { Divider } from "../common/Divider";
@@ -16,7 +16,7 @@ export const Modal = ({ opened, onClose: modalCloseHandler }: Props) => {
     initialValues: {
       email: "",
       password: "",
-      termsOfService: false,
+      rememberMe: false,
     },
 
     validate: {
@@ -31,7 +31,7 @@ export const Modal = ({ opened, onClose: modalCloseHandler }: Props) => {
         <form onSubmit={form.onSubmit((values) => console.log(values))}>
           <TextInput label="Email" placeholder="your@email.com" {...form.getInputProps("email")} />
           <TextInput label="Password" {...form.getInputProps("password")} />
-          <Checkbox mt="md" label="Remember me" {...form.getInputProps("termsOfService", { type: "checkbox" })} />
+          <Checkbox mt="md" label="Remember me" {...form.getInputProps("rememberMe", { type: "checkbox" })} />
 
           <Group position="right" mt="md">
             <Button sx={submitSx} type="submit">
