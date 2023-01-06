@@ -55,6 +55,7 @@ export default function App(props: AppProps & { data: ServerData }) {
 
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
   const [user] = await getUserInitialData();
+  console.log(user);
 
   let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
 

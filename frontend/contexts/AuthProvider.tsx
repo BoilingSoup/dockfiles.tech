@@ -20,6 +20,7 @@ export type User = null | {
   name: string;
   avatar: string; // optional maybe?
   is_admin: boolean;
+  email_verified_at: boolean;
 };
 
 export const AuthProvider = ({ children }: Props) => {

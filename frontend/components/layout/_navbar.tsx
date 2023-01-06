@@ -6,7 +6,6 @@ import { BrowseNavLink } from "./_browseNavLink";
 import { LoginModal } from "./_loginModal";
 import { RegisterModal } from "./_registerModal";
 import { useAuth } from "../../contexts/AuthProvider";
-import { useMediaQuery } from "@mantine/hooks";
 
 export const navBarHiddenBreakPoint = "sm";
 
@@ -17,7 +16,6 @@ type Props = {
 
 export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }: Props) => {
   const { user } = useAuth();
-  const largeScreen = useMediaQuery("(min-width: 900px)");
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
 

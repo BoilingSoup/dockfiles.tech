@@ -3,9 +3,13 @@ import { useLoginMutation } from "../../hooks/api/useLoginMutation";
 import { useLoginForm } from "./hooks/useLoginForm";
 import { checkboxStyles, formInputStyles, submitSx } from "./styles";
 
-export const LoginForm = () => {
+type Props = {
+  onClose: () => void;
+};
+
+export const LoginForm = ({ onClose: modalCloseHandler }: Props) => {
   const loginForm = useLoginForm();
-  const { mutate: login, isLoading } = useLoginMutation();
+  const { mutate: login, isLoading } = useLoginMutation(modalCloseHandler);
 
   return (
     <form onSubmit={loginForm.onSubmit((values) => login(values))}>

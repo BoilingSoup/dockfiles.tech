@@ -25,13 +25,16 @@ const UnauthenticatedSidebar = () => {
   );
 };
 
+const AuthenticatedSidebar = () => {
+  return <Text>Notifications</Text>;
+};
+
 export const Sidebar = () => {
   const { user } = useAuth();
 
   return (
     <Aside hidden={true} hiddenBreakpoint="xl" width={{ xl: asideWidth }} sx={asideSx}>
-      {/* <Text>Notifications</Text> */}
-      {!user && <UnauthenticatedSidebar />}
+      {user ? <AuthenticatedSidebar /> : <UnauthenticatedSidebar />}
     </Aside>
   );
 };

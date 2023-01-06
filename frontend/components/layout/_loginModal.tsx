@@ -14,7 +14,7 @@ export const LoginModal = ({ opened, onClose: modalCloseHandler }: Props) => {
   return (
     <Modal centered opened={opened} onClose={modalCloseHandler} title="Sign In" styles={modalStyles}>
       <Stack>
-        <LoginForm />
+        <LoginForm onClose={modalCloseHandler} />
         {/*TODO: on successful login, show success notification and close modal*/}
 
         <Divider size="xl" />

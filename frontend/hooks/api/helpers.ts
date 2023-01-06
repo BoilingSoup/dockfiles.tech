@@ -1,5 +1,5 @@
 import { showNotification } from "@mantine/notifications";
-import { loginErrorStyles } from "../../components/layout/styles";
+import { notificationStyles } from "../../components/layout/styles";
 import { User } from "../../contexts/AuthProvider";
 import { apiFetch, authFetch } from "../../query-client/baseFetcher";
 import { ALL_CATEGORIES } from "../../zustand-store/types";
@@ -135,5 +135,14 @@ export const loginErrorNotification = () =>
     color: "red",
     title: "Invalid login!",
     message: "Your email or password is incorrect.",
-    styles: loginErrorStyles,
+    styles: notificationStyles,
   });
+
+export const loginSuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Logged in!",
+    message: "You were successfully logged in.",
+    styles: notificationStyles,
+  });
+};

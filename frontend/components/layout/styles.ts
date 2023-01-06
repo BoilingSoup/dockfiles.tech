@@ -144,7 +144,7 @@ export const submitSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CS
   },
 });
 
-export const loginErrorStyles = () => ({
+export const notificationStyles = () => ({
   title: {
     fontSize: "1.1rem",
   },
