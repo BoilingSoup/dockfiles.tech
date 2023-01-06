@@ -1,5 +1,5 @@
 import { ColorScheme } from "@mantine/core";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -7,8 +7,8 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../components/layout/Layout";
 import { ServerData } from "../components/layout/types";
-import { SITE_NAME } from "../config/config";
-import { AuthProvider } from "../contexts/AuthProvider";
+import { APP_URL, SITE_NAME } from "../config/config";
+import { AuthProvider, User } from "../contexts/AuthProvider";
 import {
   ColorSchemeProvider,
   COLOR_SCHEME_COOKIE_KEY,
@@ -16,7 +16,6 @@ import {
   isValidColorScheme,
 } from "../contexts/ColorSchemeProvider";
 import { MantineProvider } from "../contexts/MantineProvider";
-import { getUserInitialData } from "../hooks/api/helpers";
 import { queryClient } from "../query-client/queryClient";
 import { NotificationsProvider } from "@mantine/notifications";
 
@@ -39,7 +38,7 @@ export default function App(props: AppProps & { data: ServerData }) {
         <ColorSchemeProvider value={props.data.colorScheme}>
           <MantineProvider>
             <NotificationsProvider>
-              <AuthProvider>
+              <AuthProvider user={props.data.user}>
                 <Layout>
                   <Component {...pageProps} />
                 </Layout>
@@ -54,8 +53,24 @@ export default function App(props: AppProps & { data: ServerData }) {
 }
 
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
-  const [user] = await getUserInitialData();
-  console.log(user);
+  let user: User = null;
+  const token = getCookie("XSRF-TOKEN", { req: ctx.req });
+
+  if (typeof token === "string" && ctx.req) {
+    let response = await fetch(`${APP_URL}/user`, {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Referer: ctx.req.headers.host || "",
+        "X-XSRF-TOKEN": token,
+        Cookie: ctx.req.headers.cookie || "",
+      },
+    });
+    const data = await response.json();
+    ctx.res.setHeader("set-cookie", response.headers.get("set-cookie") || "");
+    user = data;
+  }
 
   let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
 

@@ -13,6 +13,7 @@ export const useAuth = () => {
 
 type Props = {
   children: JSX.Element;
+  user: User;
 };
 
 export type User = null | {
@@ -23,8 +24,8 @@ export type User = null | {
   email_verified_at: boolean;
 };
 
-export const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<User>(null);
+export const AuthProvider = ({ children, user: ssrUser }: Props) => {
+  const [user, setUser] = useState<User>(ssrUser);
 
   return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };

@@ -11,7 +11,6 @@ import { useBookmarksCategoriesSearch } from "../../zustand-store/bookmarks/useB
 const Bookmarks: NextPage = () => {
   const { input, setInput, select, setSelect } = useBookmarksCategoriesSearch();
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <>
