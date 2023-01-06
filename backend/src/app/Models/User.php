@@ -47,7 +47,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at',
         'is_banned',
         'email',
-        'email_verified_at',
         'password',
         'remember_token',
         'github_token',
