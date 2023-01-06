@@ -109,3 +109,14 @@ export const modalStyles: modalStylesObj = {
     fontSize: "1.4rem",
   },
 };
+
+export const submitSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
+  boxShadow: shadows.xl,
+  backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
+  "&:hover": {
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: fn.darken(colors.indigo[9], 0.05),
+      dark: fn.lighten(colors.blue[8], 0.05),
+    }),
+  },
+});

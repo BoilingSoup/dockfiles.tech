@@ -2,7 +2,7 @@ import { Button, Checkbox, Group, Input, Modal as MantineModal, Stack, Text, Tex
 import { useForm } from "@mantine/form";
 import { IconBrandGithub, IconBrandGitlab } from "@tabler/icons";
 import { Divider } from "../common/Divider";
-import { modalStyles, oAuthBtnSx } from "./styles";
+import { modalStyles, oAuthBtnSx, submitSx } from "./styles";
 
 const iconSize = 30;
 
@@ -34,7 +34,9 @@ export const Modal = ({ opened, onClose: modalCloseHandler }: Props) => {
           <Checkbox mt="md" label="Remember me" {...form.getInputProps("termsOfService", { type: "checkbox" })} />
 
           <Group position="right" mt="md">
-            <Button type="submit">Submit</Button>
+            <Button sx={submitSx} type="submit">
+              Submit
+            </Button>
           </Group>
         </form>
 
