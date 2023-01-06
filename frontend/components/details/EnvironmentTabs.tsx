@@ -1,4 +1,4 @@
-import { Badge, Box, Center, Loader, Tabs, TabsValue } from "@mantine/core";
+import { Badge, Box, Loader, Tabs, TabsValue } from "@mantine/core";
 import { IconBook, IconDownload, IconMessage } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { PseudoLink } from "../common/PseudoLink";

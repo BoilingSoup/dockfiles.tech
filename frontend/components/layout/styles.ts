@@ -91,6 +91,15 @@ export const asideSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   }),
 });
 
+export const unAuthSidebarSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
+  background: colorSchemeHandler(colorScheme, {
+    dark: fn.darken(colors.slate[9], 0.25),
+    light: fn.darken(colors.blue[2], 0.25),
+  }),
+  height: "100%",
+  flexDirection: "column",
+});
+
 export const oAuthBtnSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   backgroundColor: colorSchemeHandler(colorScheme, {
     light: colors.gray[1],
