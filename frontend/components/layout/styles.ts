@@ -26,9 +26,11 @@ export const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => 
   },
 });
 
-export const signInBtnSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
+export const signInOrRegisterBtnSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
   width: "85%",
-  margin: "1rem",
+  marginTop: "1rem",
+  marginRight: "1rem",
+  marginLeft: "1rem",
   boxShadow: shadows.xl,
   backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
   "&:hover": {
