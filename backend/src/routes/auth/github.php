@@ -26,5 +26,5 @@ Route::get('/github/callback', function () {
 
     Auth::login($user);
 
-    return redirect('/');
+    return redirect(config("view.frontendUrl"));
 });

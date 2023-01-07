@@ -1,5 +1,6 @@
 import { Modal, Stack } from "@mantine/core";
 import { IconBrandGithub, IconBrandGitlab } from "@tabler/icons";
+import { GITHUB_AUTH_REDIRECT } from "../../config/config";
 import { Divider } from "../common/Divider";
 import { modalStyles } from "./styles";
 import { LoginForm } from "./_loginForm";
@@ -18,8 +19,8 @@ export const LoginModal = ({ opened, onClose: modalCloseHandler }: Props) => {
         {/*TODO: on successful login, show success notification and close modal*/}
 
         <Divider size="xl" />
-        <OAuthButton icon={<IconBrandGithub />} text="Sign in With GitHub" />
-        <OAuthButton icon={<IconBrandGitlab />} text="Sign in With GitLab" />
+        <OAuthButton href={GITHUB_AUTH_REDIRECT} icon={<IconBrandGithub />} text="Sign in With GitHub" />
+        <OAuthButton href={"https://google.com/"} icon={<IconBrandGitlab />} text="Sign in With GitLab" />
       </Stack>
     </Modal>
   );
