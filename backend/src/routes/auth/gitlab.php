@@ -10,21 +10,25 @@ Route::get('/gitlab/redirect', function () {
 });
 
 Route::get('/gitlab/callback', function () {
-    $gitlabUser = Socialite::driver('gitlab')->user();
+    try {
+        $gitlabUser = Socialite::driver('gitlab')->user();
 
-    $user = User::updateOrCreate(
-        ['gitlab_id' => $gitlabUser->id],
-        [
-            'name' => $gitlabUser->name,
-            'avatar' => $gitlabUser->avatar,
-            'email' => $gitlabUser->email,
-            'email_verified_at' => date('Y-m-d H:i:s'),
-            'gitlab_token' => $gitlabUser->token,
-            'gitlab_refresh_token' => $gitlabUser->refreshToken,
-        ]
-    );
+        $user = User::updateOrCreate(
+            ['gitlab_id' => $gitlabUser->id],
+            [
+                'name' => $gitlabUser->name,
+                'avatar' => $gitlabUser->avatar,
+                'email' => $gitlabUser->email,
+                'email_verified_at' => date('Y-m-d H:i:s'),
+                'gitlab_token' => $gitlabUser->token,
+                'gitlab_refresh_token' => $gitlabUser->refreshToken,
+            ]
+        );
 
-    Auth::login($user);
+        Auth::login($user);
 
-    return redirect('/');
+        return redirect(config("view.frontendUrl"));
+    } catch (\Exception) {
+        return redirect(config("view.frontendUrl"));
+    }
 });
