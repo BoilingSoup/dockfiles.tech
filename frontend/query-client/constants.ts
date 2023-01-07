@@ -4,6 +4,8 @@ const CATEGORIES = "categories";
 const ENVIRONMENTS = "environments";
 const COMMENTS = "comments";
 
+const INITIAL_SEARCH_PARAM = "";
+
 export const queryKeys = {
   categories: CATEGORIES,
   environments: ENVIRONMENTS,
@@ -19,7 +21,7 @@ export const queryKeys = {
 
     return sortedLowerCase.join("");
   },
-  initialHomePageQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, "", INITIAL_PAGE_CURSOR],
+  initialHomePageQueryKey: [ENVIRONMENTS, ALL_CATEGORIES, INITIAL_SEARCH_PARAM, INITIAL_PAGE_CURSOR],
   comments(stringId: string) {
     return [COMMENTS, stringId];
   },

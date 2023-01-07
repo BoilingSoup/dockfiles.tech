@@ -1,4 +1,4 @@
-import { CSSObject, MantineTheme, TextInputStylesNames } from "@mantine/core";
+import { CSSObject, MantineTheme } from "@mantine/core";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
 export const iconSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
