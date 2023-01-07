@@ -10,11 +10,6 @@ import { useLogoutMutation } from "../../hooks/api/useLogoutMutation";
 
 export const navBarHiddenBreakPoint = "sm";
 
-type Props = {
-  opened: boolean;
-  onLinkClick: () => void;
-};
-
 type UnauthenticatedBtnProps = {
   onLoginClick: () => void;
   onRegisterClick: () => void;
@@ -34,6 +29,11 @@ const UnauthenticatedButtons = ({
       </Button>
     </>
   );
+};
+
+type Props = {
+  opened: boolean;
+  onLinkClick: () => void;
 };
 
 export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }: Props) => {

@@ -18,8 +18,8 @@ export const LoginModal = ({ opened, onClose: modalCloseHandler }: Props) => {
         <LoginForm onClose={modalCloseHandler} />
 
         <Divider size="xl" />
-        <OAuthButton href={GITHUB_AUTH_REDIRECT} icon={<IconBrandGithub />} text="Sign in With GitHub" />
-        <OAuthButton href={GITLAB_AUTH_REDIRECT} icon={<IconBrandGitlab />} text="Sign in With GitLab" />
+        <OAuthButton href={GITHUB_AUTH_REDIRECT} icon={<IconBrandGithub />} text="Sign in With GitHub" loadingText="Connecting to GitHub" />
+        <OAuthButton href={GITLAB_AUTH_REDIRECT} icon={<IconBrandGitlab />} text="Sign in With GitLab" loadingText="Connecting to GitLab"/>
       </Stack>
     </Modal>
   );
