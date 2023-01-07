@@ -23,6 +23,8 @@ const Home: NextPage = () => {
   const { cursor, setCursor } = useHomePageCursor();
 
   // data fetching
+  // NOTE: isSkeleton no longer does anything meaningful as I switched the home page data from CSR to SSR.
+  // I'm leaving it in for now because it works, although it does nothing.
   const { data, isSkeleton, isFetching } = useEnvironments({ categoryId, cursor, searchParam });
   usePrefetchEnvironments({ categoryId, data, searchParam });
 

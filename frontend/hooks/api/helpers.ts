@@ -54,6 +54,10 @@ export const getEnvironmentReadMe = async (url: string) => {
   return (await fetch(url)).text();
 };
 
+export const getEnvironmentsIndex = async () => {
+  return (await apiFetch.get("environments")) as EnvironmentsData;
+};
+
 /**React Query fetcher functions*/
 export function getEnvironments({ categoryId, cursor, searchParam }: QueryParams) {
   return async function () {

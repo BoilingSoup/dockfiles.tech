@@ -1,5 +1,5 @@
 import { ColorScheme } from "@mantine/core";
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -18,6 +18,7 @@ import {
 import { MantineProvider } from "../contexts/MantineProvider";
 import { queryClient } from "../query-client/queryClient";
 import { NotificationsProvider } from "@mantine/notifications";
+import { getEnvironmentsIndex } from "../hooks/api/helpers";
 
 export default function App(props: AppProps & { data: ServerData }) {
   const { Component, pageProps } = props;
@@ -39,7 +40,7 @@ export default function App(props: AppProps & { data: ServerData }) {
           <MantineProvider>
             <NotificationsProvider>
               <AuthProvider user={props.data.user}>
-                <Layout>
+                <Layout initialData={props.data.environments}>
                   <Component {...pageProps} />
                 </Layout>
               </AuthProvider>
@@ -54,6 +55,7 @@ export default function App(props: AppProps & { data: ServerData }) {
 
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
   let user: User = null;
+  let environments = await getEnvironmentsIndex();
   const token = getCookie("XSRF-TOKEN", { req: ctx.req });
 
   if (typeof token === "string" && ctx.req) {
@@ -82,6 +84,7 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
     data: {
       user,
       colorScheme: colorScheme as ColorScheme,
+      environments,
     },
   };
 };
