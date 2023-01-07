@@ -8,35 +8,34 @@ import { useEnvironments } from "../hooks/api/useEnvironments";
 import { useHomePageCursor } from "../zustand-store/home/useHomePageCursor";
 import { usePrefetchEnvironments } from "../hooks/api/usePrefetchEnvironments";
 import { NavigationButtonsGroup } from "../components/common/NavigationButtonsGroup";
-import { EnvironmentListItem, EnvironmentListItemSkeleton } from "../components/common/EnvironmentListItem";
+import { EnvironmentListItem } from "../components/common/EnvironmentListItem";
 import { mainContainerSx } from "../components/common/styles";
 import { CursorsObj } from "../components/common/types";
 import { INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 import { LoadingSpinner } from "../components/common/LoadingSpinner";
-import { PAGE_SIZE, SITE_NAME } from "../config/config";
+import { SITE_NAME } from "../config/config";
 import { ChangeEvent } from "react";
+import { useDebouncedCursor } from "../hooks/api/useDebouncedCursor";
 
 const Home: NextPage = () => {
   // state management
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
-  const [searchParam] = useDebouncedValue(input, 300);
   const { cursor, setCursor } = useHomePageCursor();
+  const [searchParam] = useDebouncedValue(input, 300);
+  useDebouncedCursor({ setCursor, searchParam });
 
-  // data fetching
-  // NOTE: isSkeleton no longer does anything meaningful as I switched the home page data from CSR to SSR.
-  // I'm leaving it in for now because it works, although it does nothing.
-  const { data, isSkeleton, isFetching } = useEnvironments({ categoryId, cursor, searchParam });
+  // CSR data fetching
+  const { data, isFetching } = useEnvironments({ categoryId, cursor, searchParam });
   usePrefetchEnvironments({ categoryId, data, searchParam });
 
   const environments = data?.data.data;
-  const noResults = !isSkeleton && !environments?.length;
+  const noResults = !environments?.length;
   const pageCursors: CursorsObj = {
     next: data?.data.next_cursor,
     prev: data?.data.prev_cursor,
   };
 
   const inputChangeHandler = (input: string) => {
-    setCursor(INITIAL_PAGE_CURSOR);
     setInput(input);
   };
 
@@ -62,17 +61,14 @@ const Home: NextPage = () => {
         <Container style={{ position: "relative" }} mt={10} p={0}>
           {isFetching && <LoadingSpinner />}
 
-          {isSkeleton && new Array(PAGE_SIZE).fill(null).map((_, index) => <EnvironmentListItemSkeleton key={index} />)}
-
-          {!isSkeleton &&
-            environments?.map((environment) => (
-              <EnvironmentListItem
-                key={environment.id}
-                name={environment.name}
-                string_id={environment.string_id}
-                comments_count={environment.comments_count}
-              />
-            ))}
+          {environments?.map((environment) => (
+            <EnvironmentListItem
+              key={environment.id}
+              name={environment.name}
+              string_id={environment.string_id}
+              comments_count={environment.comments_count}
+            />
+          ))}
 
           {noResults && (
             <Center mt={360}>

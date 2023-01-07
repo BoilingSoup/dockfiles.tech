@@ -17,7 +17,7 @@ export const Layout = (props: Props) => {
   const [navbarOpened, setNavbarOpened] = useState(false);
   const [hamburgerOpened, { toggle: hamburgerAnimation }] = useDisclosure(false);
   const { start: navbarCloseHandler } = useTimeout(() => navbarToggleHandler(), 50);
-  
+
   useSetEnvironmentsIndexInitialData(props.initialData);
 
   const navbarToggleHandler = () => {

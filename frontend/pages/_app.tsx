@@ -7,7 +7,7 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../components/layout/Layout";
 import { ServerData } from "../components/layout/types";
-import { APP_URL, SITE_NAME } from "../config/config";
+import { SITE_NAME } from "../config/config";
 import { AuthProvider, User } from "../contexts/AuthProvider";
 import {
   ColorSchemeProvider,
