@@ -16,7 +16,6 @@ export const LoginModal = ({ opened, onClose: modalCloseHandler }: Props) => {
     <Modal centered opened={opened} onClose={modalCloseHandler} title="Sign In" styles={modalStyles}>
       <Stack>
         <LoginForm onClose={modalCloseHandler} />
-        {/*TODO: on successful login, show success notification and close modal*/}
 
         <Divider size="xl" />
         <OAuthButton href={GITHUB_AUTH_REDIRECT} icon={<IconBrandGithub />} text="Sign in With GitHub" />
