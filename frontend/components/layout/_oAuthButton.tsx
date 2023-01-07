@@ -13,10 +13,14 @@ const defaultIconSize = 30;
 
 export const OAuthButton = ({ icon, iconSize, text, href }: Props) => {
   return (
-    <a href={href}>
-      <Button variant="white" sx={oAuthBtnSx} leftIcon={cloneElement(icon, { size: iconSize ?? defaultIconSize })}>
-        <Text size="lg">{text}</Text>
-      </Button>
-    </a>
+    <Button
+      component="a"
+      href={href}
+      variant="white"
+      sx={oAuthBtnSx}
+      leftIcon={cloneElement(icon, { size: iconSize ?? defaultIconSize })}
+    >
+      <Text size="lg">{text}</Text>
+    </Button>
   );
 };
