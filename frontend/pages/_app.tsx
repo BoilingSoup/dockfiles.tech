@@ -18,7 +18,7 @@ import {
 import { MantineProvider } from "../contexts/MantineProvider";
 import { queryClient } from "../query-client/queryClient";
 import { NotificationsProvider } from "@mantine/notifications";
-import { getEnvironmentsIndex } from "../hooks/api/helpers";
+import { getEnvironmentsIndex, getInitialUser } from "../hooks/api/helpers";
 
 export default function App(props: AppProps & { data: ServerData }) {
   const { Component, pageProps } = props;
@@ -59,19 +59,14 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
   const token = getCookie("XSRF-TOKEN", { req: ctx.req });
 
   if (typeof token === "string" && ctx.req) {
-    let response = await fetch(`${APP_URL}/user`, {
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Referer: ctx.req.headers.host || "",
-        "X-XSRF-TOKEN": token,
-        Cookie: ctx.req.headers.cookie || "",
-      },
-    });
-    const data = await response.json();
+    let response = await getInitialUser({ token, ctx });
+    if (!response.ok) {
+      user = null;
+    } else {
+      const data = await response.json();
+      user = data as User;
+    }
     ctx.res.setHeader("set-cookie", response.headers.get("set-cookie") || "");
-    user = data;
   }
 
   let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);

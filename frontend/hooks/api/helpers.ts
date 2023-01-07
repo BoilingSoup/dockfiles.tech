@@ -1,5 +1,8 @@
 import { showNotification } from "@mantine/notifications";
+import { getCookie } from "cookies-next";
+import { GetServerSidePropsContext } from "next";
 import { notificationStyles } from "../../components/layout/styles";
+import { APP_URL } from "../../config/config";
 import { User } from "../../contexts/AuthProvider";
 import { apiFetch, authFetch } from "../../query-client/baseFetcher";
 import { ALL_CATEGORIES } from "../../zustand-store/types";
@@ -54,9 +57,23 @@ export const getEnvironmentReadMe = async (url: string) => {
   return (await fetch(url)).text();
 };
 
+/** SSR helper */
 export const getEnvironmentsIndex = async () => {
   return (await apiFetch.get("environments")) as EnvironmentsData;
 };
+
+/** SSR helper */
+export const getInitialUser = async ({ token, ctx }: { token: string; ctx: GetServerSidePropsContext }) =>
+  await fetch(`${APP_URL}/user`, {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Referer: ctx.req.headers.host || "",
+      "X-XSRF-TOKEN": token,
+      Cookie: ctx.req.headers.cookie || "",
+    },
+  });
 
 /**React Query fetcher functions*/
 export function getEnvironments({ categoryId, cursor, searchParam }: QueryParams) {
@@ -117,6 +134,7 @@ export const getEnvironmentDetails = (stringId: string) => async () => {
   return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
 };
 
+/** React Query mutation helpers */
 export type LoginFormValues = {
   email: string;
   password: string;
@@ -138,6 +156,39 @@ export const loginSuccessNotification = () => {
     color: "lime",
     title: "Logged in!",
     message: "You were successfully logged in.",
+    styles: notificationStyles,
+  });
+};
+
+export const attemptLogout = async (): Promise<Response> => {
+  const token = getCookie("XSRF-TOKEN");
+
+  if (typeof token !== "string") {
+    throw new Error("Something went wrong.");
+  }
+
+  const response = await fetch(`${APP_URL}/logout`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-XSRF-TOKEN": decodeURIComponent(token),
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong.");
+  }
+
+  return response;
+};
+
+export const logoutErrorNotification = () => {
+  showNotification({
+    color: "red",
+    title: "Something went wrong!",
+    message: "Could not log out at this time. Try again later.",
     styles: notificationStyles,
   });
 };

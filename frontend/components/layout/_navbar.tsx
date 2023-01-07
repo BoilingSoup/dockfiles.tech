@@ -1,4 +1,4 @@
-import { Button, Center, Navbar as MantineNavbar } from "@mantine/core";
+import { Button, Center, Loader, Navbar as MantineNavbar } from "@mantine/core";
 import React, { useState } from "react";
 import { authControlBtnSx, navbarSx } from "./styles";
 import { UserNavLinksGroup } from "./_userNavLinksGroup";
@@ -6,6 +6,7 @@ import { BrowseNavLink } from "./_browseNavLink";
 import { LoginModal } from "./_loginModal";
 import { RegisterModal } from "./_registerModal";
 import { useAuth } from "../../contexts/AuthProvider";
+import { useLogoutMutation } from "../../hooks/api/useLogoutMutation";
 
 export const navBarHiddenBreakPoint = "sm";
 
@@ -37,6 +38,8 @@ const UnauthenticatedButtons = ({
 
 export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }: Props) => {
   const { user } = useAuth();
+  const { mutate: logoutMutation, isLoading: logoutIsLoading } = useLogoutMutation();
+
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
 
@@ -61,7 +64,9 @@ export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }
         {user && <UserNavLinksGroup onLinkClick={navbarCloseHandler} />}
         <Center style={{ flexDirection: "column" }}>
           {user ? (
-            <Button sx={authControlBtnSx}>Sign out</Button>
+            <Button onClick={() => logoutMutation()} sx={authControlBtnSx}>
+              {logoutIsLoading ? <Loader color="gray" size="sm" /> : "Sign out"}
+            </Button>
           ) : (
             <UnauthenticatedButtons onLoginClick={loginModalOpenHandler} onRegisterClick={registerModalOpenHandler} />
           )}
