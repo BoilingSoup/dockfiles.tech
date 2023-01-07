@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { MantineProvider as Provider } from "@mantine/core";
+import { createEmotionCache, MantineProvider as Provider } from "@mantine/core";
 import { useMantineColorScheme } from "@mantine/core";
 import { colorSchemeHandler } from "../theme/color-scheme-handler";
 
@@ -8,12 +8,14 @@ type Props = {
 };
 
 export const markdownClass = "markdown";
+export const myCache = createEmotionCache({ key: "mantine" });
 
 export const MantineProvider = (props: Props) => {
   const { colorScheme } = useMantineColorScheme();
 
   return (
     <Provider
+      emotionCache={myCache}
       withGlobalStyles
       withNormalizeCSS
       theme={{
