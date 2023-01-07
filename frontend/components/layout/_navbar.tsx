@@ -1,6 +1,6 @@
 import { Button, Center, Navbar as MantineNavbar } from "@mantine/core";
 import React, { useState } from "react";
-import { navbarSx, signInOrRegisterBtnSx } from "./styles";
+import { authControlBtnSx, navbarSx } from "./styles";
 import { UserNavLinksGroup } from "./_userNavLinksGroup";
 import { BrowseNavLink } from "./_browseNavLink";
 import { LoginModal } from "./_loginModal";
@@ -12,6 +12,27 @@ export const navBarHiddenBreakPoint = "sm";
 type Props = {
   opened: boolean;
   onLinkClick: () => void;
+};
+
+type UnauthenticatedBtnProps = {
+  onLoginClick: () => void;
+  onRegisterClick: () => void;
+};
+
+const UnauthenticatedButtons = ({
+  onLoginClick: loginModalOpenHandler,
+  onRegisterClick: registerModalOpenHandler,
+}: UnauthenticatedBtnProps) => {
+  return (
+    <>
+      <Button onClick={loginModalOpenHandler} sx={authControlBtnSx}>
+        Sign In
+      </Button>
+      <Button onClick={registerModalOpenHandler} sx={authControlBtnSx}>
+        Register
+      </Button>
+    </>
+  );
 };
 
 export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }: Props) => {
@@ -39,12 +60,11 @@ export const Navbar = ({ opened: navbarOpened, onLinkClick: navbarCloseHandler }
         <BrowseNavLink onLinkClick={navbarCloseHandler} />
         {user && <UserNavLinksGroup onLinkClick={navbarCloseHandler} />}
         <Center style={{ flexDirection: "column" }}>
-          <Button onClick={loginModalOpenHandler} sx={signInOrRegisterBtnSx}>
-            Sign In
-          </Button>
-          <Button onClick={registerModalOpenHandler} sx={signInOrRegisterBtnSx}>
-            Register
-          </Button>
+          {user ? (
+            <Button sx={authControlBtnSx}>Sign out</Button>
+          ) : (
+            <UnauthenticatedButtons onLoginClick={loginModalOpenHandler} onRegisterClick={registerModalOpenHandler} />
+          )}
         </Center>
       </MantineNavbar>
     </>

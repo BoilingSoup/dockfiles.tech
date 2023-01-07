@@ -26,7 +26,7 @@ export const appShellSx = ({ colors, colorScheme }: MantineTheme): CSSObject => 
   },
 });
 
-export const signInOrRegisterBtnSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
+export const authControlBtnSx = ({ colors, colorScheme, fn, shadows }: MantineTheme): CSSObject => ({
   width: "85%",
   maxWidth: 360,
   marginTop: "1rem",
