@@ -1,16 +1,25 @@
 import { useForm } from "@mantine/form";
+import { validationRules } from "./constants";
 
 export const useLoginForm = () => {
-  return useForm({
+  const loginForm = useForm({
     initialValues: {
       email: "",
       password: "",
       rememberMe: false,
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      password: (value) => (value.length >= 8 ? null : "Password must be at least 8 characters long"),
+      email: validationRules.email,
+      password: validationRules.password,
     },
     validateInputOnBlur: true,
   });
+
+  const formKeys = {
+    email: "email",
+    password: "password",
+    rememberMe: "rememberMe",
+  };
+
+  return { loginForm, formKeys };
 };

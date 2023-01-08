@@ -8,25 +8,25 @@ type Props = {
 };
 
 export const LoginForm = ({ onClose: modalCloseHandler }: Props) => {
-  const loginForm = useLoginForm();
+  const { loginForm, formKeys } = useLoginForm();
   const { mutate: login, isLoading } = useLoginMutation(modalCloseHandler);
 
   return (
     <form onSubmit={loginForm.onSubmit((values) => login(values))}>
-      <TextInput type="email" styles={formInputStyles} label="Email" {...loginForm.getInputProps("email")} />
+      <TextInput type="email" styles={formInputStyles} label="Email" {...loginForm.getInputProps(formKeys.email)} />
       <TextInput
         type="password"
         mt={14}
         styles={formInputStyles}
         label="Password"
-        {...loginForm.getInputProps("password")}
+        {...loginForm.getInputProps(formKeys.password)}
       />
       <Group align="end">
         <Checkbox
           styles={checkboxStyles}
           mt="md"
           label="Remember me"
-          {...loginForm.getInputProps("rememberMe", { type: "checkbox" })}
+          {...loginForm.getInputProps(formKeys.rememberMe, { type: "checkbox" })}
         />
       </Group>
 
