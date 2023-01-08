@@ -3,9 +3,13 @@ import { useRegisterMutation } from "../../hooks/api/useRegisterMutation";
 import { useRegisterForm } from "./hooks/useRegisterForm";
 import { checkboxStyles, formInputStyles, submitSx } from "./styles";
 
-export const RegisterForm = () => {
+type Props = {
+  onClose: () => void;
+};
+
+export const RegisterForm = ({ onClose: modalCloseHandler }: Props) => {
   const { registerForm, formKeys } = useRegisterForm();
-  const { mutate: register, isLoading } = useRegisterMutation();
+  const { mutate: register, isLoading } = useRegisterMutation(modalCloseHandler);
 
   return (
     <form onSubmit={registerForm.onSubmit((values) => register(values))}>

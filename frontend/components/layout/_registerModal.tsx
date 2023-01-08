@@ -15,12 +15,21 @@ export const RegisterModal = ({ opened, onClose: modalCloseHandler }: Props) => 
   return (
     <Modal centered opened={opened} onClose={modalCloseHandler} title="Register" styles={modalStyles}>
       <Stack>
-        <RegisterForm />
-        {/*TODO: on successful register, show info notification to verify email and close modal*/}
+        <RegisterForm onClose={modalCloseHandler} />
 
         <Divider size="xl" />
-        <OAuthButton href={GITHUB_AUTH_REDIRECT} icon={<IconBrandGithub />} text="Sign in With GitHub" loadingText="Connecting to GitHub"/>
-        <OAuthButton href={GITLAB_AUTH_REDIRECT} icon={<IconBrandGitlab />} text="Sign in With GitLab" loadingText="Connecting to GitLab"/>
+        <OAuthButton
+          href={GITHUB_AUTH_REDIRECT}
+          icon={<IconBrandGithub />}
+          text="Sign in With GitHub"
+          loadingText="Connecting to GitHub"
+        />
+        <OAuthButton
+          href={GITLAB_AUTH_REDIRECT}
+          icon={<IconBrandGitlab />}
+          text="Sign in With GitLab"
+          loadingText="Connecting to GitLab"
+        />
       </Stack>
     </Modal>
   );

@@ -167,6 +167,8 @@ export const attemptLogout = async (): Promise<Response> => {
     throw new Error("Something went wrong.");
   }
 
+  // Using fetch manually because authFetch function parses response .json()
+  // logout route returns 204 no content if successful.
   const response = await fetch(`${APP_URL}/logout`, {
     method: "POST",
     credentials: "include",
@@ -189,6 +191,49 @@ export const logoutErrorNotification = () => {
     color: "red",
     title: "Something went wrong!",
     message: "Could not log out at this time. Try again later.",
+    styles: notificationStyles,
+  });
+};
+
+export type RegisterFormValues = {
+  displayName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+export const attemptRegister = async (values: RegisterFormValues) => {
+  return (await authFetch.post("register", {
+    name: values.displayName,
+    email: values.email,
+    password: values.password,
+    password_confirmation: values.confirmPassword,
+  })) as User;
+};
+
+export const registerSuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Registered!",
+    message: "Your account was successfully registered.",
+    styles: notificationStyles,
+  });
+};
+
+export const registerErrorNotification = () => {
+  showNotification({
+    color: "red",
+    title: "Error!",
+    message: "Something went wrong.",
+    styles: notificationStyles,
+  });
+};
+
+export const verifyEmailNotification = () => {
+  showNotification({
+    color: "blue",
+    title: "Verify email",
+    message: "A verification link was sent to ___.",
     styles: notificationStyles,
   });
 };
