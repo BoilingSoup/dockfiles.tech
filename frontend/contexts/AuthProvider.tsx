@@ -19,9 +19,10 @@ type Props = {
 export type User = null | {
   id: number;
   name: string;
-  avatar: string; // optional maybe?
+  avatar: string | null;
   is_admin: boolean;
-  email_verified_at: boolean;
+  /** Empty string if not verified, ISO string if verified. */
+  email_verified_at: string;
 };
 
 export const AuthProvider = ({ children, user: ssrUser }: Props) => {
