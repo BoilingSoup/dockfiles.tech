@@ -147,7 +147,7 @@ export const loginErrorNotification = () =>
   showNotification({
     color: "red",
     title: "Invalid login!",
-    message: "Your email or password is incorrect.",
+    message: "Your email and/or password is incorrect.",
     styles: notificationStyles,
   });
 
