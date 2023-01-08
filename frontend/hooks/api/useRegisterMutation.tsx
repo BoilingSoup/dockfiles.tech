@@ -5,7 +5,7 @@ import {
   registerErrorNotification,
   RegisterFormValues,
   registerSuccessNotification,
-  verifyEmailNotification,
+  verificationEmailSentNotification,
 } from "./helpers";
 
 export const useRegisterMutation = (modalCloseHandler: () => void) => {
@@ -16,7 +16,7 @@ export const useRegisterMutation = (modalCloseHandler: () => void) => {
       setUser(user);
       modalCloseHandler();
       registerSuccessNotification();
-      verifyEmailNotification();
+      verificationEmailSentNotification();
     },
     onError: () => {
       registerErrorNotification();

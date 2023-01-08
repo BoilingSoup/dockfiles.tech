@@ -229,11 +229,20 @@ export const registerErrorNotification = () => {
   });
 };
 
-export const verifyEmailNotification = () => {
+export const verificationEmailSentNotification = () => {
   showNotification({
     color: "blue",
     title: "Verify email",
     message: "A verification link was sent to ___.",
+    styles: notificationStyles,
+  });
+};
+
+export const userNotVerifiedNotification = () => {
+  showNotification({
+    color: "blue",
+    title: "Verify email",
+    message: "Your account is not yet verified. Verify your account with the link sent to ___.",
     styles: notificationStyles,
   });
 };
