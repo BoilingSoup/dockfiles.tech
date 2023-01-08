@@ -9,7 +9,13 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={registerForm.onSubmit((values) => register(values))}>
-      <TextInput type="email" styles={formInputStyles} label="Email" {...registerForm.getInputProps("email")} />
+      <TextInput
+        type="text"
+        styles={formInputStyles}
+        label="Display Name"
+        {...registerForm.getInputProps("displayName")}
+      />
+      <TextInput mt={14} type="email" styles={formInputStyles} label="Email" {...registerForm.getInputProps("email")} />
       <TextInput
         type="password"
         mt={14}
@@ -22,7 +28,7 @@ export const RegisterForm = () => {
         mt={14}
         styles={formInputStyles}
         label="Confirm Password"
-        {...registerForm.getInputProps("passwordConfirmation")}
+        {...registerForm.getInputProps("confirmPassword")}
       />
       <Group align="end">
         <Checkbox
