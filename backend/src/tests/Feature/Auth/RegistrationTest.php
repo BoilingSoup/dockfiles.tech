@@ -26,7 +26,13 @@ class RegistrationTest extends TestCase
         $response = $this->attemptRegistration();
 
         $this->assertAuthenticated();
-        $response->assertNoContent();
+        $response->assertJsonStructure([
+          "id",
+          "name",
+          "email_verified_at",
+          "avatar",
+          "is_admin"
+        ]);
     }
 
     public function test_users_cant_register_with_same_email()

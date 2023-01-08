@@ -39,7 +39,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return response()->noContent();
+        return [
+          "id" => Auth::user()->id,
+          "name" => Auth::user()->name,
+          "email_verified_at" => "",
+          "avatar" => "",
+          "is_admin" => false
+        ];
     }
 
     private function validateCredentials(Request $request)
