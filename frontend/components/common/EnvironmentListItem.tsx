@@ -9,15 +9,6 @@ type Props = {
   comments_count: number;
 };
 
-export const EnvironmentListItemSkeleton = () => {
-  return (
-    <>
-      <Paper sx={paperSx} />
-      <Divider />
-    </>
-  );
-};
-
 export const EnvironmentListItem = ({ name, string_id, comments_count }: Props) => {
   return (
     <>

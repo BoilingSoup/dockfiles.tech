@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { queryKeys } from "../../query-client/constants";
 import { getEnvironments, QueryParams } from "./helpers";
 
@@ -12,14 +11,5 @@ export const useEnvironments = ({ categoryId, cursor, searchParam }: QueryParams
     }
   );
 
-  const [isSkeleton, setIsSkeleton] = useState(true);
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (data && queryClient.getQueryData(queryKeys.initialHomePageQueryKey)) {
-      setIsSkeleton(false);
-    }
-  }, [data, queryClient]);
-
-  return { data, isLoading, isSkeleton, isError, error, isFetching };
+  return { data, isLoading, isError, error, isFetching };
 };
