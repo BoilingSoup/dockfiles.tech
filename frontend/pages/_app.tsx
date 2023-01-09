@@ -69,9 +69,11 @@ export default function App(props: AppProps & { data: ServerData }) {
  * These are all pieces of data that I only need on the initial render, and I do not need
  * to continue requesting this data as the user navigates around the app.
  *
- * As a workaround, I use various run-time checks inside getInitialProps to determine whether it is being
- * executed on the server or client, and skip making the requests for data when getInitialProps is running
- * on the client.
+ * As a workaround, I use run-time checks inside getInitialProps to determine whether it is being
+ * executed on the server or client. When getInitialProps is run on the server, I fetch the
+ * necessary data to render the app, and I also use the set-cookie header to store the data client-side.
+ * When getInitialProps is run on the client, I use the data stored in the cookie to populate the data,
+ * and avoid making additional requests.
  */
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
   // The data I want to SSR on the initial request, to avoid flickers / loading spinner hell.
