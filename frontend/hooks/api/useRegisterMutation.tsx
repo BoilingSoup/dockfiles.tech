@@ -1,4 +1,6 @@
+import { setCookie } from "cookies-next";
 import { useMutation } from "react-query";
+import { USER_DATA_COOKIE_KEY } from "../../components/layout/constants";
 import { useAuth, User } from "../../contexts/AuthProvider";
 import {
   attemptRegister,
@@ -14,6 +16,7 @@ export const useRegisterMutation = (modalCloseHandler: () => void) => {
   return useMutation((values: RegisterFormValues) => attemptRegister(values), {
     onSuccess: (user: User) => {
       setUser(user);
+      setCookie(USER_DATA_COOKIE_KEY, JSON.stringify(user));
       modalCloseHandler();
       registerSuccessNotification();
       verificationEmailSentNotification();

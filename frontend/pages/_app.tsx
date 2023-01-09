@@ -1,5 +1,5 @@
 import { ColorScheme } from "@mantine/core";
-import { getCookie } from "cookies-next";
+import { CookieValueTypes, deleteCookie, getCookie, setCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -18,7 +18,8 @@ import {
 import { MantineProvider } from "../contexts/MantineProvider";
 import { queryClient } from "../query-client/queryClient";
 import { NotificationsProvider } from "@mantine/notifications";
-import { getEnvironmentsIndex, getInitialUser } from "../hooks/api/helpers";
+import { EnvironmentsData, getEnvironmentsIndex, getInitialUser } from "../hooks/api/helpers";
+import { ENVIRONMENTS_INDEX_COOKIE_KEY, USER_DATA_COOKIE_KEY } from "../components/layout/constants";
 
 export default function App(props: AppProps & { data: ServerData }) {
   const { Component, pageProps } = props;
@@ -53,23 +54,105 @@ export default function App(props: AppProps & { data: ServerData }) {
   );
 }
 
+/**
+ * getInitialProps runs on the server when a user visits the app for the first time.
+ * Then it runs on the client every time a <Link> is clicked or the next/router path is modified.
+ *
+ * ex. with router.push("/new-route")
+ *
+ * As of now, NextJS does not offer a built-in method to SSR ONLY the initial request.
+ * I needed this functionality so the initial page render will show:
+ *   - Authenticated/Unauthenticated state
+ *   - dark mode / light mode state
+ *   - data for the home page
+ *
+ * These are all pieces of data that I only need on the initial render, and I do not need
+ * to continue requesting this data as the user navigates around the app.
+ *
+ * As a workaround, I use various run-time checks inside getInitialProps to determine whether it is being
+ * executed on the server or client, and skip making the requests for data when getInitialProps is running
+ * on the client.
+ */
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
-  let user: User = null;
-  let environments = await getEnvironmentsIndex();
-  const token = getCookie("XSRF-TOKEN", { req: ctx.req });
+  // The data I want to SSR on the initial request, to avoid flickers / loading spinner hell.
+  let user: User | CookieValueTypes;
+  let environments: EnvironmentsData | CookieValueTypes;
+  let colorScheme: ColorScheme | CookieValueTypes;
 
-  if (typeof token === "string" && ctx.req) {
-    let response = await getInitialUser({ token, ctx });
-    if (!response.ok) {
-      user = null;
-    } else {
-      const data = await response.json();
-      user = data as User;
+  // ctx.req only exists on server.
+  const isServerSide = ctx.req;
+
+  if (isServerSide) {
+    const token = getCookie("XSRF-TOKEN", { req: ctx.req });
+
+    // the getCookie function from 'cookies-next' package automatically parses booleans, numbers, etc.
+    // So I check if it's a string to see if the XSRF-TOKEN is a potentially valid token.
+    const isPotentiallyValidToken = typeof token === "string";
+
+    let userResponse: Response | undefined;
+
+    if (isPotentiallyValidToken) {
+      userResponse = await getInitialUser({ token, ctx });
+      ctx.res.setHeader("set-cookie", userResponse.headers.get("set-cookie") || ""); // forward the response cookies to the user's browser
     }
-    ctx.res.setHeader("set-cookie", response.headers.get("set-cookie") || "");
+
+    const sessionIsValid = userResponse?.ok;
+
+    if (sessionIsValid) {
+      const data = await userResponse!.json();
+      user = data as User;
+    } else {
+      user = null;
+    }
+
+    colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
+
+    if (!isValidColorScheme(colorScheme)) {
+      colorScheme = DEFAULT_COLOR_SCHEME;
+    }
+
+    environments = await getEnvironmentsIndex();
+
+    // Store all gathered data in the user's browser cookie with a set-cookie header response.
+    // This makes the data available when getInitialProps runs on the client-side without making more requests.
+    setCookie(COLOR_SCHEME_COOKIE_KEY, colorScheme, { req: ctx.req, res: ctx.res });
+    setCookie(ENVIRONMENTS_INDEX_COOKIE_KEY, JSON.stringify(environments), { req: ctx.req, res: ctx.res });
+    setCookie(USER_DATA_COOKIE_KEY, JSON.stringify(user), { req: ctx.req, res: ctx.res }); // no sensitive info is contained in user object
+
+    return {
+      data: {
+        user,
+        colorScheme: colorScheme as ColorScheme,
+        environments,
+      },
+    };
   }
 
-  let colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY, ctx);
+  /** The following code only runs on the client-side whenever the user clicks a <Link> */
+
+  environments = getCookie(ENVIRONMENTS_INDEX_COOKIE_KEY);
+  if (typeof environments === "string") {
+    try {
+      environments = JSON.parse(environments);
+    } catch (e) {
+      // if parsing fails i.e. cookie is malformed, re-request the data.
+      environments = await getEnvironmentsIndex();
+      setCookie(ENVIRONMENTS_INDEX_COOKIE_KEY, JSON.stringify(environments));
+    }
+  }
+
+  user = getCookie(USER_DATA_COOKIE_KEY);
+  if (typeof user === "string") {
+    try {
+      user = JSON.parse(user);
+    } catch (e) {
+      // if parsing fails, invalidate the user state
+      user = null;
+      deleteCookie(USER_DATA_COOKIE_KEY);
+    }
+  }
+
+  colorScheme = getCookie(COLOR_SCHEME_COOKIE_KEY);
 
   if (!isValidColorScheme(colorScheme)) {
     colorScheme = DEFAULT_COLOR_SCHEME;
@@ -77,9 +160,9 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
 
   return {
     data: {
-      user,
+      user: user ?? null,
       colorScheme: colorScheme as ColorScheme,
-      environments,
+      environments: environments as EnvironmentsData,
     },
   };
 };
