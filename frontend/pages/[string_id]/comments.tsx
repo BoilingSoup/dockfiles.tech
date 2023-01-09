@@ -4,7 +4,7 @@ import { COMMENTS, EnvironmentTabs } from "../../components/details/EnvironmentT
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
 import { useInfiniteScrollComments } from "../../hooks/api/useInfiniteScrollComments";
-import { useStringId } from "../../hooks/api/useStringId";
+import { useStringId } from "../../hooks/helpers/useStringId";
 
 const Comments = () => {
   const stringId = useStringId();

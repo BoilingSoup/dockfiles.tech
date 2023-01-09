@@ -3,7 +3,7 @@ import { Divider } from "../../components/common/Divider";
 import { DOWNLOAD, EnvironmentTabs } from "../../components/details/EnvironmentTabs";
 import { CodeBlock } from "../../components/details/CodeBlock";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
-import { useStringId } from "../../hooks/api/useStringId";
+import { useStringId } from "../../hooks/helpers/useStringId";
 import { buttonSx } from "../../components/common/styles";
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";

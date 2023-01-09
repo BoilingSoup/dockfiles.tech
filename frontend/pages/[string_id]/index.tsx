@@ -2,7 +2,7 @@ import { EnvironmentDetailsData, getEnvironmentByStringId, getEnvironmentReadMe 
 import markdownToHtml from "../../lib/markdownToHtml";
 import Head from "next/head";
 import { EnvironmentTabs, README } from "../../components/details/EnvironmentTabs";
-import { useStringId } from "../../hooks/api/useStringId";
+import { useStringId } from "../../hooks/helpers/useStringId";
 import { Container, Text } from "@mantine/core";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
