@@ -3,12 +3,14 @@ import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 const CATEGORIES = "categories";
 const ENVIRONMENTS = "environments";
 const COMMENTS = "comments";
+const BOOKMARKS = "bookmarks";
 
 const INITIAL_SEARCH_PARAM = "";
 
 export const queryKeys = {
   categories: CATEGORIES,
   environments: ENVIRONMENTS,
+  bookmarks: BOOKMARKS,
   searchStrToKey(input: string): string {
     let trimmed = input?.trim();
     if (trimmed === "" || trimmed === undefined) {

@@ -100,6 +100,18 @@ async function getUnfilteredEnvironments({ cursor, searchParam }: { cursor: stri
   return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
+export function getBookmarks({ categoryId, cursor, searchParam }: QueryParams) {
+  return async function () {
+    const isFilteredByCategory = categoryId !== ALL_CATEGORIES;
+
+    if (isFilteredByCategory) {
+      // return await getFilteredBookmarks();
+    }
+
+    // return await getUnfilteredBookmarks();
+  };
+}
+
 export type CommentData = {
   id: number;
   content: string;
