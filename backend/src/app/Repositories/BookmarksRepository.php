@@ -17,6 +17,13 @@ class BookmarksRepository
 {
     use HandleSearchWords;
 
+    protected CategoriesRepository $categoriesRepository;
+
+    public function __construct(CategoriesRepository $categoriesRepository)
+    {
+        $this->categoriesRepository = $categoriesRepository;
+    }
+
     /**
      * Retrieve a CursorPaginator object of all the requesting User's Bookmarks.
      *
@@ -25,13 +32,30 @@ class BookmarksRepository
     public function index(Request $request)
     {
         $userId = (string) Auth::user()->id;
+        $categoryId = $request->category_id;
 
-        return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX])->rememberForever(
-            CACHE_KEYS::USER_BOOKMARKS_INDEX_CURSOR_($userId, $request->cursor),
-            fn () => Environments::select('id', 'name', 'string_id') // likes ?
-              ->withCount('comments')
-              ->whereIn('id', $this->allBookmarkedIds($userId))
-              ->cursorPaginate()
+        if (!$categoryId) {
+            return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX])->rememberForever(
+                CACHE_KEYS::USER_BOOKMARKS_INDEX_CURSOR_($userId, $request->cursor),
+                fn () => Environments::select('id', 'name', 'string_id') // likes ?
+                  ->withCount('comments')
+                  ->whereIn('id', $this->allBookmarkedIds($userId))
+                  ->cursorPaginate()
+            );
+        }
+
+        abort_if(!is_numeric($categoryId), 404);
+
+        $validId = $this->categoriesRepository->checkValidCategoryId((int) $categoryId);
+        abort_if(!$validId, 404);
+
+        return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX_CATEGORY_($categoryId)])->rememberForever(
+            CACHE_KEYS::USER_BOOKMARKS_INDEX_CATEGORY_CURSOR_($userId, $categoryId, $request->cursor),
+            fn () => Environments::select('id', 'name', 'string_id')
+            ->withCount('comments')
+            ->whereIn('id', $this->allBookmarkedIds($userId))
+            ->where(ForeignKeyCol::categories, $categoryId)
+            ->cursorPaginate()
         );
     }
 
@@ -51,7 +75,7 @@ class BookmarksRepository
     }
 
     /**
-     * Retrieve a CursorPaginator object of Bookmarked Environments filtered by search param.
+     * Retrieve a CursorPaginator object of Bookmarked Environments filtered by search param and (optionally) by Category.
      *
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */

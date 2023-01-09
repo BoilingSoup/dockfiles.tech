@@ -21,6 +21,9 @@ class BookmarksController extends Controller
 
     /**
      * Get a cursor paginated JSON response of the authenticated User's Bookmarks.
+     * (Optional) filter with query params:
+     *     - category_id
+     *     - search
      *
      * @return FormattedApiResponse
      */
