@@ -46,8 +46,8 @@ class BookmarksRepository
 
         abort_if(!is_numeric($categoryId), 404);
 
-        $validId = $this->categoriesRepository->checkValidCategoryId((int) $categoryId);
-        abort_if(!$validId, 404);
+        $isValidId = $this->categoriesRepository->checkValidCategoryId((int) $categoryId);
+        abort_if(!$isValidId, 404);
 
         return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX_CATEGORY_($categoryId)])->rememberForever(
             CACHE_KEYS::USER_BOOKMARKS_INDEX_CATEGORY_CURSOR_($userId, $categoryId, $request->cursor),
@@ -84,9 +84,29 @@ class BookmarksRepository
         $searchWords = $this->getKeyWords($request->search);
         $cacheId = $this->generateSearchWordsCacheId($searchWords);
         $userId = (string) Auth::user()->id;
+        $categoryId = $request->category_id;
 
-        return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH])->rememberForever(
-            CACHE_KEYS::USER_BOOKMARKS_SEARCH_($userId, $cacheId, $request->cursor),
+        if (!$categoryId) {
+            return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH])->rememberForever(
+                CACHE_KEYS::USER_BOOKMARKS_SEARCH_($userId, $cacheId, $request->cursor),
+                fn () => Environments::select('id', 'name', 'string_id') // likes ?
+                  ->withCount('comments')
+                  ->whereIn('id', $this->allBookmarkedIds($userId))
+                  ->where(function ($query) use ($searchWords) {
+                      foreach ($searchWords as $keyword) {
+                          $query->orWhere('description', 'like', "%$keyword%");
+                      }
+                  })->orderBy('id')->cursorPaginate()
+            );
+        }
+
+        abort_if(!is_numeric($categoryId), 404);
+
+        $isValidId = $this->categoriesRepository->checkValidCategoryId((int) $categoryId);
+        abort_if(!$isValidId, 404);
+
+        return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH_CATEGORY_($categoryId)])->rememberForever(
+            CACHE_KEYS::USER_BOOKMARKS_SEARCH_CATEGORY_($userId, $cacheId, $categoryId, $request->cursor),
             fn () => Environments::select('id', 'name', 'string_id') // likes ?
               ->withCount('comments')
               ->whereIn('id', $this->allBookmarkedIds($userId))
@@ -94,7 +114,9 @@ class BookmarksRepository
                   foreach ($searchWords as $keyword) {
                       $query->orWhere('description', 'like', "%$keyword%");
                   }
-              })->orderBy('id')->cursorPaginate()
+              })
+              ->where(ForeignKeyCol::categories, $categoryId)
+              ->orderBy('id')->cursorPaginate()
         );
     }
 

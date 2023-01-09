@@ -44,5 +44,10 @@ class CACHE_TAGS
 
     public const USER_BOOKMARKS_SEARCH = 'USER_BOOKMARKS_SEARCH';
 
+    public static function USER_BOOKMARKS_SEARCH_CATEGORY_(string $categoryId)
+    {
+        return "USER_BOOKMARKS_SEARCH_CATEGORY_{$categoryId}";
+    }
+
     public const USER_ALL_BOOKMARKS_IDS = "USER_ALL_BOOKMARKS_IDS";
 }

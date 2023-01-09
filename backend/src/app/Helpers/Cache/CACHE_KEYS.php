@@ -76,6 +76,13 @@ class CACHE_KEYS
         return "USER_{$userId}_BOOKMARKS_SEARCH_{$cacheId}_{$cursor}";
     }
 
+    public static function USER_BOOKMARKS_SEARCH_CATEGORY_(string $userId, string $cacheId, string $categoryId, string|null $cursor)
+    {
+        $cursor = $cursor ?? 'NULL';
+
+        return "USER_{$userId}_BOOKMARKS_SEARCH_{$cacheId}_CATEGORY_{$categoryId}_{$cursor}";
+    }
+
     public static function USER_ALL_BOOKMARKS_IDS_(string $userId)
     {
         return "USER_{$userId}_ALL_BOOKMARKS_IDS";

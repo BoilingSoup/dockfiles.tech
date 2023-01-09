@@ -42,7 +42,7 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param.
+     * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param and (optionally) by Category.
      *
      * @return FormattedApiResponse
      */
