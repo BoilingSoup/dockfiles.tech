@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { queryKeys } from "../../query-client/constants";
-import { EnvironmentsData, getEnvironments } from "./helpers";
+import { EnvironmentsData, getBookmarks } from "./helpers";
 
 type PrefetchMetaData = {
   categoryId: string;
@@ -19,14 +19,14 @@ export const usePrefetchBookmarks = ({ categoryId, data, searchParam }: Prefetch
     if (prevCursor) {
       queryClient.prefetchQuery(
         [queryKeys.bookmarks, categoryId, queryKeys.searchStrToKey(searchParam), prevCursor],
-        getEnvironments({ categoryId, cursor: prevCursor, searchParam })
+        getBookmarks({ categoryId, cursor: prevCursor, searchParam })
       );
     }
 
     if (nextCursor) {
       queryClient.prefetchQuery(
         [queryKeys.bookmarks, categoryId, queryKeys.searchStrToKey(searchParam), nextCursor],
-        getEnvironments({ categoryId, cursor: nextCursor, searchParam })
+        getBookmarks({ categoryId, cursor: nextCursor, searchParam })
       );
     }
   }, [queryClient, categoryId, data, searchParam]);

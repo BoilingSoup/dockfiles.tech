@@ -105,11 +105,23 @@ export function getBookmarks({ categoryId, cursor, searchParam }: QueryParams) {
     const isFilteredByCategory = categoryId !== ALL_CATEGORIES;
 
     if (isFilteredByCategory) {
-      // return await getFilteredBookmarks();
+      return await getFilteredBookmarks({ categoryId, cursor, searchParam });
     }
 
-    // return await getUnfilteredBookmarks();
+    return await getUnfilteredBookmarks({ cursor, searchParam });
   };
+}
+
+async function getFilteredBookmarks({ categoryId, cursor, searchParam }: QueryParams) {
+  const endpoint = `bookmarks/environments?cursor=${cursor}&search=${searchParam}&category_id=${categoryId}`;
+
+  return (await apiFetch.get(endpoint)) as EnvironmentsData;
+}
+
+async function getUnfilteredBookmarks({ cursor, searchParam }: { cursor: string; searchParam: string }) {
+  const endpoint = `bookmarks/environments?cursor=${cursor}&search=${searchParam}`;
+
+  return (await apiFetch.get(endpoint)) as EnvironmentsData;
 }
 
 export type CommentData = {
