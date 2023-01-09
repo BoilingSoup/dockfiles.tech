@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Bookmarks;
 
+use App\Models\Categories;
 use App\Models\Environments;
 use App\Models\User;
 use Database\Helpers\ForeignKeyCol;
@@ -34,7 +35,7 @@ class BookmarksTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_bookmarks_index_response_json_structure_is_expected_shape()
+    public function test_bookmarks_index_with_no_filter_query_params_returns_response_json_structure_in_expected_shape()
     {
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
@@ -44,9 +45,104 @@ class BookmarksTest extends TestCase
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
 
+    public function test_bookmarks_index_with_non_numeric_category_id_param_returns_404_response()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+
+        $response = $this->get(route("bookmarks.index", [ForeignKeyCol::categories => "non-numeric"]));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_bookmarks_index_with_a_numeric_but_invalid_category_id_param_returns_404_response()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+        $allCategoryIds = Categories::all()->pluck('id');
+        $invalidId = [];
+        while (true) {
+            $randId = random_int(1, PHP_INT_MAX);
+            if (!$allCategoryIds->has($randId)) {
+                $invalidId[] = $randId;
+                break;
+            }
+        }
+        $invalidId = $invalidId[0];
+
+        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $invalidId]));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_bookmarks_index_with_valid_category_id_param_returns_response_json_structure_in_expected_shape()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+        $categoryId = Categories::first()->id;
+
+        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $categoryId]));
+
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
+    public function test_bookmarks_index_with_search_param_returns_response_json_structure_in_expected_shape()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+
+        $response = $this->getJson(route("bookmarks.index", ["search" => "a search string"]));
+
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
+    public function test_bookmarks_index_with_search_param_and_non_numeric_category_id_param_returns_404_response()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+
+        $response = $this->get(route("bookmarks.index", [ForeignKeyCol::categories => "non-numeric", "search" => "a search string"]));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_bookmarks_index_with_search_param_and_a_numeric_but_invalid_category_id_param_returns_404_response()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+        $allCategoryIds = Categories::all()->pluck('id');
+        $invalidId = [];
+        while (true) {
+            $randId = random_int(1, PHP_INT_MAX);
+            if (!$allCategoryIds->has($randId)) {
+                $invalidId[] = $randId;
+                break;
+            }
+        }
+        $invalidId = $invalidId[0];
+
+        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $invalidId, "search" => "a search string"]));
+
+        $response->assertStatus(404);
+    }
+
+    public function test_bookmarks_index_with_search_param_and_a_valid_category_id_return_response_json_with_expected_shape()
+    {
+        $user = $this->seedTablesAndGetUser();
+        $this->actingAs($user);
+        $categoryId = Categories::all()->first()->id;
+
+        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $categoryId, "search" => "a search string"]));
+
+        $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
+    }
+
     public function test_bookmarks_store_returns_401_response_if_not_authenticated()
     {
-        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => "1"]);
+        $this->seedTables();
+        $categoryId = Categories::first()->id;
+
+        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $categoryId]);
 
         $response->assertStatus(401);
     }
