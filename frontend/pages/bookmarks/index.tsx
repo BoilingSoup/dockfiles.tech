@@ -11,7 +11,6 @@ import { mainContainerSx } from "../../components/common/styles";
 import { CursorsObj } from "../../components/common/types";
 import { SITE_NAME } from "../../config/config";
 import { useBookmarks } from "../../hooks/api/useBookmarks";
-import { useDebouncedCursor } from "../../hooks/api/useDebouncedCursor";
 import { usePrefetchBookmarks } from "../../hooks/api/usePrefetchBookmarks";
 import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
 import { useBookmarksCategoriesSearch } from "../../zustand-store/bookmarks/useBookmarksCategoriesSearch";
@@ -25,7 +24,6 @@ const Bookmarks: NextPage = () => {
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useBookmarksCategoriesSearch();
   const { cursor, setCursor } = useBookmarksPageCursor();
   const [searchParam] = useDebouncedValue(input, 300);
-  useDebouncedCursor({ setCursor, searchParam });
 
   // CSR data fetching
   const { data, isFetching } = useBookmarks({ categoryId, cursor, searchParam });
@@ -40,6 +38,7 @@ const Bookmarks: NextPage = () => {
 
   const inputChangeHandler = (input: string) => {
     setInput(input);
+    setCursor(INITIAL_PAGE_CURSOR);
   };
 
   const selectChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
