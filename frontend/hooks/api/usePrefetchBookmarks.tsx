@@ -29,5 +29,6 @@ export const usePrefetchBookmarks = ({ categoryId, data, searchParam }: Prefetch
         getBookmarks({ categoryId, cursor: nextCursor, searchParam })
       );
     }
-  }, [queryClient, categoryId, data, searchParam]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryClient, data]);
 };
