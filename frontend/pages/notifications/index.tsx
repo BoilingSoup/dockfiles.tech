@@ -5,7 +5,7 @@ import React from "react";
 import { SITE_NAME } from "../../config/config";
 import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
 
-const Bookmarks: NextPage = () => {
+const Notifications: NextPage = () => {
   useRedirectUnauthenticated("/");
   return (
     <>
@@ -18,4 +18,4 @@ const Bookmarks: NextPage = () => {
   );
 };
 
-export default Bookmarks;
+export default Notifications;
