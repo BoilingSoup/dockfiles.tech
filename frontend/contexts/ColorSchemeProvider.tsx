@@ -6,7 +6,7 @@ import { setCookie } from "cookies-next";
 export const COLOR_SCHEME_COOKIE_KEY = "color-scheme";
 export const LIGHT: ColorScheme = "light";
 export const DARK: ColorScheme = "dark";
-export const DEFAULT_COLOR_SCHEME: ColorScheme = LIGHT;
+export const DEFAULT_COLOR_SCHEME: ColorScheme = DARK;
 
 export const isValidColorScheme = (value: any) => value === LIGHT || value === DARK;
 

@@ -1,11 +1,11 @@
-import { Accordion, Button, Center, Container, Group, Text, TextInput } from "@mantine/core";
-import { IconChevronDown, IconPlus, IconTrash } from "@tabler/icons";
+import { Button, Center, Container, Group, Text, TextInput } from "@mantine/core";
 import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import { Divider } from "../../components/common/Divider";
 import { mainContainerSx } from "../../components/common/styles";
 import { Avatar } from "../../components/settings/Avatar";
+import { DeleteAccountAccordion } from "../../components/settings/DeleteAccountAccordion";
 import { formMaxWidth, formWidth, titleTextSx } from "../../components/settings/styles";
 import { SITE_NAME } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
@@ -41,35 +41,7 @@ const Settings: NextPage = () => {
           </Center>
           <Divider mt={30} size="xl" />
           <Center style={{ alignItems: "center", maxWidth: formMaxWidth, width: formWidth, margin: "auto" }}>
-            <Accordion
-              variant="separated"
-              chevron={<IconChevronDown size={16} />}
-              styles={{
-                chevron: {
-                  "&[data-rotate]": {
-                    transform: "rotate(180deg)",
-                  },
-                },
-                label: {
-                  maxWidth: formMaxWidth,
-                  width: formWidth,
-                },
-                control: {
-                  maxWidth: formMaxWidth,
-                  width: formWidth,
-                  color: "rgba(240, 13, 69, 0.8)",
-                },
-              }}
-              mt={50}
-            >
-              <Accordion.Item value="customization">
-                <Accordion.Control>Delete your account?</Accordion.Control>
-                <Accordion.Panel>
-                  This action can not be undone.
-                  <Button color="red">Delete Account</Button>
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Accordion>
+            <DeleteAccountAccordion />
           </Center>
         </Container>
       )}

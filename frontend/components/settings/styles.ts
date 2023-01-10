@@ -44,3 +44,41 @@ export const overlayBoxSx = ({ colorScheme }: MantineTheme): CSSObject => ({
   }),
   cursor: "pointer",
 });
+
+export const deleteAccordionTextColor = ({ colorScheme, fn }: MantineTheme) => {
+  return colorSchemeHandler(colorScheme, {
+    dark: "rgba(240, 13, 69, 0.8)",
+    light: fn.darken("rgba(240, 13, 69, 0.8)", 0.2),
+  });
+};
+
+export const accordionStyles = (theme: MantineTheme) => {
+  const { colors, colorScheme } = theme;
+  return {
+    chevron: {
+      "&[data-rotate]": {
+        transform: "rotate(180deg)",
+      },
+    },
+    label: {
+      fontWeight: 800,
+    },
+    control: {
+      maxWidth: formMaxWidth,
+      width: formWidth,
+      color: deleteAccordionTextColor(theme),
+      backgroundColor: colorSchemeHandler(colorScheme, {
+        dark: colors.slate[8],
+        light: colors.blue[1],
+      }),
+    },
+    content: {
+      fontWeight: 800,
+      color: deleteAccordionTextColor(theme),
+      backgroundColor: colorSchemeHandler(colorScheme, {
+        dark: colors.slate[8],
+        light: colors.blue[1],
+      }),
+    },
+  };
+};
