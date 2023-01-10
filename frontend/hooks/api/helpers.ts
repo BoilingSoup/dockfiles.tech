@@ -210,11 +210,20 @@ export const attemptLogout = async (): Promise<Response> => {
   return response;
 };
 
+export const logoutSuccessNotification = () => {
+  showNotification({
+    color: "blue",
+    title: "Logged out",
+    message: "You were successfully logged out.",
+    styles: notificationStyles,
+  });
+};
+
 export const logoutErrorNotification = () => {
   showNotification({
     color: "red",
     title: "Something went wrong!",
-    message: "Could not log out at this time. Try again later.",
+    message: "Please try again and/or refresh the page.",
     styles: notificationStyles,
   });
 };

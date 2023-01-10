@@ -3,7 +3,7 @@ import { useMutation /*useQueryClient*/ } from "react-query";
 import { USER_DATA_COOKIE_KEY } from "../../components/layout/constants";
 import { useAuth } from "../../contexts/AuthProvider";
 // import { queryKeys } from "../../query-client/constants";
-import { attemptLogout, logoutErrorNotification } from "./helpers";
+import { attemptLogout, logoutErrorNotification, logoutSuccessNotification } from "./helpers";
 
 export const useLogoutMutation = () => {
   const { user, setUser } = useAuth();
@@ -13,6 +13,7 @@ export const useLogoutMutation = () => {
     onSuccess: () => {
       setUser(null);
       deleteCookie(USER_DATA_COOKIE_KEY);
+      logoutSuccessNotification();
       // TODO: invalidate bookmarks, reply notifications, everything related to a specific user
       // queryClient.invalidateQueries(queryKeys)
     },
