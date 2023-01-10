@@ -3,8 +3,10 @@ import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import { SITE_NAME } from "../../config/config";
+import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
 
 const Bookmarks: NextPage = () => {
+  useRedirectUnauthenticated("/");
   return (
     <>
       <Head>
