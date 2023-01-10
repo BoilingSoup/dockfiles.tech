@@ -28,6 +28,7 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
       <Paper sx={paperSx}>
         <Box sx={boxSx}>
           <Group sx={avatarGroupSx}>
+            {/*eslint-disable-next-line*/}
             <img height={40} width={40} style={avatarStyles(theme)} src={data.author.avatar} alt="user avatar" />
           </Group>
           <Text sx={nameSx} component="h2">
