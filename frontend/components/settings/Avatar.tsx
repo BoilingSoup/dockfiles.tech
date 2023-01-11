@@ -1,4 +1,4 @@
-import { Box, MantineNumberSize, Transition, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { Box, MantineNumberSize, Transition, useMantineColorScheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { IconCamera } from "@tabler/icons";
 import { useAuth } from "../../contexts/AuthProvider";
@@ -26,7 +26,7 @@ export const Avatar = ({ m, mt, mb, ml, mr }: Props) => {
         <img
           src={
             user.avatar ??
-            "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+            "/default_avatar.png"
           }
           alt="User avatar"
           width={200}

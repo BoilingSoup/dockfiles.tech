@@ -16,7 +16,7 @@ const Settings: NextPage = () => {
   useRedirectUnauthenticated("/");
   const { user } = useAuth();
 
-  const emailIsVerified = user?.email_verified_at.length !== 0;
+  const emailIsVerified = user?.email_verified_at !== null;
 
   return (
     <>
@@ -42,10 +42,12 @@ const Settings: NextPage = () => {
                 placeholder="Email"
                 value={user.email}
                 rightSection={
-                  emailIsVerified && (
+                  emailIsVerified ? (
                     <Badge variant="gradient" gradient={{ from: "teal", to: "lime", deg: 105 }}>
                       Verified
                     </Badge>
+                  ) : (
+                    <Badge styles={{ root: { background: "#fcba03", color: "navy" } }}>Unverified</Badge>
                   )
                 }
                 rightSectionWidth={100}
