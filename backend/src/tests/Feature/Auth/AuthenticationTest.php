@@ -23,6 +23,8 @@ class AuthenticationTest extends TestCase
         $response->assertJsonStructure([
           "id",
           "name",
+          "email",
+          "email_verified_at",
           "avatar",
           "is_admin"
         ]);

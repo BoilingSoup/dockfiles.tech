@@ -42,6 +42,7 @@ class RegisteredUserController extends Controller
         return [
           "id" => Auth::user()->id,
           "name" => Auth::user()->name,
+          "email" => $request->email,
           "email_verified_at" => "",
           "avatar" => "",
           "is_admin" => false
@@ -51,8 +52,8 @@ class RegisteredUserController extends Controller
     private function validateCredentials(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'name' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'string', 'email', 'max:30'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
