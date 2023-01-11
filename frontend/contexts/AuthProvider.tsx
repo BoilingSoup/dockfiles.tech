@@ -21,6 +21,7 @@ export type User = null | {
   name: string;
   avatar: string | null;
   is_admin: boolean;
+  email: string;
   /** Empty string if not verified, ISO string if verified. */
   email_verified_at: string;
 };

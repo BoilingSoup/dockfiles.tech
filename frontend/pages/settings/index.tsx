@@ -33,7 +33,7 @@ const Settings: NextPage = () => {
             <Avatar mt={50} />
             <div style={{ maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" }}>
               <TextInput styles={formInputStyles} mt="lg" label="Display Name" placeholder="Name" value={user.name} />
-              <TextInput styles={formInputStyles} mt="lg" label="Email" placeholder="Email" />
+              <TextInput styles={formInputStyles} mt="lg" label="Email" placeholder="Email" value={user.email} />
               <Group mt="xl">
                 <Button sx={buttonsSx} mt="lg">
                   Resend Verification Email
