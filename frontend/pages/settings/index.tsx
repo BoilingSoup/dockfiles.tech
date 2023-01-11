@@ -41,6 +41,7 @@ const Settings: NextPage = () => {
                 label="Email"
                 placeholder="Email"
                 value={user.email}
+                disabled={!emailIsVerified}
                 rightSection={
                   emailIsVerified ? (
                     <Badge variant="gradient" gradient={{ from: "teal", to: "lime", deg: 105 }}>
