@@ -10,10 +10,6 @@ class Categories extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-    ];
-
     public function environments()
     {
         return $this->hasMany(Environments::class, ForeignKeyCol::categories);

@@ -19,25 +19,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'avatar',
-        'email',
-        'email_verified_at',
-        'password',
-        'github_token',
-        'github_refresh_token',
-        'github_id',
-        'gitlab_token',
-        'gitlab_refresh_token',
-        'gitlab_id',
-    ];
-
-    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -46,7 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at',
         'updated_at',
         'is_banned',
-        'email',
         'password',
         'remember_token',
         'github_token',
