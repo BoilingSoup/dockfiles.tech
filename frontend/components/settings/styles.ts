@@ -52,6 +52,16 @@ export const deleteAccordionTextColor = ({ colorScheme, fn }: MantineTheme) => {
   });
 };
 
+export const deleteButtonSx = (theme: MantineTheme): CSSObject => ({
+  background: deleteAccordionTextColor(theme),
+  "&:hover": {
+    backgroundColor: colorSchemeHandler(theme.colorScheme, {
+      light: theme.fn.darken(deleteAccordionTextColor(theme)!, 0.05),
+      dark: theme.fn.lighten(deleteAccordionTextColor(theme)!, 0.10),
+    }),
+  },
+});
+
 export const accordionStyles = (theme: MantineTheme) => {
   const { colors, colorScheme } = theme;
   return {

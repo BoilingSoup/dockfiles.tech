@@ -1,6 +1,6 @@
 import { Accordion, Button, Center, Text, useMantineTheme } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons";
-import { accordionStyles, deleteAccordionTextColor } from "./styles";
+import { accordionStyles, deleteButtonSx } from "./styles";
 
 export const DeleteAccountAccordion = () => {
   const theme = useMantineTheme();
@@ -11,7 +11,7 @@ export const DeleteAccountAccordion = () => {
         <Accordion.Control>Delete your account?</Accordion.Control>
         <Accordion.Panel>
           <Center style={{ flexDirection: "column" }}>
-            <Button mt="xs" mb="sm" style={{ background: deleteAccordionTextColor(theme) }}>
+            <Button mt="xs" mb="sm" sx={deleteButtonSx}>
               Delete Account
             </Button>
             <Text>This action can not be reversed!</Text>
