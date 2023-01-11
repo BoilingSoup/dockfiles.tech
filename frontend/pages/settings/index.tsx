@@ -1,4 +1,4 @@
-import { Button, Center, Container, Group, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Center, Container, Group, Text, TextInput } from "@mantine/core";
 import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -15,6 +15,8 @@ import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnaut
 const Settings: NextPage = () => {
   useRedirectUnauthenticated("/");
   const { user } = useAuth();
+
+  const emailIsVerified = user?.email_verified_at.length !== 0;
 
   return (
     <>
@@ -33,12 +35,26 @@ const Settings: NextPage = () => {
             <Avatar mt={50} />
             <div style={{ maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" }}>
               <TextInput styles={formInputStyles} mt="lg" label="Display Name" placeholder="Name" value={user.name} />
-              <TextInput styles={formInputStyles} mt="lg" label="Email" placeholder="Email" value={user.email} />
+              <TextInput
+                styles={formInputStyles}
+                mt="lg"
+                label="Email"
+                placeholder="Email"
+                value={user.email}
+                rightSection={
+                  emailIsVerified && (
+                    <Badge variant="gradient" gradient={{ from: "teal", to: "lime", deg: 105 }}>
+                      Verified
+                    </Badge>
+                  )
+                }
+                rightSectionWidth={100}
+              />
               <Group mt="xl">
-                <Button sx={buttonsSx} mt="lg">
+                <Button sx={buttonsSx} mt="lg" disabled={emailIsVerified}>
                   Resend Verification Email
                 </Button>
-                <Button sx={buttonsSx} mt="lg">
+                <Button sx={buttonsSx} mt="lg" ml="auto">
                   Save Changes
                 </Button>
               </Group>
