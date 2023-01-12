@@ -10,12 +10,13 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $validated = $request->validated();
+        $isOauthAccount = Auth::user()->github_id || Auth::user()->gitlab_id;
+        $isVerified = Auth::user()->hasVerifiedEmail();
 
         $this->updateUserIfValidField($validated, "name");
-        $this->updateUserIfValidField($validated, "email");
-
-        //TODO: Only allow changing email if previous user email is verified.
-        //TODO: Do not allow changing email if user registered with OAuth.
+        if ((!$isOauthAccount) && $isVerified) {
+            $this->updateUserIfValidField($validated, "email");
+        }
 
         Auth::user()->saveOrFail();
         return Auth::user();
