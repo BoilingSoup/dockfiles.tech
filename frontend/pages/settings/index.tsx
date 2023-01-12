@@ -40,8 +40,8 @@ const Settings: NextPage = () => {
                 mt="lg"
                 label="Email"
                 placeholder="Email"
-                value={user.email}
-                disabled={!emailIsVerified}
+                value={Boolean(user.github_id || user.gitlab_id) ? "GitHub/GitLab account" : user.email}
+                disabled={!emailIsVerified || Boolean(user.github_id || user.gitlab_id)}
                 rightSection={
                   emailIsVerified ? (
                     <Badge variant="gradient" gradient={{ from: "teal", to: "lime", deg: 105 }}>
