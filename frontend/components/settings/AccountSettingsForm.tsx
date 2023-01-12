@@ -35,12 +35,11 @@ export const AccountSettingsForm = () => {
   return (
     user && (
       <div style={{ maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" }}>
-        <TextInput styles={formInputStyles} mt="lg" label="Display Name" placeholder="Name" value={user.name} />
+        <TextInput styles={formInputStyles} mt="lg" label="Display Name" value={user.name} />
         <TextInput
           styles={formInputStyles}
           mt="lg"
           label="Email"
-          placeholder="Email"
           value={emailValue}
           disabled={!emailIsVerified || isOAuth}
           rightSection={badge}
