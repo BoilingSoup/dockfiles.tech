@@ -24,6 +24,8 @@ export type User = null | {
   email: string;
   /** Empty string if not verified, ISO string if verified. */
   email_verified_at: string;
+  github_id: number | null;
+  gitlab_id: number | null;
 };
 
 export const AuthProvider = ({ children, user: ssrUser }: Props) => {
