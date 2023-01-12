@@ -3,11 +3,13 @@
 namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Traits\UserInfoJsonStructure;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
+    use UserInfoJsonStructure;
 
     private array $userWithEmailAlreadyExistsResponse = [
         'success' => false,
@@ -26,14 +28,7 @@ class RegistrationTest extends TestCase
         $response = $this->attemptRegistration();
 
         $this->assertAuthenticated();
-        $response->assertJsonStructure([
-          "id",
-          "name",
-          "email",
-          "email_verified_at",
-          "avatar",
-          "is_admin"
-        ]);
+        $response->assertJsonStructure($this->userInfoJsonStructure());
     }
 
     public function test_users_cant_register_with_same_email()

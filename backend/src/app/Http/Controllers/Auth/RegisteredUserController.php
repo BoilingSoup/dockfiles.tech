@@ -43,9 +43,11 @@ class RegisteredUserController extends Controller
           "id" => Auth::user()->id,
           "name" => Auth::user()->name,
           "email" => $request->email,
-          "email_verified_at" => "",
-          "avatar" => "",
-          "is_admin" => false
+          "email_verified_at" => null,
+          "avatar" => null,
+          "is_admin" => false,
+          "github_id" => null,
+          "gitlab_id" => null
         ];
     }
 

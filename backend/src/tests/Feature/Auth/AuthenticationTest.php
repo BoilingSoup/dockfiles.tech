@@ -4,11 +4,13 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Traits\UserInfoJsonStructure;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
+    use UserInfoJsonStructure;
 
     public function test_users_can_authenticate_using_the_login_screen()
     {
@@ -20,14 +22,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertJsonStructure([
-          "id",
-          "name",
-          "email",
-          "email_verified_at",
-          "avatar",
-          "is_admin"
-        ]);
+        $response->assertJsonStructure($this->userInfoJsonStructure());
     }
 
     public function test_users_can_not_authenticate_with_invalid_password()
