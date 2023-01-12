@@ -43,8 +43,21 @@ class RegistrationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_user_name_less_than_4_characters_returns_422_response()
+    {
+        $response = $this->postJson('/register', [
+          "name" => "x",
+          "email" => "test@example.com",
+          "password" => "password",
+          "password_confirmation" => "password"
+          ]);
+
+        $response->assertStatus(422);
+        $this->assertEquals($response["message"], "The name must be at least 4 characters.");
+    }
+
     private function attemptRegistration()
     {
-        return $this->post('/register', $this->payload);
+        return $this->postJson('/register', $this->payload);
     }
 }
