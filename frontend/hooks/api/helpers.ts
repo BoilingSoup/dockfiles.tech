@@ -1,3 +1,4 @@
+import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { getCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
@@ -219,14 +220,16 @@ export const logoutSuccessNotification = () => {
   });
 };
 
-export const logoutErrorNotification = () => {
+const genericErrorNotification = () => {
   showNotification({
     color: "red",
     title: "Something went wrong!",
-    message: "Please try again and/or refresh the page.",
+    message: "Something went wrong.",
     styles: notificationStyles,
   });
 };
+
+export const logoutErrorNotification = genericErrorNotification;
 
 export type RegisterFormValues = {
   displayName: string;
@@ -253,14 +256,7 @@ export const registerSuccessNotification = () => {
   });
 };
 
-export const registerErrorNotification = () => {
-  showNotification({
-    color: "red",
-    title: "Error!",
-    message: "Something went wrong.",
-    styles: notificationStyles,
-  });
-};
+export const registerErrorNotification = genericErrorNotification;
 
 export const verificationEmailSentNotification = () => {
   showNotification({
@@ -285,11 +281,32 @@ export type UpdateUserFormValues = {
   email?: string;
 };
 
-export type UpdateUserPayload = {
+type UpdateUserPayload = {
   name?: string;
   email?: string;
+};
+
+export type UpdateUserMetadata = {
+  payload: UpdateUserPayload;
+  form: UseFormReturnType<{ displayName: string; email: string }>;
 };
 
 export const attemptUserUpdate = async (payload: UpdateUserPayload) => {
   return (await apiFetch.post("user", payload)) as User;
 };
+
+export const detectChangedFields = (meta: UpdateUserMetadata) => ({
+  nameWasChanged: meta.payload.name !== undefined,
+  emailWasChanged: meta.payload.email !== undefined,
+});
+
+export const userSettingsUpdateSuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Updated!",
+    message: "Your settings were updated.",
+    styles: notificationStyles,
+  });
+};
+
+export const userSettingsUpdateErrorNotification = genericErrorNotification;

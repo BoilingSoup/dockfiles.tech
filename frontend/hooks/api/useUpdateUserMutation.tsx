@@ -2,21 +2,33 @@ import { setCookie } from "cookies-next";
 import { useMutation } from "react-query";
 import { USER_DATA_COOKIE_KEY } from "../../components/layout/constants";
 import { useAuth, User } from "../../contexts/AuthProvider";
-import { attemptUserUpdate, UpdateUserPayload } from "./helpers";
+import {
+  attemptUserUpdate,
+  detectChangedFields,
+  UpdateUserMetadata,
+  userSettingsUpdateErrorNotification,
+  userSettingsUpdateSuccessNotification,
+  verificationEmailSentNotification,
+} from "./helpers";
 
 export const useUpdateUserMutation = () => {
   const { setUser } = useAuth();
 
-  return useMutation((payload: UpdateUserPayload) => attemptUserUpdate(payload), {
-    onSuccess: (user: User) => {
+  return useMutation((meta: UpdateUserMetadata) => attemptUserUpdate(meta.payload), {
+    onSuccess: (user: User, meta) => {
       setUser(user);
       setCookie(USER_DATA_COOKIE_KEY, JSON.stringify(user));
-      // modalCloseHandler();
-      // registerSuccessNotification();
-      // verificationEmailSentNotification();
+
+      meta.form.resetDirty();
+      userSettingsUpdateSuccessNotification();
+
+      const { emailWasChanged } = detectChangedFields(meta);
+      if (emailWasChanged) {
+        verificationEmailSentNotification();
+      }
     },
     onError: () => {
-      // registerErrorNotification();
+      userSettingsUpdateErrorNotification();
     },
   });
 };

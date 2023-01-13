@@ -1,6 +1,6 @@
 import { Badge, Button, Center, Group, Loader, Text, TextInput } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
-import { UpdateUserFormValues, UpdateUserPayload } from "../../hooks/api/helpers";
+import { UpdateUserFormValues, UpdateUserMetadata } from "../../hooks/api/helpers";
 import { useUpdateUserMutation } from "../../hooks/api/useUpdateUserMutation";
 import { formInputStyles } from "../layout/styles";
 import { Avatar } from "./Avatar";
@@ -51,14 +51,13 @@ export const AccountSettingsForm = () => {
     const nameIsChanged = settingsForm.isDirty(formKeys.displayName);
     const emailIsChanged = settingsForm.isDirty(formKeys.email);
 
-    const payload: UpdateUserPayload = {};
+    const meta: UpdateUserMetadata = { payload: {}, form: settingsForm };
 
-    if (nameIsChanged) payload.name = values.displayName;
-    if (emailIsChanged) payload.email = values.email;
+    if (nameIsChanged) meta.payload.name = values.displayName;
+    if (emailIsChanged) meta.payload.email = values.email;
 
-    return updateUserMutation(payload);
+    return updateUserMutation(meta);
     // TODO: throttle on backend.
-    // TODO: access payload data in mutation onSuccess hook to show appropriate notification(s)
   });
 
   return (
@@ -87,7 +86,13 @@ export const AccountSettingsForm = () => {
           <Button sx={buttonsSx} mt="lg" disabled={emailIsVerified}>
             Resend Verification Email
           </Button>
-          <Button type="submit" sx={buttonsSx} mt="lg" ml="auto" disabled={!settingsForm.isDirty()}>
+          <Button
+            type="submit"
+            sx={buttonsSx}
+            mt="lg"
+            ml="auto"
+            disabled={!settingsForm.isDirty() || !settingsForm.isValid()}
+          >
             {isLoading ? <Loader color="gray" size="sm" /> : "Save Changes"}
           </Button>
         </Group>
