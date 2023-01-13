@@ -27,7 +27,7 @@ export const cameraContainerSx = ({ colorScheme }: MantineTheme): CSSObject => (
     light: "rgba(0, 0, 0, 0.4)",
   }),
   width: "100%",
-  height: 60,
+  height: 40,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
