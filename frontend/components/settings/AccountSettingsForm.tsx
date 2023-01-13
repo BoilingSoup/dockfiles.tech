@@ -1,9 +1,16 @@
-import { Badge, Button, Group, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Center, Group, Text, TextInput } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
 import { formInputStyles } from "../layout/styles";
 import { Avatar } from "./Avatar";
 import { useSettingsForm } from "./hooks/useSettingsForm";
-import { buttonsSx, formStyles, titleTextSx, unverifiedBadgeStyles, verifiedBadgeGradient } from "./styles";
+import {
+  buttonsSx,
+  formCenterStyles,
+  formStyles,
+  titleTextSx,
+  unverifiedBadgeStyles,
+  verifiedBadgeGradient,
+} from "./styles";
 
 export const AccountSettingsForm = () => {
   const { user } = useAuth();
@@ -36,30 +43,36 @@ export const AccountSettingsForm = () => {
   );
 
   return (
-    <form onSubmit={settingsForm.onSubmit((values) => console.log(values))} style={formStyles}>
-      <Text component="h2" sx={titleTextSx} mr="auto" my={0}>
-        Account Settings
-      </Text>
-      <Avatar mt={10} />
-      <TextInput styles={formInputStyles} label="Display Name" {...settingsForm.getInputProps(formKeys.displayName)} />
-      <TextInput
-        styles={formInputStyles}
-        mt="lg"
-        label="Email"
-        {...settingsForm.getInputProps(formKeys.email)}
-        value={emailValue}
-        disabled={!emailIsVerified || isOAuth}
-        rightSection={!settingsForm.isDirty(formKeys.email) && badge}
-        rightSectionWidth={100}
-      />
-      <Group mt="xl">
-        <Button sx={buttonsSx} mt="lg" disabled={emailIsVerified}>
-          Resend Verification Email
-        </Button>
-        <Button type="submit" sx={buttonsSx} mt="lg" ml="auto" disabled={!settingsForm.isDirty()}>
-          Save Changes
-        </Button>
-      </Group>
-    </form>
+    <Center style={formCenterStyles}>
+      <form onSubmit={settingsForm.onSubmit((values) => console.log(values))} style={formStyles}>
+        <Text component="h2" sx={titleTextSx} mr="auto" my={0}>
+          Account Settings
+        </Text>
+        <Avatar mt={10} />
+        <TextInput
+          styles={formInputStyles}
+          label="Display Name"
+          {...settingsForm.getInputProps(formKeys.displayName)}
+        />
+        <TextInput
+          styles={formInputStyles}
+          mt="lg"
+          label="Email"
+          {...settingsForm.getInputProps(formKeys.email)}
+          value={emailValue}
+          disabled={!emailIsVerified || isOAuth}
+          rightSection={!settingsForm.isDirty(formKeys.email) && badge}
+          rightSectionWidth={100}
+        />
+        <Group mt="xl">
+          <Button sx={buttonsSx} mt="lg" disabled={emailIsVerified}>
+            Resend Verification Email
+          </Button>
+          <Button type="submit" sx={buttonsSx} mt="lg" ml="auto" disabled={!settingsForm.isDirty()}>
+            Save Changes
+          </Button>
+        </Group>
+      </form>
+    </Center>
   );
 };

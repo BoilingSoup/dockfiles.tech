@@ -1,4 +1,5 @@
 import { CSSObject, MantineTheme } from "@mantine/core";
+import { CSSProperties } from "react";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 
 export const formWidth = 360;
@@ -146,6 +147,8 @@ export const buttonsSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject 
 });
 
 export const formStyles = { maxWidth: formMaxWidth, width: formWidth, margin: "auto" };
+
+export const formCenterStyles: CSSProperties = { justifyContent: "space-around", flexDirection: "column" };
 
 export const verifiedBadgeGradient = { from: "teal", to: "lime", deg: 105 };
 
