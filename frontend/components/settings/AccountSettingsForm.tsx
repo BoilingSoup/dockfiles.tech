@@ -14,8 +14,8 @@ export const AccountSettingsForm = () => {
   }
 
   const emailIsVerified = user.email_verified_at !== null;
-  const isGitHub = user.github_id;
-  const isGitLab = user.gitlab_id;
+  const isGitHub = user.github_id !== null;
+  const isGitLab = user.gitlab_id !== null;
   const isOAuth = Boolean(isGitHub || isGitLab);
   let emailValue: string;
 
