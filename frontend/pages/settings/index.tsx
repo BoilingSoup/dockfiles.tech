@@ -1,4 +1,4 @@
-import { Center, Container, Text } from "@mantine/core";
+import { Button, Center, Container, Text, TextInput } from "@mantine/core";
 import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -8,10 +8,17 @@ import { AccountSettingsForm } from "../../components/settings/AccountSettingsFo
 import { Avatar } from "../../components/settings/Avatar";
 import { ChangePasswordAccordion } from "../../components/settings/ChagePasswordAccordion";
 import { DeleteAccountAccordion } from "../../components/settings/DeleteAccountAccordion";
-import { accordionContainerStyles, formMaxWidth, formWidth, titleTextSx } from "../../components/settings/styles";
+import {
+  accordionContainerStyles,
+  formMaxWidth,
+  formStyles,
+  formWidth,
+  titleTextSx,
+} from "../../components/settings/styles";
 import { SITE_NAME } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
+import { formInputStyles } from "../../components/layout/styles";
 
 const Settings: NextPage = () => {
   useRedirectUnauthenticated("/");
@@ -35,8 +42,16 @@ const Settings: NextPage = () => {
             <AccountSettingsForm />
           </Center>
           <Divider mt={30} mb={30} size="xl" />
-          <Center style={accordionContainerStyles}>
-            <ChangePasswordAccordion />
+          <Center style={{ justifyContent: "space-around", flexDirection: "column" }}>
+            {/* <ChangePasswordAccordion /> */}
+            <form style={formStyles}>
+              <Text component="h3" mr="auto">
+                Change password
+              </Text>
+              <TextInput label="New Password" styles={formInputStyles} />
+              <TextInput label="Confirm New Password" styles={formInputStyles} />
+              <Button>Change Password</Button>
+            </form>
           </Center>
           <Divider mt={30} mb={30} size="xl" />
           <Center style={accordionContainerStyles}>
