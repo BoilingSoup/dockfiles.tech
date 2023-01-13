@@ -5,7 +5,7 @@ export const formWidth = 360;
 export const formMaxWidth = 520;
 
 export const titleTextSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
-  fontSize: "1.8rem",
+  fontSize: "1.3rem",
 });
 
 export const avatarSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({

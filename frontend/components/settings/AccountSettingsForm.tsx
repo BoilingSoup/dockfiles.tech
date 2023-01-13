@@ -1,8 +1,9 @@
-import { Badge, Button, Group, TextInput } from "@mantine/core";
+import { Badge, Button, Group, Text, TextInput } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
 import { formInputStyles } from "../layout/styles";
+import { Avatar } from "./Avatar";
 import { useSettingsForm } from "./hooks/useSettingsForm";
-import { buttonsSx, formStyles, unverifiedBadgeStyles, verifiedBadgeGradient } from "./styles";
+import { buttonsSx, formStyles, titleTextSx, unverifiedBadgeStyles, verifiedBadgeGradient } from "./styles";
 
 export const AccountSettingsForm = () => {
   const { user } = useAuth();
@@ -36,6 +37,10 @@ export const AccountSettingsForm = () => {
 
   return (
     <form onSubmit={settingsForm.onSubmit((values) => console.log(values))} style={formStyles}>
+      <Text component="h2" sx={titleTextSx} mr="auto" my={0}>
+        Account Settings
+      </Text>
+      <Avatar mt={10} />
       <TextInput styles={formInputStyles} label="Display Name" {...settingsForm.getInputProps(formKeys.displayName)} />
       <TextInput
         styles={formInputStyles}

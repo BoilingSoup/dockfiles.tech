@@ -32,21 +32,15 @@ const Settings: NextPage = () => {
 
       {user && (
         <Container sx={mainContainerSx}>
-          <Center>
-            <Text component="h1" sx={titleTextSx}>
-              Account Settings
-            </Text>
-          </Center>
           <Center style={{ justifyContent: "space-around", flexDirection: "column" }}>
-            <Avatar mt={10} />
             <AccountSettingsForm />
           </Center>
           <Divider mt={30} mb={30} size="xl" />
           <Center style={{ justifyContent: "space-around", flexDirection: "column" }}>
             {/* <ChangePasswordAccordion /> */}
             <form style={formStyles}>
-              <Text component="h3" mr="auto" my={0} style={{ fontSize: "1.3rem" }}>
-                Change password
+              <Text component="h2" mr="auto" my={0} style={{ fontSize: "1.3rem" }}>
+                Change Password
               </Text>
               <TextInput type="password" mt="lg" label="New Password" styles={formInputStyles} />
               <TextInput type="password" mt="lg" label="Confirm New Password" styles={formInputStyles} />
