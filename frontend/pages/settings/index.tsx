@@ -48,8 +48,8 @@ const Settings: NextPage = () => {
               <Text component="h3" mr="auto" my={0} style={{ fontSize: "1.3rem" }}>
                 Change password
               </Text>
-              <TextInput mt="lg" label="New Password" styles={formInputStyles} />
-              <TextInput mt="lg" label="Confirm New Password" styles={formInputStyles} />
+              <TextInput type="password" mt="lg" label="New Password" styles={formInputStyles} />
+              <TextInput type="password" mt="lg" label="Confirm New Password" styles={formInputStyles} />
               <Group>
                 <Button mt="lg" ml="auto">
                   Change Password
