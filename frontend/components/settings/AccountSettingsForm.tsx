@@ -67,7 +67,7 @@ export const AccountSettingsForm = () => {
         <Text component="h2" sx={titleTextSx} mr="auto" my={0}>
           Account Settings
         </Text>
-        <Avatar mt={10} />
+        <Avatar mt={20} />
         <TextInput
           styles={formInputStyles}
           label="Display Name"

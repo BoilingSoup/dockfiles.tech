@@ -6,7 +6,12 @@ export const DeleteAccountAccordion = () => {
   const theme = useMantineTheme();
 
   return (
-    <Accordion variant="separated" chevron={<IconChevronDown size={16} />} styles={deleteAccountAccordionStyles(theme)}>
+    <Accordion
+      variant="separated"
+      mb={30}
+      chevron={<IconChevronDown size={16} />}
+      styles={deleteAccountAccordionStyles(theme)}
+    >
       <Accordion.Item value="customization">
         <Accordion.Control>Delete your account?</Accordion.Control>
         <Accordion.Panel>
