@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    /**
+     * Change the authenticated User's name and/or email.
+     * If the User is registered with OAuth, an attempt to change the email will be ignored.
+     *
+     * @return User
+     */
     public function update(UpdateUserRequest $request)
     {
         $validated = $request->validated();
@@ -45,5 +52,9 @@ class UserController extends Controller
             Auth::user()->email_verified_at = null;
             Auth::user()->sendEmailVerificationNotification();
         }
+    }
+
+    public function changePassword()
+    {
     }
 }
