@@ -23,15 +23,7 @@ export const Avatar = ({ m, mt, mb, ml, mr }: Props) => {
     user && (
       <Box ref={ref} sx={avatarSx} m={m} mt={mt} mb={mb} ml={ml} mr={mr}>
         {/*eslint-disable-next-line*/}
-        <img
-          src={
-            user.avatar ??
-            "/default_avatar.png"
-          }
-          alt="User avatar"
-          width={200}
-          height={200}
-        />
+        <img src={user.avatar ?? "/default_avatar.png"} alt="User avatar" width={140} height={140} />
         <Transition mounted={hovered} transition="fade" duration={100} timingFunction="ease">
           {() => <Box sx={overlayBoxSx}></Box>}
         </Transition>

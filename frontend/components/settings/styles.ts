@@ -62,7 +62,18 @@ export const deleteButtonSx = (theme: MantineTheme): CSSObject => ({
   },
 });
 
-export const accordionStyles = (theme: MantineTheme) => {
+export const changePasswordButtonSx = ({ shadows, colors, colorScheme, fn }: MantineTheme): CSSObject => ({
+  boxShadow: shadows.xl,
+  backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
+  "&:hover": {
+    backgroundColor: colorSchemeHandler(colorScheme, {
+      light: fn.darken(colors.indigo[9], 0.05),
+      dark: fn.lighten(colors.blue[8], 0.05),
+    }),
+  },
+});
+
+export const deleteAccountAccordionStyles = (theme: MantineTheme) => {
   const { colors, colorScheme } = theme;
   return {
     chevron: {
@@ -93,6 +104,37 @@ export const accordionStyles = (theme: MantineTheme) => {
   };
 };
 
+export const changePasswordAccordionStyles = (theme: MantineTheme) => {
+  const { colors, colorScheme } = theme;
+  return {
+    chevron: {
+      "&[data-rotate]": {
+        transform: "rotate(180deg)",
+      },
+    },
+    label: {
+      fontWeight: 800,
+    },
+    control: {
+      maxWidth: formMaxWidth,
+      width: formWidth,
+      // color: deleteAccordionTextColor(theme),
+      backgroundColor: colorSchemeHandler(colorScheme, {
+        dark: colors.slate[8],
+        light: colors.blue[1],
+      }),
+    },
+    content: {
+      fontWeight: 800,
+      // color: deleteAccordionTextColor(theme),
+      backgroundColor: colorSchemeHandler(colorScheme, {
+        dark: colors.slate[8],
+        light: colors.blue[1],
+      }),
+    },
+  };
+};
+
 export const buttonsSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   backgroundColor: colorSchemeHandler(colorScheme, { light: colors.indigo[9] }),
   "&:hover": {
@@ -103,8 +145,15 @@ export const buttonsSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject 
   },
 });
 
-export const formStyles = { maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" };
+export const formStyles = { maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "10px" };
 
 export const verifiedBadgeGradient = { from: "teal", to: "lime", deg: 105 };
 
 export const unverifiedBadgeStyles = { root: { background: "#fcba03", color: "navy" } };
+
+export const accordionContainerStyles = {
+  alignItems: "center",
+  maxWidth: formMaxWidth,
+  width: formWidth,
+  margin: "auto",
+};

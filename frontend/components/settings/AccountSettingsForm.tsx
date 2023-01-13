@@ -36,12 +36,7 @@ export const AccountSettingsForm = () => {
 
   return (
     <form onSubmit={settingsForm.onSubmit((values) => console.log(values))} style={formStyles}>
-      <TextInput
-        styles={formInputStyles}
-        mt="lg"
-        label="Display Name"
-        {...settingsForm.getInputProps(formKeys.displayName)}
-      />
+      <TextInput styles={formInputStyles} label="Display Name" {...settingsForm.getInputProps(formKeys.displayName)} />
       <TextInput
         styles={formInputStyles}
         mt="lg"

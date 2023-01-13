@@ -1,12 +1,12 @@
 import { Accordion, Button, Center, Text, useMantineTheme } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons";
-import { accordionStyles, deleteButtonSx } from "./styles";
+import { deleteAccountAccordionStyles, deleteButtonSx } from "./styles";
 
 export const DeleteAccountAccordion = () => {
   const theme = useMantineTheme();
 
   return (
-    <Accordion variant="separated" chevron={<IconChevronDown size={16} />} styles={accordionStyles(theme)} mt={40}>
+    <Accordion variant="separated" chevron={<IconChevronDown size={16} />} styles={deleteAccountAccordionStyles(theme)}>
       <Accordion.Item value="customization">
         <Accordion.Control>Delete your account?</Accordion.Control>
         <Accordion.Panel>

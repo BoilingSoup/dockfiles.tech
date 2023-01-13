@@ -6,8 +6,9 @@ import { Divider } from "../../components/common/Divider";
 import { mainContainerSx } from "../../components/common/styles";
 import { AccountSettingsForm } from "../../components/settings/AccountSettingsForm";
 import { Avatar } from "../../components/settings/Avatar";
+import { ChangePasswordAccordion } from "../../components/settings/ChagePasswordAccordion";
 import { DeleteAccountAccordion } from "../../components/settings/DeleteAccountAccordion";
-import { formMaxWidth, formWidth, titleTextSx } from "../../components/settings/styles";
+import { accordionContainerStyles, formMaxWidth, formWidth, titleTextSx } from "../../components/settings/styles";
 import { SITE_NAME } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
@@ -30,11 +31,15 @@ const Settings: NextPage = () => {
             </Text>
           </Center>
           <Center style={{ justifyContent: "space-around", flexDirection: "column" }}>
-            <Avatar mt={50} />
+            <Avatar mt={10} />
             <AccountSettingsForm />
           </Center>
-          <Divider mt={30} size="xl" />
-          <Center style={{ alignItems: "center", maxWidth: formMaxWidth, width: formWidth, margin: "auto" }}>
+          <Divider mt={30} mb={30} size="xl" />
+          <Center style={accordionContainerStyles}>
+            <ChangePasswordAccordion />
+          </Center>
+          <Divider mt={30} mb={30} size="xl" />
+          <Center style={accordionContainerStyles}>
             <DeleteAccountAccordion />
           </Center>
         </Container>
