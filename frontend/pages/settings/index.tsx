@@ -1,4 +1,4 @@
-import { Button, Center, Container, Text, TextInput } from "@mantine/core";
+import { Button, Center, Container, Group, Text, TextInput } from "@mantine/core";
 import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -45,12 +45,16 @@ const Settings: NextPage = () => {
           <Center style={{ justifyContent: "space-around", flexDirection: "column" }}>
             {/* <ChangePasswordAccordion /> */}
             <form style={formStyles}>
-              <Text component="h3" mr="auto">
+              <Text component="h3" mr="auto" my={0} style={{ fontSize: "1.3rem" }}>
                 Change password
               </Text>
-              <TextInput label="New Password" styles={formInputStyles} />
-              <TextInput label="Confirm New Password" styles={formInputStyles} />
-              <Button>Change Password</Button>
+              <TextInput mt="lg" label="New Password" styles={formInputStyles} />
+              <TextInput mt="lg" label="Confirm New Password" styles={formInputStyles} />
+              <Group>
+                <Button mt="lg" ml="auto">
+                  Change Password
+                </Button>
+              </Group>
             </form>
           </Center>
           <Divider mt={30} mb={30} size="xl" />
