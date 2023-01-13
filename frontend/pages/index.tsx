@@ -16,8 +16,12 @@ import { LoadingSpinner } from "../components/common/LoadingSpinner";
 import { SITE_NAME } from "../config/config";
 import { ChangeEvent } from "react";
 import { useDebouncedCursor } from "../hooks/api/useDebouncedCursor";
+import { useEmailWasVerifiedNotification } from "../hooks/helpers/useEmailWasVerifiedNotification";
 
 const Home: NextPage = () => {
+  // Notify user of success if coming from email verification link
+  useEmailWasVerifiedNotification();
+
   // state management
   const { input, setInput, select: categoryId, setSelect: setCategoryId } = useHomeCategoriesSearch();
   const { cursor, setCursor } = useHomePageCursor();

@@ -310,3 +310,12 @@ export const userSettingsUpdateSuccessNotification = () => {
 };
 
 export const userSettingsUpdateErrorNotification = genericErrorNotification;
+
+export const emailWasVerifiedNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Verified!",
+    message: "Your email has been verified.",
+    styles: notificationStyles,
+  });
+};
