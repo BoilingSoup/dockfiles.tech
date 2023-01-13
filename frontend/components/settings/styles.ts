@@ -104,3 +104,7 @@ export const buttonsSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject 
 });
 
 export const formStyles = { maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" };
+
+export const verifiedBadgeGradient = { from: "teal", to: "lime", deg: 105 };
+
+export const unverifiedBadgeStyles = { root: { background: "#fcba03", color: "navy" } };

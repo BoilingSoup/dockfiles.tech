@@ -19,8 +19,6 @@ export const useSettingsForm = (user: User) => {
   const formKeys = {
     displayName: "displayName",
     email: "email",
-    // password: "password",
-    // rememberMe: "rememberMe",
   };
 
   return { settingsForm, formKeys };
