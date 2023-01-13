@@ -57,7 +57,7 @@ export const deleteButtonSx = (theme: MantineTheme): CSSObject => ({
   "&:hover": {
     backgroundColor: colorSchemeHandler(theme.colorScheme, {
       light: theme.fn.darken(deleteAccordionTextColor(theme)!, 0.05),
-      dark: theme.fn.lighten(deleteAccordionTextColor(theme)!, 0.10),
+      dark: theme.fn.lighten(deleteAccordionTextColor(theme)!, 0.1),
     }),
   },
 });
@@ -102,3 +102,5 @@ export const buttonsSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject 
     }),
   },
 });
+
+export const formStyles = { maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" };

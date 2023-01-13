@@ -1,10 +1,12 @@
 import { Badge, Button, Group, TextInput } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
 import { formInputStyles } from "../layout/styles";
-import { buttonsSx, formMaxWidth, formWidth } from "./styles";
+import { useSettingsForm } from "./hooks/useSettingsForm";
+import { buttonsSx, formStyles } from "./styles";
 
 export const AccountSettingsForm = () => {
   const { user } = useAuth();
+  const { settingsForm, formKeys } = useSettingsForm(user);
 
   if (user === null) {
     return <></>;
@@ -21,7 +23,7 @@ export const AccountSettingsForm = () => {
   } else if (isGitLab) {
     emailValue = "GitLab Account";
   } else {
-    emailValue = user.email;
+    emailValue = settingsForm.getInputProps(formKeys.email).value;
   }
 
   const badge = emailIsVerified ? (
@@ -34,26 +36,32 @@ export const AccountSettingsForm = () => {
 
   return (
     user && (
-      <div style={{ maxWidth: formMaxWidth, width: formWidth, margin: "auto", marginTop: "30px" }}>
-        <TextInput styles={formInputStyles} mt="lg" label="Display Name" value={user.name} />
+      <form onSubmit={settingsForm.onSubmit((values) => console.log(values))} style={formStyles}>
+        <TextInput
+          styles={formInputStyles}
+          mt="lg"
+          label="Display Name"
+          {...settingsForm.getInputProps(formKeys.displayName)}
+        />
         <TextInput
           styles={formInputStyles}
           mt="lg"
           label="Email"
+          {...settingsForm.getInputProps(formKeys.email)}
           value={emailValue}
           disabled={!emailIsVerified || isOAuth}
-          rightSection={badge}
+          rightSection={!settingsForm.isDirty(formKeys.email) && badge}
           rightSectionWidth={100}
         />
         <Group mt="xl">
           <Button sx={buttonsSx} mt="lg" disabled={emailIsVerified}>
             Resend Verification Email
           </Button>
-          <Button sx={buttonsSx} mt="lg" ml="auto">
+          <Button type="submit" sx={buttonsSx} mt="lg" ml="auto" disabled={!settingsForm.isDirty()}>
             Save Changes
           </Button>
         </Group>
-      </div>
+      </form>
     )
   );
 };
