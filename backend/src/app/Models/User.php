@@ -43,6 +43,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
+        "github_id" => "integer",
+        "gitlab_id" => "integer"
     ];
 
     public function comments()
