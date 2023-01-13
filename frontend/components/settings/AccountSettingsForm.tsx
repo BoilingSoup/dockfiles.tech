@@ -1,5 +1,7 @@
-import { Badge, Button, Center, Group, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Center, Group, Loader, Text, TextInput } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
+import { UpdateUserFormValues, UpdateUserPayload } from "../../hooks/api/helpers";
+import { useUpdateUserMutation } from "../../hooks/api/useUpdateUserMutation";
 import { formInputStyles } from "../layout/styles";
 import { Avatar } from "./Avatar";
 import { useSettingsForm } from "./hooks/useSettingsForm";
@@ -15,6 +17,7 @@ import {
 export const AccountSettingsForm = () => {
   const { user } = useAuth();
   const { settingsForm, formKeys } = useSettingsForm(user);
+  const { mutate: updateUserMutation, isLoading } = useUpdateUserMutation();
 
   if (user === null) {
     return <></>;
@@ -42,9 +45,25 @@ export const AccountSettingsForm = () => {
     <Badge styles={unverifiedBadgeStyles}>Unverified</Badge>
   );
 
+  const submitHandler = settingsForm.onSubmit((values: UpdateUserFormValues) => {
+    if (isLoading) return;
+
+    const nameIsChanged = settingsForm.isDirty(formKeys.displayName);
+    const emailIsChanged = settingsForm.isDirty(formKeys.email);
+
+    const payload: UpdateUserPayload = {};
+
+    if (nameIsChanged) payload.name = values.displayName;
+    if (emailIsChanged) payload.email = values.email;
+
+    return updateUserMutation(payload);
+    // TODO: throttle on backend.
+    // TODO: access payload data in mutation onSuccess hook to show appropriate notification(s)
+  });
+
   return (
     <Center style={formCenterStyles}>
-      <form onSubmit={settingsForm.onSubmit((values) => console.log(values))} style={formStyles}>
+      <form onSubmit={submitHandler} style={formStyles}>
         <Text component="h2" sx={titleTextSx} mr="auto" my={0}>
           Account Settings
         </Text>
@@ -69,7 +88,7 @@ export const AccountSettingsForm = () => {
             Resend Verification Email
           </Button>
           <Button type="submit" sx={buttonsSx} mt="lg" ml="auto" disabled={!settingsForm.isDirty()}>
-            Save Changes
+            {isLoading ? <Loader color="gray" size="sm" /> : "Save Changes"}
           </Button>
         </Group>
       </form>

@@ -279,3 +279,17 @@ export const userNotVerifiedNotification = () => {
     styles: notificationStyles,
   });
 };
+
+export type UpdateUserFormValues = {
+  displayName?: string;
+  email?: string;
+};
+
+export type UpdateUserPayload = {
+  name?: string;
+  email?: string;
+};
+
+export const attemptUserUpdate = async (payload: UpdateUserPayload) => {
+  return (await apiFetch.post("user", payload)) as User;
+};
