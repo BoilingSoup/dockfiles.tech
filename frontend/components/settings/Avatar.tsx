@@ -9,11 +9,9 @@ type Props = {
   m?: MantineNumberSize;
   mt?: MantineNumberSize;
   mb?: MantineNumberSize;
-  ml?: MantineNumberSize;
-  mr?: MantineNumberSize;
 };
 
-export const Avatar = ({ m, mt, mb, ml, mr }: Props) => {
+export const Avatar = ({ m, mt, mb }: Props) => {
   const { user } = useAuth();
   const { hovered, ref } = useHover();
   const { colorScheme } = useMantineColorScheme();
@@ -21,7 +19,7 @@ export const Avatar = ({ m, mt, mb, ml, mr }: Props) => {
 
   return (
     user && (
-      <Box ref={ref} sx={avatarSx} m={m} mt={mt} mb={mb} ml={ml} mr={mr} w={140} h={140}>
+      <Box ref={ref} sx={avatarSx} m={m} mt={mt} mb={mb} ml={"auto"} mr={"auto"} w={140} h={140}>
         {/*eslint-disable-next-line*/}
         <img src={user.avatar ?? "/default_avatar.png"} alt="User avatar" width={140} height={140} />
         <Transition mounted={hovered} transition="fade" duration={100} timingFunction="ease">
