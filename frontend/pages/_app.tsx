@@ -95,7 +95,6 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
 
     if (isPotentiallyValidToken) {
       userResponse = await getInitialUser({ token, ctx });
-      ctx.res.setHeader("set-cookie", userResponse.headers.get("set-cookie") || ""); // forward the response cookies to the user's browser
     }
 
     const sessionIsValid = userResponse?.ok;
