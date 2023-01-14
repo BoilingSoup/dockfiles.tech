@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -55,7 +57,23 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Change the authenticated User's password.
+     * If the User is registered with OAuth the action will return a 403 response.
+     *
+     * @return Response
+     */
     public function changePassword(UpdatePasswordRequest $request)
     {
+        $validated = $request->validated(); // validation will throw an error if current_password is incorrect.
+
+        $isOauthAccount = Auth::user()->github_id || Auth::user()->gitlab_id;
+        abort_if($isOauthAccount, 403);
+
+        $newPassword = $validated["password"];
+        Auth::user()->password = Hash::make($newPassword);
+        Auth::user()->saveOrFail();
+
+        return response()->noContent();
     }
 }
