@@ -3,8 +3,15 @@ import { screen } from "@testing-library/react";
 import { AccountSettingsForm } from "../components/settings/AccountSettingsForm";
 import userEvent from "@testing-library/user-event";
 
-function renderWithUser({ verified }: { verified: boolean }) {
-  const emailVerifiedAt = verified ? "some ISO string..." : null;
+type UserOpts = {
+  verified?: boolean;
+  githubAccount?: boolean;
+  gitlabAccount?: boolean;
+};
+
+function renderWithUser({ verified, githubAccount, gitlabAccount }: UserOpts) {
+  const isOAuth = githubAccount || gitlabAccount;
+  const emailVerifiedAt = verified || isOAuth ? "some ISO string..." : null;
   renderWithContexts(<AccountSettingsForm />, {
     user: {
       id: 1,
@@ -13,8 +20,8 @@ function renderWithUser({ verified }: { verified: boolean }) {
       email_verified_at: emailVerifiedAt,
       is_admin: false,
       name: "test account",
-      github_id: null,
-      gitlab_id: null,
+      github_id: githubAccount ? 1111 : null,
+      gitlab_id: gitlabAccount ? 2222 : null,
     },
   });
 }
@@ -51,24 +58,50 @@ describe("Change Display Name input shows a validation error", () => {
 });
 
 describe("Email input field", () => {
-  test("is disabled when user state claims email is not verified", () => {
-    renderWithUser({ verified: false });
+  describe("for non-OAuth account", () => {
+    test("is disabled when user state claims email is not verified", () => {
+      renderWithUser({ verified: false });
 
-    const emailInput = screen.getByRole("textbox", {
-      name: "Email",
+      const emailInput = screen.getByRole("textbox", {
+        name: "Email",
+      });
+
+      expect(emailInput).toHaveAttribute("disabled");
     });
 
-    expect(emailInput).toHaveAttribute("disabled");
+    test("is enabled when user state claims email is verified", () => {
+      renderWithUser({ verified: true });
+
+      const emailInput = screen.getByRole("textbox", {
+        name: "Email",
+      });
+
+      expect(emailInput).not.toHaveAttribute("disabled");
+    });
   });
 
-  test("is enabled when user state claims email is verified", () => {
-    renderWithUser({ verified: true });
+  describe("for OAuth account", () => {
+    test('is disabled and shows "GitHub Account" when user is registered with GitHub', () => {
+      renderWithUser({ githubAccount: true });
 
-    const emailInput = screen.getByRole("textbox", {
-      name: "Email",
+      const emailInput = screen.getByRole("textbox", {
+        name: "Email",
+      });
+
+      expect(emailInput).toHaveValue("GitHub Account");
+      expect(emailInput).toBeDisabled();
     });
 
-    expect(emailInput).not.toHaveAttribute("disabled");
+    test('is disabled and shows "GitLab Account" when user is registered with GitLab', () => {
+      renderWithUser({ gitlabAccount: true });
+
+      const emailInput = screen.getByRole("textbox", {
+        name: "Email",
+      });
+
+      expect(emailInput).toHaveValue("GitLab Account");
+      expect(emailInput).toBeDisabled();
+    });
   });
 
   describe("badge", () => {
