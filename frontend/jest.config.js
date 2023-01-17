@@ -16,6 +16,7 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   testEnvironment: "jest-environment-jsdom",
   transformIgnorePatterns: [`/node_modules/(?!(${esModules.join("|")})/)`],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };
 
 module.exports = async () => {
