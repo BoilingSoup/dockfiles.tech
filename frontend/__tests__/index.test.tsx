@@ -1,11 +1,8 @@
-// __tests__/index.test.jsx
-
-import { render, screen } from "@testing-library/react";
-import Home from "../pages/index";
 import "@testing-library/jest-dom";
+import { renderWithContexts } from "../test-utils/render";
 
 describe("Home", () => {
   it("renders a heading", () => {
-    render(<div />);
+    renderWithContexts(<div></div>);
   });
 });
