@@ -25,7 +25,7 @@ function renderWithUser({ verified, githubAccount, gitlabAccount }: UserOpts) {
   });
 }
 
-describe("Change Password fields", () => {
+describe("Change Password input fields", () => {
   test('is disabled and shows "GitHub Account" when user is registered with GitHub', () => {
     renderWithUser({ githubAccount: true });
 
@@ -67,6 +67,26 @@ describe("Change Password fields", () => {
     expect(confirmNewPasswordField).toHaveValue("GitLab Account");
     expect(confirmNewPasswordField).toBeDisabled();
   });
+});
 
-  // TODO: disable button when user is oauth
+describe("Change Password button", () => {
+  test("is disabled when user is registered with GitHub", () => {
+    renderWithUser({ githubAccount: true });
+
+    const changePasswordBtn = screen.getByRole("button", {
+      name: "Change Password",
+    });
+
+    expect(changePasswordBtn).toBeDisabled();
+  });
+
+  test("is disabled when user is registered with GitLab", () => {
+    renderWithUser({ gitlabAccount: true });
+
+    const changePasswordBtn = screen.getByRole("button", {
+      name: "Change Password",
+    });
+
+    expect(changePasswordBtn).toBeDisabled();
+  });
 });

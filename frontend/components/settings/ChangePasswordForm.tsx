@@ -54,7 +54,7 @@ export const ChangePasswordForm = () => {
           styles={formInputStyles}
         />
         <Group>
-          <Button mt="lg" ml="auto">
+          <Button mt="lg" ml="auto" disabled={isOAuth}>
             Change Password
           </Button>
         </Group>
