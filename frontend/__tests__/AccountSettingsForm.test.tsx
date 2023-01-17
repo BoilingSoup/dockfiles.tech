@@ -66,7 +66,7 @@ describe("Email input field", () => {
         name: "Email",
       });
 
-      expect(emailInput).toHaveAttribute("disabled");
+      expect(emailInput).toBeDisabled();
     });
 
     test("is enabled when user state claims email is verified", () => {
@@ -76,7 +76,7 @@ describe("Email input field", () => {
         name: "Email",
       });
 
-      expect(emailInput).not.toHaveAttribute("disabled");
+      expect(emailInput).toBeEnabled();
     });
   });
 
@@ -123,7 +123,7 @@ describe("Email input field", () => {
   });
 });
 
-describe("save changes button", () => {
+describe("Save Changes button", () => {
   test("is disabled initially", () => {
     renderWithUser({ verified: false });
 
@@ -131,7 +131,7 @@ describe("save changes button", () => {
       name: /save changes/i,
     });
 
-    expect(saveChangesBtn).toHaveAttribute("disabled");
+    expect(saveChangesBtn).toBeDisabled();
   });
 
   test("is enabled after form input is changed and valid", async () => {
@@ -147,7 +147,7 @@ describe("save changes button", () => {
       name: /save changes/i,
     });
 
-    expect(saveChangesBtn).not.toHaveAttribute("disabled");
+    expect(saveChangesBtn).toBeEnabled();
   });
 
   test("is disabled when form input is invalid", async () => {
@@ -163,11 +163,11 @@ describe("save changes button", () => {
       name: /save changes/i,
     });
 
-    expect(saveChangesBtn).toHaveAttribute("disabled");
+    expect(saveChangesBtn).toBeDisabled();
   });
 });
 
-describe("resend verification email button", () => {
+describe("Resend Verification Email button", () => {
   test("is disabled when user state claims email is verified", () => {
     renderWithUser({ verified: true });
 
@@ -175,7 +175,7 @@ describe("resend verification email button", () => {
       name: /resend verification email/i,
     });
 
-    expect(resendEmailBtn).toHaveAttribute("disabled");
+    expect(resendEmailBtn).toBeDisabled();
   });
 
   test("is enabled when user state claims email is unverified", () => {
@@ -185,6 +185,6 @@ describe("resend verification email button", () => {
       name: /resend verification email/i,
     });
 
-    expect(resendEmailBtn).not.toHaveAttribute("disabled");
+    expect(resendEmailBtn).toBeEnabled();
   });
 });
