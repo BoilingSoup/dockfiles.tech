@@ -101,7 +101,7 @@ describe("save changes button", () => {
     expect(saveChangesBtn).toHaveAttribute("disabled");
   });
 
-  test("is enabled after form input is changed", async () => {
+  test("is enabled after form input is changed and valid", async () => {
     const user = userEvent.setup();
     renderWithUser({ verified: false });
 
@@ -115,6 +115,22 @@ describe("save changes button", () => {
     });
 
     expect(saveChangesBtn).not.toHaveAttribute("disabled");
+  });
+
+  test("is disabled when form input is invalid", async () => {
+    const user = userEvent.setup();
+    renderWithUser({ verified: false });
+
+    const nameInput = screen.getByRole("textbox", {
+      name: /display name/i,
+    });
+    await user.clear(nameInput);
+    await screen.findByText(/must be between 4-20 characters/i);
+    const saveChangesBtn = screen.getByRole("button", {
+      name: /save changes/i,
+    });
+
+    expect(saveChangesBtn).toHaveAttribute("disabled");
   });
 });
 
