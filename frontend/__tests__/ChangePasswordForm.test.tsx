@@ -26,7 +26,7 @@ function renderWithUser({ verified, githubAccount, gitlabAccount }: UserOpts) {
 }
 
 describe("Change Password fields", () => {
-  test('show "GitHub Account" when user is registered with GitHub', () => {
+  test('is disabled and shows "GitHub Account" when user is registered with GitHub', () => {
     renderWithUser({ githubAccount: true });
 
     const oldPasswordField = screen.getByRole("textbox", {
@@ -47,7 +47,7 @@ describe("Change Password fields", () => {
     expect(confirmNewPasswordField).toBeDisabled();
   });
 
-  test(`show "GitLab Account" when user is registered with GitLab`, () => {
+  test('is disabled and shows "GitLab Account" when user is registered with GitLab', () => {
     renderWithUser({ gitlabAccount: true });
 
     const oldPasswordField = screen.getByRole("textbox", {
