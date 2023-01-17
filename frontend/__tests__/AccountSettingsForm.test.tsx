@@ -3,21 +3,26 @@ import { screen } from "@testing-library/react";
 import { AccountSettingsForm } from "../components/settings/AccountSettingsForm";
 import userEvent from "@testing-library/user-event";
 
+function renderWithUser({ verified }: { verified: boolean }) {
+  const emailVerifiedAt = verified ? "some ISO string..." : null;
+  renderWithContexts(<AccountSettingsForm />, {
+    user: {
+      id: 1,
+      avatar: "avatar.com",
+      email: "test@test.com",
+      email_verified_at: emailVerifiedAt,
+      is_admin: false,
+      name: "test account",
+      github_id: null,
+      gitlab_id: null,
+    },
+  });
+}
+
 describe("Change Display Name input shows a validation error", () => {
   test("when name is less than 4 characters", async () => {
     const user = userEvent.setup();
-    renderWithContexts(<AccountSettingsForm />, {
-      user: {
-        id: 1,
-        avatar: "avatar.com",
-        email: "test@test.com",
-        email_verified_at: "",
-        is_admin: false,
-        name: "test account",
-        github_id: null,
-        gitlab_id: null,
-      },
-    });
+    renderWithUser({ verified: false });
 
     const nameInput = screen.getByRole("textbox", {
       name: /display name/i,
@@ -30,18 +35,7 @@ describe("Change Display Name input shows a validation error", () => {
 
   test("when name is more than 20 characters", async () => {
     const user = userEvent.setup();
-    renderWithContexts(<AccountSettingsForm />, {
-      user: {
-        id: 1,
-        avatar: "avatar.com",
-        email: "test@test.com",
-        email_verified_at: "",
-        is_admin: false,
-        name: "test account",
-        github_id: null,
-        gitlab_id: null,
-      },
-    });
+    renderWithUser({ verified: false });
 
     const nameInput = screen.getByRole("textbox", {
       name: /display name/i,
@@ -56,42 +50,92 @@ describe("Change Display Name input shows a validation error", () => {
   });
 });
 
-describe("Email input field badge", () => {
-  test('shows "unverified" when user state claims email is not verified', () => {
-    renderWithContexts(<AccountSettingsForm />, {
-      user: {
-        id: 1,
-        avatar: "avatar.com",
-        email: "test@test.com",
-        email_verified_at: null,
-        is_admin: false,
-        name: "test account",
-        github_id: null,
-        gitlab_id: null,
-      },
+describe("Email input field", () => {
+  test("is disabled when user state claims email is not verified", () => {
+    renderWithUser({ verified: false });
+
+    const emailInput = screen.getByRole("textbox", {
+      name: "Email",
     });
 
-    const unverifiedBadge = screen.getByText("Unverified");
-
-    expect(unverifiedBadge).toBeInTheDocument();
+    expect(emailInput).toHaveAttribute("disabled");
   });
 
-  test('shows "verified" when user state claims email is verified', () => {
-    renderWithContexts(<AccountSettingsForm />, {
-      user: {
-        id: 1,
-        avatar: "avatar.com",
-        email: "test@test.com",
-        email_verified_at: "some ISO timestamp...",
-        is_admin: false,
-        name: "test account",
-        github_id: null,
-        gitlab_id: null,
-      },
+  test("is enabled when user state claims email is verified", () => {
+    renderWithUser({ verified: true });
+
+    const emailInput = screen.getByRole("textbox", {
+      name: "Email",
     });
 
-    const verifiedBadge = screen.getByText("Verified");
+    expect(emailInput).not.toHaveAttribute("disabled");
+  });
 
-    expect(verifiedBadge).toBeInTheDocument();
+  describe("badge", () => {
+    test('shows "unverified" when user state claims email is not verified', () => {
+      renderWithUser({ verified: false });
+
+      const unverifiedBadge = screen.getByText("Unverified");
+
+      expect(unverifiedBadge).toBeInTheDocument();
+    });
+
+    test('shows "verified" when user state claims email is verified', () => {
+      renderWithUser({ verified: true });
+
+      const verifiedBadge = screen.getByText("Verified");
+
+      expect(verifiedBadge).toBeInTheDocument();
+    });
+  });
+});
+
+describe("save changes button", () => {
+  test("is disabled initially", () => {
+    renderWithUser({ verified: false });
+
+    const saveChangesBtn = screen.getByRole("button", {
+      name: /save changes/i,
+    });
+
+    expect(saveChangesBtn).toHaveAttribute("disabled");
+  });
+
+  test("is enabled after form input is changed", async () => {
+    const user = userEvent.setup();
+    renderWithUser({ verified: false });
+
+    const nameInput = screen.getByRole("textbox", {
+      name: /display name/i,
+    });
+    await user.click(nameInput);
+    await user.keyboard("z");
+    const saveChangesBtn = screen.getByRole("button", {
+      name: /save changes/i,
+    });
+
+    expect(saveChangesBtn).not.toHaveAttribute("disabled");
+  });
+});
+
+describe("resend verification email button", () => {
+  test("is disabled when user state claims email is verified", () => {
+    renderWithUser({ verified: true });
+
+    const resendEmailBtn = screen.getByRole("button", {
+      name: /resend verification email/i,
+    });
+
+    expect(resendEmailBtn).toHaveAttribute("disabled");
+  });
+
+  test("is enabled when user state claims email is unverified", () => {
+    renderWithUser({ verified: false });
+
+    const resendEmailBtn = screen.getByRole("button", {
+      name: /resend verification email/i,
+    });
+
+    expect(resendEmailBtn).not.toHaveAttribute("disabled");
   });
 });
