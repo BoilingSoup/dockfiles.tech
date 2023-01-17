@@ -188,3 +188,5 @@ describe("Resend Verification Email button", () => {
     expect(resendEmailBtn).toBeEnabled();
   });
 });
+
+
