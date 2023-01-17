@@ -23,7 +23,7 @@ export type User = null | {
   is_admin: boolean;
   email: string;
   /** Empty string if not verified, ISO string if verified. */
-  email_verified_at: string;
+  email_verified_at: string | null;
   github_id: number | null;
   gitlab_id: number | null;
 };

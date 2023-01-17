@@ -55,3 +55,43 @@ describe("Change Display Name input shows a validation error", () => {
     expect(warningText).toBeInTheDocument();
   });
 });
+
+describe("Email input field badge", () => {
+  test('shows "unverified" when user state claims email is not verified', () => {
+    renderWithContexts(<AccountSettingsForm />, {
+      user: {
+        id: 1,
+        avatar: "avatar.com",
+        email: "test@test.com",
+        email_verified_at: null,
+        is_admin: false,
+        name: "test account",
+        github_id: null,
+        gitlab_id: null,
+      },
+    });
+
+    const unverifiedBadge = screen.getByText("Unverified");
+
+    expect(unverifiedBadge).toBeInTheDocument();
+  });
+
+  test('shows "verified" when user state claims email is verified', () => {
+    renderWithContexts(<AccountSettingsForm />, {
+      user: {
+        id: 1,
+        avatar: "avatar.com",
+        email: "test@test.com",
+        email_verified_at: "some ISO timestamp...",
+        is_admin: false,
+        name: "test account",
+        github_id: null,
+        gitlab_id: null,
+      },
+    });
+
+    const verifiedBadge = screen.getByText("Verified");
+
+    expect(verifiedBadge).toBeInTheDocument();
+  });
+});
