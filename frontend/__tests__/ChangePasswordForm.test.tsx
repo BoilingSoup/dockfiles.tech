@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import { ChangePasswordForm } from "../components/settings/ChangePasswordForm";
 import { renderWithContexts } from "../test-utils/render";
+import userEvent from "@testing-library/user-event";
 
 type UserOpts = {
   verified?: boolean;
@@ -116,4 +117,22 @@ describe("Change Password button", () => {
       expect(changePasswordBtn).toBeDisabled();
     });
   });
+});
+
+test("New Password field shows validation error when new password is identical to old password", async () => {
+  renderWithUser({ verified: false });
+  const user = userEvent.setup();
+
+  const oldPasswordField = screen.getByLabelText("Old Password");
+  const newPasswordField = screen.getByLabelText("New Password");
+  const identicalPasswordExample = "oldPassword";
+
+  await user.click(oldPasswordField);
+  await user.keyboard(identicalPasswordExample);
+  await user.click(newPasswordField);
+  await user.keyboard(identicalPasswordExample);
+  await user.click(oldPasswordField); // form is validated onBlur so I must blur the field after typing.
+
+  const validationError = await screen.findByText(/new password can not be the same as old password/i);
+  expect(validationError).toBeInTheDocument();
 });
