@@ -3,6 +3,7 @@ import { showNotification } from "@mantine/notifications";
 import { getCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
 import { notificationStyles } from "../../components/layout/styles";
+import { ChangePasswordFormValues } from "../../components/settings/hooks/useChangePasswordForm";
 import { APP_URL } from "../../config/config";
 import { User } from "../../contexts/AuthProvider";
 import { apiFetch, authFetch } from "../../query-client/baseFetcher";
@@ -316,6 +317,39 @@ export const emailWasVerifiedNotification = () => {
     color: "lime",
     title: "Verified!",
     message: "Your email has been verified.",
+    styles: notificationStyles,
+  });
+};
+
+type ChangePasswordPayload = {
+  current_password: string;
+  password: string;
+  password_confirmation: string;
+};
+
+export type ChangePasswordMetadata = {
+  payload: ChangePasswordPayload;
+  form: UseFormReturnType<ChangePasswordFormValues>;
+};
+
+export const attemptChangePassword = async (payload: ChangePasswordPayload) => {
+  return await apiFetch.post("user/password", payload);
+};
+
+export const changePasswordErrorNotification = () => {
+  showNotification({
+    color: "red",
+    title: "Error!",
+    message: "Failed to change your password. Make sure your old password is correct.",
+    styles: notificationStyles,
+  });
+};
+
+export const changePasswordSuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Success!",
+    message: "Your password was updated.",
     styles: notificationStyles,
   });
 };

@@ -1,4 +1,4 @@
-import { Badge, Button, Center, Group, Loader, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Center, Group, Loader, Text, TextInput, useMantineTheme } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
 import { UpdateUserFormValues, UpdateUserMetadata } from "../../hooks/api/helpers";
 import { useUpdateUserMutation } from "../../hooks/api/useUpdateUserMutation";
@@ -18,6 +18,7 @@ export const AccountSettingsForm = () => {
   const { user } = useAuth();
   const { settingsForm, formKeys } = useSettingsForm(user);
   const { mutate: updateUserMutation, isLoading } = useUpdateUserMutation();
+  const { colors } = useMantineTheme();
 
   if (user === null) {
     return <></>;
@@ -53,7 +54,7 @@ export const AccountSettingsForm = () => {
 
     const meta: UpdateUserMetadata = { payload: {}, form: settingsForm };
 
-    // assign value to payload only if the input field was changed i.e. dirty
+    // include value in the payload only if the input field was changed i.e. dirty
     if (nameIsChanged) meta.payload.name = values.displayName;
     if (emailIsChanged) meta.payload.email = values.email;
 
@@ -92,9 +93,9 @@ export const AccountSettingsForm = () => {
             sx={buttonsSx}
             mt="lg"
             ml="auto"
-            disabled={!settingsForm.isDirty() || !settingsForm.isValid()}
+            disabled={!settingsForm.isDirty() || !settingsForm.isValid() || isLoading}
           >
-            {isLoading ? <Loader color="gray" size="sm" /> : "Save Changes"}
+            {isLoading ? <Loader color={colors.navy[6]} size="sm" /> : "Save Changes"}
           </Button>
         </Group>
       </form>

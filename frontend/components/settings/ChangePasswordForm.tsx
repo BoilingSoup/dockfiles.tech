@@ -1,5 +1,7 @@
-import { Button, Center, Group, Text, TextInput } from "@mantine/core";
+import { Button, Center, Group, Loader, Text, TextInput, useMantineTheme } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
+import { ChangePasswordMetadata } from "../../hooks/api/helpers";
+import { useChangePasswordMutation } from "../../hooks/api/useChangePasswordMutation";
 import { formInputStyles } from "../layout/styles";
 import { ChangePasswordFormValues, useChangePasswordForm } from "./hooks/useChangePasswordForm";
 import { formCenterStyles, formStyles } from "./styles";
@@ -7,6 +9,8 @@ import { formCenterStyles, formStyles } from "./styles";
 export const ChangePasswordForm = () => {
   const { user } = useAuth();
   const { changePasswordForm, formKeys } = useChangePasswordForm(user);
+  const { mutate: changePasswordMutation, isLoading } = useChangePasswordMutation();
+  const { colors } = useMantineTheme();
 
   if (user === null) {
     return <></>;
@@ -17,7 +21,18 @@ export const ChangePasswordForm = () => {
   const isOAuth = Boolean(isGitHub || isGitLab);
 
   const submitHandler = changePasswordForm.onSubmit((values: ChangePasswordFormValues) => {
-    console.log(values);
+    if (isLoading) return;
+
+    const meta: ChangePasswordMetadata = {
+      payload: {
+        current_password: values.oldPassword,
+        password: values.newPassword,
+        password_confirmation: values.confirmNewPassword,
+      },
+      form: changePasswordForm,
+    };
+
+    return changePasswordMutation(meta);
   });
 
   return (
@@ -55,9 +70,9 @@ export const ChangePasswordForm = () => {
             type="submit"
             mt="lg"
             ml="auto"
-            disabled={!changePasswordForm.isDirty() || !changePasswordForm.isValid()}
+            disabled={!changePasswordForm.isDirty() || !changePasswordForm.isValid() || isLoading}
           >
-            Change Password
+            {isLoading ? <Loader color={colors.navy[6]} size="sm" /> : "Change Password"}
           </Button>
         </Group>
       </form>
