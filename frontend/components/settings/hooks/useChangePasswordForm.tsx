@@ -29,9 +29,10 @@ export const useChangePasswordForm = (user: User) => {
     validate: {
       oldPassword: validationRules.password,
       newPassword: (value: string, allValues) => {
-        if (value === allValues.oldPassword) {
+        const isValidLength = value.length >= 8;
+        if (isValidLength && value === allValues.oldPassword) {
           return "New password can not be the same as old password";
-        } else if (value.length < 8) {
+        } else if (!isValidLength) {
           return "Password must be at least 8 characters long";
         } else {
           return null;
