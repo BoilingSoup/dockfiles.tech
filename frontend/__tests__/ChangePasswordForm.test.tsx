@@ -67,6 +67,27 @@ describe("Change Password input fields", () => {
     expect(confirmNewPasswordField).toHaveValue("GitLab Account");
     expect(confirmNewPasswordField).toBeDisabled();
   });
+
+  // test("is enabled and blank when user is registered with email and password", () => {
+  //   renderWithUser({ verified: false });
+  //
+  //   const oldPasswordField = screen.getByRole("textbox", {
+  //     name: "Old Password",
+  //   });
+  //   const newPasswordField = screen.getByRole("textbox", {
+  //     name: "New Password",
+  //   });
+  //   const confirmNewPasswordField = screen.getByRole("textbox", {
+  //     name: "Confirm New Password",
+  //   });
+  //
+  //   expect(oldPasswordField).toHaveValue("");
+  //   expect(oldPasswordField).toBeEnabled();
+  //   expect(newPasswordField).toHaveValue("");
+  //   expect(newPasswordField).toBeEnabled();
+  //   expect(confirmNewPasswordField).toHaveValue("");
+  //   expect(confirmNewPasswordField).toBeEnabled();
+  // });
 });
 
 describe("Change Password button", () => {
@@ -89,4 +110,16 @@ describe("Change Password button", () => {
 
     expect(changePasswordBtn).toBeDisabled();
   });
+
+  // describe("when user is registered with email and password", () => {
+  //   test("is disabled initially", () => {
+  //     renderWithUser({ verified: false });
+  //
+  //     const changePasswordBtn = screen.getByRole("button", {
+  //       name: "Change Password",
+  //     });
+  //
+  //     expect(changePasswordBtn).tobeDisabled();
+  //   });
+  // });
 });
