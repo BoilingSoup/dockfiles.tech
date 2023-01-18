@@ -1,7 +1,7 @@
 import { Button, Center, Group, Text, TextInput } from "@mantine/core";
 import { useAuth } from "../../contexts/AuthProvider";
 import { formInputStyles } from "../layout/styles";
-import { useChangePasswordForm } from "./hooks/useChangePasswordForm";
+import { ChangePasswordFormValues, useChangePasswordForm } from "./hooks/useChangePasswordForm";
 import { formCenterStyles, formStyles } from "./styles";
 
 export const ChangePasswordForm = () => {
@@ -16,9 +16,13 @@ export const ChangePasswordForm = () => {
   const isGitLab = user.gitlab_id !== null;
   const isOAuth = Boolean(isGitHub || isGitLab);
 
+  const submitHandler = changePasswordForm.onSubmit((values: ChangePasswordFormValues) => {
+    console.log(values);
+  });
+
   return (
     <Center style={formCenterStyles}>
-      <form style={formStyles}>
+      <form onSubmit={submitHandler} style={formStyles}>
         <Text component="h2" mr="auto" my={0} style={{ fontSize: "1.3rem" }}>
           Change Password
         </Text>
@@ -47,7 +51,12 @@ export const ChangePasswordForm = () => {
           {...changePasswordForm.getInputProps(formKeys.confirmNewPassword)}
         />
         <Group>
-          <Button mt="lg" ml="auto" disabled={!changePasswordForm.isDirty() || !changePasswordForm.isValid()}>
+          <Button
+            type="submit"
+            mt="lg"
+            ml="auto"
+            disabled={!changePasswordForm.isDirty() || !changePasswordForm.isValid()}
+          >
             Change Password
           </Button>
         </Group>

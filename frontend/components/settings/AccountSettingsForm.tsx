@@ -53,6 +53,7 @@ export const AccountSettingsForm = () => {
 
     const meta: UpdateUserMetadata = { payload: {}, form: settingsForm };
 
+    // assign value to payload only if the input field was changed i.e. dirty
     if (nameIsChanged) meta.payload.name = values.displayName;
     if (emailIsChanged) meta.payload.email = values.email;
 
