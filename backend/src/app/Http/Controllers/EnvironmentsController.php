@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidEnvironmentIdException;
 use App\Http\Responses\FormattedApiResponse;
+use App\Models\Likes;
 use App\Repositories\EnvironmentsRepository;
+use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EnvironmentsController extends Controller
 {
@@ -65,5 +68,38 @@ class EnvironmentsController extends Controller
             success: true,
             data: $data
         );
+    }
+
+    /**
+     * Like Environment by numeric id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function like(Request $request)
+    {
+        $environmentId = $request->id;
+
+        $like = Likes::make([
+          ForeignKeyCol::environments => $environmentId,
+          ForeignKeyCol::users => Auth::user()->id
+        ]);
+
+        $like->saveOrFail();
+
+        return response()->noContent();
+    }
+
+    /**
+     * Unlike Environment by numeric id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unlike(Request $request)
+    {
+        $environmentId = $request->id;
+
+        Auth::user()->likes()->detach($environmentId);
+
+        return response()->noContent();
     }
 }

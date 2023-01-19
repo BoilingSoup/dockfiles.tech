@@ -74,7 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function likes()
     {
-        return $this->hasMany(Likes::class, ForeignKeyCol::users);
+        return $this->belongsToMany(Environments::class, 'likes', ForeignKeyCol::users, ForeignKeyCol::environments);
     }
 
     public function sendEmailVerificationNotification()

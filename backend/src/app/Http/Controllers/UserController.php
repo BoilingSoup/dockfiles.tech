@@ -81,7 +81,6 @@ class UserController extends Controller
         return response()->noContent();
     }
 
-    // TODO: finish implementing after Likes actions/routes are created.
     public function checkEnvironmentStatus(Request $request)
     {
         $environmentId = $request->id;
