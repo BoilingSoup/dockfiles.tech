@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Responses\FormattedApiResponse;
-use App\Models\Environments;
 use App\Models\User;
 use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
@@ -81,15 +80,22 @@ class UserController extends Controller
         return response()->noContent();
     }
 
+    /**
+     * Check whether the authenticated User has liked or bookmarked the Environment by numeric ID.
+     *
+     * @return FormattedApiResponse
+     */
     public function checkEnvironmentStatus(Request $request)
     {
         $environmentId = $request->id;
         $isBookmarked = Auth::user()->bookmarks()->where(ForeignKeyCol::environments, $environmentId)->exists();
+        $isLiked = Auth::user()->likes()->where(ForeignKeyCol::environments, $environmentId)->exists();
 
         return new FormattedApiResponse(
             success: true,
             data: [
-              "is_bookmarked" => $isBookmarked
+              "is_bookmarked" => $isBookmarked,
+              "is_liked" => $isLiked
             ]
         );
     }
