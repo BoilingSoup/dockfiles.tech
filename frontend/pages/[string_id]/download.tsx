@@ -8,6 +8,9 @@ import { buttonSx } from "../../components/common/styles";
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
 import { NextPage } from "next";
+import { LabeledActionButton } from "../../components/common/LabeledActionButton";
+import { ActionButtonsGroup } from "../../components/details/ActionButtonsGroup";
+import { IconBookmark, IconThumbUp } from "@tabler/icons";
 
 const Download: NextPage = () => {
   const stringId = useStringId();
@@ -22,6 +25,15 @@ const Download: NextPage = () => {
   return (
     <>
       <EnvironmentTabs active={DOWNLOAD} commentsCount={{ count, isLoading: commentsCountIsLoading }} />
+
+      <ActionButtonsGroup
+        buttons={
+          <>
+            <LabeledActionButton label="Like" icon={<IconThumbUp />} />
+            <LabeledActionButton mr="md" label="Bookmark" icon={<IconBookmark />} />
+          </>
+        }
+      />
 
       <Container>
         <CodeBlock

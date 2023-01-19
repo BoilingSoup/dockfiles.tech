@@ -3,7 +3,7 @@ import markdownToHtml from "../../lib/markdownToHtml";
 import Head from "next/head";
 import { EnvironmentTabs, README } from "../../components/details/EnvironmentTabs";
 import { useStringId } from "../../hooks/helpers/useStringId";
-import { Box, Button, Container, Group, Text } from "@mantine/core";
+import { Container, Text } from "@mantine/core";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { ScrollToTop } from "../../components/common/ScrollToTop";
@@ -11,9 +11,9 @@ import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useSetEnvironmentDetailsInitialData } from "../../hooks/api/useSetEnvironmentDetailsInitialData";
 import { SITE_NAME } from "../../config/config";
-import { IconAB, IconBookmark, IconThumbUp } from "@tabler/icons";
-import { asideBreakPoint, asideWidth } from "../../components/layout/_sidebar";
-import { useMediaQuery } from "@mantine/hooks";
+import { IconBookmark, IconThumbUp } from "@tabler/icons";
+import { LabeledActionButton } from "../../components/common/LabeledActionButton";
+import { ActionButtonsGroup } from "../../components/details/ActionButtonsGroup";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -43,8 +43,6 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
   usePrefetchComments(stringId);
   useSetEnvironmentDetailsInitialData({ stringId, environment });
 
-  const breakPoint = useMediaQuery(`(min-width: ${asideBreakPoint})`);
-
   return (
     <>
       <Head>
@@ -55,16 +53,14 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
 
       <EnvironmentTabs active={README} commentsCount={{ count, isLoading }} />
 
-      <Group mt="xs" style={{ position: "absolute", right: breakPoint ? asideWidth : 0, justifyContent: "space-evenly" }}>
-        <Button my="auto" variant="filled">
-          <Text component="span">Like</Text>
-          <IconThumbUp />
-        </Button>
-        <Button my="auto" mr="md" variant="filled">
-          <Text component="span">Bookmark</Text>
-          <IconBookmark />
-        </Button>
-      </Group>
+      <ActionButtonsGroup
+        buttons={
+          <>
+            <LabeledActionButton label="Like" icon={<IconThumbUp />} />
+            <LabeledActionButton mr="md" label="Bookmark" icon={<IconBookmark />} />
+          </>
+        }
+      />
 
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>
