@@ -4,6 +4,7 @@ const CATEGORIES = "categories";
 const ENVIRONMENTS = "environments";
 const COMMENTS = "comments";
 const BOOKMARKS = "bookmarks";
+const LIKES = "likes";
 
 const INITIAL_SEARCH_PARAM = "";
 
@@ -32,5 +33,8 @@ export const queryKeys = {
   },
   environmentDetails(stringId: string) {
     return [ENVIRONMENTS, stringId, "details"];
+  },
+  bookmarkLikeStatus(id: number) {
+    return [BOOKMARKS, LIKES, id];
   },
 };

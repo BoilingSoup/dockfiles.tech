@@ -8,15 +8,18 @@ import { buttonSx } from "../../components/common/styles";
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
 import { NextPage } from "next";
-import { LabeledActionButton } from "../../components/common/LabeledActionButton";
 import { ActionButtonsGroup } from "../../components/details/ActionButtonsGroup";
-import { IconBookmark, IconThumbUp } from "@tabler/icons";
+import { useAuth } from "../../contexts/AuthProvider";
+import { LikeButton } from "../../components/details/LikeButton";
+import { BookmarkButton } from "../../components/details/BookmarkButton";
 
 const Download: NextPage = () => {
   const stringId = useStringId();
   const { count, isLoading: commentsCountIsLoading } = useCommentsCount(stringId);
   const { data, isLoading } = useEnvironmentDetails(stringId);
   usePrefetchComments(stringId);
+
+  const { user } = useAuth();
 
   const directLink = data
     ? `https://github.com/${data?.repo_owner}/${data?.repo_name}/archive/${data?.repo_branch}.zip`
@@ -26,14 +29,16 @@ const Download: NextPage = () => {
     <>
       <EnvironmentTabs active={DOWNLOAD} commentsCount={{ count, isLoading: commentsCountIsLoading }} />
 
-      <ActionButtonsGroup
-        buttons={
-          <>
-            <LabeledActionButton label="Like" icon={<IconThumbUp />} />
-            <LabeledActionButton mr="md" label="Bookmark" icon={<IconBookmark />} />
-          </>
-        }
-      />
+      {user && (
+        <ActionButtonsGroup
+          buttons={
+            <>
+              <LikeButton />
+              <BookmarkButton />
+            </>
+          }
+        />
+      )}
 
       <Container>
         <CodeBlock

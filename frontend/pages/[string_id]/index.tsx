@@ -11,9 +11,10 @@ import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useSetEnvironmentDetailsInitialData } from "../../hooks/api/useSetEnvironmentDetailsInitialData";
 import { SITE_NAME } from "../../config/config";
-import { IconBookmark, IconThumbUp } from "@tabler/icons";
-import { LabeledActionButton } from "../../components/common/LabeledActionButton";
 import { ActionButtonsGroup } from "../../components/details/ActionButtonsGroup";
+import { useAuth } from "../../contexts/AuthProvider";
+import { LikeButton } from "../../components/details/LikeButton";
+import { BookmarkButton } from "../../components/details/BookmarkButton";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -38,10 +39,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  // Fetch public data
   const stringId = useStringId();
   const { count, isLoading } = useCommentsCount(stringId);
   usePrefetchComments(stringId);
   useSetEnvironmentDetailsInitialData({ stringId, environment });
+
+  // Fetch user data if authenticated
+  const { user } = useAuth();
 
   return (
     <>
@@ -53,14 +58,16 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
 
       <EnvironmentTabs active={README} commentsCount={{ count, isLoading }} />
 
-      <ActionButtonsGroup
-        buttons={
-          <>
-            <LabeledActionButton label="Like" icon={<IconThumbUp />} />
-            <LabeledActionButton mr="md" label="Bookmark" icon={<IconBookmark />} />
-          </>
-        }
-      />
+      {user && (
+        <ActionButtonsGroup
+          buttons={
+            <>
+              <LikeButton />
+              <BookmarkButton />
+            </>
+          }
+        />
+      )}
 
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>
