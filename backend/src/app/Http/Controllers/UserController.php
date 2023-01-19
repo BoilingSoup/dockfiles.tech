@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Responses\FormattedApiResponse;
+use App\Models\Environments;
 use App\Models\User;
+use Database\Helpers\ForeignKeyCol;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -75,5 +79,18 @@ class UserController extends Controller
         Auth::user()->saveOrFail();
 
         return response()->noContent();
+    }
+
+    public function checkEnvironmentStatus(Request $request)
+    {
+        $environmentId = $request->id;
+        $isBookmarked = Auth::user()->bookmarks()->where(ForeignKeyCol::environments, $environmentId)->exists();
+
+        return new FormattedApiResponse(
+            success: true,
+            data: [
+              "is_bookmarked" => $isBookmarked
+            ]
+        );
     }
 }
