@@ -3,7 +3,7 @@ import markdownToHtml from "../../lib/markdownToHtml";
 import Head from "next/head";
 import { EnvironmentTabs, README } from "../../components/details/EnvironmentTabs";
 import { useStringId } from "../../hooks/helpers/useStringId";
-import { Container, Text } from "@mantine/core";
+import { Box, Button, Container, Group, Text } from "@mantine/core";
 import { markdownClass } from "../../contexts/MantineProvider";
 import { usePrefetchComments } from "../../hooks/api/usePrefetchComments";
 import { ScrollToTop } from "../../components/common/ScrollToTop";
@@ -11,6 +11,9 @@ import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useSetEnvironmentDetailsInitialData } from "../../hooks/api/useSetEnvironmentDetailsInitialData";
 import { SITE_NAME } from "../../config/config";
+import { IconAB, IconBookmark, IconThumbUp } from "@tabler/icons";
+import { asideBreakPoint, asideWidth } from "../../components/layout/_sidebar";
+import { useMediaQuery } from "@mantine/hooks";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -40,6 +43,8 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
   usePrefetchComments(stringId);
   useSetEnvironmentDetailsInitialData({ stringId, environment });
 
+  const breakPoint = useMediaQuery(`(min-width: ${asideBreakPoint})`);
+
   return (
     <>
       <Head>
@@ -49,6 +54,17 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
       </Head>
 
       <EnvironmentTabs active={README} commentsCount={{ count, isLoading }} />
+
+      <Group mt="xs" style={{ position: "absolute", right: breakPoint ? asideWidth : 0, justifyContent: "space-evenly" }}>
+        <Button my="auto" variant="filled">
+          <Text component="span">Like</Text>
+          <IconThumbUp />
+        </Button>
+        <Button my="auto" mr="md" variant="filled">
+          <Text component="span">Bookmark</Text>
+          <IconBookmark />
+        </Button>
+      </Group>
 
       <Container>
         <Text component="h3" style={{ fontSize: "2rem" }}>

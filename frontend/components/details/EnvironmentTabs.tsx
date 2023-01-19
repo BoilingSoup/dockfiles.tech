@@ -1,5 +1,6 @@
-import { Badge, Box, Loader, Tabs, TabsValue } from "@mantine/core";
-import { IconBook, IconDownload, IconMessage } from "@tabler/icons";
+import { ActionIcon, Badge, Box, Button, Group, Loader, Tabs, TabsValue, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import { IconAB, IconBook, IconBookmark, IconDownload, IconMessage, IconThumbUp } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { PseudoLink } from "../common/PseudoLink";
 import { tabsSx } from "./styles";
@@ -36,7 +37,7 @@ export const EnvironmentTabs = ({ active, commentsCount }: Props) => {
         <Tabs.List>
           <PseudoLink href={`/${stringId}`}>
             <Tabs.Tab value={README} icon={<IconBook size={iconSize} />}>
-              View ReadMe
+              ReadMe
             </Tabs.Tab>
           </PseudoLink>
           <PseudoLink href={`/${stringId}/${DOWNLOAD}`}>

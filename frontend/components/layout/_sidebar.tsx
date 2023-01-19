@@ -6,6 +6,7 @@ import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 import { asideSx, unauthSidebarSx } from "./styles";
 
 export const asideWidth = 300;
+export const asideBreakPoint = "1400px";
 
 const UnauthenticatedSidebar = () => {
   const { colors, colorScheme } = useMantineTheme();
