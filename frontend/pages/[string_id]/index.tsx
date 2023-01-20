@@ -14,6 +14,7 @@ import { SITE_NAME } from "../../config/config";
 import { ActionButtonsGroup } from "../../components/details/ActionButtonsGroup";
 import { useAuth } from "../../contexts/AuthProvider";
 import { LikeButton } from "../../components/details/LikeButton";
+import NoSSR from "../../components/common/NoSSR";
 import { BookmarkButton } from "../../components/details/BookmarkButton";
 
 type Props = {
@@ -57,14 +58,16 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
       <EnvironmentTabs active={README} commentsCount={{ count, isLoading }} />
 
       {user && (
-        <ActionButtonsGroup
-          buttons={
-            <>
-              <LikeButton id={environment.id} />
-              <BookmarkButton id={environment.id} />
-            </>
-          }
-        />
+        <NoSSR>
+          <ActionButtonsGroup
+            buttons={
+              <>
+                <LikeButton id={environment.id} />
+                <BookmarkButton id={environment.id} />
+              </>
+            }
+          />
+        </NoSSR>
       )}
 
       <Container>

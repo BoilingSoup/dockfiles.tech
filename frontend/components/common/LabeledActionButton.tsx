@@ -1,4 +1,4 @@
-import { Button, SpacingValue, SystemProp, Text } from "@mantine/core";
+import { Button, Loader, SpacingValue, SystemProp, Text } from "@mantine/core";
 import { ReactElement } from "react";
 
 type Props = {
@@ -11,13 +11,33 @@ type Props = {
   variant?: "gradient" | "filled" | "outline" | "subtle" | "light" | "white" | "default";
   label: string;
   icon: ReactElement;
+  isLoading?: boolean;
 };
 
-export const LabeledActionButton = ({ mt, my = "auto", mx, mb, mr, ml, variant = "filled", label, icon }: Props) => {
-  return (
-    <Button mt={mt} mb={mb} mr={mr} ml={ml} my={my} mx={mx} variant={variant}>
+export const LabeledActionButton = ({
+  mt,
+  my = "auto",
+  mx,
+  mb,
+  mr,
+  ml,
+  variant = "filled",
+  label,
+  icon,
+  isLoading = false,
+}: Props) => {
+  const content = isLoading ? (
+    <Loader color="gray" size="xs"/>
+  ) : (
+    <>
       <Text component="span">{label}</Text>
       {icon}
+    </>
+  );
+
+  return (
+    <Button mt={mt} mb={mb} mr={mr} ml={ml} my={my} mx={mx} variant={variant}>
+      {content}
     </Button>
   );
 };

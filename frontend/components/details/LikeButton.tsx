@@ -1,4 +1,4 @@
-import { IconThumbUp } from "@tabler/icons";
+import { IconCheck, IconThumbUp } from "@tabler/icons";
 import { useEnvironmentsUserStatus } from "../../hooks/api/useEnvironmentsUserStatus";
 import { LabeledActionButton } from "../common/LabeledActionButton";
 
@@ -7,7 +7,8 @@ type Props = {
 };
 
 export const LikeButton = ({ id }: Props) => {
-  const { data } = useEnvironmentsUserStatus(id);
+  const { data, isLoading } = useEnvironmentsUserStatus(id);
+  const isLiked = data?.data.is_liked;
 
-  return <LabeledActionButton label="Like" icon={<IconThumbUp />} />;
+  return <LabeledActionButton label="Like" isLoading={isLoading} icon={isLiked ? <IconCheck /> : <IconThumbUp />} />;
 };
