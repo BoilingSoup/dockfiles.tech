@@ -1,8 +1,13 @@
 import { IconBookmark } from "@tabler/icons";
-import { useAuth } from "../../contexts/AuthProvider";
+import { useEnvironmentsUserStatus } from "../../hooks/api/useEnvironmentsUserStatus";
 import { LabeledActionButton } from "../common/LabeledActionButton";
 
-export const BookmarkButton = () => {
-  const { user } = useAuth();
+type Props = {
+  id: number;
+};
+
+export const BookmarkButton = ({ id }: Props) => {
+  const { data } = useEnvironmentsUserStatus(id);
+
   return <LabeledActionButton mr="md" label="Bookmark" icon={<IconBookmark />} />;
 };

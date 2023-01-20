@@ -49,6 +49,14 @@ export type EnvironmentDetailsResponse = {
   data: EnvironmentDetailsData;
 };
 
+export type EnvironmentUserStatus = {
+  success: boolean;
+  data: {
+    is_bookmarked: boolean;
+    is_liked: boolean;
+  };
+};
+
 /** SSR helper */
 export const getEnvironmentByStringId = async (stringId: string) => {
   return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
@@ -87,6 +95,13 @@ export function getEnvironments({ categoryId, cursor, searchParam }: QueryParams
     }
 
     return await getUnfilteredEnvironments({ cursor, searchParam });
+  };
+}
+
+export function getEnvironmentsUserStatus(environmentId: number) {
+  return async function () {
+    const endpoint = `user/environment/${environmentId}/status`;
+    return (await apiFetch.get(endpoint)) as EnvironmentUserStatus;
   };
 }
 

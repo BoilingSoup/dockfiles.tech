@@ -1,8 +1,13 @@
 import { IconThumbUp } from "@tabler/icons";
-import { useAuth } from "../../contexts/AuthProvider";
+import { useEnvironmentsUserStatus } from "../../hooks/api/useEnvironmentsUserStatus";
 import { LabeledActionButton } from "../common/LabeledActionButton";
 
-export const LikeButton = () => {
-  const { user } = useAuth();
+type Props = {
+  id: number;
+};
+
+export const LikeButton = ({ id }: Props) => {
+  const { data } = useEnvironmentsUserStatus(id);
+
   return <LabeledActionButton label="Like" icon={<IconThumbUp />} />;
 };

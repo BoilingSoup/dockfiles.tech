@@ -39,14 +39,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  // Fetch public data
+  const { user } = useAuth();
+
   const stringId = useStringId();
   const { count, isLoading } = useCommentsCount(stringId);
   usePrefetchComments(stringId);
   useSetEnvironmentDetailsInitialData({ stringId, environment });
-
-  // Fetch user data if authenticated
-  const { user } = useAuth();
 
   return (
     <>
@@ -62,8 +60,8 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
         <ActionButtonsGroup
           buttons={
             <>
-              <LikeButton />
-              <BookmarkButton />
+              <LikeButton id={environment.id} />
+              <BookmarkButton id={environment.id} />
             </>
           }
         />
