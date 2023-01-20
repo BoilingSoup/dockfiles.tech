@@ -48,10 +48,10 @@ export const apiFetch = {
     return await api.put(url, body ? { json: body } : undefined).json();
   },
   async patch(url: string, body?: RequestBody) {
-    return await api.put(url, body ? { json: body } : undefined).json();
+    return await api.patch(url, body ? { json: body } : undefined).json();
   },
   async delete(url: string, body?: RequestBody) {
-    return await api.put(url, body ? { json: body } : undefined).json();
+    return await api.delete(url, body ? { json: body } : undefined).json();
   },
 };
 
@@ -66,9 +66,9 @@ export const authFetch = {
     return await auth.put(url, body ? { json: body } : undefined).json();
   },
   async patch(url: string, body?: RequestBody) {
-    return await auth.put(url, body ? { json: body } : undefined).json();
+    return await auth.patch(url, body ? { json: body } : undefined).json();
   },
   async delete(url: string, body?: RequestBody) {
-    return await auth.put(url, body ? { json: body } : undefined).json();
+    return await auth.delete(url, body ? { json: body } : undefined).json();
   },
 };

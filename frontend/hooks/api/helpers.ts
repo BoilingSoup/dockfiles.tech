@@ -236,7 +236,7 @@ export const logoutSuccessNotification = () => {
   });
 };
 
-const genericErrorNotification = () => {
+export const genericErrorNotification = () => {
   showNotification({
     color: "red",
     title: "Something went wrong!",
@@ -367,4 +367,27 @@ export const changePasswordSuccessNotification = () => {
     message: "Your password was updated.",
     styles: notificationStyles,
   });
+};
+
+export type AttemptBookmarkMetadata = {
+  data: EnvironmentUserStatus | undefined;
+  id: number;
+};
+
+export const attemptToggleBookmark = async ({ data, id }: AttemptBookmarkMetadata) => {
+  // data is undefined for a small window of time while data is fetched client-side. (Button shows loading spinner during this window.)
+  if (data === undefined) {
+    return new Promise((_, reject) => reject());
+  }
+
+  const isBookmarked = data.data.is_bookmarked;
+  const payload = {
+    environment_id: `${id}`,
+  };
+
+  if (isBookmarked) {
+    return apiFetch.delete("bookmarks/environments", payload);
+  }
+
+  return apiFetch.post("bookmarks/environments", payload);
 };

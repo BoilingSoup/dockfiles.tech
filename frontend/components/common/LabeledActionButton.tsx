@@ -12,6 +12,7 @@ type Props = {
   label: string;
   icon: ReactElement;
   isLoading?: boolean;
+  onClick: () => void;
 };
 
 export const LabeledActionButton = ({
@@ -25,9 +26,10 @@ export const LabeledActionButton = ({
   label,
   icon,
   isLoading = false,
+  onClick: clickHandler,
 }: Props) => {
   const content = isLoading ? (
-    <Loader color="gray" size="xs"/>
+    <Loader color="gray" size="xs" />
   ) : (
     <>
       <Text component="span">{label}</Text>
@@ -36,7 +38,7 @@ export const LabeledActionButton = ({
   );
 
   return (
-    <Button mt={mt} mb={mb} mr={mr} ml={ml} my={my} mx={mx} variant={variant}>
+    <Button onClick={clickHandler} mt={mt} mb={mb} mr={mr} ml={ml} my={my} mx={mx} variant={variant}>
       {content}
     </Button>
   );

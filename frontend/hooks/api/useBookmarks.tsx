@@ -7,7 +7,7 @@ export const useBookmarks = ({ categoryId, cursor, searchParam }: QueryParams) =
     [queryKeys.bookmarks, categoryId, queryKeys.searchStrToKey(searchParam), cursor],
     getBookmarks({ categoryId, cursor, searchParam: searchParam.trim() }),
     {
-      keepPreviousData: true,
+      keepPreviousData: false,
     }
   );
 

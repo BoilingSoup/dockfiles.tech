@@ -8,7 +8,8 @@ type Props = {
 
 export const LikeButton = ({ id }: Props) => {
   const { data, isLoading } = useEnvironmentsUserStatus(id);
+  console.log(data)
   const isLiked = data?.data.is_liked;
 
-  return <LabeledActionButton label="Like" isLoading={isLoading} icon={isLiked ? <IconCheck /> : <IconThumbUp />} />;
+  return <LabeledActionButton onClick={() => {}} label="Like" isLoading={isLoading} icon={isLiked ? <IconCheck /> : <IconThumbUp />} />;
 };
