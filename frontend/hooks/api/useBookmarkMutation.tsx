@@ -23,14 +23,16 @@ export const useBookmarkMutation = (param: AttemptBookmarkMetadata) => {
       queryClient.setQueryData<EnvironmentUserStatus>(queryKeys.bookmarkLikeStatus(param.id), {
         success: true,
         data: {
-          is_bookmarked: !param!.data!.data.is_bookmarked,
-          is_liked: param!.data!.data.is_liked,
+          // Asserting data is not undefined. If undefined, the mutationFn will return a rejected Promise,
+          // and never make it in the onSuccess fallback.
+          is_bookmarked: !param.data!.data.is_bookmarked,
+          is_liked: param.data!.data.is_liked,
         },
       });
 
       // Delete bookmarks data from the query cache. This prevents the user from seeing a stale bookmark
       // on the bookmarks index page.
-      // 
+      //
       // Bookmarks/likes button state will be refetched, but will not show a spinner because its options { keepPreviousData: true }
       queryClient.removeQueries(queryKeys.bookmarks);
 
