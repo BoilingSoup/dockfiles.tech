@@ -369,12 +369,12 @@ export const changePasswordSuccessNotification = () => {
   });
 };
 
-export type AttemptBookmarkMetadata = {
+export type AttemptToggleActionMetadata = {
   data: EnvironmentUserStatus | undefined;
   id: number;
 };
 
-export const attemptToggleBookmark = async ({ data, id }: AttemptBookmarkMetadata) => {
+export const attemptToggleBookmark = async ({ data, id }: AttemptToggleActionMetadata) => {
   // data is undefined for a small window of time while data is fetched client-side. (Button shows loading spinner during this window.)
   if (data === undefined) {
     return new Promise((_, reject) => reject());
@@ -384,10 +384,26 @@ export const attemptToggleBookmark = async ({ data, id }: AttemptBookmarkMetadat
   const payload = {
     environment_id: `${id}`,
   };
+  const endpoint = "bookmarks/environments";
 
   if (isBookmarked) {
-    return apiFetch.delete("bookmarks/environments", payload);
+    return apiFetch.delete(endpoint, payload);
   }
 
-  return apiFetch.post("bookmarks/environments", payload);
+  return apiFetch.post(endpoint, payload);
+};
+
+export const attemptToggleLike = async ({ data, id }: AttemptToggleActionMetadata) => {
+  // data is undefined for a small window of time while data is fetched client-side. (Button shows loading spinner during this window.)
+  if (data === undefined) {
+    return new Promise((_, reject) => reject());
+  }
+
+  const isLiked = data.data.is_liked;
+
+  if (isLiked) {
+    return apiFetch.post(`environments/${id}/unlike`);
+  }
+
+  return apiFetch.post(`environments/${id}/like`);
 };

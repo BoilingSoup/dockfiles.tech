@@ -1,5 +1,6 @@
 import { IconCheck, IconThumbUp } from "@tabler/icons";
 import { useEnvironmentsUserStatus } from "../../hooks/api/useEnvironmentsUserStatus";
+import { useLikeMutation } from "../../hooks/api/useLikeMutation";
 import { LabeledActionButton } from "../common/LabeledActionButton";
 
 type Props = {
@@ -8,8 +9,16 @@ type Props = {
 
 export const LikeButton = ({ id }: Props) => {
   const { data, isLoading } = useEnvironmentsUserStatus(id);
-  console.log(data)
   const isLiked = data?.data.is_liked;
 
-  return <LabeledActionButton onClick={() => {}} label="Like" isLoading={isLoading} icon={isLiked ? <IconCheck /> : <IconThumbUp />} />;
+  const { mutate: likeMutation, isLoading: isMutating } = useLikeMutation({ data, id });
+
+  return (
+    <LabeledActionButton
+      isLoading={isLoading || isMutating}
+      label={isLiked ? "Liked" : "Like"}
+      icon={isLiked ? <IconCheck /> : <IconThumbUp />}
+      onClick={() => likeMutation()}
+    />
+  );
 };

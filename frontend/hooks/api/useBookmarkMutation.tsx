@@ -5,13 +5,13 @@ import { useBookmarksPageCursor } from "../../zustand-store/bookmarks/useBookmar
 import { INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
 import {
   attemptToggleBookmark,
-  AttemptBookmarkMetadata,
+  AttemptToggleActionMetadata,
   genericErrorNotification,
   EnvironmentUserStatus,
   getBookmarks,
 } from "./helpers";
 
-export const useBookmarkMutation = (param: AttemptBookmarkMetadata) => {
+export const useBookmarkMutation = (param: AttemptToggleActionMetadata) => {
   const queryClient = useQueryClient();
 
   const { setCursor } = useBookmarksPageCursor();
@@ -24,7 +24,7 @@ export const useBookmarkMutation = (param: AttemptBookmarkMetadata) => {
         success: true,
         data: {
           // Asserting data is not undefined. If undefined, the mutationFn will return a rejected Promise,
-          // and never make it in the onSuccess fallback.
+          // and never make it in this onSuccess fallback.
           is_bookmarked: !param.data!.data.is_bookmarked,
           is_liked: param.data!.data.is_liked,
         },
