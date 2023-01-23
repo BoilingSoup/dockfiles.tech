@@ -99,6 +99,9 @@ class EnvironmentsRepository
    */
   public function flushEnvironmentsCache()
   {
+    $userId = (string) Auth::user()->id;
+
     Cache::tags([CACHE_TAGS::ENVIRONMENTS])->flush();
+    Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId)])->flush();
   }
 }
