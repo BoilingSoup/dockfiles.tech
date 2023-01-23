@@ -103,5 +103,6 @@ class EnvironmentsRepository
 
     Cache::tags([CACHE_TAGS::ENVIRONMENTS])->flush();
     Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId)])->flush();
+    Cache::tags([CACHE_TAGS::CATEGORIES])->flush();
   }
 }
