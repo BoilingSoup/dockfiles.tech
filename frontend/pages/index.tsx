@@ -75,7 +75,7 @@ const Home: NextPage = () => {
             />
           ))}
 
-          {noResults && (
+          {noResults && !isFetching && (
             <Center mt={360}>
               <Text style={{ fontSize: "2.2rem" }}>No search results found!</Text>
             </Center>
