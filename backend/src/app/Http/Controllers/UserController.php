@@ -26,12 +26,13 @@ class UserController extends Controller
         $isOauthAccount = Auth::user()->github_id || Auth::user()->gitlab_id;
         $isVerified = Auth::user()->hasVerifiedEmail();
 
-        $this->updateUserIfValidField($validated, "name");
-        if ((!$isOauthAccount) && $isVerified) {
-            $this->updateUserIfValidField($validated, "email");
+        $this->updateUserIfValidField($validated, 'name');
+        if ((! $isOauthAccount) && $isVerified) {
+            $this->updateUserIfValidField($validated, 'email');
         }
 
         Auth::user()->saveOrFail();
+
         return Auth::user();
     }
 
@@ -43,7 +44,7 @@ class UserController extends Controller
      */
     private function updateUserIfValidField(array $validated, string $fieldName): void
     {
-        if (!array_key_exists($fieldName, $validated)) {
+        if (! array_key_exists($fieldName, $validated)) {
             return;
         }
 
@@ -54,7 +55,7 @@ class UserController extends Controller
 
         Auth::user()[$fieldName] = $validated[$fieldName];
 
-        if ($fieldName === "email") {
+        if ($fieldName === 'email') {
             Auth::user()->email_verified_at = null;
             Auth::user()->sendEmailVerificationNotification();
         }
@@ -73,7 +74,7 @@ class UserController extends Controller
         $isOauthAccount = Auth::user()->github_id || Auth::user()->gitlab_id;
         abort_if($isOauthAccount, 403);
 
-        $newPassword = $validated["password"];
+        $newPassword = $validated['password'];
         Auth::user()->password = Hash::make($newPassword);
         Auth::user()->saveOrFail();
 
@@ -94,8 +95,8 @@ class UserController extends Controller
         return new FormattedApiResponse(
             success: true,
             data: [
-              "is_bookmarked" => $isBookmarked,
-              "is_liked" => $isLiked
+                'is_bookmarked' => $isBookmarked,
+                'is_liked' => $isLiked,
             ]
         );
     }

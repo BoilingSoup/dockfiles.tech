@@ -53,7 +53,7 @@ class CACHE_KEYS
         return "ENVIRONMENTS_COMMENTS_COUNT_{$stringId}";
     }
 
-    public const ENVIRONMENTS_VALID_IDS = "ENVIRONMENTS_VALID_IDS";
+    public const ENVIRONMENTS_VALID_IDS = 'ENVIRONMENTS_VALID_IDS';
 
     public static function USER_BOOKMARKS_INDEX_CURSOR_(string $userId, string|null $cursor)
     {
@@ -62,7 +62,7 @@ class CACHE_KEYS
         return "USER_{$userId}_BOOKMARKS_INDEX_CURSOR_{$cursor}";
     }
 
-    public static function USER_BOOKMARKS_INDEX_CATEGORY_CURSOR_(string $userId, string $categoryId, string | null $cursor)
+    public static function USER_BOOKMARKS_INDEX_CATEGORY_CURSOR_(string $userId, string $categoryId, string|null $cursor)
     {
         $cursor = $cursor ?? 'NULL';
 

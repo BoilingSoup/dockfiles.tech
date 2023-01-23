@@ -62,7 +62,7 @@ class EnvironmentsController extends Controller
     {
         $data = $this->repository->show($request);
 
-        throw_if(!$data, new InvalidEnvironmentIdException());
+        throw_if(! $data, new InvalidEnvironmentIdException());
 
         return new FormattedApiResponse(
             success: true,
@@ -80,8 +80,8 @@ class EnvironmentsController extends Controller
         $environmentId = $request->id;
 
         $like = Likes::make([
-          ForeignKeyCol::environments => $environmentId,
-          ForeignKeyCol::users => Auth::user()->id
+            ForeignKeyCol::environments => $environmentId,
+            ForeignKeyCol::users => Auth::user()->id,
         ]);
 
         $like->saveOrFail();

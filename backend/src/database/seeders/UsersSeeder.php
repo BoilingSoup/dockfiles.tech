@@ -20,7 +20,7 @@ class UsersSeeder extends Seeder
             $this->command->info('Admin user seeded');
         }
 
-        $seedOauth = $this->command->confirm(question: "Seed OAuth mock users?", default: false);
+        $seedOauth = $this->command->confirm(question: 'Seed OAuth mock users?', default: false);
         if ($seedOauth) {
             User::factory()->github()->create();
             $this->command->info('GitHub user seeded');

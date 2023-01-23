@@ -65,14 +65,14 @@ class UserFactory extends Factory
     public function github()
     {
         return $this->state([
-          "name" => "dummyGithubUser",
-          "email" => "github@github.com",
-          "email_verified_at" => now(),
-          "password" => Hash::make("password"),
-          "avatar" => "https://cdn-icons-png.flaticon.com/512/25/25231.png",
-          "is_admin" => false,
-          "remember_token" => Str::random(10),
-          "github_id" => 1111
+            'name' => 'dummyGithubUser',
+            'email' => 'github@github.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            'is_admin' => false,
+            'remember_token' => Str::random(10),
+            'github_id' => 1111,
         ]);
     }
 
@@ -84,14 +84,14 @@ class UserFactory extends Factory
     public function gitlab()
     {
         return $this->state([
-          "name" => "dummyGitlabUser",
-          "email" => "gitlab@gitlab.com",
-          "email_verified_at" => now(),
-          "password" => Hash::make("password"),
-          "avatar" => "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png",
-          "is_admin" => false,
-          "remember_token" => Str::random(10),
-          "gitlab_id" => 2222
+            'name' => 'dummyGitlabUser',
+            'email' => 'gitlab@gitlab.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'avatar' => 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png',
+            'is_admin' => false,
+            'remember_token' => Str::random(10),
+            'gitlab_id' => 2222,
         ]);
     }
 }

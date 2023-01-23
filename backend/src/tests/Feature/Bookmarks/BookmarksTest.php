@@ -20,7 +20,7 @@ class BookmarksTest extends TestCase
 
     public function test_bookmarks_index_returns_401_response_if_not_authenticated()
     {
-        $response = $this->get(route("bookmarks.index"));
+        $response = $this->get(route('bookmarks.index'));
 
         $response->assertStatus(401);
     }
@@ -30,7 +30,7 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->get(route("bookmarks.index"));
+        $response = $this->get(route('bookmarks.index'));
 
         $response->assertStatus(200);
     }
@@ -40,7 +40,7 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->get(route("bookmarks.index"));
+        $response = $this->get(route('bookmarks.index'));
 
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
@@ -50,7 +50,7 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->get(route("bookmarks.index", [ForeignKeyCol::categories => "non-numeric"]));
+        $response = $this->get(route('bookmarks.index', [ForeignKeyCol::categories => 'non-numeric']));
 
         $response->assertStatus(404);
     }
@@ -63,14 +63,14 @@ class BookmarksTest extends TestCase
         $invalidId = [];
         while (true) {
             $randId = random_int(1, PHP_INT_MAX);
-            if (!$allCategoryIds->has($randId)) {
+            if (! $allCategoryIds->has($randId)) {
                 $invalidId[] = $randId;
                 break;
             }
         }
         $invalidId = $invalidId[0];
 
-        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $invalidId]));
+        $response = $this->getJson(route('bookmarks.index', [ForeignKeyCol::categories => $invalidId]));
 
         $response->assertStatus(404);
     }
@@ -81,7 +81,7 @@ class BookmarksTest extends TestCase
         $this->actingAs($user);
         $categoryId = Categories::first()->id;
 
-        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $categoryId]));
+        $response = $this->getJson(route('bookmarks.index', [ForeignKeyCol::categories => $categoryId]));
 
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
@@ -91,7 +91,7 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->getJson(route("bookmarks.index", ["search" => "a search string"]));
+        $response = $this->getJson(route('bookmarks.index', ['search' => 'a search string']));
 
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
@@ -101,7 +101,7 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->get(route("bookmarks.index", [ForeignKeyCol::categories => "non-numeric", "search" => "a search string"]));
+        $response = $this->get(route('bookmarks.index', [ForeignKeyCol::categories => 'non-numeric', 'search' => 'a search string']));
 
         $response->assertStatus(404);
     }
@@ -114,14 +114,14 @@ class BookmarksTest extends TestCase
         $invalidId = [];
         while (true) {
             $randId = random_int(1, PHP_INT_MAX);
-            if (!$allCategoryIds->has($randId)) {
+            if (! $allCategoryIds->has($randId)) {
                 $invalidId[] = $randId;
                 break;
             }
         }
         $invalidId = $invalidId[0];
 
-        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $invalidId, "search" => "a search string"]));
+        $response = $this->getJson(route('bookmarks.index', [ForeignKeyCol::categories => $invalidId, 'search' => 'a search string']));
 
         $response->assertStatus(404);
     }
@@ -132,7 +132,7 @@ class BookmarksTest extends TestCase
         $this->actingAs($user);
         $categoryId = Categories::all()->first()->id;
 
-        $response = $this->getJson(route("bookmarks.index", [ForeignKeyCol::categories => $categoryId, "search" => "a search string"]));
+        $response = $this->getJson(route('bookmarks.index', [ForeignKeyCol::categories => $categoryId, 'search' => 'a search string']));
 
         $response->assertJsonStructure($this->paginatedEnvironmentsJsonStructure());
     }
@@ -142,7 +142,7 @@ class BookmarksTest extends TestCase
         $this->seedTables();
         $categoryId = Categories::first()->id;
 
-        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $categoryId]);
+        $response = $this->postJson(route('bookmarks.store'), [ForeignKeyCol::environments => $categoryId]);
 
         $response->assertStatus(401);
     }
@@ -152,16 +152,16 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => "non-numeric"]);
+        $response = $this->postJson(route('bookmarks.store'), [ForeignKeyCol::environments => 'non-numeric']);
 
         $response->assertStatus(422);
         $response->assertExactJson([
-          "message" => "The environment id must be an integer.",
-          "errors" => [
-            ForeignKeyCol::environments => [
-              "The environment id must be an integer."
-            ]
-          ]
+            'message' => 'The environment id must be an integer.',
+            'errors' => [
+                ForeignKeyCol::environments => [
+                    'The environment id must be an integer.',
+                ],
+            ],
         ]);
     }
 
@@ -171,12 +171,12 @@ class BookmarksTest extends TestCase
         $this->actingAs($user);
         $envId = Environments::first()->id;
 
-        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $envId]);
+        $response = $this->postJson(route('bookmarks.store'), [ForeignKeyCol::environments => $envId]);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas("bookmarks", [
-          ForeignKeyCol::environments => $envId,
-          ForeignKeyCol::users => $user->id
+        $this->assertDatabaseHas('bookmarks', [
+            ForeignKeyCol::environments => $envId,
+            ForeignKeyCol::users => $user->id,
         ]);
     }
 
@@ -185,17 +185,17 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
         $envId = Environments::first()->id;
-        $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $envId])->assertStatus(201);
+        $this->postJson(route('bookmarks.store'), [ForeignKeyCol::environments => $envId])->assertStatus(201);
 
-        $response = $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $envId]);
+        $response = $this->postJson(route('bookmarks.store'), [ForeignKeyCol::environments => $envId]);
 
         $response->assertStatus(500);
-        $this->assertDatabaseCount("bookmarks", 1);
+        $this->assertDatabaseCount('bookmarks', 1);
     }
 
     public function test_bookmarks_destroy_returns_401_response_if_not_authenticated()
     {
-        $response = $this->deleteJson(route("bookmarks.destroy"), [ForeignKeyCol::environments => "1"]);
+        $response = $this->deleteJson(route('bookmarks.destroy'), [ForeignKeyCol::environments => '1']);
 
         $response->assertStatus(401);
     }
@@ -205,17 +205,17 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
         $envId = Environments::first()->id;
-        $this->postJson(route("bookmarks.store"), [ForeignKeyCol::environments => $envId])->assertStatus(201);
+        $this->postJson(route('bookmarks.store'), [ForeignKeyCol::environments => $envId])->assertStatus(201);
         $record = [
-          ForeignKeyCol::environments => $envId,
-          ForeignKeyCol::users => $user->id
+            ForeignKeyCol::environments => $envId,
+            ForeignKeyCol::users => $user->id,
         ];
-        $this->assertDatabaseHas("bookmarks", $record);
+        $this->assertDatabaseHas('bookmarks', $record);
 
-        $response = $this->deleteJson(route("bookmarks.destroy"), [ForeignKeyCol::environments => $envId]);
+        $response = $this->deleteJson(route('bookmarks.destroy'), [ForeignKeyCol::environments => $envId]);
 
         $response->assertStatus(204)->assertNoContent();
-        $this->assertDatabaseMissing("bookmarks", $record);
+        $this->assertDatabaseMissing('bookmarks', $record);
     }
 
     public function test_bookmarks_destroy_returns_422_reponse_if_environment_id_in_request_body_is_not_numeric()
@@ -223,16 +223,16 @@ class BookmarksTest extends TestCase
         $user = $this->seedTablesAndGetUser();
         $this->actingAs($user);
 
-        $response = $this->postJson(route("bookmarks.destroy"), [ForeignKeyCol::environments => "non numeric"]);
+        $response = $this->postJson(route('bookmarks.destroy'), [ForeignKeyCol::environments => 'non numeric']);
 
         $response->assertStatus(422);
         $response->assertExactJson([
-          "message" => "The environment id must be an integer.",
-          "errors" => [
-            ForeignKeyCol::environments => [
-              "The environment id must be an integer."
-            ]
-          ]
+            'message' => 'The environment id must be an integer.',
+            'errors' => [
+                ForeignKeyCol::environments => [
+                    'The environment id must be an integer.',
+                ],
+            ],
         ]);
     }
 
@@ -240,6 +240,7 @@ class BookmarksTest extends TestCase
     private function seedTablesAndGetUser()
     {
         $this->seedTables();
+
         return User::all()->first();
     }
 

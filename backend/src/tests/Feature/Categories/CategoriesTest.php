@@ -24,9 +24,9 @@ class CategoriesTest extends TestCase
         $response->assertJsonStructure([
             'success',
             'data' => [
-                "*" => [
-                  'name',
-                  'id'
+                '*' => [
+                    'name',
+                    'id',
                 ],
             ],
         ]);

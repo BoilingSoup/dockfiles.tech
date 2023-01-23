@@ -40,14 +40,14 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return [
-          "id" => Auth::user()->id,
-          "name" => Auth::user()->name,
-          "email" => $request->email,
-          "email_verified_at" => null,
-          "avatar" => null,
-          "is_admin" => false,
-          "github_id" => null,
-          "gitlab_id" => null
+            'id' => Auth::user()->id,
+            'name' => Auth::user()->name,
+            'email' => $request->email,
+            'email_verified_at' => null,
+            'avatar' => null,
+            'is_admin' => false,
+            'github_id' => null,
+            'gitlab_id' => null,
         ];
     }
 

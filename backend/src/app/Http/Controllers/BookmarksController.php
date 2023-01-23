@@ -98,6 +98,6 @@ class BookmarksController extends Controller
     private function validateEnvironmentId(string $environmentId)
     {
         $isValid = $this->repository->validateEnvironmentId($environmentId);
-        throw_if(!$isValid);
+        throw_if(! $isValid);
     }
 }

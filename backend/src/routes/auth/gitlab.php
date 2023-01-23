@@ -27,8 +27,8 @@ Route::get('/gitlab/callback', function () {
 
         Auth::login($user);
 
-        return redirect(config("view.frontendUrl"));
+        return redirect(config('view.frontendUrl'));
     } catch (\Exception) {
-        return redirect(config("view.frontendUrl"));
+        return redirect(config('view.frontendUrl'));
     }
 });

@@ -34,7 +34,7 @@ class BookmarksRepository
         $userId = (string) Auth::user()->id;
         $categoryId = $request->category_id;
 
-        if (!$categoryId) {
+        if (! $categoryId) {
             return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX])->rememberForever(
                 CACHE_KEYS::USER_BOOKMARKS_INDEX_CURSOR_($userId, $request->cursor),
                 fn () => Environments::select('id', 'name', 'string_id') // likes ?
@@ -44,10 +44,10 @@ class BookmarksRepository
             );
         }
 
-        abort_if(!is_numeric($categoryId), 404);
+        abort_if(! is_numeric($categoryId), 404);
 
         $isValidId = $this->categoriesRepository->checkValidCategoryId((int) $categoryId);
-        abort_if(!$isValidId, 404);
+        abort_if(! $isValidId, 404);
 
         return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_INDEX_CATEGORY_($categoryId)])->rememberForever(
             CACHE_KEYS::USER_BOOKMARKS_INDEX_CATEGORY_CURSOR_($userId, $categoryId, $request->cursor),
@@ -86,7 +86,7 @@ class BookmarksRepository
         $userId = (string) Auth::user()->id;
         $categoryId = $request->category_id;
 
-        if (!$categoryId) {
+        if (! $categoryId) {
             return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH])->rememberForever(
                 CACHE_KEYS::USER_BOOKMARKS_SEARCH_($userId, $cacheId, $request->cursor),
                 fn () => Environments::select('id', 'name', 'string_id') // likes ?
@@ -100,10 +100,10 @@ class BookmarksRepository
             );
         }
 
-        abort_if(!is_numeric($categoryId), 404);
+        abort_if(! is_numeric($categoryId), 404);
 
         $isValidId = $this->categoriesRepository->checkValidCategoryId((int) $categoryId);
-        abort_if(!$isValidId, 404);
+        abort_if(! $isValidId, 404);
 
         return Cache::tags([CACHE_TAGS::USER_BOOKMARKS_($userId), CACHE_TAGS::USER_BOOKMARKS_SEARCH_CATEGORY_($categoryId)])->rememberForever(
             CACHE_KEYS::USER_BOOKMARKS_SEARCH_CATEGORY_($userId, $cacheId, $categoryId, $request->cursor),
@@ -128,8 +128,8 @@ class BookmarksRepository
     public function store(string $userId, string $environmentId)
     {
         $bookmark = Bookmarks::make([
-          ForeignKeyCol::environments => $environmentId,
-          ForeignKeyCol::users => $userId
+            ForeignKeyCol::environments => $environmentId,
+            ForeignKeyCol::users => $userId,
         ]);
         $isSuccess = $bookmark->save();
 
@@ -155,10 +155,10 @@ class BookmarksRepository
     }
 
     /**
-       * Use the cache to quickly confirm if a given numeric (string) value is a valid Environment ID.
-       *
-       * @return bool
-       */
+     * Use the cache to quickly confirm if a given numeric (string) value is a valid Environment ID.
+     *
+     * @return bool
+     */
     public function validateEnvironmentId(string $environmentId)
     {
         $idsLookup = Cache::tags([CACHE_TAGS::ENVIRONMENTS, CACHE_TAGS::ENVIRONMENTS_IDS])->rememberForever(

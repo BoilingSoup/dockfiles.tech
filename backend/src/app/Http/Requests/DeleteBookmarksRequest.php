@@ -25,7 +25,7 @@ class DeleteBookmarksRequest extends FormRequest
     public function rules()
     {
         return [
-          ForeignKeyCol::environments => "required|integer"
+            ForeignKeyCol::environments => 'required|integer',
         ];
     }
 }
