@@ -11,43 +11,43 @@ use Illuminate\Database\Seeder;
 
 class RepliesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        $this->demoReplies();
+  /**
+   * Run the database seeds.
+   *
+   * @return void
+   */
+  public function run()
+  {
+    $this->demoReplies();
+  }
+
+  private function demoReplies()
+  {
+    $seedComments = $this->command->confirm(question: 'Seed demo replies?', default: true);
+    if (!$seedComments) {
+      return;
     }
 
-    private function demoReplies()
-    {
-        $seedComments = $this->command->confirm(question: 'Seed demo replies?', default: true);
-        if (! $seedComments) {
-            return;
-        }
+    $envId = Environments::where('string_id', 'gitea')->first()->id;
+    $commentsCount = Comments::where(ForeignKeyCol::environments, $envId)->count();
 
-        $envId = Environments::where('string_id', 'gitea')->first()->id;
-        $commentsCount = Comments::where(ForeignKeyCol::environments, $envId)->count();
-
-        if ($commentsCount !== 1000) {
-            $this->command->error(
-                <<<ERROR
+    if ($commentsCount !== 1000) {
+      $this->command->error(
+        <<<ERROR
                 Expected gitea environment to have 1000 comments, but {$commentsCount} comments were found.
                 Re-run the seeder, seed the infinite scroll demo comments, and do not seed the additional dummy comments.
                 ERROR
-            );
-        }
-
-        $secondDemoComment = Comments::find(999);
-        $admin = User::admin();
-
-        $reply = Replies::make();
-        $reply->content = 'This is a reply to the comment above.';
-        $reply->author_id = $admin->id;
-        $reply->recipient_id = $admin->id;
-        $reply->comment_id = $secondDemoComment->id;
-        $reply->save();
+      );
     }
+
+    $secondDemoComment = Comments::find(999);
+    $admin = User::admin();
+
+    Replies::create([
+      "content" => "This is a reply to the comment above.",
+      ForeignKeyCol::reply_author => $admin->id,
+      ForeignKeyCol::reply_recipient => $admin->id,
+      ForeignKeyCol::comments => $secondDemoComment->id,
+    ]);
+  }
 }
