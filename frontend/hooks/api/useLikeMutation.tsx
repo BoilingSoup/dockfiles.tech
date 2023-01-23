@@ -6,7 +6,7 @@ import { useBookmarksCategoriesSearch } from "../../zustand-store/bookmarks/useB
 import { useBookmarksPageCursor } from "../../zustand-store/bookmarks/useBookmarksPageCursor";
 import { useHomeCategoriesSearch } from "../../zustand-store/home/useHomeCategoriesSearch";
 import { useHomePageCursor } from "../../zustand-store/home/useHomePageCursor";
-import { INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
+import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
 import {
   AttemptToggleActionMetadata,
   attemptToggleLike,
@@ -21,7 +21,12 @@ export const useLikeMutation = (param: AttemptToggleActionMetadata) => {
 
   const { setCursor: setHomePageCursor } = useHomePageCursor();
   const { setCursor: setBookmarksPageCursor } = useBookmarksPageCursor();
-  const { input: homeSearchParam, select: homeCategoryId } = useHomeCategoriesSearch();
+  const {
+    input: homeSearchParam,
+    // setInput: setHomeSearchParam,
+    select: homeCategoryId,
+    // setSelect: setHomeCategoryId,
+  } = useHomeCategoriesSearch();
   const { input: bookmarksSearchParam, select: bookmarksCategoryId } = useBookmarksCategoriesSearch();
 
   return useMutation(() => attemptToggleLike(param), {
@@ -37,15 +42,17 @@ export const useLikeMutation = (param: AttemptToggleActionMetadata) => {
         },
       });
 
+      // Reset pagination cursors
+      setBookmarksPageCursor(INITIAL_PAGE_CURSOR);
+      setHomePageCursor(INITIAL_PAGE_CURSOR);
+      // setHomeSearchParam("");
+      // setHomeCategoryId(ALL_CATEGORIES);
+
       // Delete bookmarks and environments data from the query cache.
       // Bookmarks/likes button state will be refetched, but will not show a spinner because its options { keepPreviousData: true }
       queryClient.removeQueries(queryKeys.bookmarks);
       queryClient.removeQueries(queryKeys.environments);
       // queryClient.invalidateQueries(queryKeys.environments);
-
-      // Reset pagination cursors
-      setBookmarksPageCursor(INITIAL_PAGE_CURSOR);
-      setHomePageCursor(INITIAL_PAGE_CURSOR);
 
       // Prefetch Bookmarks index page
       queryClient.prefetchQuery(
@@ -56,21 +63,26 @@ export const useLikeMutation = (param: AttemptToggleActionMetadata) => {
           searchParam: bookmarksSearchParam,
         })
       );
+      queryClient.prefetchQuery(
+        [queryKeys.environments, homeCategoryId, queryKeys.searchStrToKey(homeSearchParam), INITIAL_PAGE_CURSOR],
+        getEnvironments({
+          categoryId: homeCategoryId,
+          cursor: INITIAL_PAGE_CURSOR,
+          searchParam: homeSearchParam,
+        })
+      );
 
       // Prefetch Home page data.
       // Instead of prefetchQuery method, I fetch the data manually so I can also set the result in the cookie.
       // This is necessary because getInitialProps reads from the cookie for home page data.
       const homePageData = await getEnvironments({
-        categoryId: homeCategoryId,
+        categoryId: ALL_CATEGORIES,
         cursor: INITIAL_PAGE_CURSOR,
-        searchParam: homeSearchParam,
+        searchParam: "",
       })();
 
       setCookie(ENVIRONMENTS_INDEX_COOKIE_KEY, JSON.stringify(homePageData));
-      queryClient.setQueryData(
-        [queryKeys.environments, homeCategoryId, queryKeys.searchStrToKey(homeSearchParam), INITIAL_PAGE_CURSOR],
-        homePageData
-      );
+      queryClient.setQueryData(queryKeys.initialHomePageQueryKey, homePageData);
     },
     onError: () => {
       genericErrorNotification();
