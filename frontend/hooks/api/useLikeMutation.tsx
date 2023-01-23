@@ -1,4 +1,6 @@
+import { setCookie } from "cookies-next";
 import { useMutation, useQueryClient } from "react-query";
+import { ENVIRONMENTS_INDEX_COOKIE_KEY } from "../../components/layout/constants";
 import { queryKeys } from "../../query-client/constants";
 import { useBookmarksCategoriesSearch } from "../../zustand-store/bookmarks/useBookmarksCategoriesSearch";
 import { useBookmarksPageCursor } from "../../zustand-store/bookmarks/useBookmarksPageCursor";
@@ -23,7 +25,7 @@ export const useLikeMutation = (param: AttemptToggleActionMetadata) => {
   const { input: bookmarksSearchParam, select: bookmarksCategoryId } = useBookmarksCategoriesSearch();
 
   return useMutation(() => attemptToggleLike(param), {
-    onSuccess: () => {
+    onSuccess: async () => {
       // Update bookmarks/likes button state
       queryClient.setQueryData<EnvironmentUserStatus>(queryKeys.bookmarkLikeStatus(param.id), {
         success: true,
@@ -39,12 +41,13 @@ export const useLikeMutation = (param: AttemptToggleActionMetadata) => {
       // Bookmarks/likes button state will be refetched, but will not show a spinner because its options { keepPreviousData: true }
       queryClient.removeQueries(queryKeys.bookmarks);
       queryClient.removeQueries(queryKeys.environments);
+      // queryClient.invalidateQueries(queryKeys.environments);
 
       // Reset pagination cursors
       setBookmarksPageCursor(INITIAL_PAGE_CURSOR);
       setHomePageCursor(INITIAL_PAGE_CURSOR);
 
-      // Prefetch Home/Bookmarks index pages
+      // Prefetch Bookmarks index page
       queryClient.prefetchQuery(
         [queryKeys.bookmarks, bookmarksCategoryId, queryKeys.searchStrToKey(bookmarksSearchParam), INITIAL_PAGE_CURSOR],
         getBookmarks({
@@ -54,9 +57,19 @@ export const useLikeMutation = (param: AttemptToggleActionMetadata) => {
         })
       );
 
-      queryClient.prefetchQuery(
+      // Prefetch Home page data.
+      // Instead of prefetchQuery method, I fetch the data manually so I can also set the result in the cookie.
+      // This is necessary because getInitialProps reads from the cookie for home page data.
+      const homePageData = await getEnvironments({
+        categoryId: homeCategoryId,
+        cursor: INITIAL_PAGE_CURSOR,
+        searchParam: homeSearchParam,
+      })();
+
+      setCookie(ENVIRONMENTS_INDEX_COOKIE_KEY, JSON.stringify(homePageData));
+      queryClient.setQueryData(
         [queryKeys.environments, homeCategoryId, queryKeys.searchStrToKey(homeSearchParam), INITIAL_PAGE_CURSOR],
-        getEnvironments({ categoryId: homeCategoryId, cursor: INITIAL_PAGE_CURSOR, searchParam: homeSearchParam })
+        homePageData
       );
     },
     onError: () => {

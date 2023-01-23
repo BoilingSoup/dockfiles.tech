@@ -68,6 +68,7 @@ const Bookmarks: NextPage = () => {
               name={environment.name}
               string_id={environment.string_id}
               comments_count={environment.comments_count}
+              likes_count={environment.likes_count}
             />
           ))}
 

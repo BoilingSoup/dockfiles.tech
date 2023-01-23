@@ -7,9 +7,10 @@ type Props = {
   name: string;
   string_id: string;
   comments_count: number;
+  likes_count: number;
 };
 
-export const EnvironmentListItem = ({ name, string_id, comments_count }: Props) => {
+export const EnvironmentListItem = ({ name, string_id, comments_count, likes_count }: Props) => {
   return (
     <>
       <Link href={string_id}>
@@ -22,7 +23,7 @@ export const EnvironmentListItem = ({ name, string_id, comments_count }: Props) 
             <Box sx={iconGroupBoxSx}>
               <Box sx={iconBoxSx}>
                 <IconThumbUp />
-                <Text>2</Text>
+                <Text>{likes_count.toString()}</Text>
               </Box>
               <Box sx={iconBoxSx}>
                 <IconMessage />
