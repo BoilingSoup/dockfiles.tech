@@ -11,17 +11,18 @@ export const CommentTextArea = () => {
   }
 
   return (
-    <Paper sx={paperSx}>
+    <Paper sx={paperSx} pb={14}>
       <CommentUserInfo avatar={user.avatar} author={user.name} />
       <Textarea
         size="md"
         minRows={4}
-        m={commentsMargin}
+        mx={commentsMargin}
+        mb={commentsMargin}
         placeholder="Your comment"
         aria-label="Your comment"
         withAsterisk
       />
-      <Button px={40} ml="auto" mr={commentsMargin}>
+      <Button display="block" px={40} ml="auto" mr={commentsMargin}>
         Submit
       </Button>
     </Paper>
