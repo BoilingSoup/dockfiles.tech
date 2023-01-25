@@ -95,7 +95,7 @@ export const replyButtonSx = ({ colors, colorScheme }: MantineTheme): CSSObject 
 
 export const tabsSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   position: "fixed",
-  zIndex: 9999,
+  zIndex: 2,
   width: "100%",
   top: 56,
   paddingTop: 20,

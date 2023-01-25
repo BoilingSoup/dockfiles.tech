@@ -1,9 +1,18 @@
-import { Button, Flex, Textarea } from "@mantine/core";
-import { commentsMargin } from "./styles";
+import { Button, Paper, Textarea } from "@mantine/core";
+import { useAuth } from "../../contexts/AuthProvider";
+import { commentsMargin, paperSx } from "./styles";
+import { CommentUserInfo } from "./_commentUserInfo";
 
 export const CommentTextArea = () => {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <> </>;
+  }
+
   return (
-    <Flex style={{ flexDirection: "column" }}>
+    <Paper sx={paperSx}>
+      <CommentUserInfo avatar={user.avatar} author={user.name} />
       <Textarea
         size="md"
         minRows={4}
@@ -12,9 +21,9 @@ export const CommentTextArea = () => {
         aria-label="Your comment"
         withAsterisk
       />
-      <Button px={50} ml="auto" mr={commentsMargin}>
+      <Button px={40} ml="auto" mr={commentsMargin}>
         Submit
       </Button>
-    </Flex>
+    </Paper>
   );
 };

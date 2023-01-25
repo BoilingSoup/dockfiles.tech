@@ -1,18 +1,9 @@
-import { Box, Button, Group, Paper, Text, useMantineTheme } from "@mantine/core";
+import { Box, Paper, Text } from "@mantine/core";
 import { IconArrowBackUp, IconChevronDown } from "@tabler/icons";
 import { forwardRef } from "react";
 import { CommentData } from "../../hooks/api/helpers";
-import {
-  avatarGroupSx,
-  avatarStyles,
-  boxSx,
-  contentSx,
-  expandRepliesSx,
-  nameSx,
-  paperSx,
-  repliesBoxSx,
-  replyButtonSx,
-} from "./styles";
+import { contentSx, expandRepliesSx, paperSx, repliesBoxSx, replyButtonSx } from "./styles";
+import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
   data: CommentData;
@@ -21,23 +12,10 @@ type Props = {
 type Ref = HTMLElement;
 
 export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
-  const theme = useMantineTheme();
-
   const commentBody = (
     <>
       <Paper sx={paperSx}>
-        <Box sx={boxSx}>
-          <Group sx={avatarGroupSx}>
-            {/*eslint-disable-next-line*/}
-            <img height={40} width={40} style={avatarStyles(theme)} src={data.author.avatar} alt="user avatar" />
-          </Group>
-          <Text sx={nameSx} component="h2">
-            {data.author.name}
-          </Text>
-          <Text ml="auto" mr={40} size="sm">
-            {data.created_at}
-          </Text>
-        </Box>
+        <CommentUserInfo author={data.author.name} avatar={data.author.avatar} created_at={data.created_at} />
         <Text sx={contentSx} component="p">
           {data.content}
         </Text>
