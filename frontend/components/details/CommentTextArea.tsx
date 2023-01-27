@@ -1,12 +1,18 @@
 import { Button, Group, Paper, Text, Textarea } from "@mantine/core";
 import { BaseSyntheticEvent, FormEvent, useRef } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
+import { AttemptPostCommentMetadata } from "../../hooks/api/helpers";
+import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
+import { useStringId } from "../../hooks/helpers/useStringId";
 import { MAX_COMMENT_LENGTH } from "./constants";
 import { commentsMargin, paperSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
 export const CommentTextArea = () => {
   const { user } = useAuth();
+  const stringId = useStringId();
+  const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
@@ -23,7 +29,16 @@ export const CommentTextArea = () => {
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    console.log("submitted");
+    if (textAreaRef.current) {
+      const payload: AttemptPostCommentMetadata = {
+        stringId: stringId,
+        body: {
+          content: textAreaRef.current.value,
+        },
+      };
+      // TODO: handle onsuccess, onerror states. Disable/enable button when form invalid etc.
+      postCommentMutation(payload);
+    }
   };
 
   return (

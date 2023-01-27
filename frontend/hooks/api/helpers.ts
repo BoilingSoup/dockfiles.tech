@@ -407,3 +407,14 @@ export const attemptToggleLike = async ({ data, id }: AttemptToggleActionMetadat
 
   return apiFetch.post(`environments/${id}/like`);
 };
+
+export type AttemptPostCommentMetadata = {
+  stringId: string;
+  body: {
+    content: string;
+  };
+};
+
+export const attemptPostComment = async ({ stringId, body }: AttemptPostCommentMetadata) => {
+  return apiFetch.post(`environments/${stringId}/comments`, body);
+};
