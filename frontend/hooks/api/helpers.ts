@@ -155,7 +155,7 @@ export type CommentData = {
   };
 };
 
-type CommentsPage = {
+export type CommentsPage = {
   success: boolean;
   data: CommentData[];
   meta: {

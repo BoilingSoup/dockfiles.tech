@@ -78,6 +78,7 @@ class CommentsRepository
 
     Cache::tags([CACHE_TAGS::COMMENTS])->flush();
     Cache::tags([CACHE_TAGS::ENVIRONMENTS])->flush();
+    Cache::tags([CACHE_TAGS::CATEGORIES])->flush();
 
     return $comment;
   }
