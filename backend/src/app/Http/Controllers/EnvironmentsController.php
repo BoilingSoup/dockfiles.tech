@@ -15,6 +15,7 @@ class EnvironmentsController extends Controller
   public function __construct(EnvironmentsRepository $repository)
   {
     $this->repository = $repository;
+    $this->middleware("verified")->only(["like", "unlike"]);
   }
 
   /**

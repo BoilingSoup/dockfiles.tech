@@ -16,6 +16,7 @@ class CommentsController extends Controller
   public function __construct(CommentsRepository $repository)
   {
     $this->repository = $repository;
+    $this->middleware("verified")->only("store");
   }
 
   /**
@@ -47,7 +48,7 @@ class CommentsController extends Controller
 
 
   /**
-   * Store a Authenticated User's Comment in the database.
+   * Store a Authenticated User's Comment in the database. Must be a verified user.
    *
    * @return FormattedApiResponse
    */
