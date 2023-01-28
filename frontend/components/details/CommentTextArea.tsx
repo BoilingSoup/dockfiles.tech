@@ -1,5 +1,5 @@
 import { Button, Group, Paper, Text, Textarea } from "@mantine/core";
-import { BaseSyntheticEvent, FormEvent, useRef } from "react";
+import { BaseSyntheticEvent, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { AttemptPostCommentMetadata } from "../../hooks/api/helpers";
 import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
@@ -12,6 +12,7 @@ export const CommentTextArea = () => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
+  const [buttonIsEnabled, setButtonIsEnabled] = useState(false);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
@@ -24,6 +25,20 @@ export const CommentTextArea = () => {
     const currCommentLength = event.target.value.length;
     if (textRef.current !== null) {
       textRef.current.innerText = `${MAX_COMMENT_LENGTH - currCommentLength}/${MAX_COMMENT_LENGTH}`;
+    }
+
+    const isMinCommentLength = currCommentLength >= 4;
+    const isMaxCommentLength = currCommentLength <= 200;
+    const isValidCommentLength = isMinCommentLength && isMaxCommentLength;
+
+    if (buttonIsEnabled && !isValidCommentLength) {
+      setButtonIsEnabled(false);
+      return;
+    }
+
+    if (!buttonIsEnabled && isValidCommentLength) {
+      setButtonIsEnabled(true);
+      return;
     }
   };
 
@@ -60,7 +75,7 @@ export const CommentTextArea = () => {
           <Text ml={commentsMargin} component="p" ref={textRef}>
             {`${MAX_COMMENT_LENGTH}/${MAX_COMMENT_LENGTH}`}
           </Text>
-          <Button type="submit" display="block" px={40} ml="auto" mr={commentsMargin}>
+          <Button type="submit" disabled={!buttonIsEnabled} display="block" px={40} ml="auto" mr={commentsMargin}>
             Submit
           </Button>
         </Group>
