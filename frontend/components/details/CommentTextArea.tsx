@@ -48,7 +48,7 @@ export const CommentTextArea = () => {
       const payload: AttemptPostCommentMetadata = {
         stringId: stringId,
         body: {
-          content: textAreaRef.current.value,
+          content: textAreaRef.current.value.trim(),
         },
       };
       // TODO: handle onsuccess, onerror states.
