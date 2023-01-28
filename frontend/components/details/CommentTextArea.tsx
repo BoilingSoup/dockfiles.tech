@@ -1,4 +1,4 @@
-import { Button, Group, Paper, Text, Textarea } from "@mantine/core";
+import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
 import { BaseSyntheticEvent, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { AttemptPostCommentMetadata } from "../../hooks/api/helpers";
@@ -12,10 +12,12 @@ export const CommentTextArea = () => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
-  const [buttonIsEnabled, setButtonIsEnabled] = useState(false);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const [buttonIsEnabled, setButtonIsEnabled] = useState(false);
+
+  const { colors } = useMantineTheme();
 
   if (!user) {
     return <> </>;
@@ -70,13 +72,21 @@ export const CommentTextArea = () => {
           placeholder="Add a comment"
           aria-label="Add a comment"
           withAsterisk
+          disabled={isLoading}
         />
         <Group ml={commentsMargin}>
           <Text ml={commentsMargin} component="p" ref={textRef}>
             {`${MAX_COMMENT_LENGTH}/${MAX_COMMENT_LENGTH}`}
           </Text>
-          <Button type="submit" disabled={!buttonIsEnabled} display="block" px={40} ml="auto" mr={commentsMargin}>
-            Submit
+          <Button
+            type="submit"
+            disabled={!buttonIsEnabled || isLoading}
+            display="block"
+            px={40}
+            ml="auto"
+            mr={commentsMargin}
+          >
+            {isLoading ? <Loader color={colors.navy[6]} size="sm" /> : "Submit"}
           </Button>
         </Group>
       </form>
