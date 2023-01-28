@@ -51,7 +51,7 @@ export const CommentTextArea = () => {
           content: textAreaRef.current.value,
         },
       };
-      // TODO: handle onsuccess, onerror states. Disable/enable button when form invalid etc.
+      // TODO: handle onsuccess, onerror states.
       postCommentMutation(payload);
     }
   };
