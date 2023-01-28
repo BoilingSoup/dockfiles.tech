@@ -240,7 +240,7 @@ export const logoutSuccessNotification = () => {
 export const genericErrorNotification = () => {
   showNotification({
     color: "red",
-    title: "Something went wrong!",
+    title: "Error!",
     message: "Something went wrong.",
     styles: notificationStyles,
   });
@@ -420,4 +420,13 @@ export type AttemptPostCommentMetadata = {
 
 export const attemptPostComment = async ({ stringId, body }: AttemptPostCommentMetadata) => {
   return apiFetch.post(`environments/${stringId}/comments`, body);
+};
+
+export const postCommentSuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Success!",
+    message: "Your comment was posted.",
+    styles: notificationStyles,
+  });
 };

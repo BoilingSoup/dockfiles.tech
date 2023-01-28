@@ -9,7 +9,15 @@ import { useBookmarksPageCursor } from "../../zustand-store/bookmarks/useBookmar
 import { useHomeCategoriesSearch } from "../../zustand-store/home/useHomeCategoriesSearch";
 import { useHomePageCursor } from "../../zustand-store/home/useHomePageCursor";
 import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
-import { attemptPostComment, AttemptPostCommentMetadata, CommentsPage, getBookmarks, getEnvironments } from "./helpers";
+import {
+  attemptPostComment,
+  AttemptPostCommentMetadata,
+  CommentsPage,
+  genericErrorNotification,
+  getBookmarks,
+  getEnvironments,
+  postCommentSuccessNotification,
+} from "./helpers";
 import { CommentsCountResponse } from "./useCommentsCount";
 
 export const usePostCommmentMutation = () => {
@@ -112,10 +120,12 @@ export const usePostCommmentMutation = () => {
       invalidateStaleCacheData(param.stringId);
       prefetchData();
       resetFormState(param);
+
+      postCommentSuccessNotification();
     },
     onError: (error) => {
       if (error instanceof Error) {
-        console.log(error.message);
+        genericErrorNotification();
       }
     },
   });

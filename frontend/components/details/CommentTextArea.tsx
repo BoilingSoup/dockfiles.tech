@@ -55,7 +55,6 @@ export const CommentTextArea = () => {
           content: textAreaRef.current.value.trim(),
         },
       };
-      // TODO: onsuccess, onerror notifications.
       postCommentMutation(payload);
     }
   };
