@@ -10,6 +10,7 @@ import { useHomeCategoriesSearch } from "../../zustand-store/home/useHomeCategor
 import { useHomePageCursor } from "../../zustand-store/home/useHomePageCursor";
 import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../../zustand-store/types";
 import { attemptPostComment, AttemptPostCommentMetadata, CommentsPage, getBookmarks, getEnvironments } from "./helpers";
+import { CommentsCountResponse } from "./useCommentsCount";
 
 export const usePostCommmentMutation = () => {
   const { user } = useAuth();
@@ -91,6 +92,12 @@ export const usePostCommmentMutation = () => {
           replies_count: 0,
         });
 
+        return clone;
+      });
+
+      queryClient.setQueryData<CommentsCountResponse>(queryKeys.commentsCount(param.stringId), (prev) => {
+        const clone: CommentsCountResponse = JSON.parse(JSON.stringify(prev));
+        clone.data.comments_count += 1;
         return clone;
       });
 
