@@ -48,12 +48,14 @@ export const CommentTextArea = () => {
     event.preventDefault();
     if (textAreaRef.current) {
       const payload: AttemptPostCommentMetadata = {
-        stringId: stringId,
+        stringId,
+        textAreaRef,
+        setButtonIsEnabled,
         body: {
           content: textAreaRef.current.value.trim(),
         },
       };
-      // TODO: handle onsuccess, onerror states.
+      // TODO: onsuccess, onerror notifications.
       postCommentMutation(payload);
     }
   };

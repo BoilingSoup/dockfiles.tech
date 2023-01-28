@@ -2,6 +2,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { getCookie } from "cookies-next";
 import { GetServerSidePropsContext } from "next";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import { notificationStyles } from "../../components/layout/styles";
 import { ChangePasswordFormValues } from "../../components/settings/hooks/useChangePasswordForm";
 import { APP_URL } from "../../config/config";
@@ -413,6 +414,8 @@ export type AttemptPostCommentMetadata = {
   body: {
     content: string;
   };
+  textAreaRef: RefObject<HTMLTextAreaElement>;
+  setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
 export const attemptPostComment = async ({ stringId, body }: AttemptPostCommentMetadata) => {

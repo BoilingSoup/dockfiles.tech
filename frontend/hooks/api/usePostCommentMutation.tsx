@@ -71,6 +71,13 @@ export const usePostCommmentMutation = () => {
     setCookie(ENVIRONMENTS_INDEX_COOKIE_KEY, JSON.stringify(homePageData));
   };
 
+  const resetFormState = ({ textAreaRef, setButtonIsEnabled }: AttemptPostCommentMetadata) => {
+    if (textAreaRef.current !== null) {
+      textAreaRef.current.value = "";
+    }
+    setButtonIsEnabled(false);
+  };
+
   return useMutation((param: AttemptPostCommentMetadata) => attemptPostComment(param), {
     onSuccess: (_, param) => {
       queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
@@ -104,6 +111,7 @@ export const usePostCommmentMutation = () => {
       resetPageCursors();
       invalidateStaleCacheData(param.stringId);
       prefetchData();
+      resetFormState(param);
     },
     onError: (error) => {
       if (error instanceof Error) {
