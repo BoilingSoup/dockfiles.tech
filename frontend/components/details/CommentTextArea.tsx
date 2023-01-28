@@ -8,13 +8,15 @@ import { MAX_COMMENT_LENGTH } from "./constants";
 import { commentsMargin, paperSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
+export const initialCharCountText = `${MAX_COMMENT_LENGTH}/${MAX_COMMENT_LENGTH}`;
+
 export const CommentTextArea = () => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
+  const charCountTextRef = useRef<HTMLParagraphElement>(null);
   const [buttonIsEnabled, setButtonIsEnabled] = useState(false);
 
   const { colors } = useMantineTheme();
@@ -25,8 +27,8 @@ export const CommentTextArea = () => {
 
   const textAreaChangeHandler = (event: BaseSyntheticEvent) => {
     const currCommentLength = event.target.value.length;
-    if (textRef.current !== null) {
-      textRef.current.innerText = `${MAX_COMMENT_LENGTH - currCommentLength}/${MAX_COMMENT_LENGTH}`;
+    if (charCountTextRef.current !== null) {
+      charCountTextRef.current.innerText = `${MAX_COMMENT_LENGTH - currCommentLength}/${MAX_COMMENT_LENGTH}`;
     }
 
     const isMinCommentLength = currCommentLength >= 4;
@@ -49,6 +51,7 @@ export const CommentTextArea = () => {
     if (textAreaRef.current) {
       const payload: AttemptPostCommentMetadata = {
         stringId,
+        charCountTextRef,
         textAreaRef,
         setButtonIsEnabled,
         body: {
@@ -76,8 +79,8 @@ export const CommentTextArea = () => {
           disabled={isLoading}
         />
         <Group ml={commentsMargin}>
-          <Text ml={commentsMargin} component="p" ref={textRef}>
-            {`${MAX_COMMENT_LENGTH}/${MAX_COMMENT_LENGTH}`}
+          <Text ml={commentsMargin} component="p" ref={charCountTextRef}>
+            {initialCharCountText}
           </Text>
           <Button
             type="submit"

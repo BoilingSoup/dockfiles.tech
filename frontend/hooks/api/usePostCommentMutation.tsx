@@ -1,5 +1,6 @@
 import { setCookie } from "cookies-next";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
+import { initialCharCountText } from "../../components/details/CommentTextArea";
 import { ENVIRONMENTS_INDEX_COOKIE_KEY } from "../../components/layout/constants";
 import { DEFAULT_AVATAR } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
@@ -79,9 +80,12 @@ export const usePostCommmentMutation = () => {
     setCookie(ENVIRONMENTS_INDEX_COOKIE_KEY, JSON.stringify(homePageData));
   };
 
-  const resetFormState = ({ textAreaRef, setButtonIsEnabled }: AttemptPostCommentMetadata) => {
+  const resetFormState = ({ charCountTextRef, textAreaRef, setButtonIsEnabled }: AttemptPostCommentMetadata) => {
     if (textAreaRef.current !== null) {
       textAreaRef.current.value = "";
+    }
+    if (charCountTextRef.current !== null) {
+      charCountTextRef.current.innerText = initialCharCountText;
     }
     setButtonIsEnabled(false);
   };

@@ -415,6 +415,7 @@ export type AttemptPostCommentMetadata = {
     content: string;
   };
   textAreaRef: RefObject<HTMLTextAreaElement>;
+  charCountTextRef: RefObject<HTMLParagraphElement>;
   setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
