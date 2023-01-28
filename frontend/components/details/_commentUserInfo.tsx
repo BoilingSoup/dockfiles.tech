@@ -1,4 +1,5 @@
 import { Box, Group, useMantineTheme, Text } from "@mantine/core";
+import { DEFAULT_AVATAR } from "../../config/config";
 import { avatarGroupSx, avatarStyles, boxSx, nameSx } from "./styles";
 
 type Props = {
@@ -15,7 +16,7 @@ export const CommentUserInfo = ({ avatar, alt = "user avatar", author, created_a
     <Box sx={boxSx}>
       <Group sx={avatarGroupSx}>
         {/*eslint-disable-next-line*/}
-        <img height={40} width={40} style={avatarStyles(theme)} src={avatar || "/default_avatar.png"} alt={alt} />
+        <img height={40} width={40} style={avatarStyles(theme)} src={avatar || DEFAULT_AVATAR} alt={alt} />
       </Group>
       <Text sx={nameSx} component="h2">
         {author}

@@ -1,6 +1,7 @@
 import { setCookie } from "cookies-next";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
 import { ENVIRONMENTS_INDEX_COOKIE_KEY } from "../../components/layout/constants";
+import { DEFAULT_AVATAR } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { queryKeys } from "../../query-client/constants";
 import { useBookmarksCategoriesSearch } from "../../zustand-store/bookmarks/useBookmarksCategoriesSearch";
@@ -74,9 +75,9 @@ export const usePostCommmentMutation = () => {
       queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
         const clone: InfiniteData<CommentsPage> = JSON.parse(JSON.stringify(prev));
         const created_at = new Date().toISOString().split("T")[0];
-        const avatar = user!.avatar ?? "";
+        const avatar = user!.avatar ?? DEFAULT_AVATAR;
 
-        clone?.pages[0].data.unshift({
+        clone.pages[0].data.unshift({
           author: {
             avatar: avatar,
             id: user!.id,
