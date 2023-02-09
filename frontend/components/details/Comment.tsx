@@ -38,7 +38,7 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
             </Box>
           )}
           {isDeleteable && (
-            <ActionIcon ml="auto">
+            <ActionIcon ml="auto" aria-label="delete comment">
               <IconTrash />
             </ActionIcon>
           )}
