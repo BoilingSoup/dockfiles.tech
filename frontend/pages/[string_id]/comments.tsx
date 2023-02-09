@@ -1,4 +1,5 @@
 import { Container } from "@mantine/core";
+import NoSSR from "../../components/common/NoSSR";
 import { ScrollToTop } from "../../components/common/ScrollToTop";
 import { CommentTextArea } from "../../components/details/CommentTextArea";
 import { COMMENTS, EnvironmentTabs } from "../../components/details/EnvironmentTabs";
@@ -14,16 +15,18 @@ const Comments = () => {
   useEnvironmentDetails(stringId);
 
   return (
-    <>
-      <EnvironmentTabs active={COMMENTS} commentsCount={{ count, isLoading }} />
+    <NoSSR>
+      <>
+        <EnvironmentTabs active={COMMENTS} commentsCount={{ count, isLoading }} />
 
-      <Container style={{ whiteSpace: "pre-line" }}>
-        <CommentTextArea />
-        {comments}
-      </Container>
+        <Container style={{ whiteSpace: "pre-line" }}>
+          <CommentTextArea />
+          {comments}
+        </Container>
 
-      <ScrollToTop />
-    </>
+        <ScrollToTop />
+      </>
+    </NoSSR>
   );
 };
 
