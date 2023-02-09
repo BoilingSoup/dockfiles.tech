@@ -1,7 +1,7 @@
 import { setCookie } from "cookies-next";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
 import { initialCharCountText } from "../../components/details/CommentTextArea";
-import { ENVIRONMENTS_INDEX_COOKIE_KEY } from "../../components/layout/constants";
+import { ENVIRONMENTS_INDEX_COOKIE_KEY, USER_DATA_COOKIE_KEY } from "../../components/layout/constants";
 import { DEFAULT_AVATAR } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { queryKeys } from "../../query-client/constants";
@@ -14,15 +14,15 @@ import {
   attemptPostComment,
   AttemptPostCommentMetadata,
   CommentsPage,
-  genericErrorNotification,
   getBookmarks,
   getEnvironments,
   postCommentSuccessNotification,
 } from "./helpers";
 import { CommentsCountResponse } from "./useCommentsCount";
+import { USER_DATA_NULL_COOKIE_VALUE } from "./useLogoutMutation";
 
 export const usePostCommmentMutation = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const queryClient = useQueryClient();
 
   const { setCursor: setHomePageCursor } = useHomePageCursor();
@@ -127,10 +127,9 @@ export const usePostCommmentMutation = () => {
 
       postCommentSuccessNotification();
     },
-    onError: (error) => {
-      if (error instanceof Error) {
-        genericErrorNotification();
-      }
+    onError: () => {
+      setUser(null);
+      setCookie(USER_DATA_COOKIE_KEY, USER_DATA_NULL_COOKIE_VALUE);
     },
   });
 };

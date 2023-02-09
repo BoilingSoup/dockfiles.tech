@@ -10,6 +10,7 @@ import { useStringId } from "../../hooks/helpers/useStringId";
 
 const Comments = () => {
   const stringId = useStringId();
+
   const { comments } = useInfiniteScrollComments(stringId);
   const { count, isLoading } = useCommentsCount(stringId);
   useEnvironmentDetails(stringId);
