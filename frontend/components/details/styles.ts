@@ -45,6 +45,7 @@ export const contentSx = (): CSSObject => ({
   marginLeft: avatarContainerWidth,
   paddingBottom: 10,
   fontSize: "1.1rem",
+  overflowWrap: "break-word"
 });
 
 export const repliesBoxSx = (): CSSObject => ({
