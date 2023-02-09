@@ -210,7 +210,6 @@ export const attemptLogout = async (): Promise<Response> => {
   }
 
   // Using fetch manually because authFetch function parses response .json()
-  // logout route returns 204 no content if successful.
   const response = await fetch(`${APP_URL}/logout`, {
     method: "POST",
     credentials: "include",
@@ -221,11 +220,11 @@ export const attemptLogout = async (): Promise<Response> => {
     },
   });
 
-  if (!response.ok) {
-    throw new Error("Something went wrong.");
+  if (response.ok || response.status === 401) { // 401 === session timed out
+    return new Response() // success
   }
 
-  return response;
+  throw new Error("Something went wrong.")
 };
 
 export const logoutSuccessNotification = () => {
