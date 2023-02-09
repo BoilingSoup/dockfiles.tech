@@ -1,6 +1,7 @@
-import { Box, Paper, Text } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown } from "@tabler/icons";
+import { ActionIcon, Box, Paper, Text } from "@mantine/core";
+import { IconArrowBackUp, IconChevronDown, IconTrash } from "@tabler/icons";
 import { forwardRef } from "react";
+import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData } from "../../hooks/api/helpers";
 import { contentSx, expandRepliesSx, paperSx, repliesBoxSx, replyButtonSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
@@ -12,6 +13,9 @@ type Props = {
 type Ref = HTMLElement;
 
 export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
+  const { user } = useAuth();
+  const isDeleteable = user?.is_admin || data.author.id === user?.id;
+
   const commentBody = (
     <>
       <Paper sx={paperSx}>
@@ -32,6 +36,11 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
                 {data.replies_count === 1 && `${data.replies_count} reply`}
               </Text>
             </Box>
+          )}
+          {isDeleteable && (
+            <ActionIcon ml="auto">
+              <IconTrash />
+            </ActionIcon>
           )}
         </Box>
       </Paper>
