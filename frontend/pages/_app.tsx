@@ -21,6 +21,7 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { EnvironmentsData, getEnvironmentsIndex, getInitialUser } from "../hooks/api/helpers";
 import { ENVIRONMENTS_INDEX_COOKIE_KEY, USER_DATA_COOKIE_KEY } from "../components/layout/constants";
 import { USER_DATA_NULL_COOKIE_VALUE } from "../hooks/api/useLogoutMutation";
+import NextNProgress from "nextjs-progressbar";
 
 export default function App(props: AppProps & { data: ServerData }) {
   const { Component, pageProps } = props;
@@ -42,9 +43,12 @@ export default function App(props: AppProps & { data: ServerData }) {
           <MantineProvider>
             <NotificationsProvider>
               <AuthProvider user={props.data.user}>
-                <Layout initialData={props.data.environments}>
-                  <Component {...pageProps} />
-                </Layout>
+                <>
+                  <NextNProgress stopDelayMs={0}/>
+                  <Layout initialData={props.data.environments}>
+                    <Component {...pageProps} />
+                  </Layout>
+                </>
               </AuthProvider>
             </NotificationsProvider>
           </MantineProvider>
