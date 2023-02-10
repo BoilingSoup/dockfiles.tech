@@ -6,6 +6,7 @@ import { COMMENTS, EnvironmentTabs } from "../../components/details/EnvironmentT
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
 import { useInfiniteScrollComments } from "../../hooks/api/useInfiniteScrollComments";
+import { usePrefetchBookmarksInitialPage } from "../../hooks/api/usePrefetchBookmarksInitialPage";
 import { useStringId } from "../../hooks/helpers/useStringId";
 
 const Comments = () => {
@@ -14,6 +15,7 @@ const Comments = () => {
   const { comments } = useInfiniteScrollComments(stringId);
   const { count, isLoading } = useCommentsCount(stringId);
   useEnvironmentDetails(stringId);
+  usePrefetchBookmarksInitialPage();
 
   return (
     <NoSSR>

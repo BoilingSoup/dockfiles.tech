@@ -16,6 +16,7 @@ import { useAuth } from "../../contexts/AuthProvider";
 import { LikeButton } from "../../components/details/LikeButton";
 import NoSSR from "../../components/common/NoSSR";
 import { BookmarkButton } from "../../components/details/BookmarkButton";
+import { usePrefetchBookmarksInitialPage } from "../../hooks/api/usePrefetchBookmarksInitialPage";
 
 type Props = {
   environment: EnvironmentDetailsData & {
@@ -46,6 +47,7 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
   const { count, isLoading } = useCommentsCount(stringId);
   usePrefetchComments(stringId);
   useSetEnvironmentDetailsInitialData({ stringId, environment });
+  usePrefetchBookmarksInitialPage();
 
   return (
     <>

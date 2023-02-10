@@ -3,10 +3,13 @@ import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import { SITE_NAME } from "../../config/config";
+import { usePrefetchBookmarksInitialPage } from "../../hooks/api/usePrefetchBookmarksInitialPage";
 import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
 
 const Notifications: NextPage = () => {
   useRedirectUnauthenticated("/");
+  usePrefetchBookmarksInitialPage();
+
   return (
     <>
       <Head>

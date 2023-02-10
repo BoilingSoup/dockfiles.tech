@@ -11,10 +11,13 @@ import { SITE_NAME } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { useRedirectUnauthenticated } from "../../hooks/helpers/useRedirectUnauthenticated";
 import { ChangePasswordForm } from "../../components/settings/ChangePasswordForm";
+import { usePrefetchBookmarksInitialPage } from "../../hooks/api/usePrefetchBookmarksInitialPage";
 
 const Settings: NextPage = () => {
   useRedirectUnauthenticated("/");
   const { user } = useAuth();
+
+  usePrefetchBookmarksInitialPage();
 
   return (
     <>

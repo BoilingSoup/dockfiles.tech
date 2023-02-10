@@ -9,12 +9,14 @@ import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
 import { NextPage } from "next";
 import NoSSR from "../../components/common/NoSSR";
+import { usePrefetchBookmarksInitialPage } from "../../hooks/api/usePrefetchBookmarksInitialPage";
 
 const Download: NextPage = () => {
   const stringId = useStringId();
   const { count, isLoading: commentsCountIsLoading } = useCommentsCount(stringId);
   const { data, isLoading } = useEnvironmentDetails(stringId);
   usePrefetchComments(stringId);
+  usePrefetchBookmarksInitialPage();
 
   const directLink = data
     ? `https://github.com/${data?.repo_owner}/${data?.repo_name}/archive/${data?.repo_branch}.zip`

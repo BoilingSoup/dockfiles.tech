@@ -17,6 +17,7 @@ import { SITE_NAME } from "../config/config";
 import { ChangeEvent } from "react";
 import { useDebouncedCursor } from "../hooks/api/useDebouncedCursor";
 import { useEmailWasVerifiedNotification } from "../hooks/helpers/useEmailWasVerifiedNotification";
+import { usePrefetchBookmarksInitialPage } from "../hooks/api/usePrefetchBookmarksInitialPage";
 
 const Home: NextPage = () => {
   // Notify user of success if coming from email verification link
@@ -31,6 +32,7 @@ const Home: NextPage = () => {
   // CSR data fetching
   const { data, isFetching } = useEnvironments({ categoryId, cursor, searchParam });
   usePrefetchEnvironments({ categoryId, data, searchParam });
+  usePrefetchBookmarksInitialPage();
 
   const environments = data?.data.data;
   const noResults = !environments?.length;
