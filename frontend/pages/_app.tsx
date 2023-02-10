@@ -44,7 +44,7 @@ export default function App(props: AppProps & { data: ServerData }) {
             <NotificationsProvider>
               <AuthProvider user={props.data.user}>
                 <>
-                  <NextNProgress stopDelayMs={0}/>
+                  <NextNProgress stopDelayMs={0} />
                   <Layout initialData={props.data.environments}>
                     <Component {...pageProps} />
                   </Layout>
