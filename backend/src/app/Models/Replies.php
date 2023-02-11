@@ -8,20 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Replies extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    public function comment()
-    {
-        return $this->belongsTo(Comments::class, ForeignKeyCol::comments);
-    }
+  protected $casts = [
+    "is_read" => "boolean"
+  ];
 
-    public function author()
-    {
-        return $this->belongsTo(User::class, ForeignKeyCol::reply_author);
-    }
+  public function comment()
+  {
+    return $this->belongsTo(Comments::class, ForeignKeyCol::comments);
+  }
 
-    public function recipient()
-    {
-        return $this->belongsTo(User::class, ForeignKeyCol::reply_recipient);
-    }
+  public function author()
+  {
+    return $this->belongsTo(User::class, ForeignKeyCol::reply_author);
+  }
+
+  public function recipient()
+  {
+    return $this->belongsTo(User::class, ForeignKeyCol::reply_recipient);
+  }
 }
