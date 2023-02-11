@@ -10,90 +10,90 @@ use Illuminate\Support\Facades\Auth;
 
 class EnvironmentsController extends Controller
 {
-  protected EnvironmentsRepository $repository;
+    protected EnvironmentsRepository $repository;
 
-  public function __construct(EnvironmentsRepository $repository)
-  {
-    $this->repository = $repository;
-    $this->middleware("verified")->only(["like", "unlike"]);
-  }
-
-  /**
-   * Get a cursor paginated JSON response of Environment names and IDs. Search query param is optional to search by description field.
-   *
-   * @return FormattedApiResponse
-   */
-  public function index(Request $request)
-  {
-    if ($request->search !== null) {
-      return $this->search($request);
+    public function __construct(EnvironmentsRepository $repository)
+    {
+        $this->repository = $repository;
+        $this->middleware('verified')->only(['like', 'unlike']);
     }
 
-    $data = $this->repository->index($request);
+    /**
+     * Get a cursor paginated JSON response of Environment names and IDs. Search query param is optional to search by description field.
+     *
+     * @return FormattedApiResponse
+     */
+    public function index(Request $request)
+    {
+        if ($request->search !== null) {
+            return $this->search($request);
+        }
 
-    return new FormattedApiResponse(
-      success: true,
-      data: collect($data)
-    );
-  }
+        $data = $this->repository->index($request);
 
-  /**
-   * Get a cursor paginated JSON response of Environment names and IDs filtered by search query param.
-   *
-   * @return FormattedApiResponse
-   */
-  private function search(Request $request)
-  {
-    $data = $this->repository->search($request);
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
+    }
 
-    return new FormattedApiResponse(
-      success: true,
-      data: collect($data)
-    );
-  }
+    /**
+     * Get a cursor paginated JSON response of Environment names and IDs filtered by search query param.
+     *
+     * @return FormattedApiResponse
+     */
+    private function search(Request $request)
+    {
+        $data = $this->repository->search($request);
 
-  /**
-   * Get Environment data by string_id.
-   *
-   * @return FormattedApiResponse
-   */
-  public function show(Request $request)
-  {
-    $data = $this->repository->show($request);
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
+    }
 
-    throw_if(!$data, new InvalidEnvironmentIdException());
+    /**
+     * Get Environment data by string_id.
+     *
+     * @return FormattedApiResponse
+     */
+    public function show(Request $request)
+    {
+        $data = $this->repository->show($request);
 
-    return new FormattedApiResponse(
-      success: true,
-      data: $data
-    );
-  }
+        throw_if(! $data, new InvalidEnvironmentIdException());
 
-  /**
-   * Like Environment by numeric id.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function like(Request $request)
-  {
-    $this->repository->like($request);
-    $this->repository->flushEnvironmentsCache();
+        return new FormattedApiResponse(
+            success: true,
+            data: $data
+        );
+    }
 
-    return response()->noContent();
-  }
+    /**
+     * Like Environment by numeric id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function like(Request $request)
+    {
+        $this->repository->like($request);
+        $this->repository->flushEnvironmentsCache();
 
-  /**
-   * Unlike Environment by numeric id.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function unlike(Request $request)
-  {
-    $environmentId = $request->id;
+        return response()->noContent();
+    }
 
-    Auth::user()->likes()->detach($environmentId);
-    $this->repository->flushEnvironmentsCache();
+    /**
+     * Unlike Environment by numeric id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unlike(Request $request)
+    {
+        $environmentId = $request->id;
 
-    return response()->noContent();
-  }
+        Auth::user()->likes()->detach($environmentId);
+        $this->repository->flushEnvironmentsCache();
+
+        return response()->noContent();
+    }
 }

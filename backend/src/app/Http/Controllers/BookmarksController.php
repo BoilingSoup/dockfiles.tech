@@ -12,92 +12,92 @@ use Illuminate\Http\Response;
 
 class BookmarksController extends Controller
 {
-  protected BookmarksRepository $repository;
+    protected BookmarksRepository $repository;
 
-  public function __construct(BookmarksRepository $repository)
-  {
-    $this->repository = $repository;
-  }
-
-  /**
-   * Get a cursor paginated JSON response of the authenticated User's Bookmarks.
-   * (Optional) filter with query params:
-   *     - category_id
-   *     - search
-   *
-   * @return FormattedApiResponse
-   */
-  public function index(Request $request)
-  {
-    if ($request->search !== null) {
-      return $this->search($request);
+    public function __construct(BookmarksRepository $repository)
+    {
+        $this->repository = $repository;
     }
 
-    $data = $this->repository->index($request);
+    /**
+     * Get a cursor paginated JSON response of the authenticated User's Bookmarks.
+     * (Optional) filter with query params:
+     *     - category_id
+     *     - search
+     *
+     * @return FormattedApiResponse
+     */
+    public function index(Request $request)
+    {
+        if ($request->search !== null) {
+            return $this->search($request);
+        }
 
-    return new FormattedApiResponse(
-      success: true,
-      data: collect($data)
-    );
-  }
+        $data = $this->repository->index($request);
 
-  /**
-   * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param and (optionally) by Category.
-   *
-   * @return FormattedApiResponse
-   */
-  public function search(Request $request)
-  {
-    $data = $this->repository->search($request);
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
+    }
 
-    return new FormattedApiResponse(
-      success: true,
-      data: collect($data)
-    );
-  }
+    /**
+     * Get a cursor paginated JSON response of Bookmarked Environments names and IDs filtered by search query param and (optionally) by Category.
+     *
+     * @return FormattedApiResponse
+     */
+    public function search(Request $request)
+    {
+        $data = $this->repository->search($request);
 
-  /**
-   * Add an Environment to the User's Bookmarks.
-   *
-   * @return FormattedApiResponse
-   */
-  public function store(StoreBookmarksRequest $request)
-  {
-    $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
-    $this->validateEnvironmentId($environmentId);
-    $userId = $request->user()->id;
+        return new FormattedApiResponse(
+            success: true,
+            data: collect($data)
+        );
+    }
 
-    $bookmark = $this->repository->store($userId, $environmentId);
+    /**
+     * Add an Environment to the User's Bookmarks.
+     *
+     * @return FormattedApiResponse
+     */
+    public function store(StoreBookmarksRequest $request)
+    {
+        $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
+        $this->validateEnvironmentId($environmentId);
+        $userId = $request->user()->id;
 
-    return new FormattedApiResponse(
-      success: true,
-      data: $bookmark,
-      status: 201
-    );
-  }
+        $bookmark = $this->repository->store($userId, $environmentId);
 
-  /**
-   * Delete a Bookmark.
-   *
-   * @return Response
-   */
-  public function destroy(DeleteBookmarksRequest $request)
-  {
-    $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
-    $this->validateEnvironmentId($environmentId);
-    $userId = (string) $request->user()->id;
+        return new FormattedApiResponse(
+            success: true,
+            data: $bookmark,
+            status: 201
+        );
+    }
 
-    $this->repository->destroy($userId, $environmentId);
+    /**
+     * Delete a Bookmark.
+     *
+     * @return Response
+     */
+    public function destroy(DeleteBookmarksRequest $request)
+    {
+        $environmentId = (string) $request->validated()[ForeignKeyCol::environments];
+        $this->validateEnvironmentId($environmentId);
+        $userId = (string) $request->user()->id;
 
-    return response()->noContent();
-  }
+        $this->repository->destroy($userId, $environmentId);
 
-  /**
-   * Confirm if the numeric (string) value is a valid Environment ID because PlanetScale DB does not allow foreign keys constraints for data integrity.
-   */
-  private function validateEnvironmentId(string $environmentId)
-  {
-    $isValid = $this->repository->validateEnvironmentId($environmentId);
-    throw_if(!$isValid);
-  }
+        return response()->noContent();
+    }
+
+    /**
+     * Confirm if the numeric (string) value is a valid Environment ID because PlanetScale DB does not allow foreign keys constraints for data integrity.
+     */
+    private function validateEnvironmentId(string $environmentId)
+    {
+        $isValid = $this->repository->validateEnvironmentId($environmentId);
+        throw_if(! $isValid);
+    }
 }
