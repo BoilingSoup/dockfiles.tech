@@ -58,7 +58,7 @@ class CommentsRepository
   }
 
   /**
-   * Store a comment for the Authenticated User with a given Environment string ID.
+   * Store a Comment for the Authenticated User with a given Environment string ID.
    *
    * @return Comments
    */

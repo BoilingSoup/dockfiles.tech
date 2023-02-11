@@ -17,7 +17,6 @@ class BookmarksController extends Controller
   public function __construct(BookmarksRepository $repository)
   {
     $this->repository = $repository;
-    $this->middleware('verified');
   }
 
   /**

@@ -51,7 +51,8 @@ class CACHE_TAGS
 
   public const USER_ALL_BOOKMARKS_IDS = 'USER_ALL_BOOKMARKS_IDS';
 
-  public const REPLIES = "REPLIES";
-
-  public const REPLIES_INDEX = "REPLIES_INDEX";
+  public static function REPLIES_(string $commentId)
+  {
+    return "REPLIES_{$commentId}";
+  }
 }

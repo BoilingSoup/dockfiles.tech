@@ -16,12 +16,13 @@ class RepliesController extends Controller
   public function __construct(RepliesRepository $repository)
   {
     $this->repository = $repository;
+    $this->middleware(["verified", "auth:sanctum"])->except("index");
   }
 
   /**
    * Get a cursor paginated list of Replies for a specific Comment.
    *
-   * @return \Illuminate\Http\Response
+   * @return FormattedApiResponse
    */
   public function index(Request $request)
   {
@@ -34,25 +35,20 @@ class RepliesController extends Controller
   }
 
   /**
-   * Store a newly created resource in storage.
+   * Reply to a Comment.
    *
    * @param  \App\Http\Requests\StoreRepliesRequest  $request
    * @return \Illuminate\Http\Response
    */
   public function store(StoreRepliesRequest $request)
   {
-    //
-  }
+    // content body is validated in repository
+    $reply = $this->repository->store($request);
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Replies  $replies
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Replies $replies)
-  {
-    //
+    return new FormattedApiResponse(
+      success: true,
+      data: $reply,
+    );
   }
 
   /**

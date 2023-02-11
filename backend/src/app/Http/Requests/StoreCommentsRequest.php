@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Traits\CommentsRepliesRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class StoreCommentsRequest extends FormRequest
 {
+  use CommentsRepliesRules;
+
   /**
    * Determine if the user is authorized to make this request.
    *
@@ -24,8 +27,6 @@ class StoreCommentsRequest extends FormRequest
    */
   public function rules()
   {
-    return [
-      "content" => ["required", "max:200", "min:4"]
-    ];
+    return $this->commentsAndRepliesRules();
   }
 }
