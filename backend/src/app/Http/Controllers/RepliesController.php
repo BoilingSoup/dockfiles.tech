@@ -52,18 +52,6 @@ class RepliesController extends Controller
   }
 
   /**
-   * Update the specified resource in storage.
-   *
-   * @param  \App\Http\Requests\UpdateRepliesRequest  $request
-   * @param  \App\Models\Replies  $replies
-   * @return \Illuminate\Http\Response
-   */
-  public function update(UpdateRepliesRequest $request, Replies $replies)
-  {
-    //
-  }
-
-  /**
    * Remove the specified resource from storage.
    *
    * @param  \App\Models\Replies  $replies

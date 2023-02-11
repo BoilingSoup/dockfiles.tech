@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Cache;
 
 class RepliesRepository
 {
+  /**
+   * Get a paginated list of Replies for a specific Comment.
+   * 
+   * @return Replies
+   */
   public function index(Request $request)
   {
     $commentId = $request->id;

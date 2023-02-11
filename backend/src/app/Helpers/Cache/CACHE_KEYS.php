@@ -88,7 +88,7 @@ class CACHE_KEYS
     return "USER_{$userId}_ALL_BOOKMARKS_IDS";
   }
 
-  public static function REPLIES_(string $commentId, string $cursor)
+  public static function REPLIES_(string $commentId, string | null $cursor)
   {
     $cursor = $cursor ?? 'NULL';
 
