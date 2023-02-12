@@ -176,6 +176,35 @@ export const getEnvironmentDetails = (stringId: string) => async () => {
   return (await apiFetch.get(`environments/${stringId}`)) as EnvironmentDetailsResponse;
 };
 
+export type RepliesData = {
+  id: number;
+  content: string;
+  is_read: boolean;
+  author_id: number;
+  recipient_id: number;
+  comment_id: number;
+};
+
+export type RepliesPage = {
+  success: boolean;
+  data: {
+    data: RepliesData[];
+    path: string;
+    per_page: number;
+    next_cursor: string | null;
+    next_page_url: string | null;
+    prev_cursor: string | null;
+    prev_page_url: string | null;
+  };
+};
+
+export function getReplies({ commentId, cursor }: { commentId: number; cursor?: string }) {
+  return async function () {
+    const endpoint = `comments/${commentId}/replies?cursor=${cursor}`;
+    return (await apiFetch.get(endpoint)) as RepliesPage;
+  };
+}
+
 /** React Query mutation helpers */
 export type LoginFormValues = {
   email: string;
@@ -220,11 +249,12 @@ export const attemptLogout = async (): Promise<Response> => {
     },
   });
 
-  if (response.ok || response.status === 401) { // 401 === session timed out
-    return new Response() // success
+  if (response.ok || response.status === 401) {
+    // 401 === session timed out
+    return new Response(); // success
   }
 
-  throw new Error("Something went wrong.")
+  throw new Error("Something went wrong.");
 };
 
 export const logoutSuccessNotification = () => {

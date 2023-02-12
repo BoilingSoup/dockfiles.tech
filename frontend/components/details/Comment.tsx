@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData } from "../../hooks/api/helpers";
 import { contentSx, expandRepliesSx, paperSx, repliesBoxSx, replyButtonSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
+import { ShowRepliesButton } from "./_showRepliesButton";
 
 type Props = {
   data: CommentData;
@@ -28,15 +29,7 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
             <IconArrowBackUp />
             <Text ml={6}>reply</Text>
           </Box>
-          {data.replies_count > 0 && (
-            <Box component="button" ml={40} sx={expandRepliesSx}>
-              <IconChevronDown />
-              <Text ml={4}>
-                {data.replies_count > 1 && `${data.replies_count} replies`}
-                {data.replies_count === 1 && `${data.replies_count} reply`}
-              </Text>
-            </Box>
-          )}
+          {data.replies_count > 0 && <ShowRepliesButton comment={data} />}
           {isDeleteable && (
             <ActionIcon ml="auto" aria-label="delete comment">
               <IconTrash />

@@ -5,6 +5,7 @@ const ENVIRONMENTS = "environments";
 const COMMENTS = "comments";
 const BOOKMARKS = "bookmarks";
 const LIKES = "likes";
+const REPLIES = "replies";
 
 const INITIAL_SEARCH_PARAM = "";
 
@@ -36,5 +37,8 @@ export const queryKeys = {
   },
   bookmarkLikeStatus(id: number) {
     return [BOOKMARKS, LIKES, id];
+  },
+  replies({ commentId, cursor = "" }: { commentId: number; cursor?: string }) {
+    return [REPLIES, commentId, cursor];
   },
 };
