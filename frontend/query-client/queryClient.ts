@@ -9,6 +9,7 @@ export const generateQueryClient = () => {
         refetchOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        retry: false,
       },
     },
   });

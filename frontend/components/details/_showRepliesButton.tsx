@@ -5,16 +5,20 @@ import { expandRepliesSx } from "./styles";
 
 type Props = {
   comment: CommentData;
+  onMouseOver: () => void;
+  onClick: () => void;
 };
 
-export const ShowRepliesButton = ({ comment }: Props) => {
+export const ShowRepliesButton = ({ comment, onMouseOver: mouseOverHandler, onClick: clickHandler }: Props) => {
   return (
-    <Box component="button" ml={40} sx={expandRepliesSx}>
-      <IconChevronDown />
-      <Text ml={4}>
-        {comment.replies_count > 1 && `${comment.replies_count} replies`}
-        {comment.replies_count === 1 && `${comment.replies_count} reply`}
-      </Text>
-    </Box>
+    <>
+      <Box onClick={clickHandler} onMouseOver={mouseOverHandler} component="button" ml={40} sx={expandRepliesSx}>
+        <IconChevronDown />
+        <Text ml={4}>
+          {comment.replies_count > 1 && `${comment.replies_count} replies`}
+          {comment.replies_count === 1 && `${comment.replies_count} reply`}
+        </Text>
+      </Box>
+    </>
   );
 };
