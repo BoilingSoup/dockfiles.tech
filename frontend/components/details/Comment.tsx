@@ -1,9 +1,9 @@
 import { ActionIcon, Box, Paper, Text } from "@mantine/core";
-import { IconArrowBackUp, IconChevronDown, IconTrash } from "@tabler/icons";
+import { IconArrowBackUp, IconTrash } from "@tabler/icons";
 import { forwardRef } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData } from "../../hooks/api/helpers";
-import { contentSx, expandRepliesSx, paperSx, repliesBoxSx, replyButtonSx } from "./styles";
+import { contentSx, paperSx, repliesBoxSx, replyButtonSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { ShowRepliesButton } from "./_showRepliesButton";
 
@@ -15,6 +15,7 @@ type Ref = HTMLElement;
 
 export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
   const { user } = useAuth();
+  const hasReplies = data.replies_count > 0;
   const isDeleteable = user?.is_admin || data.author.id === user?.id;
 
   const commentBody = (
@@ -29,7 +30,7 @@ export const Comment = forwardRef<Ref, Props>(({ data }: Props, ref) => {
             <IconArrowBackUp />
             <Text ml={6}>reply</Text>
           </Box>
-          {data.replies_count > 0 && <ShowRepliesButton comment={data} />}
+          {hasReplies && <ShowRepliesButton comment={data} />}
           {isDeleteable && (
             <ActionIcon ml="auto" aria-label="delete comment">
               <IconTrash />
