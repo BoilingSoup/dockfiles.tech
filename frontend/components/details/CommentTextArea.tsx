@@ -1,5 +1,5 @@
 import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
-import { BaseSyntheticEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { AttemptPostCommentMetadata } from "../../hooks/api/helpers";
 import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
@@ -25,8 +25,8 @@ export const CommentTextArea = () => {
     return <> </>;
   }
 
-  const textAreaChangeHandler = (event: BaseSyntheticEvent) => {
-    const currCommentLength = event.target.value.length;
+  const textAreaChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    const currCommentLength = event.target.value.trim().length;
     if (charCountTextRef.current !== null) {
       charCountTextRef.current.innerText = `${MAX_COMMENT_LENGTH - currCommentLength}/${MAX_COMMENT_LENGTH}`;
     }
