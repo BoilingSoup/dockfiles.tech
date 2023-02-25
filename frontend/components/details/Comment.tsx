@@ -53,7 +53,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {isDeleteable(comment) && <DeleteCommentButton />}
         </Box>
       </Paper>
-      {isLoadingReplies && (
+      {isLoadingReplies && showReplies && (
         <Center>
           <Loader />
         </Center>
