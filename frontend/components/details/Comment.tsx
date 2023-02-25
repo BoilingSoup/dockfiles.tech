@@ -50,7 +50,10 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       {showReplies &&
         data?.data.data.map((reply) => (
           <Paper key={reply.id} sx={replySx}>
-            {JSON.stringify(reply.content)}
+            <CommentUserInfo author={reply.author.name} avatar={reply.author.avatar} created_at={reply.created_at} />
+            <Text sx={contentSx} component="p">
+              {reply.content}
+            </Text>
           </Paper>
         ))}
     </>

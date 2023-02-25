@@ -183,6 +183,13 @@ export type RepliesData = {
   author_id: number;
   recipient_id: number;
   comment_id: number;
+  created_at: string;
+  author: {
+    id: number;
+    name: string;
+    avatar: string;
+    is_admin: boolean;
+  };
 };
 
 export type RepliesPage = {
