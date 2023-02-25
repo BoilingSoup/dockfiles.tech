@@ -31,7 +31,7 @@ jobs:
       - name: Setup MySQL
         run: |
           sudo systemctl start mysql.service
-          sudo mysql --user=root --password=admin
+          mysql --user=root --password=admin --host=127.0.0.1
           CREATE DATABASE $TEST_DB_DATABASE;
           # CREATE USER '$TEST_DB_USERNAME'@'$TEST_DB_HOST' IDENTIFIED WITH mysql_native_password BY '$TEST_DB_PASSWORD';
           # GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON $TEST_DB_DATABASE.* TO '$TEST_DB_USERNAME'@'$TEST_DB_HOST';
