@@ -7,9 +7,9 @@ jobs:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       TEST_DB_DATABASE: ${{ secrets.TEST_DB_DATABASE }}
-      TEST_DB_HOST: 3306
+      TEST_DB_HOST: ${{ secrets.TEST_DB_HOST }}
       TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
-      TEST_DB_PORT: ${{ secrets.TEST_DB_PORT }}
+      TEST_DB_PORT: 3306
       TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
       ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
       ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
