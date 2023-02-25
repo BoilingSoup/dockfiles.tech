@@ -7,7 +7,7 @@ jobs:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       TEST_DB_DATABASE: ${{ secrets.TEST_DB_DATABASE }}
-      TEST_DB_HOST: ${{ secrets.TEST_DB_HOST }}
+      TEST_DB_HOST: 3306
       TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
       TEST_DB_PORT: ${{ secrets.TEST_DB_PORT }}
       TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
@@ -15,19 +15,26 @@ jobs:
       ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       ADMIN_AVATAR: ${{ secrets.ADMIN_AVATAR }}
-    services:
-      mysql:
-        image: mysql:8.0
-        ports:
-          - 3307:3306
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-        options: --name mysql
+    # services:
+    #   mysql:
+    #     image: mysql:8.0
+    #     ports:
+    #       - 3307:3306
+    #     env:
+    #       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+    #       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+    #     options: --name mysql
     defaults:
       run:
         working-directory: ./backend/src
     steps:
+      - name: Setup MySQL
+        run: |
+          sudo systemctl start mysql.service
+          mysql -u=root -p=$MYSQL_ROOT_PASSWORD
+          CREATE DATABASE $TEST_DB_DATABASE;
+          CREATE USER '$TEST_DB_USERNAME'@'$TEST_DB_HOST' IDENTIFIED WITH mysql_native_password BY '$TEST_DB_PASSWORD';
+          GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON $TEST_DB_DATABASE.* TO '$TEST_DB_USERNAME'@'$TEST_DB_HOST';
       - name: Get code
         uses: actions/checkout@v3
       - name: Cache dependencies
@@ -43,12 +50,12 @@ jobs:
         run: echo "APP_KEY=" > .env
       - name: Generate dummy APP_KEY
         run: php artisan key:generate
-      - name: Wait for MySQL
-        run: |
-          while ! docker exec mysql mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "status" &> /dev/null ; do
-            echo "Waiting for database connection..."
-            sleep 2
-          done
+      # - name: Wait for MySQL
+      #   run: |
+      #     while ! docker exec mysql mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "status" &> /dev/null ; do
+      #       echo "Waiting for database connection..."
+      #       sleep 2
+      #     done
       - name: Run PHPUnit
         run: php artisan test
   jest:
