@@ -1,4 +1,4 @@
-import { Box, Center, Pagination, Paper, Text } from "@mantine/core";
+import { Box, Center, Loader, Pagination, Paper, Text } from "@mantine/core";
 import { forwardRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
@@ -21,7 +21,11 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   const [fetchRepliesEnabled, setFetchRepliesEnabled] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesPage, setRepliesPage] = useState(1);
-  const { data: repliesData } = useReplies({ commentId: comment.id, page: repliesPage, enabled: fetchRepliesEnabled });
+  const { data: repliesData, isLoading: isLoadingReplies } = useReplies({
+    commentId: comment.id,
+    page: repliesPage,
+    enabled: fetchRepliesEnabled,
+  });
 
   const hasReplies = comment.replies_count > 0;
   const isDeleteable = (src: CommentData | RepliesData) => user?.is_admin || src.author.id === user?.id;
@@ -49,6 +53,11 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {isDeleteable(comment) && <DeleteCommentButton />}
         </Box>
       </Paper>
+      {isLoadingReplies && (
+        <Center>
+          <Loader />
+        </Center>
+      )}
       {showReplies && (
         <Box ml={repliesBoxMarginLeft}>
           {repliesData?.data.data.map((reply) => (
@@ -65,7 +74,12 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           ))}
           {repliesData && (
             <Center>
-              <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
+              <Pagination
+                onMouseOver={(e) => console.log(e)}
+                page={repliesPage}
+                onChange={setRepliesPage}
+                total={repliesData.data.last_page}
+              />
             </Center>
           )}
         </Box>

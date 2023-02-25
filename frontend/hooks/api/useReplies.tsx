@@ -1,4 +1,5 @@
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { queryKeys } from "../../query-client/constants";
 import { getReplies } from "./helpers";
 
@@ -9,7 +10,7 @@ type Param = {
 };
 
 export const useReplies = ({ commentId, page, enabled }: Param) => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const { data, isLoading, isFetching, isFetched, isError, error } = useQuery(
     queryKeys.replies({ commentId, page }),
     getReplies({ commentId, page }),
@@ -18,14 +19,14 @@ export const useReplies = ({ commentId, page, enabled }: Param) => {
     }
   );
 
-  // useEffect(() => {
-  //   if (data?.data.next_page_url !== null) {
-  //     queryClient.prefetchQuery(
-  //       queryKeys.replies({ commentId, page: ++page }),
-  //       getReplies({ commentId, page: ++page })
-  //     );
-  //   }
-  // }, [page]);
+  useEffect(() => {
+    if (data?.data.next_page_url !== null) {
+      queryClient.prefetchQuery(
+        queryKeys.replies({ commentId, page: page + 1 }),
+        getReplies({ commentId, page: page + 1 })
+      );
+    }
+  }, [page]);
 
   return { data, isLoading, isFetching, isFetched, isError, error };
 };
