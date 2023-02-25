@@ -11,6 +11,10 @@ jobs:
       TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
       TEST_DB_PORT: ${{ secrets.TEST_DB_PORT }}
       TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
+      SESSION_COOKIE: ${{ secrets.SESSION_COOKIE }}
+      SESSION_DOMAIN: ${{ secrets.SESSION_DOMAIN }}
+      SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
+      SESSION_LIFETIME: ${{ secrets.SESSION_LIFETIME }}
     services:
       mysql:
         image: mysql:8.0
