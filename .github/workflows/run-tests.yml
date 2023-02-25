@@ -1,0 +1,38 @@
+name: Run Tests
+on: [ push, workflow_dispatch ]
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      TEST_DB_DATABASE: ${{ secrets.TEST_DB_DATABASE }}
+      TEST_DB_HOST: ${{ secrets.TEST_DB_HOST }}
+      TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
+      TEST_DB_PORT: ${{ secrets.TEST_DB_PORT }}
+      TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3307:3306
+        env:
+          MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+          MYSQL_DATABASE: $MYSQL_DATABASE
+    defaults:
+      run:
+        working-directory: ./backend/src
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./backend/src/vendor
+          key: composer-deps-${{ hashFiles('./backend/src/composer.lock') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: composer install
+      - name: Run PHPUnit
+        run: php artisan test
