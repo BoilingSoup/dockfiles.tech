@@ -29,19 +29,24 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      # - name: Cache dependencies
-      #   id: cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ./backend/src/vendor
-      #     key: composer-deps-${{ hashFiles('./backend/src/composer.lock') }}
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./backend/src/vendor
+          key: composer-deps-${{ hashFiles('./backend/src/composer.lock') }}
       - name: Install dependencies
-        # if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: composer install
       - name: Create dummy .env
         run: echo "APP_KEY=" > .env
       - name: Generate dummy APP_KEY
         run: php artisan key:generate
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping --host=127.0.0.1:${{ secrets.TEST_DB_PORT }} --password=${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; do
+            sleep 1
+          done
       - name: Run PHPUnit
         run: php artisan test
   jest:
