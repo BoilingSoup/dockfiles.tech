@@ -35,7 +35,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: composer install
       - name: Create dummy .env
-        run: touch .env
+        run: cp .env.example .env
       - name: Generate APP_KEY
         run: php artisan key:generate
       - name: Run PHPUnit
