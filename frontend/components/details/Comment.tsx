@@ -1,10 +1,9 @@
-import { ActionIcon, Box, Paper, Text } from "@mantine/core";
-import { IconArrowBackUp, IconTrash } from "@tabler/icons";
+import { Box, Paper, Text } from "@mantine/core";
 import { forwardRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
-import { contentSx, paperSx, repliesBoxSx, replyButtonSx, replySx } from "./styles";
+import { contentSx, paperSx, repliesBoxSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
 import { ReplyButton } from "./_replyButton";
@@ -38,7 +37,14 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
         </Text>
         <Box sx={repliesBoxSx}>
           <ReplyButton />
-          {hasReplies && <ShowRepliesButton onMouseOver={mouseOverHandler} onClick={clickHandler} comment={comment} />}
+          {hasReplies && (
+            <ShowRepliesButton
+              onMouseOver={mouseOverHandler}
+              onClick={clickHandler}
+              comment={comment}
+              isToggled={showReplies}
+            />
+          )}
           {isDeleteable(comment) && <DeleteCommentButton />}
         </Box>
       </Paper>
