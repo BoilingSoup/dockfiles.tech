@@ -11,6 +11,10 @@ jobs:
       TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
       TEST_DB_PORT: ${{ secrets.TEST_DB_PORT }}
       TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
+      ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
+      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      ADMIN_AVATAR: ${{ secrets.ADMIN_AVATAR }}
     services:
       mysql:
         image: mysql:8.0
