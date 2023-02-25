@@ -49,8 +49,6 @@ jobs:
             echo "Waiting for database connection..."
             sleep 2
           done
-      # - name: Wait for MySQL
-      #   run: sleep 10
       - name: Run PHPUnit
         run: php artisan test
   jest:
