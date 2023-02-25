@@ -72,7 +72,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
               </Box>
             </Paper>
           ))}
-          {repliesData && (
+          {repliesData && repliesData.data.last_page > 1 && (
             <Center>
               <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
             </Center>
