@@ -40,7 +40,26 @@ jobs:
         run: composer install
       - name: Create dummy .env
         run: echo "APP_KEY=" > .env
-      - name: Generate APP_KEY
+      - name: Generate dummy APP_KEY
         run: php artisan key:generate
       - name: Run PHPUnit
         run: php artisan test
+  jest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./frontend/node_modules
+          key: nextjs-deps-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Run Jest
+        run: npm test
