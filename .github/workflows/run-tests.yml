@@ -62,4 +62,4 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run Jest
-        run: npm test
+        run: npx jest --all
