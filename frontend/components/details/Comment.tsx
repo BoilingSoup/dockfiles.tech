@@ -74,12 +74,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           ))}
           {repliesData && (
             <Center>
-              <Pagination
-                onMouseOver={(e) => console.log(e)}
-                page={repliesPage}
-                onChange={setRepliesPage}
-                total={repliesData.data.last_page}
-              />
+              <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
             </Center>
           )}
         </Box>
