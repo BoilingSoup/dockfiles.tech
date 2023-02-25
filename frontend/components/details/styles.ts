@@ -4,6 +4,7 @@ import { colorSchemeHandler } from "../../theme/color-scheme-handler";
 const nameAreaHeight = 70;
 const avatarContainerWidth = 70;
 export const commentsMargin = 14;
+export const repliesBoxMarginLeft = commentsMargin * 7;
 
 export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   background: colorSchemeHandler(colorScheme, {
@@ -21,7 +22,7 @@ export const replySx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
     dark: colors.slate[8],
   }),
   margin: commentsMargin,
-  marginLeft: commentsMargin * 6,
+  marginLeft: 0,
   padding: 14,
   paddingBottom: 8,
 });

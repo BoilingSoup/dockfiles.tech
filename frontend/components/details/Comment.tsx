@@ -1,9 +1,9 @@
-import { Box, Paper, Text } from "@mantine/core";
+import { Box, Center, Pagination, Paper, Text } from "@mantine/core";
 import { forwardRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
-import { contentSx, paperSx, repliesBoxSx, replySx } from "./styles";
+import { contentSx, paperSx, repliesBoxMarginLeft, repliesBoxSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
 import { ReplyButton } from "./_replyButton";
@@ -48,19 +48,27 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {isDeleteable(comment) && <DeleteCommentButton />}
         </Box>
       </Paper>
-      {showReplies &&
-        data?.data.data.map((reply) => (
-          <Paper key={reply.id} sx={replySx}>
-            <CommentUserInfo author={reply.author.name} avatar={reply.author.avatar} created_at={reply.created_at} />
-            <Text sx={contentSx} component="p">
-              {reply.content}
-            </Text>
-            <Box sx={repliesBoxSx}>
-              <ReplyButton />
-              {isDeleteable(reply) && <DeleteCommentButton />}
-            </Box>
-          </Paper>
-        ))}
+      {showReplies && (
+        <Box ml={repliesBoxMarginLeft}>
+          {data?.data.data.map((reply) => (
+            <Paper key={reply.id} sx={replySx}>
+              <CommentUserInfo author={reply.author.name} avatar={reply.author.avatar} created_at={reply.created_at} />
+              <Text sx={contentSx} component="p">
+                {reply.content}
+              </Text>
+              <Box sx={repliesBoxSx}>
+                <ReplyButton />
+                {isDeleteable(reply) && <DeleteCommentButton />}
+              </Box>
+            </Paper>
+          ))}
+          {showReplies && (
+            <Center>
+              <Pagination page={1} onChange={() => {}} total={10} />
+            </Center>
+          )}
+        </Box>
+      )}
     </>
   );
 
