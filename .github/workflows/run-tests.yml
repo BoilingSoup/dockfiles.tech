@@ -24,9 +24,9 @@ jobs:
     #       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
     #       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
     #     options: --name mysql
-    defaults:
-      run:
-        working-directory: ./backend/src
+    # defaults:
+    #   run:
+    #     working-directory: ./backend/src
     steps:
       - name: Setup MySQL
         run: |
@@ -47,8 +47,10 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: composer install
       - name: Create dummy .env
+        working-directory: ./backend/src
         run: echo "APP_KEY=" > .env
       - name: Generate dummy APP_KEY
+        working-directory: ./backend/src
         run: php artisan key:generate
       # - name: Wait for MySQL
       #   run: |
@@ -57,6 +59,7 @@ jobs:
       #       sleep 2
       #     done
       - name: Run PHPUnit
+        working-directory: ./backend/src
         run: php artisan test
   jest:
     runs-on: ubuntu-latest
