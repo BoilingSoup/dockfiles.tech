@@ -42,5 +42,7 @@ jobs:
         run: cp .env.example .env
       - name: Generate APP_KEY
         run: php artisan key:generate
+      - name: Run migrations
+        run: php artisan migrate:fresh
       - name: Run PHPUnit
         run: php artisan test
