@@ -6,6 +6,7 @@ import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
 import { contentSx, paperSx, repliesBoxSx, replyButtonSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
+import { DeleteCommentButton } from "./_deleteCommentButton";
 import { ShowRepliesButton } from "./_showRepliesButton";
 
 type Props = {
@@ -40,11 +41,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
             <Text ml={6}>reply</Text>
           </Box>
           {hasReplies && <ShowRepliesButton onMouseOver={mouseOverHandler} onClick={clickHandler} comment={comment} />}
-          {isDeleteable(comment) && (
-            <ActionIcon ml="auto" aria-label="delete comment">
-              <IconTrash />
-            </ActionIcon>
-          )}
+          {isDeleteable(comment) && <DeleteCommentButton />}
         </Box>
       </Paper>
       {showReplies &&
@@ -54,13 +51,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
             <Text sx={contentSx} component="p">
               {reply.content}
             </Text>
-            <Box sx={repliesBoxSx}>
-              {isDeleteable(reply) && (
-                <ActionIcon ml="auto" aria-label="delete comment">
-                  <IconTrash />
-                </ActionIcon>
-              )}
-            </Box>
+            <Box sx={repliesBoxSx}>{isDeleteable(reply) && <DeleteCommentButton />}</Box>
           </Paper>
         ))}
     </>
