@@ -26,6 +26,13 @@ export const useReplies = ({ commentId, page, enabled }: Param) => {
         getReplies({ commentId, page: page + 1 })
       );
     }
+
+    if (data?.data.prev_page_url !== null) {
+      queryClient.prefetchQuery(
+        queryKeys.replies({ commentId, page: page - 1 }),
+        getReplies({ commentId, page: page - 1 })
+      );
+    }
   }, [page]);
 
   return { data, isLoading, isFetching, isFetched, isError, error };
