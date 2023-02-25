@@ -29,7 +29,7 @@ class RepliesRepository
       function () use ($commentId) {
         return Replies::where(ForeignKeyCol::comments, $commentId)
           ->with('author:id,name,avatar,is_admin')
-          ->orderBy('created_at', 'desc')
+          ->orderBy('created_at')
           ->paginate(perPage: 3);
       }
     );
@@ -51,7 +51,7 @@ class RepliesRepository
     $reply = Replies::create([
       'content' => $content,
       ForeignKeyCol::reply_author => Auth::user()->id,
-      ForeignKeyCol::reply_recipient => $comment[ForeignKeyCol::users],
+      ForeignKeyCol::reply_recipient => $comment[ForeignKeyCol::users], // TODO: reply to a reply will get recipient id from request body
       ForeignKeyCol::comments => $comment->id,
     ]);
 
