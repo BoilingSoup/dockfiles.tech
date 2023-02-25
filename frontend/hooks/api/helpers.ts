@@ -210,9 +210,11 @@ export type RepliesPage = {
   };
 };
 
-export function getReplies({ commentId, cursor }: { commentId: number; cursor?: string }) {
+export function getReplies({ commentId, page }: { commentId: number; page: number }) {
+  const endpoint = `comments/${commentId}/replies?page=${page}`;
+  console.log(endpoint);
   return async function () {
-    const endpoint = `comments/${commentId}/replies?cursor=${cursor}`;
+    const endpoint = `comments/${commentId}/replies?page=${page}`;
     return (await apiFetch.get(endpoint)) as RepliesPage;
   };
 }

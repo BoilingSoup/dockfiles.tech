@@ -18,14 +18,15 @@ type Ref = HTMLElement;
 export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) => {
   const { user } = useAuth();
 
-  const [fetchReplies, setFetchReplies] = useState(false);
+  const [fetchRepliesEnabled, setFetchRepliesEnabled] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  const { data } = useReplies({ commentId: comment.id, fetchReplies });
+  const [repliesPage, setRepliesPage] = useState(1);
+  const { data: repliesData } = useReplies({ commentId: comment.id, page: repliesPage, enabled: fetchRepliesEnabled });
 
   const hasReplies = comment.replies_count > 0;
   const isDeleteable = (src: CommentData | RepliesData) => user?.is_admin || src.author.id === user?.id;
 
-  const mouseOverHandler = () => setFetchReplies(true);
+  const mouseOverHandler = () => setFetchRepliesEnabled(true);
   const clickHandler = () => setShowReplies((prev) => !prev);
 
   const commentBody = (
@@ -50,7 +51,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       </Paper>
       {showReplies && (
         <Box ml={repliesBoxMarginLeft}>
-          {data?.data.data.map((reply) => (
+          {repliesData?.data.data.map((reply) => (
             <Paper key={reply.id} sx={replySx}>
               <CommentUserInfo author={reply.author.name} avatar={reply.author.avatar} created_at={reply.created_at} />
               <Text sx={contentSx} component="p">
@@ -62,9 +63,9 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
               </Box>
             </Paper>
           ))}
-          {showReplies && (
+          {repliesData && (
             <Center>
-              <Pagination page={1} onChange={() => {}} total={10} />
+              <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
             </Center>
           )}
         </Box>

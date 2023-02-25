@@ -38,7 +38,7 @@ export const queryKeys = {
   bookmarkLikeStatus(id: number) {
     return [BOOKMARKS, LIKES, id];
   },
-  replies({ commentId, cursor = "" }: { commentId: number; cursor?: string }) {
-    return [REPLIES, commentId, cursor];
+  replies({ commentId, page }: { commentId: number; page: number }) {
+    return [REPLIES, commentId, page];
   },
 };

@@ -4,12 +4,28 @@ import { getReplies } from "./helpers";
 
 type Param = {
   commentId: number;
-  cursor?: string;
-  fetchReplies: boolean;
+  page: number;
+  enabled: boolean;
 };
 
-export const useReplies = ({ commentId, cursor, fetchReplies }: Param) => {
-  return useQuery(queryKeys.replies({ commentId, cursor }), getReplies({ commentId, cursor }), {
-    enabled: fetchReplies,
-  });
+export const useReplies = ({ commentId, page, enabled }: Param) => {
+  // const queryClient = useQueryClient();
+  const { data, isLoading, isFetching, isFetched, isError, error } = useQuery(
+    queryKeys.replies({ commentId, page }),
+    getReplies({ commentId, page }),
+    {
+      enabled,
+    }
+  );
+
+  // useEffect(() => {
+  //   if (data?.data.next_page_url !== null) {
+  //     queryClient.prefetchQuery(
+  //       queryKeys.replies({ commentId, page: ++page }),
+  //       getReplies({ commentId, page: ++page })
+  //     );
+  //   }
+  // }, [page]);
+
+  return { data, isLoading, isFetching, isFetched, isError, error };
 };
