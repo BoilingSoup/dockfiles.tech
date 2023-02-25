@@ -34,5 +34,7 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: composer install
+      - name: Generate APP_KEY
+        run: php artisan key:generate
       - name: Run PHPUnit
         run: php artisan test
