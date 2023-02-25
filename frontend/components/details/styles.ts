@@ -15,6 +15,17 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   paddingBottom: 8,
 });
 
+export const replySx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  background: colorSchemeHandler(colorScheme, {
+    light: colors.blue[0],
+    dark: colors.slate[8],
+  }),
+  margin: commentsMargin,
+  marginLeft: commentsMargin * 6,
+  padding: 14,
+  paddingBottom: 8,
+});
+
 export const boxSx = (): CSSObject => ({
   display: "flex",
   alignItems: "center",
@@ -45,7 +56,7 @@ export const contentSx = (): CSSObject => ({
   marginLeft: avatarContainerWidth,
   paddingBottom: 10,
   fontSize: "1.1rem",
-  overflowWrap: "break-word"
+  overflowWrap: "break-word",
 });
 
 export const repliesBoxSx = (): CSSObject => ({

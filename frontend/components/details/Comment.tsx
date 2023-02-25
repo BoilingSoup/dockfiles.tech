@@ -4,7 +4,7 @@ import { forwardRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
-import { contentSx, paperSx, repliesBoxSx, replyButtonSx } from "./styles";
+import { contentSx, paperSx, repliesBoxSx, replyButtonSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { ShowRepliesButton } from "./_showRepliesButton";
 
@@ -47,7 +47,12 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           )}
         </Box>
       </Paper>
-      {showReplies && data?.data.data.map((reply) => <Paper sx={paperSx}>{JSON.stringify(reply.content)}</Paper>)}
+      {showReplies &&
+        data?.data.data.map((reply) => (
+          <Paper key={reply.id} sx={replySx}>
+            {JSON.stringify(reply.content)}
+          </Paper>
+        ))}
     </>
   );
 
