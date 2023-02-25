@@ -180,7 +180,6 @@ export type RepliesData = {
   id: number;
   content: string;
   is_read: boolean;
-  author_id: number;
   recipient_id: number;
   comment_id: number;
   created_at: string;
