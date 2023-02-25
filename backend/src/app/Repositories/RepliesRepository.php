@@ -29,8 +29,8 @@ class RepliesRepository
       function () use ($commentId) {
         return Replies::where(ForeignKeyCol::comments, $commentId)
           ->with('author:id,name,avatar,is_admin')
-          ->orderBy('created_at')
-          ->cursorPaginate(perPage: 5);
+          ->orderBy('created_at', 'desc')
+          ->paginate(perPage: 5);
       }
     );
   }
