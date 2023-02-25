@@ -44,7 +44,7 @@ jobs:
         run: php artisan key:generate
       - name: Wait for MySQL
         run: |
-          while ! mysqladmin ping --host=127.0.0.1:$TEST_DB_PORT --password=$MYSQL_ROOT_PASSWORD --silent; do
+          while ! mysqladmin ping --host=127.0.0.1:"$TEST_DB_HOST" --password="$MYSQL_ROOT_PASSWORD" --silent; do
             sleep 1
           done
       - name: Run PHPUnit
