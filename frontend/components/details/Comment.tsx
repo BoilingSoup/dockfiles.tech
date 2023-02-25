@@ -2,7 +2,7 @@ import { ActionIcon, Box, Paper, Text } from "@mantine/core";
 import { IconArrowBackUp, IconTrash } from "@tabler/icons";
 import { forwardRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
-import { CommentData } from "../../hooks/api/helpers";
+import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
 import { contentSx, paperSx, repliesBoxSx, replyButtonSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
@@ -22,7 +22,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   const { data } = useReplies({ commentId: comment.id, fetchReplies });
 
   const hasReplies = comment.replies_count > 0;
-  const isDeleteable = user?.is_admin || comment.author.id === user?.id;
+  const isDeleteable = (src: CommentData | RepliesData) => user?.is_admin || src.author.id === user?.id;
 
   const mouseOverHandler = () => setFetchReplies(true);
   const clickHandler = () => setShowReplies((prev) => !prev);
@@ -40,7 +40,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
             <Text ml={6}>reply</Text>
           </Box>
           {hasReplies && <ShowRepliesButton onMouseOver={mouseOverHandler} onClick={clickHandler} comment={comment} />}
-          {isDeleteable && (
+          {isDeleteable(comment) && (
             <ActionIcon ml="auto" aria-label="delete comment">
               <IconTrash />
             </ActionIcon>
@@ -54,6 +54,13 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
             <Text sx={contentSx} component="p">
               {reply.content}
             </Text>
+            <Box sx={repliesBoxSx}>
+              {isDeleteable(reply) && (
+                <ActionIcon ml="auto" aria-label="delete comment">
+                  <IconTrash />
+                </ActionIcon>
+              )}
+            </Box>
           </Paper>
         ))}
     </>
