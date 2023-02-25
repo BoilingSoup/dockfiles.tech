@@ -22,10 +22,10 @@ class RepliesRepository
   public function index(Request $request)
   {
     $commentId = $request->id;
-    $cursor = $request->cursor;
+    $page = $request->page;
 
     return Cache::tags([CACHE_TAGS::REPLIES_($commentId)])->rememberForever(
-      CACHE_KEYS::REPLIES_($commentId, $cursor),
+      CACHE_KEYS::REPLIES_($commentId, $page),
       function () use ($commentId) {
         return Replies::where(ForeignKeyCol::comments, $commentId)
           ->with('author:id,name,avatar,is_admin')
