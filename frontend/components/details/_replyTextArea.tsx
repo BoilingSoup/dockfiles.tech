@@ -5,7 +5,7 @@ import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation"
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
 import { MAX_COMMENT_LENGTH } from "./constants";
-import { commentsMargin, paperSx } from "./styles";
+import { commentsMargin, paperSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
@@ -65,7 +65,7 @@ export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
   };
 
   return (
-    <Paper ml={0} sx={paperSx} pb={14}>
+    <Paper ml={0} sx={replySx} pb={14}>
       <CommentUserInfo avatar={user.avatar} author={user.name} />
       <form onSubmit={submitHandler}>
         <Textarea

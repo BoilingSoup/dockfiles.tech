@@ -9,6 +9,7 @@ import { DeleteCommentButton } from "./_deleteCommentButton";
 import { RepliesContainer } from "./_repliesContainer";
 import { Reply } from "./_reply";
 import { ReplyButton } from "./_replyButton";
+import { ReplyTextArea } from "./_replyTextArea";
 import { ShowRepliesButton } from "./_showRepliesButton";
 
 type Props = {
@@ -35,8 +36,9 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   const toggleShowRepliesHandler = () => setShowReplies((prev) => !prev);
 
   // Post reply state management
-  // const [showReplyForm, setShowReplyForm] = useState(false);
-  // const showReplyFormHandler = () => setShowReplyForm(true);
+  const [showReplyTextArea, setShowReplyTextArea] = useState(false);
+  const replyButtonClickHandler = () => setShowReplyTextArea(true);
+  const cancelReplyHandler = () => setShowReplyTextArea(false);
 
   const commentBody = (
     <>
@@ -46,7 +48,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {comment.content}
         </Text>
         <Box sx={repliesBoxSx}>
-          <ReplyButton onClick={() => {}} />
+          <ReplyButton onClick={replyButtonClickHandler} />
           {hasReplies && (
             <ShowRepliesButton
               onMouseOver={enableFetchRepliesHandler}
@@ -58,6 +60,11 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {isDeleteable(comment) && <DeleteCommentButton />}
         </Box>
       </Paper>
+      {showReplyTextArea && (
+        <RepliesContainer>
+          <ReplyTextArea onCancel={cancelReplyHandler} />
+        </RepliesContainer>
+      )}
       {isLoadingReplies && showReplies && (
         <Center>
           <Loader />
