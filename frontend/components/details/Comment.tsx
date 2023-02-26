@@ -67,7 +67,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
         <RepliesContainer>
           <Fragment>
             {repliesData?.data.data.map((reply) => (
-              <Reply data={reply} />
+              <Reply key={reply.id} data={reply} />
             ))}
             {repliesData && repliesData.data.last_page > 1 && (
               <Center>

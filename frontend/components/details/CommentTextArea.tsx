@@ -10,7 +10,11 @@ import { CommentUserInfo } from "./_commentUserInfo";
 
 export const initialCharCountText = `${MAX_COMMENT_LENGTH}/${MAX_COMMENT_LENGTH}`;
 
-export const CommentTextArea = () => {
+type Props = {
+  ml?: number;
+};
+
+export const CommentTextArea = ({ ml }: Props) => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
@@ -63,7 +67,7 @@ export const CommentTextArea = () => {
   };
 
   return (
-    <Paper sx={paperSx} pb={14}>
+    <Paper ml={ml} sx={paperSx} pb={14}>
       <CommentUserInfo avatar={user.avatar} author={user.name} />
       <form onSubmit={submitHandler}>
         <Textarea
