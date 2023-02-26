@@ -1,11 +1,12 @@
 import { Box, Center, Loader, Pagination, Paper, Text } from "@mantine/core";
-import { forwardRef, useState } from "react";
+import { forwardRef, Fragment, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
 import { contentSx, paperSx, repliesBoxMarginLeft, repliesBoxSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
+import { RepliesContainer } from "./_repliesContainer";
 import { Reply } from "./_reply";
 import { ReplyButton } from "./_replyButton";
 import { ShowRepliesButton } from "./_showRepliesButton";
@@ -63,16 +64,18 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
         </Center>
       )}
       {showReplies && (
-        <Box ml={repliesBoxMarginLeft}>
-          {repliesData?.data.data.map((reply) => (
-            <Reply data={reply} />
-          ))}
-          {repliesData && repliesData.data.last_page > 1 && (
-            <Center>
-              <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
-            </Center>
-          )}
-        </Box>
+        <RepliesContainer>
+          <Fragment>
+            {repliesData?.data.data.map((reply) => (
+              <Reply data={reply} />
+            ))}
+            {repliesData && repliesData.data.last_page > 1 && (
+              <Center>
+                <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
+              </Center>
+            )}
+          </Fragment>
+        </RepliesContainer>
       )}
     </>
   );
