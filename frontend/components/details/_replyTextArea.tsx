@@ -1,16 +1,14 @@
 import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
-import { AttemptPostCommentMetadata } from "../../hooks/api/helpers";
 import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
+import { initialCharCountText } from "./CommentTextArea";
 import { MAX_COMMENT_LENGTH } from "./constants";
 import { commentsMargin, paperSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
-export const initialCharCountText = `${MAX_COMMENT_LENGTH}/${MAX_COMMENT_LENGTH}`;
-
-export const CommentTextArea = () => {
+export const ReplyTextArea = () => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
@@ -48,22 +46,22 @@ export const CommentTextArea = () => {
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    if (textAreaRef.current) {
-      const payload: AttemptPostCommentMetadata = {
-        stringId,
-        charCountTextRef,
-        textAreaRef,
-        setButtonIsEnabled,
-        body: {
-          content: textAreaRef.current.value.trim(),
-        },
-      };
-      postCommentMutation(payload);
-    }
+    // if (textAreaRef.current) {
+    //   const payload: AttemptPostCommentMetadata = {
+    //     stringId,
+    //     charCountTextRef,
+    //     textAreaRef,
+    //     setButtonIsEnabled,
+    //     body: {
+    //       content: textAreaRef.current.value.trim(),
+    //     },
+    //   };
+    //   postCommentMutation(payload);
+    // }
   };
 
   return (
-    <Paper sx={paperSx} pb={14}>
+    <Paper ml={0} sx={paperSx} pb={14}>
       <CommentUserInfo avatar={user.avatar} author={user.name} />
       <form onSubmit={submitHandler}>
         <Textarea

@@ -2,11 +2,11 @@ import { Box, Paper, Text } from "@mantine/core";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { RepliesData } from "../../hooks/api/helpers";
-import { CommentTextArea } from "./CommentTextArea";
 import { contentSx, repliesBoxSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
 import { ReplyButton } from "./_replyButton";
+import { ReplyTextArea } from "./_replyTextArea";
 
 type Props = {
   data: RepliesData;
@@ -32,7 +32,7 @@ export const Reply = ({ data: reply }: Props) => {
           {isDeleteable(reply) && <DeleteCommentButton />}
         </Box>
       </Paper>
-      {showReplyTextArea && <CommentTextArea ml={0} />}
+      {showReplyTextArea && <ReplyTextArea />}
     </>
   );
 };
