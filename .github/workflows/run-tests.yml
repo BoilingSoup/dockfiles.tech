@@ -2,7 +2,7 @@ name: Run Tests
 on: [ push, workflow_dispatch ]
 jobs:
   phpunit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       TEST_DB_DATABASE: ${{ secrets.TEST_DB_DATABASE }}
       TEST_DB_HOST: ${{ secrets.TEST_DB_HOST }}
@@ -41,7 +41,7 @@ jobs:
         working-directory: ./backend/src
         run: php artisan test
   jest:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: ./frontend
