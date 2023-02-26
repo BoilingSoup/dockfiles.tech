@@ -5,7 +5,7 @@ import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation"
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
 import { MAX_COMMENT_LENGTH } from "./constants";
-import { commentsMargin, paperSx, replySx } from "./styles";
+import { commentsMargin, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
