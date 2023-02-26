@@ -2,6 +2,7 @@ import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
+import { usePostReplyMutation } from "../../hooks/api/usePostReplyMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
 import { MAX_COMMENT_LENGTH } from "./constants";
@@ -15,7 +16,7 @@ type Props = {
 export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
   const { user } = useAuth();
   const stringId = useStringId();
-  const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
+  const { mutate: postCommentMutation, isLoading } = usePostReplyMutation();
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const charCountTextRef = useRef<HTMLParagraphElement>(null);

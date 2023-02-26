@@ -472,3 +472,15 @@ export const postCommentSuccessNotification = () => {
     styles: notificationStyles,
   });
 };
+
+export type AttemptPostReplyMetadata = {
+  stringId: string;
+  body: {
+    content: string;
+  };
+  textAreaRef: RefObject<HTMLTextAreaElement>;
+  charCountTextRef: RefObject<HTMLParagraphElement>;
+  setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
+};
+
+export const attemptPostReply = async (param: AttemptPostReplyMetadata) => {};
