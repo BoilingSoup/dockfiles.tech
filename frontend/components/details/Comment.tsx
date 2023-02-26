@@ -3,9 +3,10 @@ import { forwardRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
-import { contentSx, paperSx, repliesBoxMarginLeft, repliesBoxSx, replySx } from "./styles";
+import { contentSx, paperSx, repliesBoxMarginLeft, repliesBoxSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
+import { Reply } from "./_reply";
 import { ReplyButton } from "./_replyButton";
 import { ShowRepliesButton } from "./_showRepliesButton";
 
@@ -18,6 +19,7 @@ type Ref = HTMLElement;
 export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) => {
   const { user } = useAuth();
 
+  // Get replies state management
   const [fetchRepliesEnabled, setFetchRepliesEnabled] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesPage, setRepliesPage] = useState(1);
@@ -26,12 +28,14 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
     page: repliesPage,
     enabled: fetchRepliesEnabled,
   });
-
   const hasReplies = comment.replies_count > 0;
   const isDeleteable = (src: CommentData | RepliesData) => user?.is_admin || src.author.id === user?.id;
+  const enableFetchRepliesHandler = () => setFetchRepliesEnabled(true);
+  const toggleShowRepliesHandler = () => setShowReplies((prev) => !prev);
 
-  const mouseOverHandler = () => setFetchRepliesEnabled(true);
-  const clickHandler = () => setShowReplies((prev) => !prev);
+  // Post reply state management
+  // const [showReplyForm, setShowReplyForm] = useState(false);
+  // const showReplyFormHandler = () => setShowReplyForm(true);
 
   const commentBody = (
     <>
@@ -41,11 +45,11 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {comment.content}
         </Text>
         <Box sx={repliesBoxSx}>
-          <ReplyButton />
+          <ReplyButton onClick={() => {}} />
           {hasReplies && (
             <ShowRepliesButton
-              onMouseOver={mouseOverHandler}
-              onClick={clickHandler}
+              onMouseOver={enableFetchRepliesHandler}
+              onClick={toggleShowRepliesHandler}
               comment={comment}
               isToggled={showReplies}
             />
@@ -61,16 +65,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       {showReplies && (
         <Box ml={repliesBoxMarginLeft}>
           {repliesData?.data.data.map((reply) => (
-            <Paper key={reply.id} sx={replySx}>
-              <CommentUserInfo author={reply.author.name} avatar={reply.author.avatar} created_at={reply.created_at} />
-              <Text sx={contentSx} component="p">
-                {reply.content}
-              </Text>
-              <Box sx={repliesBoxSx}>
-                <ReplyButton />
-                {isDeleteable(reply) && <DeleteCommentButton />}
-              </Box>
-            </Paper>
+            <Reply data={reply} />
           ))}
           {repliesData && repliesData.data.last_page > 1 && (
             <Center>

@@ -2,9 +2,13 @@ import { Box, Text } from "@mantine/core";
 import { IconArrowBackUp } from "@tabler/icons";
 import { replyButtonSx } from "./styles";
 
-export const ReplyButton = () => {
+type Props = {
+  onClick: () => void;
+};
+
+export const ReplyButton = ({ onClick: clickHandler }: Props) => {
   return (
-    <Box component="button" sx={replyButtonSx}>
+    <Box onClick={clickHandler} component="button" sx={replyButtonSx}>
       <IconArrowBackUp />
       <Text ml={6}>reply</Text>
     </Box>
