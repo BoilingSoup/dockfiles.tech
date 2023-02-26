@@ -8,7 +8,11 @@ import { MAX_COMMENT_LENGTH } from "./constants";
 import { commentsMargin, paperSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
-export const ReplyTextArea = () => {
+type Props = {
+  onCancel: () => void;
+};
+
+export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postCommentMutation, isLoading } = usePostCommmentMutation();
@@ -80,14 +84,10 @@ export const ReplyTextArea = () => {
           <Text ml={commentsMargin} component="p" ref={charCountTextRef}>
             {initialCharCountText}
           </Text>
-          <Button
-            type="submit"
-            disabled={!buttonIsEnabled || isLoading}
-            display="block"
-            px={40}
-            ml="auto"
-            mr={commentsMargin}
-          >
+          <Button ml="auto" onClick={cancelReplyHandler}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={!buttonIsEnabled || isLoading} display="block" px={40} mr={commentsMargin}>
             {isLoading ? <Loader color={colors.navy[6]} size="sm" /> : "Submit"}
           </Button>
         </Group>

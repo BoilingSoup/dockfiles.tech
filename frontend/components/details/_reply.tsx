@@ -17,6 +17,7 @@ export const Reply = ({ data: reply }: Props) => {
   const [showReplyTextArea, setShowReplyTextArea] = useState(false);
 
   const replyButtonClickHandler = () => setShowReplyTextArea(true);
+  const cancelReplyHandler = () => setShowReplyTextArea(false);
 
   const isDeleteable = (src: RepliesData) => user?.is_admin || src.author.id === user?.id;
 
@@ -32,7 +33,7 @@ export const Reply = ({ data: reply }: Props) => {
           {isDeleteable(reply) && <DeleteCommentButton />}
         </Box>
       </Paper>
-      {showReplyTextArea && <ReplyTextArea />}
+      {showReplyTextArea && <ReplyTextArea onCancel={cancelReplyHandler} />}
     </>
   );
 };
