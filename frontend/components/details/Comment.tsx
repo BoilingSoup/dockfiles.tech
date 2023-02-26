@@ -3,7 +3,7 @@ import { forwardRef, Fragment, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
 import { useReplies } from "../../hooks/api/useReplies";
-import { contentSx, paperSx, repliesBoxMarginLeft, repliesBoxSx } from "./styles";
+import { contentSx, paperSx, repliesBoxSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
 import { RepliesContainer } from "./_repliesContainer";
