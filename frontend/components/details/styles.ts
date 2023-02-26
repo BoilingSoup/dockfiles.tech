@@ -16,10 +16,10 @@ export const paperSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   paddingBottom: 8,
 });
 
-export const replySx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+export const replySx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   background: colorSchemeHandler(colorScheme, {
-    light: colors.blue[0],
-    dark: colors.slate[8],
+    light: fn.lighten(colors.blue[1], 0.3),
+    dark: fn.darken(colors.slate[8], 0.15),
   }),
   margin: commentsMargin,
   marginLeft: 0,
