@@ -20,20 +20,22 @@ export const useReplies = ({ commentId, page, enabled }: Param) => {
   );
 
   useEffect(() => {
-    if (enabled && data?.data.next_page_url !== null) {
+    const nextPageExists = data?.data.next_page_url !== null && data?.data.next_page_url !== undefined;
+    if (enabled && nextPageExists) {
       queryClient.prefetchQuery(
         queryKeys.replies({ commentId, page: page + 1 }),
         getReplies({ commentId, page: page + 1 })
       );
     }
 
-    if (enabled && data?.data.prev_page_url !== null) {
+    const prevPageExists = data?.data.prev_page_url !== null && data?.data.prev_page_url !== undefined;
+    if (enabled && prevPageExists) {
       queryClient.prefetchQuery(
         queryKeys.replies({ commentId, page: page - 1 }),
         getReplies({ commentId, page: page - 1 })
       );
     }
-  }, [page]);
+  }, [page, data, enabled]);
 
   return { data, isLoading, isFetching, isFetched, isError, error };
 };

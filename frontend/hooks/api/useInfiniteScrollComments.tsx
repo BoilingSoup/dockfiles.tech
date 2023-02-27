@@ -63,7 +63,7 @@ export const useInfiniteScrollComments = (stringId: string) => {
    * Only the `nthFromLast` comment receives the callback ref to add that Comment to the IntersectionObserver
    * @returns 2d array of Comments components.
    */
-  const nthFromLast = 6; // when 6th from last comment is visible in the viewport, fetch more data.
+  const nthFromLast = 8; // when 8th from last comment is visible in the viewport, fetch more data.
   const comments = data?.pages.map((pg, i) => {
     const isLastPage = data.pages.length === i + 1;
     const commentsPerPage = data.pages[0].meta.per_page;

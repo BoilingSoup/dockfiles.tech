@@ -1,8 +1,7 @@
 import { Box, Center, Loader, Pagination, Paper, Text } from "@mantine/core";
 import { forwardRef, Fragment, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
-import { CommentData, RepliesData } from "../../hooks/api/helpers";
-import { useReplies } from "../../hooks/api/useReplies";
+import { CommentData, RepliesData, RepliesPage } from "../../hooks/api/helpers";
 import { contentSx, paperSx, repliesBoxSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
@@ -22,18 +21,16 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   const { user } = useAuth();
 
   // Get replies state management
-  const [fetchRepliesEnabled, setFetchRepliesEnabled] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const toggleShowRepliesHandler = () => setShowReplies((prev) => !prev);
   const [repliesPage, setRepliesPage] = useState(1);
-  const { data: repliesData, isLoading: isLoadingReplies } = useReplies({
-    commentId: comment.id,
-    page: repliesPage,
-    enabled: fetchRepliesEnabled,
-  });
+
+  const [repliesData, setRepliesData] = useState<RepliesPage | undefined>(undefined);
+  const [isLoadingReplies, setIsLoadingReplies] = useState(false);
+
+  // Derived state
   const hasReplies = comment.replies_count > 0;
   const isDeleteable = (src: CommentData | RepliesData) => user?.is_admin || src.author.id === user?.id;
-  const enableFetchRepliesHandler = () => setFetchRepliesEnabled(true);
-  const toggleShowRepliesHandler = () => setShowReplies((prev) => !prev);
 
   // Post reply state management
   const [showReplyTextArea, setShowReplyTextArea] = useState(false);
@@ -51,10 +48,12 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           <ReplyButton onClick={replyButtonClickHandler} />
           {hasReplies && (
             <ShowRepliesButton
-              onMouseOver={enableFetchRepliesHandler}
               onClick={toggleShowRepliesHandler}
+              onLoadingStateChange={setIsLoadingReplies}
+              onRepliesDataStateChange={setRepliesData}
               comment={comment}
               isToggled={showReplies}
+              repliesPage={repliesPage}
             />
           )}
           {isDeleteable(comment) && <DeleteCommentButton />}
