@@ -103,7 +103,7 @@ export const usePostReplyMutation = () => {
         for (let page of clone.pages) {
           for (let comment of page.data) {
             if (comment.id === param.comment.id) {
-              comment.replies_count = 1;
+              comment.replies_count += 1;
             }
           }
         }
