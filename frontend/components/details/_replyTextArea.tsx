@@ -6,13 +6,14 @@ import { AttemptPostReplyMetadata, CommentData } from "../../hooks/api/helpers";
 import { usePostReplyMutation } from "../../hooks/api/usePostReplyMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
-import { MAX_COMMENT_LENGTH } from "./constants";
+import { COMMENT, MAX_COMMENT_LENGTH, REPLY } from "./constants";
 import { commentsMargin, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
   onHide: () => void;
   comment: CommentData;
+  parentType: typeof COMMENT | typeof REPLY;
 };
 
 export const ReplyTextArea = ({ onHide: hideTextAreaHandler }: Props) => {
