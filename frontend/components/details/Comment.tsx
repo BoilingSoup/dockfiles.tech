@@ -35,7 +35,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   // Post reply state management
   const [showReplyTextArea, setShowReplyTextArea] = useState(false);
   const replyButtonClickHandler = () => setShowReplyTextArea(true);
-  const cancelReplyHandler = () => setShowReplyTextArea(false);
+  const hideReplyTextAreaHandler = () => setShowReplyTextArea(false);
 
   const commentBody = (
     <>
@@ -61,7 +61,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       </Paper>
       {showReplyTextArea && (
         <RepliesContainer>
-          <ReplyTextArea onCancel={cancelReplyHandler} />
+          <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} />
         </RepliesContainer>
       )}
       {isLoadingReplies && showReplies && (
@@ -73,7 +73,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
         <RepliesContainer>
           <Fragment>
             {repliesData?.data.data.map((reply) => (
-              <Reply key={reply.id} data={reply} />
+              <Reply key={reply.id} data={reply} comment={comment} />
             ))}
             {repliesData && repliesData.data.last_page > 1 && (
               <Center>

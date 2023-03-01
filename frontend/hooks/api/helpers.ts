@@ -481,6 +481,9 @@ export type AttemptPostReplyMetadata = {
   textAreaRef: RefObject<HTMLTextAreaElement>;
   charCountTextRef: RefObject<HTMLParagraphElement>;
   setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
+  hideTextAreaHandler: () => void;
 };
 
-export const attemptPostReply = async (param: AttemptPostReplyMetadata) => {};
+export const attemptPostReply = async (param: AttemptPostReplyMetadata) => {
+  apiFetch.post(`comments/`);
+};

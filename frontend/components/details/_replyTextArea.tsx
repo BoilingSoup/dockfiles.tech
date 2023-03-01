@@ -1,7 +1,8 @@
 import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
-import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
+import { AttemptPostReplyMetadata, CommentData } from "../../hooks/api/helpers";
+// import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
 import { usePostReplyMutation } from "../../hooks/api/usePostReplyMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
@@ -10,13 +11,14 @@ import { commentsMargin, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
-  onCancel: () => void;
+  onHide: () => void;
+  comment: CommentData;
 };
 
-export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
+export const ReplyTextArea = ({ onHide: hideTextAreaHandler }: Props) => {
   const { user } = useAuth();
   const stringId = useStringId();
-  const { mutate: postCommentMutation, isLoading } = usePostReplyMutation();
+  const { mutate: postReplyMutation, isLoading } = usePostReplyMutation();
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const charCountTextRef = useRef<HTMLParagraphElement>(null);
@@ -51,18 +53,19 @@ export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    // if (textAreaRef.current) {
-    //   const payload: AttemptPostCommentMetadata = {
-    //     stringId,
-    //     charCountTextRef,
-    //     textAreaRef,
-    //     setButtonIsEnabled,
-    //     body: {
-    //       content: textAreaRef.current.value.trim(),
-    //     },
-    //   };
-    //   postCommentMutation(payload);
-    // }
+    if (textAreaRef.current) {
+      const payload: AttemptPostReplyMetadata = {
+        stringId,
+        charCountTextRef,
+        textAreaRef,
+        setButtonIsEnabled,
+        body: {
+          content: textAreaRef.current.value.trim(),
+        },
+        hideTextAreaHandler,
+      };
+      postReplyMutation(payload);
+    }
   };
 
   return (
@@ -76,8 +79,8 @@ export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
           minRows={4}
           mx={commentsMargin}
           mb={commentsMargin}
-          placeholder="Add a comment"
-          aria-label="Add a comment"
+          placeholder="Reply to the comment"
+          aria-label="Reply to the comment above"
           withAsterisk
           disabled={isLoading}
         />
@@ -85,7 +88,7 @@ export const ReplyTextArea = ({ onCancel: cancelReplyHandler }: Props) => {
           <Text ml={commentsMargin} component="p" ref={charCountTextRef}>
             {initialCharCountText}
           </Text>
-          <Button ml="auto" onClick={cancelReplyHandler}>
+          <Button ml="auto" onClick={hideTextAreaHandler}>
             Cancel
           </Button>
           <Button type="submit" disabled={!buttonIsEnabled || isLoading} display="block" px={40} mr={commentsMargin}>
