@@ -23,9 +23,9 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   // Get replies state management
   const [showReplies, setShowReplies] = useState(false);
   const toggleShowRepliesHandler = () => setShowReplies((prev) => !prev);
-  const [repliesPage, setRepliesPage] = useState(1);
+  const [repliesPageNum, setRepliesPageNum] = useState(1);
 
-  const [repliesData, setRepliesData] = useState<RepliesPage | undefined>(undefined);
+  const [repliesPage, setRepliesPage] = useState<RepliesPage | undefined>(undefined);
   const [isLoadingReplies, setIsLoadingReplies] = useState(false);
 
   // Derived state
@@ -50,10 +50,10 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
             <ShowRepliesButton
               onClick={toggleShowRepliesHandler}
               onLoadingStateChange={setIsLoadingReplies}
-              onRepliesDataStateChange={setRepliesData}
+              onRepliesDataStateChange={setRepliesPage}
               comment={comment}
               isToggled={showReplies}
-              repliesPage={repliesPage}
+              repliesPageNum={repliesPageNum}
             />
           )}
           {isDeleteable(comment) && <DeleteCommentButton />}
@@ -61,7 +61,14 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       </Paper>
       {showReplyTextArea && (
         <RepliesContainer>
-          <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} />
+          <ReplyTextArea
+            onHide={hideReplyTextAreaHandler}
+            comment={comment}
+            onReply={(repliesPage: RepliesPage) => {
+              setRepliesPage(repliesPage);
+              setShowReplies(true);
+            }}
+          />
         </RepliesContainer>
       )}
       {isLoadingReplies && showReplies && (
@@ -72,12 +79,12 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       {showReplies && (
         <RepliesContainer>
           <Fragment>
-            {repliesData?.data.data.map((reply) => (
+            {repliesPage?.data.data.map((reply) => (
               <Reply key={reply.id} data={reply} comment={comment} />
             ))}
-            {repliesData && repliesData.data.last_page > 1 && (
+            {repliesPage && repliesPage.data.last_page > 1 && (
               <Center>
-                <Pagination page={repliesPage} onChange={setRepliesPage} total={repliesData.data.last_page} />
+                <Pagination page={repliesPageNum} onChange={setRepliesPageNum} total={repliesPage.data.last_page} />
               </Center>
             )}
           </Fragment>

@@ -11,7 +11,7 @@ type Props = {
   onRepliesDataStateChange: Dispatch<SetStateAction<RepliesPage | undefined>>;
   comment: CommentData;
   isToggled: boolean;
-  repliesPage: number;
+  repliesPageNum: number;
 };
 
 export const ShowRepliesButton = ({
@@ -20,14 +20,14 @@ export const ShowRepliesButton = ({
   onRepliesDataStateChange: setRepliesData,
   comment,
   isToggled,
-  repliesPage,
+  repliesPageNum,
 }: Props) => {
   const [fetchRepliesEnabled, setFetchRepliesEnabled] = useState(false);
   const enableFetchRepliesHandler = () => setFetchRepliesEnabled(true);
 
   const { data: repliesData, isLoading: isLoadingReplies } = useReplies({
     commentId: comment.id,
-    page: repliesPage,
+    page: repliesPageNum,
     enabled: fetchRepliesEnabled,
   });
 

@@ -1,8 +1,7 @@
 import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
-import { AttemptPostReplyMetadata, CommentData, RepliesData } from "../../hooks/api/helpers";
-// import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
+import { AttemptPostReplyMetadata, CommentData, RepliesData, RepliesPage } from "../../hooks/api/helpers";
 import { usePostReplyMutation } from "../../hooks/api/usePostReplyMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
@@ -14,10 +13,10 @@ type Props = {
   onHide: () => void;
   comment: CommentData;
   reply?: RepliesData;
-  // parentType: typeof COMMENT | typeof REPLY;
+  onReply?: (repliesPage: RepliesPage) => void;
 };
 
-export const ReplyTextArea = ({ onHide: hideTextAreaHandler, comment, reply }: Props) => {
+export const ReplyTextArea = ({ onHide: hideTextAreaHandler, comment, reply, onReply: showRepliesHandler }: Props) => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postReplyMutation, isLoading } = usePostReplyMutation();
@@ -67,6 +66,7 @@ export const ReplyTextArea = ({ onHide: hideTextAreaHandler, comment, reply }: P
         },
         comment,
         hideTextAreaHandler,
+        showRepliesHandler,
       };
       postReplyMutation(payload);
     }

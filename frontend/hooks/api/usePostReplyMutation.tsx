@@ -1,17 +1,11 @@
 import { setCookie } from "cookies-next";
-import { InfiniteData, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { initialCharCountText } from "../../components/details/CommentTextArea";
 import { USER_DATA_COOKIE_KEY } from "../../components/layout/constants";
 import { DEFAULT_AVATAR } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { queryKeys } from "../../query-client/constants";
-import {
-  attemptPostComment,
-  AttemptPostCommentMetadata,
-  attemptPostReply,
-  AttemptPostReplyMetadata,
-  CommentsPage,
-} from "./helpers";
+import { AttemptPostCommentMetadata, attemptPostReply, AttemptPostReplyMetadata, RepliesPage } from "./helpers";
 import { USER_DATA_NULL_COOKIE_VALUE } from "./useLogoutMutation";
 
 export const usePostReplyMutation = () => {
@@ -30,30 +24,74 @@ export const usePostReplyMutation = () => {
 
   return useMutation((param: AttemptPostReplyMetadata) => attemptPostReply(param), {
     onSuccess: (_, param) => {
-      console.log(param);
-      // queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
-      //   const clone: InfiniteData<CommentsPage> = JSON.parse(JSON.stringify(prev));
-      //   const created_at = new Date().toISOString().split("T")[0];
-      //   const avatar = user!.avatar ?? DEFAULT_AVATAR;
+      queryClient.setQueryData<RepliesPage | undefined>(
+        queryKeys.replies({ commentId: param.comment.id, page: 1 }),
+        (prev) => {
+          const created_at = new Date().toISOString().split("T")[0];
+          const avatar = user!.avatar ?? DEFAULT_AVATAR;
 
-      //   clone.pages[0].data.unshift({
-      //     author: {
-      //       avatar: avatar,
-      //       id: user!.id,
-      //       is_admin: user!.is_admin,
-      //       name: user!.name,
-      //     }, // user must be authenticated if posting comment was successful
-      //     content: param.body.content,
-      //     id: Math.floor(Math.random() * -100000), // random placeholder ID until refetch is complete
-      //     created_at: created_at,
-      //     environment_id: 10,
-      //     replies_count: 0,
-      //   });
+          if (prev !== undefined) {
+            const clone: RepliesPage = JSON.parse(JSON.stringify(prev));
 
-      //   return clone;
-      // });
+            clone.data.data.unshift({
+              author: {
+                avatar: avatar,
+                id: user!.id,
+                is_admin: user!.is_admin,
+                name: user!.name,
+              }, // user must be authenticated if posting comment was successful
+              content: param.body.content,
+              id: Math.floor(Math.random() * -100000), // random placeholder ID until refetch is complete
+              created_at: created_at,
+              comment_id: param.comment.id,
+              is_read: false,
+              recipient_id: param.body.recipient_id ? +param.body.recipient_id : param.comment.id,
+            });
+
+            return clone;
+          }
+
+          const queryData: RepliesPage = {
+            success: true,
+            data: {
+              data: [
+                {
+                  id: 1,
+                  content: param.body.content,
+                  is_read: false,
+                  recipient_id: param.body.recipient_id ? +param.body.recipient_id : param.comment.id,
+                  comment_id: param.comment.id,
+                  created_at,
+                  author: {
+                    avatar,
+                    id: user!.id,
+                    is_admin: user!.is_admin,
+                    name: user!.name,
+                  },
+                },
+              ],
+              current_page: 1,
+              first_page_url: "placeholder",
+              from: 1111,
+              last_page: 1,
+              last_page_url: "placeholder",
+              links: [],
+              next_page_url: null,
+              path: "placholder",
+              per_page: 3,
+              prev_page_url: null,
+              to: 1111,
+              total: 1,
+            },
+          };
+          if (param.showRepliesHandler !== undefined) param.showRepliesHandler(queryData);
+
+          return queryData;
+        }
+      );
 
       resetFormState(param);
+      param.hideTextAreaHandler();
     },
     onError: () => {
       setUser(null);

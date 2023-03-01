@@ -476,6 +476,10 @@ export const postCommentSuccessNotification = () => {
 export type AttemptPostReplyMetadata = {
   stringId: string;
   comment: CommentData;
+  /**
+   * Body should not include a recipient_id if the Reply target is a Comment.
+   * Include a recipient_id if the target of this Reply is another Reply.
+   */
   body: {
     content: string;
     recipient_id?: string;
@@ -484,8 +488,9 @@ export type AttemptPostReplyMetadata = {
   charCountTextRef: RefObject<HTMLParagraphElement>;
   setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
   hideTextAreaHandler: () => void;
+  showRepliesHandler?: (repliesPage: RepliesPage) => void;
 };
 
-export const attemptPostReply = async (param: AttemptPostReplyMetadata) => {
-  apiFetch.post(`comments/${param.comment.id}/replies`, param.body);
+export const attemptPostReply = async ({ comment, body }: AttemptPostReplyMetadata) => {
+  return apiFetch.post(`comments/${comment.id}/replies`, body);
 };
