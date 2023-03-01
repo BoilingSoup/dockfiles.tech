@@ -475,8 +475,10 @@ export const postCommentSuccessNotification = () => {
 
 export type AttemptPostReplyMetadata = {
   stringId: string;
+  comment: CommentData;
   body: {
     content: string;
+    recipient_id?: string;
   };
   textAreaRef: RefObject<HTMLTextAreaElement>;
   charCountTextRef: RefObject<HTMLParagraphElement>;
@@ -485,5 +487,5 @@ export type AttemptPostReplyMetadata = {
 };
 
 export const attemptPostReply = async (param: AttemptPostReplyMetadata) => {
-  apiFetch.post(`comments/`);
+  apiFetch.post(`comments/${param.comment.id}/replies`, param.body);
 };

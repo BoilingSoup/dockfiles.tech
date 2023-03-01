@@ -30,6 +30,7 @@ export const usePostReplyMutation = () => {
 
   return useMutation((param: AttemptPostReplyMetadata) => attemptPostReply(param), {
     onSuccess: (_, param) => {
+      console.log(param);
       // queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
       //   const clone: InfiniteData<CommentsPage> = JSON.parse(JSON.stringify(prev));
       //   const created_at = new Date().toISOString().split("T")[0];

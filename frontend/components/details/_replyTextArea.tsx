@@ -1,22 +1,23 @@
 import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
-import { AttemptPostReplyMetadata, CommentData } from "../../hooks/api/helpers";
+import { AttemptPostReplyMetadata, CommentData, RepliesData } from "../../hooks/api/helpers";
 // import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
 import { usePostReplyMutation } from "../../hooks/api/usePostReplyMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
-import { COMMENT, MAX_COMMENT_LENGTH, REPLY } from "./constants";
+import { MAX_COMMENT_LENGTH } from "./constants";
 import { commentsMargin, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
   onHide: () => void;
   comment: CommentData;
-  parentType: typeof COMMENT | typeof REPLY;
+  reply?: RepliesData;
+  // parentType: typeof COMMENT | typeof REPLY;
 };
 
-export const ReplyTextArea = ({ onHide: hideTextAreaHandler }: Props) => {
+export const ReplyTextArea = ({ onHide: hideTextAreaHandler, comment, reply }: Props) => {
   const { user } = useAuth();
   const stringId = useStringId();
   const { mutate: postReplyMutation, isLoading } = usePostReplyMutation();
@@ -62,7 +63,9 @@ export const ReplyTextArea = ({ onHide: hideTextAreaHandler }: Props) => {
         setButtonIsEnabled,
         body: {
           content: textAreaRef.current.value.trim(),
+          recipient_id: reply !== undefined ? reply.author.id.toString() : undefined,
         },
+        comment,
         hideTextAreaHandler,
       };
       postReplyMutation(payload);

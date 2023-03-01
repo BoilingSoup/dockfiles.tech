@@ -2,7 +2,6 @@ import { Box, Center, Loader, Pagination, Paper, Text } from "@mantine/core";
 import { forwardRef, Fragment, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData, RepliesPage } from "../../hooks/api/helpers";
-import { COMMENT } from "./constants";
 import { contentSx, paperSx, repliesBoxSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
@@ -62,7 +61,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
       </Paper>
       {showReplyTextArea && (
         <RepliesContainer>
-          <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} parentType={COMMENT} />
+          <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} />
         </RepliesContainer>
       )}
       {isLoadingReplies && showReplies && (
