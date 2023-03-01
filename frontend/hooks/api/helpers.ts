@@ -494,3 +494,12 @@ export type AttemptPostReplyMetadata = {
 export const attemptPostReply = async ({ comment, body }: AttemptPostReplyMetadata) => {
   return apiFetch.post(`comments/${comment.id}/replies`, body);
 };
+
+export const postReplySuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Success!",
+    message: "Your reply was posted.",
+    styles: notificationStyles,
+  });
+};

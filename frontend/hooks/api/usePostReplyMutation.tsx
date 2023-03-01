@@ -10,6 +10,7 @@ import {
   attemptPostReply,
   AttemptPostReplyMetadata,
   CommentsPage,
+  postReplySuccessNotification,
   RepliesPage,
 } from "./helpers";
 import { USER_DATA_NULL_COOKIE_VALUE } from "./useLogoutMutation";
@@ -99,12 +100,18 @@ export const usePostReplyMutation = () => {
       queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
         const clone: InfiniteData<CommentsPage> = JSON.parse(JSON.stringify(prev));
 
+        let commentWasFound = false;
         // could be faster but good for now
         for (let page of clone.pages) {
           for (let comment of page.data) {
             if (comment.id === param.comment.id) {
+              commentWasFound = true;
               comment.replies_count += 1;
+              break;
             }
+          }
+          if (commentWasFound) {
+            break;
           }
         }
 
@@ -113,6 +120,7 @@ export const usePostReplyMutation = () => {
 
       resetFormState(param);
       param.hideTextAreaHandler();
+      postReplySuccessNotification();
     },
     onError: () => {
       setUser(null);
