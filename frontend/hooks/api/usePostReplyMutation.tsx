@@ -52,7 +52,11 @@ export const usePostReplyMutation = () => {
               created_at: created_at,
               comment_id: param.comment.id,
               is_read: false,
-              recipient_id: param.body.recipient_id ? +param.body.recipient_id : param.comment.id,
+              is_meta: false,
+              recipient: {
+                id: param.recipient.id,
+                name: param.recipient.name,
+              },
             });
 
             return clone;
@@ -63,17 +67,21 @@ export const usePostReplyMutation = () => {
             data: {
               data: [
                 {
-                  id: 1,
-                  content: param.body.content,
-                  is_read: false,
-                  recipient_id: param.body.recipient_id ? +param.body.recipient_id : param.comment.id,
-                  comment_id: param.comment.id,
-                  created_at,
                   author: {
                     avatar,
                     id: user!.id,
                     is_admin: user!.is_admin,
                     name: user!.name,
+                  },
+                  content: param.body.content,
+                  id: 1,
+                  created_at,
+                  comment_id: param.comment.id,
+                  is_read: false,
+                  is_meta: true,
+                  recipient: {
+                    id: param.recipient.id,
+                    name: param.recipient.name,
                   },
                 },
               ],

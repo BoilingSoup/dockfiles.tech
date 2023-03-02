@@ -64,6 +64,11 @@ export const ReplyTextArea = ({ onHide: hideTextAreaHandler, comment, reply, onR
           content: textAreaRef.current.value.trim(),
           recipient_id: reply !== undefined ? reply.author.id.toString() : undefined,
         },
+        recipient: {
+          id: reply?.author.id ?? comment.author.id,
+          name: reply?.author.name ?? comment.author.name,
+        },
+        is_meta: reply !== undefined,
         comment,
         hideTextAreaHandler,
         showRepliesHandler,

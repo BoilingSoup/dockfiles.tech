@@ -180,9 +180,13 @@ export type RepliesData = {
   id: number;
   content: string;
   is_read: boolean;
-  recipient_id: number;
+  is_meta: boolean;
   comment_id: number;
   created_at: string;
+  recipient: {
+    id: number;
+    name: string;
+  };
   author: {
     id: number;
     name: string;
@@ -484,6 +488,11 @@ export type AttemptPostReplyMetadata = {
     content: string;
     recipient_id?: string;
   };
+  recipient: {
+    id: number;
+    name: string;
+  };
+  is_meta: boolean;
   textAreaRef: RefObject<HTMLTextAreaElement>;
   charCountTextRef: RefObject<HTMLParagraphElement>;
   setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
