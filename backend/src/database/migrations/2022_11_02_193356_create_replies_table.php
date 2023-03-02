@@ -17,7 +17,8 @@ return new class() extends Migration
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->boolean('is_read')->default(false);
+            $table->boolean('is_read')->default(false)->index();
+            $table->boolean('is_meta');
             $table->foreignId(ForeignKeyCol::reply_author)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
             $table->foreignId(ForeignKeyCol::reply_recipient)->index();
             $table->foreignId(ForeignKeyCol::comments)->index();

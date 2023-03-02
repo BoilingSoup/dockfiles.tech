@@ -45,6 +45,7 @@ class RepliesSeeder extends Seeder
 
         Replies::create([
             'content' => 'This is a reply to the comment above.',
+            'is_meta' => false,
             ForeignKeyCol::reply_author => $admin->id,
             ForeignKeyCol::reply_recipient => $admin->id,
             ForeignKeyCol::comments => $secondDemoComment->id,
