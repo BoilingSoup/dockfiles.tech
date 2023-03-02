@@ -14,51 +14,51 @@ use Illuminate\Support\Facades\Cache;
 
 class RepliesRepository
 {
-  /**
-   * Get a paginated list of Replies for a specific Comment.
-   *
-   * @return Replies
-   */
-  public function index(Request $request)
-  {
-    $commentId = $request->id;
-    $page = $request->page;
+    /**
+     * Get a paginated list of Replies for a specific Comment.
+     *
+     * @return Replies
+     */
+    public function index(Request $request)
+    {
+        $commentId = $request->id;
+        $page = $request->page;
 
-    return Cache::tags([CACHE_TAGS::REPLIES_($commentId)])->rememberForever(
-      CACHE_KEYS::REPLIES_($commentId, $page),
-      function () use ($commentId) {
-        return Replies::where(ForeignKeyCol::comments, $commentId)
-          ->with('author:id,name,avatar,is_admin')
-          ->orderBy('created_at', 'desc')
-          ->paginate(perPage: 3);
-      }
-    );
-  }
+        return Cache::tags([CACHE_TAGS::REPLIES_($commentId)])->rememberForever(
+            CACHE_KEYS::REPLIES_($commentId, $page),
+            function () use ($commentId) {
+                return Replies::where(ForeignKeyCol::comments, $commentId)
+                  ->with('author:id,name,avatar,is_admin')
+                  ->orderBy('created_at', 'desc')
+                  ->paginate(perPage: 3);
+            }
+        );
+    }
 
-  /**
-   * Store a Reply to a Comment in the database.
-   *
-   * @return Replies
-   */
-  public function store(StoreRepliesRequest $request)
-  {
-    $validated = (array) $request->validated();
-    $content = $validated['content'];
-    $recipientId = array_key_exists('recipient_id', $validated) ? $validated['recipient_id'] : null;
+    /**
+     * Store a Reply to a Comment in the database.
+     *
+     * @return Replies
+     */
+    public function store(StoreRepliesRequest $request)
+    {
+        $validated = (array) $request->validated();
+        $content = $validated['content'];
+        $recipientId = array_key_exists('recipient_id', $validated) ? $validated['recipient_id'] : null;
 
-    $commentId = $request->id;
-    $comment = Comments::findOrFail($commentId);
+        $commentId = $request->id;
+        $comment = Comments::findOrFail($commentId);
 
-    $reply = Replies::create([
-      'content' => $content,
-      ForeignKeyCol::reply_author => Auth::user()->id,
-      ForeignKeyCol::reply_recipient => $recipientId ?? $comment[ForeignKeyCol::users],
-      ForeignKeyCol::comments => $comment->id,
-    ]);
+        $reply = Replies::create([
+            'content' => $content,
+            ForeignKeyCol::reply_author => Auth::user()->id,
+            ForeignKeyCol::reply_recipient => $recipientId ?? $comment[ForeignKeyCol::users],
+            ForeignKeyCol::comments => $comment->id,
+        ]);
 
-    Cache::tags([CACHE_TAGS::COMMENTS])->flush();
-    Cache::tags([CACHE_TAGS::REPLIES_($commentId)])->flush();
+        Cache::tags([CACHE_TAGS::COMMENTS])->flush();
+        Cache::tags([CACHE_TAGS::REPLIES_($commentId)])->flush();
 
-    return $reply;
-  }
+        return $reply;
+    }
 }

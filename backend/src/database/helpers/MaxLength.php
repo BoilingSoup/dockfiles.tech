@@ -4,6 +4,8 @@ namespace Database\Helpers;
 
 class MaxLength
 {
+    public const name = 20;
+
     public const comments = 200;
 
     public const description = 380;

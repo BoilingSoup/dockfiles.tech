@@ -17,7 +17,7 @@ return new class() extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
-            $table->string('content', MaxLength::comments);
+            $table->string('content', MaxLength::comments + MaxLength::name + 2); // comment content + name + @ + space
             $table->boolean('is_read')->default(false);
             $table->foreignId(ForeignKeyCol::reply_author)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
             $table->foreignId(ForeignKeyCol::reply_recipient)->index();

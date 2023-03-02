@@ -4,11 +4,11 @@ namespace App\Http\Requests\Traits;
 
 trait CommentsRepliesRules
 {
-  protected function commentsAndRepliesRules(): array
-  {
-    return [
-      'content' => ['required', 'max:200', 'min:4'],
-      'recipient_id' => ['integer']
-    ];
-  }
+    protected function commentsAndRepliesRules(): array
+    {
+        return [
+            'content' => ['required', 'max:200', 'min:4'],
+            'recipient_id' => ['integer'],
+        ];
+    }
 }

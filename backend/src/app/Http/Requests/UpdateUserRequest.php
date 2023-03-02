@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Database\Helpers\MaxLength;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required_without:email', 'string', 'max:20', 'min:4'],
+            'name' => ['required_without:email', 'string', 'max:'.MaxLength::name, 'min:4'],
             'email' => ['required_without:name', 'string', 'email', 'max:30'],
         ];
     }
