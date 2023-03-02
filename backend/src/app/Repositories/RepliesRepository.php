@@ -52,6 +52,7 @@ class RepliesRepository
 
         $reply = Replies::create([
             'content' => $content,
+            'is_meta' => is_null($recipientId) ? false : true,
             ForeignKeyCol::reply_author => Auth::user()->id,
             ForeignKeyCol::reply_recipient => $recipientId ?? $comment[ForeignKeyCol::users],
             ForeignKeyCol::comments => $comment->id,
