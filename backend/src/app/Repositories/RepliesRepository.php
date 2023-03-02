@@ -44,6 +44,7 @@ class RepliesRepository
   {
     $validated = (array) $request->validated();
     $content = $validated['content'];
+    $recipientId = array_key_exists('recipient_id', $validated) ? $validated['recipient_id'] : null;
 
     $commentId = $request->id;
     $comment = Comments::findOrFail($commentId);
@@ -51,7 +52,7 @@ class RepliesRepository
     $reply = Replies::create([
       'content' => $content,
       ForeignKeyCol::reply_author => Auth::user()->id,
-      ForeignKeyCol::reply_recipient => $comment[ForeignKeyCol::users], // TODO: reply to a reply will get recipient id from request body
+      ForeignKeyCol::reply_recipient => $recipientId ?? $comment[ForeignKeyCol::users],
       ForeignKeyCol::comments => $comment->id,
     ]);
 
