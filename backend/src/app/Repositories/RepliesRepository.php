@@ -28,6 +28,7 @@ class RepliesRepository
             CACHE_KEYS::REPLIES_($commentId, $page),
             function () use ($commentId) {
                 return Replies::where(ForeignKeyCol::comments, $commentId)
+                  ->with('recipient:id,name')
                   ->with('author:id,name,avatar,is_admin')
                   ->orderBy('created_at', 'desc')
                   ->paginate(perPage: 3);

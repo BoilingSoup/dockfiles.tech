@@ -11,7 +11,8 @@ class Replies extends Model
     use HasFactory;
 
     protected $hidden = [
-        'author_id',
+        ForeignKeyCol::reply_author,
+        ForeignKeyCol::reply_recipient,
         'updated_at',
     ];
 
