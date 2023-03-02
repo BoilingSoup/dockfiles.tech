@@ -1,7 +1,6 @@
 <?php
 
 use Database\Helpers\ForeignKeyCol;
-use Database\Helpers\MaxLength;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +16,7 @@ return new class() extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
-            $table->string('content', MaxLength::comments + MaxLength::name + 2); // comment content + name + @ + space
+            $table->string('content');
             $table->boolean('is_read')->default(false);
             $table->foreignId(ForeignKeyCol::reply_author)->index(); // PlanetScale doesn't allow foreign key constraints. Enforce data consistency at app-level.
             $table->foreignId(ForeignKeyCol::reply_recipient)->index();
