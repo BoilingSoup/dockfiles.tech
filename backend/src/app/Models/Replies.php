@@ -17,6 +17,7 @@ class Replies extends Model
     ];
 
     protected $casts = [
+        'is_meta' => 'boolean',
         'is_read' => 'boolean',
         'created_at' => 'datetime:Y-m-d',
     ];
