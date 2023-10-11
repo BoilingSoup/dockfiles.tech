@@ -45,7 +45,7 @@ const Download: NextPage = () => {
             <Text component="h3" style={{ fontSize: "2rem", display: "inline" }}>
               or Download zip
             </Text>
-            <Button size="md" ml={50} sx={buttonSx}>
+            <Button component="a" size="md" ml={50} sx={buttonSx} href={directLink ?? ""}>
               Download
             </Button>
           </Center>
