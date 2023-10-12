@@ -52,6 +52,7 @@ export const usePostReplyMutation = () => {
               created_at: created_at,
               comment_id: param.comment.id,
               is_read: false,
+              is_deleted: false,
               is_meta: param.is_meta,
               recipient: {
                 id: param.recipient.id,
@@ -78,6 +79,7 @@ export const usePostReplyMutation = () => {
                   created_at,
                   comment_id: param.comment.id,
                   is_read: false,
+                  is_deleted: false,
                   is_meta: param.is_meta,
                   recipient: {
                     id: param.recipient.id,

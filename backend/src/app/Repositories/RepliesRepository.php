@@ -63,4 +63,19 @@ class RepliesRepository
 
         return $reply;
     }
+
+    public function destroy(Request $request)
+    {
+        $reply = Replies::findOrFail($request->reply_id);
+
+        $isOwner = $reply->author_id === Auth::user()?->id;
+        abort_if(! $isOwner, 403);
+
+        $reply->content = 'This comment was deleted.';
+        $reply->is_deleted = true;
+        $reply->saveOrFail();
+
+        Cache::tags([CACHE_TAGS::COMMENTS])->flush();
+        Cache::tags([CACHE_TAGS::REPLIES_($reply->comment_id)])->flush();
+    }
 }

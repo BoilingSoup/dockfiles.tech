@@ -56,7 +56,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
               repliesPageNum={repliesPageNum}
             />
           )}
-          {isDeleteable(comment) && <DeleteCommentButton />}
+          {isDeleteable(comment) && <DeleteCommentButton onClick={() => {}} />}
         </Box>
       </Paper>
       {showReplyTextArea && (

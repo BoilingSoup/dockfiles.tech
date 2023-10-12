@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRepliesRequest;
 use App\Http\Responses\FormattedApiResponse;
-use App\Models\Replies;
 use App\Repositories\RepliesRepository;
 use Illuminate\Http\Request;
 
@@ -56,8 +55,10 @@ class RepliesController extends Controller
      * @param  \App\Models\Replies  $replies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Replies $replies)
+    public function destroy(Request $request)
     {
-    //
+        $this->repository->destroy($request);
+
+        return response()->noContent();
     }
 }

@@ -1,8 +1,9 @@
-import { Box, Paper, Text, useMantineColorScheme } from "@mantine/core";
+import { Box, Loader, Paper, Text, useMantineColorScheme } from "@mantine/core";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { DARK } from "../../contexts/ColorSchemeProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
+import { useDeleteReplyMutation } from "../../hooks/api/useDeleteReplyMutation";
 import { contentSx, repliesBoxSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
@@ -25,6 +26,12 @@ export const Reply = ({ data: reply, comment }: Props) => {
   const { colorScheme } = useMantineColorScheme();
   const isDarkMode = colorScheme === DARK;
 
+  const { mutate: deleteReplyMutation, isLoading } = useDeleteReplyMutation();
+
+  const handleDelete = () => {
+    deleteReplyMutation({ comment_id: comment.id, reply_id: reply.id });
+  };
+
   return (
     <>
       <Paper sx={replySx}>
@@ -35,11 +42,18 @@ export const Reply = ({ data: reply, comment }: Props) => {
               @{reply.recipient.name}{" "}
             </Text>
           )}
-          {reply.content}
+          {reply.is_deleted ? (
+            <Text italic color="gray.6">
+              {reply.content}
+            </Text>
+          ) : (
+            reply.content
+          )}
         </Text>
         <Box sx={repliesBoxSx}>
           <ReplyButton onClick={replyButtonClickHandler} />
-          {isDeleteable(reply) && <DeleteCommentButton />}
+          {isLoading && <Loader ml="auto" size={20} />}
+          {!isLoading && isDeleteable(reply) && !reply.is_deleted && <DeleteCommentButton onClick={handleDelete} />}
         </Box>
       </Paper>
       {showReplyTextArea && <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} reply={reply} />}
