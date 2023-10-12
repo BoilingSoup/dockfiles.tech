@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageHelper;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserUpdateAvatarRequest;
 use App\Http\Responses\FormattedApiResponse;
 use App\Models\User;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,6 +34,27 @@ class UserController extends Controller
             $this->updateUserIfValidField($validated, 'email');
         }
 
+        Auth::user()->saveOrFail();
+
+        return Auth::user();
+    }
+
+    public function updateAvatar(UserUpdateAvatarRequest $request)
+    {
+        $validated = (array) $request->validated();
+        $newAvatar = $validated['avatar'];
+
+        $currAvatarSrc = Auth::user()->avatar;
+
+        $isCloudinary = ImageHelper::isCloudinaryURL($currAvatarSrc);
+
+        if ($isCloudinary) {
+            Cloudinary::destroy(ImageHelper::UrlToPublicID($currAvatarSrc));
+        }
+
+        $avatarSrc = Cloudinary::upload($newAvatar->getRealPath())->getSecurePath();
+
+        Auth::user()->avatar = $avatarSrc;
         Auth::user()->saveOrFail();
 
         return Auth::user();
