@@ -291,6 +291,15 @@ export const genericErrorNotification = () => {
   });
 };
 
+export const invalidAvatarSizeErrorNotification = () => {
+  showNotification({
+    color: "red",
+    title: "Error",
+    message: "Avatar must be 700kb or less",
+    styles: notificationStyles,
+  });
+};
+
 export const logoutErrorNotification = genericErrorNotification;
 
 export type RegisterFormValues = {

@@ -60,6 +60,26 @@ export default function App(props: AppProps & { data: ServerData }) {
 }
 
 /**
+ * NOTE: from me in late 2023:
+ *
+ * When I started this project, Next13's /app directory was not stable.
+ * Opting into SSR and streaming at a component level was, and still is, impossible when using the /pages directory.
+ *
+ * If I have a layout that needs to be server rendered with getServerSideProps, that meant that EVERY
+ * navigation would triger getServerSideProps. And with the data my layout requires, this made each navigation take a few seconds which was a horrible UX.
+ *
+ * GITHUB ISSUE:
+ * https://github.com/vercel/next.js/discussions/32243
+ *
+ *
+ * The lesson learned from this is definitely DO NOT use /pages AND have a layout that requires SSR.
+ * Instead, change the design so any layout components can be rendered on the client. Or consider using the app router.
+ *
+ *
+ *
+ *
+ * NOTE: all content below is from me in early 2023:
+ *
  * WARNING: Hacky, ugly workaround below...
  *
  * As of now, NextJS does not offer a built-in method to SSR ONLY the initial request.

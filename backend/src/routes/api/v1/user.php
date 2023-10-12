@@ -12,3 +12,5 @@ Route::get('user/environment/{id}/status', [UserController::class, 'checkEnviron
 ->whereNumber('id')
 ->middleware('auth:sanctum')
 ->name('user.checkEnvironmentStatus');
+
+Route::post('user/avatar', [UserController::class, 'updateAvatar'])->middleware(['auth:sanctum']);
