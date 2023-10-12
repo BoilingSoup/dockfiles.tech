@@ -30,7 +30,7 @@ export const usePostReplyMutation = () => {
   };
 
   return useMutation((param: AttemptPostReplyMetadata) => attemptPostReply(param), {
-    onSuccess: (_, param) => {
+    onSuccess: (res, param) => {
       queryClient.setQueryData<RepliesPage | undefined>(
         queryKeys.replies({ commentId: param.comment.id, page: 1 }),
         (prev) => {
@@ -48,7 +48,7 @@ export const usePostReplyMutation = () => {
                 name: user!.name,
               }, // user must be authenticated if posting comment was successful
               content: param.body.content,
-              id: Math.floor(Math.random() * -100000), // random placeholder ID until refetch is complete
+              id: res.data.id,
               created_at: created_at,
               comment_id: param.comment.id,
               is_read: false,
@@ -75,7 +75,7 @@ export const usePostReplyMutation = () => {
                     name: user!.name,
                   },
                   content: param.body.content,
-                  id: 1,
+                  id: res.data.id,
                   created_at,
                   comment_id: param.comment.id,
                   is_read: false,

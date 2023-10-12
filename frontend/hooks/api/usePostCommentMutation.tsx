@@ -91,7 +91,7 @@ export const usePostCommmentMutation = () => {
   };
 
   return useMutation((param: AttemptPostCommentMetadata) => attemptPostComment(param), {
-    onSuccess: (_, param) => {
+    onSuccess: (res, param) => {
       queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
         const clone: InfiniteData<CommentsPage> = JSON.parse(JSON.stringify(prev));
         const created_at = new Date().toISOString().split("T")[0];
@@ -105,10 +105,11 @@ export const usePostCommmentMutation = () => {
             name: user!.name,
           }, // user must be authenticated if posting comment was successful
           content: param.body.content,
-          id: Math.floor(Math.random() * -100000), // random placeholder ID until refetch is complete
+          id: res.data.id,
           created_at: created_at,
           environment_id: 10,
           replies_count: 0,
+          is_deleted: false,
         });
 
         return clone;

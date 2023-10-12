@@ -82,4 +82,20 @@ class CommentsRepository
 
         return $comment;
     }
+
+    public function destroy(Request $request)
+    {
+        $comment = Comments::findOrFail($request->comment);
+
+        $isOwner = $comment->user_id === Auth::user()?->id;
+        abort_if(! $isOwner, 403);
+
+        $comment->content = 'This comment was deleted.';
+        $comment->is_deleted = true;
+        $comment->saveOrFail();
+
+        Cache::tags([CACHE_TAGS::COMMENTS])->flush();
+        Cache::tags([CACHE_TAGS::ENVIRONMENTS])->flush();
+        Cache::tags([CACHE_TAGS::CATEGORIES])->flush();
+    }
 }

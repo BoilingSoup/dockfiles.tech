@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentsRequest;
 use App\Http\Resources\CommentsCollection;
 use App\Http\Responses\FormattedApiResponse;
-use App\Models\Comments;
 use App\Repositories\CommentsRepository;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,7 @@ class CommentsController extends Controller
     public function __construct(CommentsRepository $repository)
     {
         $this->repository = $repository;
-        $this->middleware('verified')->only('store');
+        $this->middleware('verified')->only(['store', 'destroy']);
     }
 
     /**
@@ -62,8 +61,10 @@ class CommentsController extends Controller
         );
     }
 
-    public function destroy(Comments $comments)
+    public function destroy(Request $request)
     {
-    //
+        $this->repository->destroy($request);
+
+        return response()->noContent();
     }
 }

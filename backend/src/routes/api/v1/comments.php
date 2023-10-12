@@ -13,4 +13,5 @@ Route::post('environments/{string_id}/comments/', [CommentsController::class, 's
 
 Route::delete('environments/{string_id}/comments/{comment}', [CommentsController::class, 'destroy'])
   ->middleware('auth:sanctum')
+  ->whereNumber('comment')
   ->name('comments.destroy');

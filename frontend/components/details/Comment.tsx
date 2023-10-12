@@ -41,7 +41,7 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
     <>
       <Paper sx={paperSx}>
         <CommentUserInfo author={comment.author.name} avatar={comment.author.avatar} created_at={comment.created_at} />
-        <Text sx={contentSx} component="p">
+        <Text sx={contentSx} component="p" italic={comment.is_deleted} color={comment.is_deleted ? "gray.6" : ""}>
           {comment.content}
         </Text>
         <Box sx={repliesBoxSx}>

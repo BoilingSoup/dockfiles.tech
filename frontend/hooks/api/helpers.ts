@@ -148,6 +148,7 @@ export type CommentData = {
   environment_id: number;
   created_at: string;
   replies_count: number;
+  is_deleted: boolean;
   author: {
     id: number;
     name: string;
@@ -474,8 +475,18 @@ export type AttemptPostCommentMetadata = {
   setButtonIsEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
+export type PostCommentResponse = {
+  success: boolean;
+  data: {
+    content: string;
+    environment_id: number;
+    created_at: string;
+    id: number;
+  };
+};
+
 export const attemptPostComment = async ({ stringId, body }: AttemptPostCommentMetadata) => {
-  return apiFetch.post(`environments/${stringId}/comments`, body);
+  return (await apiFetch.post(`environments/${stringId}/comments`, body)) as PostCommentResponse;
 };
 
 export const postCommentSuccessNotification = () => {
@@ -510,8 +521,19 @@ export type AttemptPostReplyMetadata = {
   showRepliesHandler?: (repliesPage: RepliesPage) => void;
 };
 
+export type PostReplyResponse = {
+  success: boolean;
+  data: {
+    content: string;
+    is_meta: boolean;
+    comment_id: number;
+    created_at: string;
+    id: number;
+  };
+};
+
 export const attemptPostReply = async ({ comment, body }: AttemptPostReplyMetadata) => {
-  return apiFetch.post(`comments/${comment.id}/replies`, body);
+  return (await apiFetch.post(`comments/${comment.id}/replies`, body)) as Promise<PostReplyResponse>;
 };
 
 export const postReplySuccessNotification = () => {
