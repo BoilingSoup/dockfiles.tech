@@ -155,6 +155,10 @@ export type CommentData = {
     avatar: string;
     is_admin: boolean;
   };
+  environment: {
+    id: number;
+    name: string;
+  };
 };
 
 export type CommentsPage = {
@@ -481,7 +485,17 @@ export type PostCommentResponse = {
     content: string;
     environment_id: number;
     created_at: string;
+    /**
+     * same as data.environment.id
+     */
     id: number;
+    environment: {
+      /**
+       * same as data.id
+       */
+      id: number;
+      name: string;
+    };
   };
 };
 

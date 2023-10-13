@@ -110,6 +110,10 @@ export const usePostCommmentMutation = () => {
           environment_id: 10,
           replies_count: 0,
           is_deleted: false,
+          environment: {
+            id: res.data.id,
+            name: res.data.environment.name,
+          },
         });
 
         return clone;

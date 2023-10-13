@@ -69,7 +69,8 @@ class RepliesRepository
         $reply = Replies::findOrFail($request->reply_id);
 
         $isOwner = $reply->author_id === Auth::user()?->id;
-        abort_if(! $isOwner, 403);
+        $canDelete = $isOwner || Auth::user()?->is_admin;
+        abort_if(! $canDelete, 403);
 
         $reply->content = 'This comment was deleted.';
         $reply->is_deleted = true;

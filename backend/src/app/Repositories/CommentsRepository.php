@@ -31,6 +31,7 @@ class CommentsRepository
 
                 return Comments::where(ForeignKeyCol::environments, $environmentId)
                   ->with('author:id,name,avatar,is_admin')
+                  ->with('environment:id,name')
                   ->withCount('replies')
                   ->orderByDesc('created_at')
                   ->cursorPaginate(perPage: 10);
@@ -68,13 +69,21 @@ class CommentsRepository
         $content = $validated['content'];
 
         $stringId = $request->string_id;
-        $environmentId = Environments::where('string_id', $stringId)->firstOrFail()->id;
+        $environment = Environments::where('string_id', $stringId)->firstOrFail();
+        $environmentId = $environment->id;
+        $environmentName = $environment->name;
 
         $comment = Comments::create([
             'content' => $content,
             ForeignKeyCol::users => Auth::user()->id,
             ForeignKeyCol::environments => $environmentId,
         ]);
+
+        // attach as response JSON
+        $comment->environment = [
+            'id' => $environmentId,
+            'name' => $environmentName,
+        ];
 
         Cache::tags([CACHE_TAGS::COMMENTS])->flush();
         Cache::tags([CACHE_TAGS::ENVIRONMENTS])->flush();
@@ -88,7 +97,8 @@ class CommentsRepository
         $comment = Comments::findOrFail($request->comment);
 
         $isOwner = $comment->user_id === Auth::user()?->id;
-        abort_if(! $isOwner, 403);
+        $canDelete = $isOwner || Auth::user()?->is_admin;
+        abort_if(! $canDelete, 403);
 
         $comment->content = 'This comment was deleted.';
         $comment->is_deleted = true;

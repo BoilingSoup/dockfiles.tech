@@ -2,6 +2,7 @@ import { Box, Center, Loader, Pagination, Paper, Text } from "@mantine/core";
 import { forwardRef, Fragment, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { CommentData, RepliesData, RepliesPage } from "../../hooks/api/helpers";
+import { useDeleteCommentMutation } from "../../hooks/api/useDeleteCommentMutation";
 import { contentSx, paperSx, repliesBoxSx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
 import { DeleteCommentButton } from "./_deleteCommentButton";
@@ -30,7 +31,10 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
 
   // Derived state
   const hasReplies = comment.replies_count > 0;
-  const isDeleteable = (src: CommentData | RepliesData) => user?.is_admin || src.author.id === user?.id;
+  const isDeleteable = (src: CommentData | RepliesData) =>
+    (user?.is_admin || src.author.id === user?.id) && !comment.is_deleted;
+
+  const { mutate: deleteCommentMutation, isLoading } = useDeleteCommentMutation();
 
   // Post reply state management
   const [showReplyTextArea, setShowReplyTextArea] = useState(false);
@@ -56,7 +60,10 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
               repliesPageNum={repliesPageNum}
             />
           )}
-          {isDeleteable(comment) && <DeleteCommentButton onClick={() => {}} />}
+          {isDeleteable(comment) && !isLoading && (
+            <DeleteCommentButton onClick={() => deleteCommentMutation(comment)} />
+          )}
+          {isLoading && <Loader ml="auto" size={20} />}
         </Box>
       </Paper>
       {showReplyTextArea && (
