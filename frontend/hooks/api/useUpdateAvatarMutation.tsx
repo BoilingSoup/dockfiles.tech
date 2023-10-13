@@ -1,18 +1,23 @@
 import { getCookie, setCookie } from "cookies-next";
 import ky from "ky";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { USER_DATA_COOKIE_KEY } from "../../components/layout/constants";
 import { API_URL, SANCTUM } from "../../config/config";
 import { useAuth, User } from "../../contexts/AuthProvider";
+import { COMMENTS } from "../../query-client/constants";
 import { genericErrorNotification, invalidAvatarSizeErrorNotification } from "./helpers";
 
 export const useUpdateAvatarMutation = () => {
   const { setUser } = useAuth();
 
+  const queryClient = useQueryClient();
+
   return useMutation(updateAvatar, {
     onSuccess(user) {
       setUser(user);
       setCookie(USER_DATA_COOKIE_KEY, JSON.stringify(user));
+
+      queryClient.resetQueries([COMMENTS]);
     },
     onError(e) {
       if (e instanceof Error && e.message.includes("700kb")) {

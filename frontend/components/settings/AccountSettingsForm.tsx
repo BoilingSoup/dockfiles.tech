@@ -59,7 +59,6 @@ export const AccountSettingsForm = () => {
     if (emailIsChanged) meta.payload.email = values.email;
 
     return updateUserMutation(meta);
-    // TODO: throttle on backend.
   });
 
   return (

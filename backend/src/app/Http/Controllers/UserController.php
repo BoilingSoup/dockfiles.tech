@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Cache\CACHE_TAGS;
 use App\Helpers\ImageHelper;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -13,6 +14,7 @@ use Database\Helpers\ForeignKeyCol;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -56,6 +58,8 @@ class UserController extends Controller
 
         Auth::user()->avatar = $avatarSrc;
         Auth::user()->saveOrFail();
+
+        Cache::tags([CACHE_TAGS::COMMENTS_INDEX])->flush();
 
         return Auth::user();
     }
