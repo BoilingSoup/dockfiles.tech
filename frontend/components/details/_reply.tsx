@@ -43,7 +43,7 @@ export const Reply = ({ data: reply, comment }: Props) => {
             </Text>
           )}
           {reply.is_deleted ? (
-            <Text italic color="gray.6">
+            <Text italic color={isDarkMode ? "gray.6" : "gray.7"}>
               {reply.content}
             </Text>
           ) : (

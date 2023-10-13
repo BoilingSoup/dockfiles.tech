@@ -1,6 +1,7 @@
-import { Box, Center, Loader, Pagination, Paper, Text } from "@mantine/core";
+import { Box, Center, Loader, Pagination, Paper, Text, useMantineColorScheme } from "@mantine/core";
 import { forwardRef, Fragment, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
+import { DARK } from "../../contexts/ColorSchemeProvider";
 import { CommentData, RepliesData, RepliesPage } from "../../hooks/api/helpers";
 import { useDeleteCommentMutation } from "../../hooks/api/useDeleteCommentMutation";
 import { contentSx, paperSx, repliesBoxSx } from "./styles";
@@ -41,11 +42,21 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
   const replyButtonClickHandler = () => setShowReplyTextArea(true);
   const hideReplyTextAreaHandler = () => setShowReplyTextArea(false);
 
+  const { colorScheme } = useMantineColorScheme();
+  const isDarkMode = colorScheme === DARK;
+
+  let contentColor = "";
+  if (comment.is_deleted && isDarkMode) {
+    contentColor = "gray.6";
+  } else if (comment.is_deleted && !isDarkMode) {
+    contentColor = "gray.7";
+  }
+
   const commentBody = (
     <>
       <Paper sx={paperSx}>
         <CommentUserInfo author={comment.author.name} avatar={comment.author.avatar} created_at={comment.created_at} />
-        <Text sx={contentSx} component="p" italic={comment.is_deleted} color={comment.is_deleted ? "gray.6" : ""}>
+        <Text sx={contentSx} component="p" italic={comment.is_deleted} color={contentColor}>
           {comment.content}
         </Text>
         <Box sx={repliesBoxSx}>
