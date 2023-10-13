@@ -3,14 +3,16 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('user', [UserController::class, 'update'])->name('user.update')
-->middleware('auth:sanctum');
+Route::name('user.')->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('user', [UserController::class, 'update'])->name('update');
 
-Route::post('user/password', [UserController::class, 'changePassword'])->name('user.changePassword');
+        Route::post('user/password', [UserController::class, 'changePassword'])->middleware('verified')->name('user.changePassword');
 
-Route::get('user/environment/{id}/status', [UserController::class, 'checkEnvironmentStatus'])
-->whereNumber('id')
-->middleware('auth:sanctum')
-->name('user.checkEnvironmentStatus');
+        Route::get('user/environment/{id}/status', [UserController::class, 'checkEnvironmentStatus'])
+        ->whereNumber('id')
+        ->name('checkEnvironmentStatus');
 
-Route::post('user/avatar', [UserController::class, 'updateAvatar'])->middleware(['auth:sanctum']);
+        Route::post('user/avatar', [UserController::class, 'updateAvatar'])->name('updateAvatar');
+    });
+});

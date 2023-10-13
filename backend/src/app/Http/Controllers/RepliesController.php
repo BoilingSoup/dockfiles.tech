@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRepliesRequest;
 use App\Http\Responses\FormattedApiResponse;
+use App\Models\Replies;
 use App\Repositories\RepliesRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RepliesController extends Controller
 {
@@ -14,7 +17,6 @@ class RepliesController extends Controller
     public function __construct(RepliesRepository $repository)
     {
         $this->repository = $repository;
-        $this->middleware(['verified', 'auth:sanctum'])->except('index');
     }
 
     /**
@@ -30,6 +32,20 @@ class RepliesController extends Controller
             success: true,
             data: $data,
         );
+    }
+
+    public function received()
+    {
+        $user = Auth::user();
+
+        $replies = Replies::whereRecipientId($user->id)
+              ->whereNot('author_id', '=', $user->id)
+              ->where('is_deleted', false)
+              ->with('author:id,name,avatar')
+              ->orderByDesc(Model::CREATED_AT)
+              ->paginate(perPage: 7);
+
+        return $replies;
     }
 
     /**

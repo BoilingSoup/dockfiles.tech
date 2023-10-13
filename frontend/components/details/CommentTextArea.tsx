@@ -1,6 +1,7 @@
-import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@mantine/core";
+import { Button, Group, Loader, Paper, Text, Textarea, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
+import { DARK } from "../../contexts/ColorSchemeProvider";
 import { AttemptPostCommentMetadata } from "../../hooks/api/helpers";
 import { usePostCommmentMutation } from "../../hooks/api/usePostCommentMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
@@ -62,6 +63,9 @@ export const CommentTextArea = () => {
     }
   };
 
+  const { colorScheme } = useMantineColorScheme();
+  const isDarkMode = colorScheme === DARK;
+
   return (
     <Paper sx={paperSx} pb={14}>
       <CommentUserInfo avatar={user.avatar} author={user.name} />
@@ -77,6 +81,14 @@ export const CommentTextArea = () => {
           aria-label="Add a comment"
           withAsterisk
           disabled={isLoading}
+          styles={(theme) => ({
+            input: {
+              border: isDarkMode ? "" : `1px solid ${theme.colors.dark[3]}`,
+              "::placeholder": {
+                color: isDarkMode ? "" : "black",
+              },
+            },
+          })}
         />
         <Group ml={commentsMargin}>
           <Text ml={commentsMargin} component="p" ref={charCountTextRef}>
@@ -89,6 +101,12 @@ export const CommentTextArea = () => {
             px={40}
             ml="auto"
             mr={commentsMargin}
+            sx={(theme) => ({
+              ":disabled": {
+                border: isDarkMode ? "" : `1px solid ${theme.colors.dark[1]}`,
+                color: isDarkMode ? "" : theme.colors.dark[2],
+              },
+            })}
           >
             {isLoading ? <Loader color={colors.navy[6]} size="sm" /> : "Submit"}
           </Button>

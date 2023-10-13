@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentsRequest;
 use App\Http\Resources\CommentsCollection;
 use App\Http\Responses\FormattedApiResponse;
+use App\Models\Comments;
 use App\Repositories\CommentsRepository;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,11 @@ class CommentsController extends Controller
         $data = $this->repository->index($request);
 
         return new CommentsCollection($data);
+    }
+
+    public function show(int $id)
+    {
+        return Comments::whereId($id)->with('author:id,name,avatar')->get()->firstOrFail();
     }
 
     /**

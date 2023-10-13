@@ -95,6 +95,76 @@ export const asideSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
   }),
 });
 
+export const sidebarSkeletonSx = ({ colors, colorScheme }: MantineTheme): CSSObject => ({
+  "::before": {
+    background: colorSchemeHandler(colorScheme, {
+      light: colors.blue[2],
+      dark: colors.slate[8],
+    }),
+  },
+  "::after": {
+    background: colorSchemeHandler(colorScheme, {
+      light: colors.blue[6],
+      dark: colors.slate[9],
+    }),
+  },
+});
+
+export const sidebarTitleHeight = "62px";
+export const repliesPaginationHeight = "80px";
+
+export const sidebarContentContainerSx: CSSObject = {
+  width: "100%",
+  height: `calc(100% - ${sidebarTitleHeight} - ${repliesPaginationHeight})`,
+  overflowY: "auto",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "space-between",
+};
+
+export const sidebarTitleSx = ({ colorScheme, colors }: MantineTheme): CSSObject => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+  height: "100%",
+  fontWeight: "bold",
+  borderBottom: colorSchemeHandler(colorScheme, {
+    light: `1px solid ${colors.gray[1]}`,
+    dark: `1px solid ${colors.dark[5]}`,
+  }),
+  color: colorSchemeHandler(colorScheme, {
+    light: colors.slate[8],
+  }),
+});
+
+export const sidebarReplyContainerSx =
+  (isRead: boolean) =>
+  ({ colorScheme, colors }: MantineTheme): CSSObject => ({
+    display: "flex",
+    flexDirection: "column",
+    background: colorSchemeHandler(colorScheme, {
+      light: isRead ? `${colors.blue[5]}` : `${colors.blue[4]}`,
+      dark: isRead ? `${colors.slate[9]}` : `${colors.slate[8]}`,
+    }),
+    borderBottom: colorSchemeHandler(colorScheme, {
+      light: `2px solid ${colors.blue[6]}`,
+      dark: `2px solid ${colors.slate[9]}`,
+    }),
+    cursor: "pointer",
+    "&:hover": {
+      background: colorSchemeHandler(colorScheme, { light: colors.cyan[2], dark: colors.slate[6] }),
+      borderLeft: colorSchemeHandler(colorScheme, {
+        light: `2px solid ${colors.blue[6]}`,
+        dark: `2px solid ${colors.slate[9]}`,
+      }),
+      borderTop: colorSchemeHandler(colorScheme, {
+        light: `1px solid ${colors.blue[6]}`,
+        dark: `1px solid ${colors.slate[9]}`,
+      }),
+    },
+  });
+
 export const unauthSidebarSx = ({ colors, colorScheme, fn }: MantineTheme): CSSObject => ({
   background: colorSchemeHandler(colorScheme, {
     dark: fn.darken(colors.slate[9], 0.25),
