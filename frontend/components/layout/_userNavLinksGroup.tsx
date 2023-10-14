@@ -8,23 +8,29 @@ type Props = {
 };
 
 const UserLinks = ({ onLinkClick: navbarCloseHandler, disabled }: Props & { disabled: boolean }) => {
+  const { user } = useAuth();
+
   const bookmarksHref = "/bookmarks";
   const notificationsHref = "/notifications";
   const settingsHref = "/settings";
 
   return (
     <Box onClick={navbarCloseHandler}>
-      <PseudoLink href={bookmarksHref}>
-        <NavLink href={bookmarksHref} text="Bookmarks" disabled={disabled} />
-      </PseudoLink>
-
-      <MediaQuery largerThan="xl" styles={{ display: "none" }}>
-        <Box>
-          <PseudoLink href={notificationsHref}>
-            <NavLink href={notificationsHref} text="Notifications" disabled={disabled} />
+      {user?.email_verified_at && (
+        <>
+          <PseudoLink href={bookmarksHref}>
+            <NavLink href={bookmarksHref} text="Bookmarks" disabled={disabled} />
           </PseudoLink>
-        </Box>
-      </MediaQuery>
+
+          <MediaQuery largerThan="xl" styles={{ display: "none" }}>
+            <Box>
+              <PseudoLink href={notificationsHref}>
+                <NavLink href={notificationsHref} text="Notifications" disabled={disabled} />
+              </PseudoLink>
+            </Box>
+          </MediaQuery>
+        </>
+      )}
 
       <PseudoLink href={settingsHref}>
         <NavLink href={settingsHref} text="Settings" disabled={disabled} />

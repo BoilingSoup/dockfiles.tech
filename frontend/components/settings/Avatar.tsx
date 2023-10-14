@@ -45,7 +45,7 @@ export const Avatar = ({ m, mt, mb }: Props) => {
         <Skeleton pos="absolute" h="100%" w="100%" sx={{ borderRadius: 9999 }} />
         <Loader variant="dots" sx={{ zIndex: 99999999 }} />
       </Center>
-    ) : (
+    ) : user.email_verified_at ? (
       <FileButton resetRef={resetRef} onChange={handleFile} accept="image/png,image/jpeg">
         {(props) => (
           <Box {...props} ref={ref} sx={avatarSx} m={m} mt={mt} mb={mb} ml={"auto"} mr={"auto"} w={140} h={140}>
@@ -60,6 +60,10 @@ export const Avatar = ({ m, mt, mb }: Props) => {
           </Box>
         )}
       </FileButton>
+    ) : (
+      <Box sx={avatarSx} m={m} mt={mt} mb={mb} ml={"auto"} mr={"auto"} w={140} h={140}>
+        <img src={user.avatar ?? DEFAULT_AVATAR} alt="User avatar" width={140} height={140} />
+      </Box>
     ))
   );
 };

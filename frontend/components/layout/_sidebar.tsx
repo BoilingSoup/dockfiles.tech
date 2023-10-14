@@ -37,47 +37,69 @@ const UnauthenticatedSidebar = () => {
 };
 
 const AuthenticatedSidebar = () => {
+  const { user } = useAuth();
+
   const [pageNum, setPageNum] = useState(1);
   const { data, isLoading } = usePollNotifications(pageNum);
+
+  const { colors, colorScheme } = useMantineTheme();
+  const placeholderStyles: CSSProperties = {
+    color: colorSchemeHandler(colorScheme, {
+      dark: colors.slate[7],
+      light: colors.navy[5],
+    }),
+  };
 
   return (
     <Box w="100%" h="100%">
       <Center w="100%" h={sidebarTitleHeight}>
-        <Text sx={sidebarTitleSx}>Replies to your Comments</Text>
+        <Text sx={sidebarTitleSx}>Replies to You</Text>
       </Center>
 
-      {isLoading && (
-        <Center w="100%" h="100%">
-          <Skeleton w="100%" h="100%" sx={sidebarSkeletonSx} />
+      {user?.email_verified_at ? (
+        <>
+          {isLoading && (
+            <>
+              <Center w="100%" h="100%">
+                <Skeleton w="100%" h="100%" sx={sidebarSkeletonSx} />
+              </Center>
+            </>
+          )}
+          <Flex sx={sidebarContentContainerSx}>
+            {data?.data.length === 0 ? (
+              <Center w="100%" h="100%">
+                No replies!
+              </Center>
+            ) : (
+              <Flex sx={{ width: "100%", flexDirection: "column" }}>
+                {data?.data.map((reply) => (
+                  <Box key={reply.id} component={Link} href={`/comment/${reply.comment_id}`}>
+                    <Box sx={sidebarReplyContainerSx(reply.is_read)}>
+                      <Flex m="md" justify="space-between" align="center">
+                        <Flex sx={(theme) => ({ alignItems: "center", gap: theme.spacing.md })}>
+                          <Image src={reply.author.avatar} width={30} height={30} />
+                          <Text weight="bold">{reply.author.name}</Text>
+                        </Flex>
+                        {reply.created_at}
+                      </Flex>
+                      <Text ml="md" mr="md" mb="md">
+                        {reply.content}
+                      </Text>
+                    </Box>
+                  </Box>
+                ))}
+              </Flex>
+            )}
+          </Flex>
+        </>
+      ) : (
+        <Center sx={unauthSidebarSx}>
+          <IconMessage size={100} style={placeholderStyles} />
+          <Text weight="bold" size="lg" style={placeholderStyles} align="center">
+            Verify your email to post comments.
+          </Text>
         </Center>
       )}
-
-      <Flex sx={sidebarContentContainerSx}>
-        {data?.data.length === 0 ? (
-          <Center w="100%" h="100%">
-            No replies!
-          </Center>
-        ) : (
-          <Flex sx={{ width: "100%", flexDirection: "column" }}>
-            {data?.data.map((reply) => (
-              <Box key={reply.id} component={Link} href={`/comment/${reply.comment_id}`}>
-                <Box sx={sidebarReplyContainerSx(reply.is_read)}>
-                  <Flex m="md" justify="space-between" align="center">
-                    <Flex sx={(theme) => ({ alignItems: "center", gap: theme.spacing.md })}>
-                      <Image src={reply.author.avatar} width={30} height={30} />
-                      <Text weight="bold">{reply.author.name}</Text>
-                    </Flex>
-                    {reply.created_at}
-                  </Flex>
-                  <Text ml="md" mr="md" mb="md">
-                    {reply.content}
-                  </Text>
-                </Box>
-              </Box>
-            ))}
-          </Flex>
-        )}
-      </Flex>
       <Center h="80px" w="100%">
         {data !== undefined && <Pagination page={pageNum} onChange={setPageNum} total={data?.last_page} />}
       </Center>

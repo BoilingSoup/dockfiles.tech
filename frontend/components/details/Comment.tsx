@@ -60,7 +60,8 @@ export const Comment = forwardRef<Ref, Props>(({ data: comment }: Props, ref) =>
           {comment.content}
         </Text>
         <Box sx={repliesBoxSx}>
-          <ReplyButton onClick={replyButtonClickHandler} />
+          {user?.email_verified_at && <ReplyButton onClick={replyButtonClickHandler} />}
+
           {hasReplies && (
             <ShowRepliesButton
               onClick={toggleShowRepliesHandler}

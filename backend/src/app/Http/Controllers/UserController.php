@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $currAvatarSrc = Auth::user()->avatar;
 
-        $isCloudinary = ImageHelper::isCloudinaryURL($currAvatarSrc);
+        $isCloudinary = ImageHelper::isCloudinaryURL($currAvatarSrc ?? '');
 
         if ($isCloudinary) {
             Cloudinary::destroy(ImageHelper::UrlToPublicID($currAvatarSrc));

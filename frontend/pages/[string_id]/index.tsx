@@ -59,7 +59,7 @@ const Environment = ({ environment }: InferGetServerSidePropsType<typeof getServ
 
       <EnvironmentTabs active={README} commentsCount={{ count, isLoading }} />
 
-      {user && (
+      {user?.email_verified_at && (
         <NoSSR>
           <ActionButtonsGroup
             buttons={

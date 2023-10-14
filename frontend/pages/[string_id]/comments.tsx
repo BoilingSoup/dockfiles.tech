@@ -3,6 +3,7 @@ import NoSSR from "../../components/common/NoSSR";
 import { ScrollToTop } from "../../components/common/ScrollToTop";
 import { CommentTextArea } from "../../components/details/CommentTextArea";
 import { COMMENTS, EnvironmentTabs } from "../../components/details/EnvironmentTabs";
+import { useAuth } from "../../contexts/AuthProvider";
 import { useCommentsCount } from "../../hooks/api/useCommentsCount";
 import { useEnvironmentDetails } from "../../hooks/api/useEnvironmentDetails";
 import { useInfiniteScrollComments } from "../../hooks/api/useInfiniteScrollComments";
@@ -10,6 +11,8 @@ import { usePrefetchBookmarksInitialPage } from "../../hooks/api/usePrefetchBook
 import { useStringId } from "../../hooks/helpers/useStringId";
 
 const Comments = () => {
+  const { user } = useAuth();
+
   const stringId = useStringId();
 
   const { comments } = useInfiniteScrollComments(stringId);
@@ -23,7 +26,7 @@ const Comments = () => {
         <EnvironmentTabs active={COMMENTS} commentsCount={{ count, isLoading }} />
 
         <Container style={{ whiteSpace: "pre-line" }}>
-          <CommentTextArea />
+          {user?.email_verified_at && <CommentTextArea />}
           {comments}
         </Container>
 

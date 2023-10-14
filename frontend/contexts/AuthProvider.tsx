@@ -1,4 +1,7 @@
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { setCookie } from "cookies-next";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { USER_DATA_COOKIE_KEY } from "../components/layout/constants";
+import { useHasVerified } from "../zustand-store/verified/useVerifiedStatus";
 
 const AuthContext = createContext<{ user: User; setUser: Dispatch<SetStateAction<User>> } | undefined>(undefined);
 
@@ -30,6 +33,23 @@ export type User = null | {
 
 export const AuthProvider = ({ children, user: ssrUser }: Props) => {
   const [user, setUser] = useState<User>(ssrUser);
+
+  const { hasVerified } = useHasVerified();
+
+  useEffect(() => {
+    if (hasVerified) {
+      setUser((prev) => {
+        if (!user) {
+          return prev;
+        }
+        const copy = JSON.parse(JSON.stringify(prev)) as User;
+        copy!.email_verified_at = Date.now().toString();
+
+        setCookie(USER_DATA_COOKIE_KEY, JSON.stringify(copy));
+        return copy;
+      });
+    }
+  }, [hasVerified]);
 
   return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };
