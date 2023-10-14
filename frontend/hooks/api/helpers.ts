@@ -9,6 +9,7 @@ import { APP_URL } from "../../config/config";
 import { User } from "../../contexts/AuthProvider";
 import { apiFetch, authFetch } from "../../query-client/baseFetcher";
 import { ALL_CATEGORIES } from "../../zustand-store/types";
+import { CommentResponse } from "./types";
 
 export type QueryParams = {
   categoryId: string;
@@ -514,7 +515,7 @@ export const postCommentSuccessNotification = () => {
 
 export type AttemptPostReplyMetadata = {
   stringId: string;
-  comment: CommentData;
+  comment: CommentData | CommentResponse;
   /**
    * Body should not include a recipient_id if the Reply target is a Comment.
    * Include a recipient_id if the target of this Reply is another Reply.

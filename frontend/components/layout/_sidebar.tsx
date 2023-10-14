@@ -60,7 +60,7 @@ const AuthenticatedSidebar = () => {
         ) : (
           <Flex sx={{ width: "100%", flexDirection: "column" }}>
             {data?.data.map((reply) => (
-              <Box component={Link} href={`/comment/${reply.comment_id}`}>
+              <Box key={reply.id} component={Link} href={`/comment/${reply.comment_id}`}>
                 <Box sx={sidebarReplyContainerSx(reply.is_read)}>
                   <Flex m="md" justify="space-between" align="center">
                     <Flex sx={(theme) => ({ alignItems: "center", gap: theme.spacing.md })}>

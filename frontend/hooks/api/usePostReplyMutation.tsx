@@ -108,6 +108,10 @@ export const usePostReplyMutation = () => {
       );
 
       queryClient.setQueryData<InfiniteData<CommentsPage> | undefined>(queryKeys.comments(param.stringId), (prev) => {
+        if (prev === undefined) {
+          return prev;
+        }
+
         const clone: InfiniteData<CommentsPage> = JSON.parse(JSON.stringify(prev));
 
         let commentWasFound = false;

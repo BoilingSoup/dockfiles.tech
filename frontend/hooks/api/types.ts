@@ -9,4 +9,8 @@ export type CommentResponse = {
     name: string;
     avatar: string;
   };
+  environment: {
+    id: number;
+    name: string;
+  };
 };

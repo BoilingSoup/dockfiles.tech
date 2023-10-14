@@ -33,7 +33,7 @@ class CommentsController extends Controller
 
     public function show(int $id)
     {
-        return Comments::whereId($id)->with('author:id,name,avatar')->get()->firstOrFail();
+        return Comments::whereId($id)->with(['author:id,name,avatar', 'environment:id,name'])->get()->firstOrFail();
     }
 
     /**

@@ -2,6 +2,7 @@ import { Button, Group, Loader, Paper, Text, Textarea, useMantineTheme } from "@
 import { ChangeEventHandler, FormEvent, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { AttemptPostReplyMetadata, CommentData, RepliesData, RepliesPage } from "../../hooks/api/helpers";
+import { CommentResponse } from "../../hooks/api/types";
 import { usePostReplyMutation } from "../../hooks/api/usePostReplyMutation";
 import { useStringId } from "../../hooks/helpers/useStringId";
 import { initialCharCountText } from "./CommentTextArea";
@@ -11,7 +12,7 @@ import { CommentUserInfo } from "./_commentUserInfo";
 
 type Props = {
   onHide: () => void;
-  comment: CommentData;
+  comment: CommentData | CommentResponse;
   reply?: RepliesData;
   onReply?: (repliesPage: RepliesPage) => void;
 };

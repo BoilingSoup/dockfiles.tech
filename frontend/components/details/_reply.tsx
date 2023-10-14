@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { DARK } from "../../contexts/ColorSchemeProvider";
 import { CommentData, RepliesData } from "../../hooks/api/helpers";
+import { CommentResponse } from "../../hooks/api/types";
 import { useDeleteReplyMutation } from "../../hooks/api/useDeleteReplyMutation";
 import { contentSx, repliesBoxSx, replySx } from "./styles";
 import { CommentUserInfo } from "./_commentUserInfo";
@@ -12,7 +13,7 @@ import { ReplyTextArea } from "./_replyTextArea";
 
 type Props = {
   data: RepliesData;
-  comment: CommentData;
+  comment: CommentData | CommentResponse;
 };
 
 export const Reply = ({ data: reply, comment }: Props) => {

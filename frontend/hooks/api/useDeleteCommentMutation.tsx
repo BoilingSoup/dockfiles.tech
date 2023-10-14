@@ -3,6 +3,7 @@ import { apiFetch } from "../../query-client/baseFetcher";
 import { queryKeys } from "../../query-client/constants";
 import { useStringId } from "../helpers/useStringId";
 import { CommentData, CommentsPage, genericErrorNotification } from "./helpers";
+import { CommentResponse } from "./types";
 
 export const useDeleteCommentMutation = () => {
   const queryClient = useQueryClient();
@@ -35,6 +36,18 @@ export const useDeleteCommentMutation = () => {
         });
         return clone;
       });
+
+      queryClient.setQueryData<CommentResponse | undefined>(queryKeys.comment(param.id.toString()), (prev) => {
+        if (prev === undefined) {
+          return prev;
+        }
+
+        const clone = JSON.parse(JSON.stringify(prev)) as CommentResponse;
+        clone.content = "This comment was deleted.";
+        clone.is_deleted = true;
+
+        return clone;
+      });
     },
     onError: () => {
       genericErrorNotification();
@@ -42,6 +55,6 @@ export const useDeleteCommentMutation = () => {
   });
 };
 
-async function deleteComment(comment: CommentData) {
+async function deleteComment(comment: CommentData | CommentResponse) {
   return (await apiFetch.delete(`environments/${comment.environment.name}/comments/${comment.id}`)) as void;
 }
