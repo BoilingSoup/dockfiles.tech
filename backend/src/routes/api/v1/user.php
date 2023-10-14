@@ -7,7 +7,7 @@ Route::name('user.')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('user', [UserController::class, 'update'])->name('update');
 
-        Route::post('user/password', [UserController::class, 'changePassword'])->middleware('verified')->name('user.changePassword');
+        Route::post('user/password', [UserController::class, 'changePassword'])->name('changePassword');
 
         Route::get('user/environment/{id}/status', [UserController::class, 'checkEnvironmentStatus'])
         ->whereNumber('id')

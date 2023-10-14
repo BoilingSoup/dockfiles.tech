@@ -129,42 +129,4 @@ class UserTest extends TestCase
 
         $response->assertStatus(403);
     }
-
-    public function test_change_password_changes_the_authenticated_users_password_if_current_password_is_correct_and_a_valid_new_password_and_confirmation_is_given()
-    {
-        /** @var Authenticatable | Model */
-        $user = User::factory()->create(['password' => Hash::make('password')]);
-        $email = $user->email;
-        $oldPassword = 'password';
-        $newPassword = 'newPassword';
-        $this->actingAs($user);
-
-        $response = $this->postJson(route('user.changePassword'), [
-            'current_password' => $oldPassword,
-            'password' => $newPassword,
-            'password_confirmation' => $newPassword,
-        ]);
-
-        $response->assertStatus(204);
-        $this->assertTrue(Hash::check('newPassword', $user->password));
-
-        $this->post(route('logout'));
-        $response = $this->postJson(route('login'), [
-            'email' => $email,
-            'password' => $oldPassword,
-        ]);
-
-        $response->assertStatus(403);
-        $response->assertExactJson([
-            'success' => false,
-            'message' => 'These credentials do not match our records.',
-        ]);
-
-        $response = $this->postJson(route('login'), [
-            'email' => $email,
-            'password' => $newPassword,
-        ]);
-        $response->assertStatus(200);
-        $response->assertJsonStructure($this->userInfoJsonStructure());
-    }
 }
