@@ -1,4 +1,14 @@
-import { Paper, useMantineColorScheme, Text, Box, Container, Loader, Center, Pagination } from "@mantine/core";
+import {
+  Paper,
+  useMantineColorScheme,
+  Text,
+  Box,
+  Container,
+  Loader,
+  Center,
+  Pagination,
+  Skeleton,
+} from "@mantine/core";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -16,6 +26,7 @@ import { useDeleteCommentMutation } from "../../../hooks/api/useDeleteCommentMut
 import { useGetComment } from "../../../hooks/api/useGetComment";
 import { useReplies } from "../../../hooks/api/useReplies";
 import { useRedirectUnauthenticated } from "../../../hooks/helpers/useRedirectUnauthenticated";
+import { replySx } from "../../../components/details/styles";
 
 const CommentPage: NextPage = () => {
   useRedirectUnauthenticated("/");
@@ -25,7 +36,7 @@ const CommentPage: NextPage = () => {
   const router = useRouter();
   const commentId = router.query.comment_id as string;
 
-  const { data: comment } = useGetComment(commentId);
+  const { data: comment, isLoading: isLoadingComment } = useGetComment(commentId);
 
   const { colorScheme } = useMantineColorScheme();
   const isDarkMode = colorScheme === DARK;
@@ -49,7 +60,7 @@ const CommentPage: NextPage = () => {
 
   const { mutate: deleteCommentMutation, isLoading: isDeletingComment } = useDeleteCommentMutation();
 
-  const { data: replies } = useReplies({
+  const { data: replies, isLoading: isLoadingReplies } = useReplies({
     commentId: comment?.id ?? 0,
     page: repliesPageNum,
     enabled: comment !== undefined,
@@ -57,45 +68,75 @@ const CommentPage: NextPage = () => {
 
   return (
     <Container style={{ whiteSpace: "pre-line" }}>
-      {comment ? (
-        <>
-          <Paper sx={paperSx}>
-            <CommentUserInfo
-              author={comment.author.name}
-              avatar={comment.author.avatar}
-              created_at={comment.created_at}
-            />
-            <Text sx={contentSx} component="p" italic={comment.is_deleted} color={contentColor}>
-              {comment.content}
-            </Text>
-            <Box sx={repliesBoxSx}>
-              <ReplyButton onClick={replyButtonClickHandler} />
-              {isDeleteable(comment) && !isDeletingComment && (
-                <DeleteCommentButton onClick={() => deleteCommentMutation(comment)} />
-              )}
-              {isDeletingComment && <Loader ml="auto" size={20} />}
-            </Box>
-          </Paper>
-          {showReplyTextArea && (
-            <RepliesContainer>
-              <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} />
-            </RepliesContainer>
-          )}
-          <RepliesContainer>
-            <>
-              {replies?.data.data.map((reply) => (
-                <Reply key={reply.id} data={reply} comment={comment} />
-              ))}
-              {replies && replies.data.last_page > 1 && (
-                <Center>
-                  <Pagination page={repliesPageNum} onChange={setRepliesPageNum} total={replies.data.last_page} />
-                </Center>
-              )}
-            </>
-          </RepliesContainer>
-        </>
-      ) : (
-        <div />
+      {isLoadingComment && (
+        <Paper sx={paperSx} bg="none">
+          <Skeleton
+            w="100%"
+            h={175}
+            sx={(theme) => ({
+              "::before": { background: theme.colors.slate[7] },
+              "::after": { background: theme.colors.slate[9] },
+            })}
+          />
+        </Paper>
+      )}
+
+      {comment !== undefined && (
+        <Paper sx={paperSx}>
+          <CommentUserInfo
+            author={comment.author.name}
+            avatar={comment.author.avatar}
+            created_at={comment.created_at}
+          />
+          <Text sx={contentSx} component="p" italic={comment.is_deleted} color={contentColor}>
+            {comment.content}
+          </Text>
+          <Box sx={repliesBoxSx}>
+            <ReplyButton onClick={replyButtonClickHandler} />
+            {isDeleteable(comment) && !isDeletingComment && (
+              <DeleteCommentButton onClick={() => deleteCommentMutation(comment)} />
+            )}
+            {isDeletingComment && <Loader ml="auto" size={20} />}
+          </Box>
+        </Paper>
+      )}
+      {comment !== undefined && showReplyTextArea && (
+        <RepliesContainer>
+          <ReplyTextArea onHide={hideReplyTextAreaHandler} comment={comment} />
+        </RepliesContainer>
+      )}
+      {comment !== undefined && (
+        <RepliesContainer>
+          <>
+            {replies?.data.data.map((reply) => (
+              <Reply key={reply.id} data={reply} comment={comment} />
+            ))}
+            {replies && replies.data.last_page > 1 && (
+              <Center>
+                <Pagination page={repliesPageNum} onChange={setRepliesPageNum} total={replies.data.last_page} />
+              </Center>
+            )}
+          </>
+        </RepliesContainer>
+      )}
+
+      {(isLoadingComment || isLoadingReplies) && (
+        <RepliesContainer>
+          <>
+            {new Array(3).fill(null).map(() => (
+              <Paper sx={replySx} bg="none">
+                <Skeleton
+                  w="100%"
+                  h={175}
+                  sx={(theme) => ({
+                    "::before": { background: theme.colors.slate[7] },
+                    "::after": { background: theme.colors.slate[9] },
+                  })}
+                />
+              </Paper>
+            ))}
+          </>
+        </RepliesContainer>
       )}
     </Container>
   );
