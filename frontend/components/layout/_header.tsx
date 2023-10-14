@@ -64,7 +64,9 @@ export const Header = ({ hamburgerOpened, onHamburgerClick: navbarToggleHandler 
         <Group>
           <Tooltip label="View source code" position="left-end">
             <ActionIcon
-              onClick={colorSchemeToggleHandler}
+              component="a"
+              href="https://github.com/BoilingSoup/dockfiles.xyz"
+              target="_blank"
               variant="default"
               size={actionIconSize}
               sx={iconSx}

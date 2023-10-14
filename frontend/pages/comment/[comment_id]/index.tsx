@@ -27,6 +27,7 @@ import { useGetComment } from "../../../hooks/api/useGetComment";
 import { useReplies } from "../../../hooks/api/useReplies";
 import { useRedirectUnauthenticated } from "../../../hooks/helpers/useRedirectUnauthenticated";
 import { replySx } from "../../../components/details/styles";
+import { sidebarSkeletonSx } from "../../../components/layout/styles";
 
 const CommentPage: NextPage = () => {
   useRedirectUnauthenticated("/");
@@ -70,14 +71,7 @@ const CommentPage: NextPage = () => {
     <Container style={{ whiteSpace: "pre-line" }}>
       {isLoadingComment && (
         <Paper sx={paperSx} bg="none">
-          <Skeleton
-            w="100%"
-            h={175}
-            sx={(theme) => ({
-              "::before": { background: theme.colors.slate[7] },
-              "::after": { background: theme.colors.slate[9] },
-            })}
-          />
+          <Skeleton w="100%" h={175} sx={sidebarSkeletonSx} />
         </Paper>
       )}
 
@@ -109,7 +103,7 @@ const CommentPage: NextPage = () => {
         <RepliesContainer>
           <>
             {replies?.data.data.map((reply) => (
-              <Reply key={reply.id} data={reply} comment={comment} />
+              <Reply key={reply.id} data={reply} comment={comment} pageNum={repliesPageNum} />
             ))}
             {replies && replies.data.last_page > 1 && (
               <Center>
@@ -123,16 +117,9 @@ const CommentPage: NextPage = () => {
       {(isLoadingComment || isLoadingReplies) && (
         <RepliesContainer>
           <>
-            {new Array(3).fill(null).map(() => (
-              <Paper sx={replySx} bg="none">
-                <Skeleton
-                  w="100%"
-                  h={175}
-                  sx={(theme) => ({
-                    "::before": { background: theme.colors.slate[7] },
-                    "::after": { background: theme.colors.slate[9] },
-                  })}
-                />
+            {new Array(3).fill(null).map((_, i) => (
+              <Paper key={i} sx={replySx} bg="none">
+                <Skeleton w="100%" h={175} sx={sidebarSkeletonSx} />
               </Paper>
             ))}
           </>

@@ -74,7 +74,9 @@ const Bookmarks: NextPage = () => {
 
           {noResults && !isFetching && (
             <Center mt={360}>
-              <Text style={{ fontSize: "2.2rem" }}>No search results found!</Text>
+              <Text style={{ fontSize: "2.2rem" }}>
+                {input.trim() === "" ? "You have no boookmarks!" : "No search results found!"}
+              </Text>
             </Center>
           )}
           <NavigationButtonsGroup pageCursors={pageCursors} onClick={setCursor} />

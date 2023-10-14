@@ -10,7 +10,7 @@ import { CommentData, getComments } from "./helpers";
  * The array of Comments will update when the observer gets triggered and fetches more data.
  **/
 export const useInfiniteScrollComments = (stringId: string) => {
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, data, isError, error } = useInfiniteQuery(
+  const { fetchNextPage, isLoading, hasNextPage, isFetchingNextPage, data, isError, error } = useInfiniteQuery(
     queryKeys.comments(stringId),
     getComments(stringId),
     {
@@ -82,5 +82,5 @@ export const useInfiniteScrollComments = (stringId: string) => {
     });
   });
 
-  return { comments, isFetchingNextPage, isError, error };
+  return { comments, isLoading, isFetchingNextPage, isError, error };
 };

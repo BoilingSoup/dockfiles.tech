@@ -9,7 +9,7 @@ export const useDeleteReplyMutation = () => {
   return useMutation(deleteReply, {
     onSuccess: (_, param) => {
       queryClient.setQueryData<RepliesPage | undefined>(
-        queryKeys.replies({ commentId: param.comment_id, page: 1 }),
+        queryKeys.replies({ commentId: param.comment_id, page: param.pageNum }),
         (prev) => {
           if (prev !== undefined) {
             const clone: RepliesPage = JSON.parse(JSON.stringify(prev));
@@ -37,6 +37,7 @@ export const useDeleteReplyMutation = () => {
 type DeleteReplyParam = {
   comment_id: number;
   reply_id: number;
+  pageNum: number;
 };
 
 async function deleteReply({ comment_id, reply_id }: DeleteReplyParam) {

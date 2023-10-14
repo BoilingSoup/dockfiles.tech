@@ -2,12 +2,12 @@ import { ALL_CATEGORIES, INITIAL_PAGE_CURSOR } from "../zustand-store/types";
 
 const CATEGORIES = "categories";
 const ENVIRONMENTS = "environments";
-const COMMENT = "comment";
+export const COMMENT = "comment";
 export const COMMENTS = "comments";
-const BOOKMARKS = "bookmarks";
+export const BOOKMARKS = "bookmarks";
 const LIKES = "likes";
-const REPLIES = "replies";
-const NOTIFICATIONS = "notifications";
+export const REPLIES = "replies";
+export const NOTIFICATIONS = "notifications";
 
 const INITIAL_SEARCH_PARAM = "";
 

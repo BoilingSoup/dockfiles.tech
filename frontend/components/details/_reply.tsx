@@ -14,9 +14,10 @@ import { ReplyTextArea } from "./_replyTextArea";
 type Props = {
   data: RepliesData;
   comment: CommentData | CommentResponse;
+  pageNum: number;
 };
 
-export const Reply = ({ data: reply, comment }: Props) => {
+export const Reply = ({ data: reply, comment, pageNum }: Props) => {
   const { user } = useAuth();
   const [showReplyTextArea, setShowReplyTextArea] = useState(false);
 
@@ -30,7 +31,7 @@ export const Reply = ({ data: reply, comment }: Props) => {
   const { mutate: deleteReplyMutation, isLoading } = useDeleteReplyMutation();
 
   const handleDelete = () => {
-    deleteReplyMutation({ comment_id: comment.id, reply_id: reply.id });
+    deleteReplyMutation({ comment_id: comment.id, reply_id: reply.id, pageNum });
   };
 
   return (

@@ -144,7 +144,7 @@ export const sidebarReplyContainerSx =
     display: "flex",
     flexDirection: "column",
     background: colorSchemeHandler(colorScheme, {
-      light: isRead ? `${colors.blue[5]}` : `${colors.blue[4]}`,
+      light: isRead ? `${colors.blue[5]}` : `${colors.blue[3]}`,
       dark: isRead ? `${colors.slate[9]}` : `${colors.slate[8]}`,
     }),
     borderBottom: colorSchemeHandler(colorScheme, {

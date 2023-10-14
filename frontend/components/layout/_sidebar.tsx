@@ -68,7 +68,7 @@ const AuthenticatedSidebar = () => {
           <Flex sx={sidebarContentContainerSx}>
             {data?.data.length === 0 ? (
               <Center w="100%" h="100%">
-                No replies!
+                <Text weight="bold">No replies!</Text>
               </Center>
             ) : (
               <Flex sx={{ width: "100%", flexDirection: "column" }}>
