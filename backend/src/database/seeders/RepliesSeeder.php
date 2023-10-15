@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Comments;
-use App\Models\Environments;
 use App\Models\Replies;
 use App\Models\User;
 use Database\Helpers\ForeignKeyCol;
@@ -23,32 +22,46 @@ class RepliesSeeder extends Seeder
 
     private function demoReplies()
     {
-        $seedComments = $this->command->confirm(question: 'Seed demo replies?', default: true);
-        if (! $seedComments) {
-            return;
-        }
+        // $seedComments = $this->command->confirm(question: 'Seed demo replies?', default: true);
+        // if (! $seedComments) {
+        //     return;
+        // }
 
-        $envId = Environments::where('string_id', 'gitea')->first()->id;
-        $commentsCount = Comments::where(ForeignKeyCol::environments, $envId)->count();
+        // $envId = Environments::where('string_id', 'gitea')->first()->id;
+        // $commentsCount = Comments::where(ForeignKeyCol::environments, $envId)->count();
 
-        if ($commentsCount !== 1000) {
-            $this->command->error(
-                <<<ERROR
-                Expected gitea environment to have 1000 comments, but {$commentsCount} comments were found.
-                Re-run the seeder, seed the infinite scroll demo comments, and do not seed the additional dummy comments.
-                ERROR
-            );
-        }
+        // if ($commentsCount !== 200) {
+        //     $this->command->error(
+        //         <<<ERROR
+        //         Expected gitea environment to have 1000 comments, but {$commentsCount} comments were found.
+        //         Re-run the seeder, seed the infinite scroll demo comments, and do not seed the additional dummy comments.
+        //         ERROR
+        //     );
+        // }
 
-        $secondDemoComment = Comments::find(999);
+        // $secondDemoComment = Comments::find(999);
+        // $admin = User::admin();
+
+        // Replies::create([
+        //     'content' => 'This is a reply to the comment above.',
+        //     'is_meta' => false,
+        //     ForeignKeyCol::reply_author => $admin->id,
+        //     ForeignKeyCol::reply_recipient => $admin->id,
+        //     ForeignKeyCol::comments => $secondDemoComment->id,
+        // ]);
+
         $admin = User::admin();
+        $commentsCount = Comments::all()->count();
+        $repliesSeedCount = 800;
 
-        Replies::create([
-            'content' => 'This is a reply to the comment above.',
-            'is_meta' => false,
-            ForeignKeyCol::reply_author => $admin->id,
-            ForeignKeyCol::reply_recipient => $admin->id,
-            ForeignKeyCol::comments => $secondDemoComment->id,
-        ]);
+        for ($i = 0; $i < $repliesSeedCount; $i++) {
+            Replies::create([
+                'content' => 'Randomly seeded reply to demonstrate the reply UI',
+                'is_meta' => false,
+                ForeignKeyCol::reply_author => $admin->id,
+                ForeignKeyCol::reply_recipient => $admin->id,
+                ForeignKeyCol::comments => random_int(min: 1, max: $commentsCount),
+            ]);
+        }
     }
 }

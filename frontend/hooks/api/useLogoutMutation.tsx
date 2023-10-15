@@ -17,8 +17,6 @@ export const useLogoutMutation = () => {
       setCookie(USER_DATA_COOKIE_KEY, USER_DATA_NULL_COOKIE_VALUE);
       logoutSuccessNotification();
 
-      console.log("helloooooooo");
-
       queryClient.removeQueries([REPLIES]);
       queryClient.removeQueries([COMMENT]);
       queryClient.removeQueries([COMMENTS]);

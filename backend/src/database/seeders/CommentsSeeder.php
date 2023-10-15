@@ -27,37 +27,41 @@ class CommentsSeeder extends Seeder
             return;
         }
 
-        $gitea = Environments::where('string_id', 'gitea')->first();
+        // $gitea = Environments::where('string_id', 'gitea')->first();
+        $environments = Environments::all();
         $admin = User::admin();
-        $seedCount = 1000;
-        $comments = Comments::factory($seedCount)->make();
+        $seedCount = 200;
         $i = $seedCount;
         $paginationPerPage = 10;
 
-        $comments->each(function ($comment) use ($gitea, $admin, &$i, $paginationPerPage, $seedCount) {
-            if ($i === 1) {
-                $comment->content =
-                <<<COMMENT
+        $environments->each(function ($environment) use ($admin, &$i, $paginationPerPage, $seedCount) {
+            $comments = Comments::factory($seedCount)->make();
+            $comments->each(function ($comment) use ($admin, &$i, $paginationPerPage, $seedCount, $environment) {
+                if ($i === 1) {
+                    $comment->content =
+                    <<<COMMENT
                 This environment was seeded with {$seedCount} dummy comments to demonstrate the infinite scroll UI.
                 More comments are fetched {$paginationPerPage} at a time as you scroll near the end of the page.
                 COMMENT;
-            } elseif ($i === 2) {
-                $comment->content =
-                <<<'COMMENT'
+                } elseif ($i === 2) {
+                    $comment->content =
+                    <<<'COMMENT'
                 This comment was seeded with replies to demonstrate the replies UI.
                 COMMENT;
-            } else {
-                $comment->content =
-                <<<COMMENT
+                } else {
+                    $comment->content =
+                    <<<COMMENT
                 This is comment {$i} of {$seedCount}.
                 COMMENT;
-            }
-            $comment->user_id = $admin->id;
-            $comment->environment_id = $gitea->id;
-            $comment->created_at = now()->subDays($i);
-            $comment->save();
+                }
+                $comment->user_id = $admin->id;
+                $comment->environment_id = $environment->id;
+                $comment->created_at = now()->subDays($i);
+                $comment->save();
 
-            $i--;
+                $i--;
+            });
+            $i = $seedCount;
         });
     }
 

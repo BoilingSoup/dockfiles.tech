@@ -2,6 +2,7 @@ import { Aside, Box, Center, Flex, Image, Pagination, Skeleton, Text, useMantine
 import { IconMessage } from "@tabler/icons";
 import Link from "next/link";
 import React, { CSSProperties, useState } from "react";
+import { DEFAULT_AVATAR } from "../../config/config";
 import { useAuth } from "../../contexts/AuthProvider";
 import { usePollNotifications } from "../../hooks/api/usePollNotifications";
 import { colorSchemeHandler } from "../../theme/color-scheme-handler";
@@ -77,7 +78,7 @@ const AuthenticatedSidebar = () => {
                     <Box sx={sidebarReplyContainerSx(reply.is_read)}>
                       <Flex m="md" justify="space-between" align="center">
                         <Flex sx={(theme) => ({ alignItems: "center", gap: theme.spacing.md })}>
-                          <Image src={reply.author.avatar} width={30} height={30} />
+                          <Image src={reply.author.avatar ?? DEFAULT_AVATAR} width={30} height={30} radius={9999} />
                           <Text weight="bold">{reply.author.name}</Text>
                         </Flex>
                         {reply.created_at}

@@ -8,6 +8,10 @@ use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserUpdateAvatarRequest;
 use App\Http\Responses\FormattedApiResponse;
+use App\Models\Bookmarks;
+use App\Models\Comments;
+use App\Models\Likes;
+use App\Models\Replies;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Database\Helpers\ForeignKeyCol;
@@ -15,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -127,5 +132,40 @@ class UserController extends Controller
                 'is_liked' => $isLiked,
             ]
         );
+    }
+
+    public function destroy()
+    {
+        $currAvatarSrc = Auth::user()->avatar;
+
+        $isCloudinary = ImageHelper::isCloudinaryURL($currAvatarSrc ?? '');
+
+        if ($isCloudinary) {
+            Cloudinary::destroy(ImageHelper::UrlToPublicID($currAvatarSrc));
+        }
+
+        $userId = Auth::user()?->id;
+
+        // NOTE: Again, PlanetScale doesn't support foreign keys so I can't cascade on delete.
+        // I'm using a transaction and multiple DELETE queries instead.
+        DB::transaction(function () use ($userId) {
+            Likes::whereUserId($userId)->delete();
+            Bookmarks::whereUserId($userId)->delete();
+
+            Replies::whereAuthorId($userId)->delete();
+            Replies::whereRecipientId($userId)->delete();
+
+            Replies::whereHas('comment', function ($query) use ($userId) {
+                return $query->where('user_id', $userId);
+            })->delete();
+
+            Comments::whereUserId($userId)->delete();
+
+            Auth::user()->deleteOrFail();
+        });
+
+        Cache::flush();
+
+        return response()->noContent();
     }
 }

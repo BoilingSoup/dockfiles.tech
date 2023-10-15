@@ -254,6 +254,15 @@ export const loginSuccessNotification = () => {
   });
 };
 
+export const deleteAccountSuccessNotification = () => {
+  showNotification({
+    color: "lime",
+    title: "Account deleted!",
+    message: "Your account is being deleted. This may take a minute.",
+    styles: notificationStyles,
+  });
+};
+
 export const attemptLogout = async (): Promise<Response> => {
   const token = getCookie("XSRF-TOKEN");
 

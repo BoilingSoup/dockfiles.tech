@@ -22,10 +22,6 @@ export const CommentTextArea = () => {
 
   const { colors } = useMantineTheme();
 
-  if (!user) {
-    return <> </>;
-  }
-
   const textAreaChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     const currCommentLength = event.target.value.trim().length;
     if (charCountTextRef.current !== null) {
@@ -68,7 +64,7 @@ export const CommentTextArea = () => {
 
   return (
     <Paper sx={paperSx} pb={14}>
-      <CommentUserInfo avatar={user.avatar} author={user.name} />
+      <CommentUserInfo avatar={user?.avatar} author={user?.name ?? ""} />
       <form onSubmit={submitHandler}>
         <Textarea
           ref={textAreaRef}

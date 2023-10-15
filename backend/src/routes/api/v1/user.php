@@ -14,5 +14,7 @@ Route::name('user.')->group(function () {
         ->name('checkEnvironmentStatus');
 
         Route::post('user/avatar', [UserController::class, 'updateAvatar'])->name('updateAvatar');
+
+        Route::delete('user', [UserController::class, 'destroy'])->name('destroy');
     });
 });
