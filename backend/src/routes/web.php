@@ -12,20 +12,5 @@
 */
 
 use App\Helpers\Routes\RouteHelper;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 
 RouteHelper::includeRouteFiles(__DIR__.'/auth');
-
-Route::get('/', function () {
-    $authStatus = Auth::check() ? 'Authenticated' : 'Unauthenticated';
-    // dump(Auth::user());
-
-    return 'test'.'<br>'.$authStatus;
-});
-
-Route::get('/verified-only', function () {
-    $verifiedStatus = Auth::user()?->hasVerifiedEmail() ? 'Verified' : 'Unverified';
-
-    return 'test'.'<br>'.$verifiedStatus;
-})->middleware('auth');

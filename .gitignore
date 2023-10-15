@@ -1,2 +1,5 @@
 .php-cs-fixer.cache
 redis_queue
+
+# Local Netlify folder
+.netlify

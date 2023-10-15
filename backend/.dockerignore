@@ -1,0 +1,172 @@
+# flyctl launch added from .gitignore
+**/docker/nginx/.logs/access.log
+**/docker/nginx/.logs/error.log
+**/docker/php/.logs/php_errors.log
+**/docker/.data
+**/.env
+
+# flyctl launch added from src/.gitignore
+src/node_modules
+src/public/build
+src/public/hot
+src/public/storage
+src/storage/*.key
+src/vendor
+src/**/.env
+src/**/.env.backup
+src/**/.phpunit.result.cache
+src/**/Homestead.json
+src/**/Homestead.yaml
+src/**/auth.json
+src/**/npm-debug.log
+src/**/yarn-error.log
+src/.idea
+src/.vscode
+
+# flyctl launch added from src/bootstrap/cache/.gitignore
+src/bootstrap/cache/**/*
+!src/bootstrap/cache/**/.gitignore
+
+# flyctl launch added from src/database/.gitignore
+src/database/**/*.sqlite*
+
+# flyctl launch added from src/storage/app/.gitignore
+src/storage/app/**/*
+!src/storage/app/**/public
+!src/storage/app/**/.gitignore
+
+# flyctl launch added from src/storage/app/public/.gitignore
+src/storage/app/public/**/*
+!src/storage/app/public/**/.gitignore
+
+# flyctl launch added from src/storage/clockwork/.gitignore
+src/storage/clockwork/**/*.json
+src/storage/clockwork/**/*.json.gz
+src/storage/clockwork/**/index
+
+# flyctl launch added from src/storage/framework/.gitignore
+src/storage/framework/**/compiled.php
+src/storage/framework/**/config.php
+src/storage/framework/**/down
+src/storage/framework/**/events.scanned.php
+src/storage/framework/**/maintenance.php
+src/storage/framework/**/routes.php
+src/storage/framework/**/routes.scanned.php
+src/storage/framework/**/schedule-*
+src/storage/framework/**/services.json
+
+# flyctl launch added from src/storage/framework/cache/.gitignore
+src/storage/framework/cache/**/*
+!src/storage/framework/cache/**/data
+!src/storage/framework/cache/**/.gitignore
+
+# flyctl launch added from src/storage/framework/cache/data/.gitignore
+src/storage/framework/cache/data/**/*
+!src/storage/framework/cache/data/**/.gitignore
+
+# flyctl launch added from src/storage/framework/sessions/.gitignore
+src/storage/framework/sessions/**/*
+!src/storage/framework/sessions/**/.gitignore
+
+# flyctl launch added from src/storage/framework/testing/.gitignore
+src/storage/framework/testing/**/*
+!src/storage/framework/testing/**/.gitignore
+
+# flyctl launch added from src/storage/framework/views/.gitignore
+src/storage/framework/views/**/*
+!src/storage/framework/views/**/.gitignore
+
+# flyctl launch added from src/storage/logs/.gitignore
+src/storage/logs/**/*
+!src/storage/logs/**/.gitignore
+
+# flyctl launch added from src/vendor/cloudinary/cloudinary_php/.gitignore
+src/vendor/cloudinary/cloudinary_php/**/vendor
+src/vendor/cloudinary/cloudinary_php/**/composer.lock
+src/vendor/cloudinary/cloudinary_php/**/tests/coverage
+src/vendor/cloudinary/cloudinary_php/**/output
+src/vendor/cloudinary/cloudinary_php/**/.idea
+src/vendor/cloudinary/cloudinary_php/**/composer.phar
+src/vendor/cloudinary/cloudinary_php/**/docs/sami.phar
+src/vendor/cloudinary/cloudinary_php/**/docs/cache
+src/vendor/cloudinary/cloudinary_php/**/docs/build
+src/vendor/cloudinary/cloudinary_php/**/tools/dev/sanity/node_modules
+src/vendor/cloudinary/cloudinary_php/**/tools/dev/sanity/package-lock.json
+src/vendor/cloudinary/cloudinary_php/**/tools/dev/sanity/results.json
+src/vendor/cloudinary/cloudinary_php/**/tools/dev/sanity/TransformationSanityTest.php
+src/vendor/cloudinary/cloudinary_php/.phpunit.result.cache
+
+# flyctl launch added from src/vendor/cloudinary/transformation-builder-sdk/.gitignore
+src/vendor/cloudinary/transformation-builder-sdk/**/vendor
+src/vendor/cloudinary/transformation-builder-sdk/**/composer.lock
+src/vendor/cloudinary/transformation-builder-sdk/**/tests/coverage
+src/vendor/cloudinary/transformation-builder-sdk/**/output
+src/vendor/cloudinary/transformation-builder-sdk/**/.idea
+src/vendor/cloudinary/transformation-builder-sdk/**/composer.phar
+src/vendor/cloudinary/transformation-builder-sdk/**/docs/sami.phar
+src/vendor/cloudinary/transformation-builder-sdk/**/docs/cache
+src/vendor/cloudinary/transformation-builder-sdk/**/docs/build
+src/vendor/cloudinary/transformation-builder-sdk/**/tools/dev/sanity/node_modules
+src/vendor/cloudinary/transformation-builder-sdk/**/tools/dev/sanity/package-lock.json
+src/vendor/cloudinary/transformation-builder-sdk/**/tools/dev/sanity/results.json
+src/vendor/cloudinary/transformation-builder-sdk/**/tools/dev/sanity/TransformationSanityTest.php
+
+# flyctl launch added from src/vendor/cloudinary-labs/cloudinary-laravel/.gitignore
+src/vendor/cloudinary-labs/cloudinary-laravel/node_modules
+src/vendor/cloudinary-labs/cloudinary-laravel/public/hot
+src/vendor/cloudinary-labs/cloudinary-laravel/public/storage
+src/vendor/cloudinary-labs/cloudinary-laravel/storage/*.key
+src/vendor/cloudinary-labs/cloudinary-laravel/vendor
+src/vendor/cloudinary-labs/cloudinary-laravel/**/.env
+src/vendor/cloudinary-labs/cloudinary-laravel/**/.env.backup
+src/vendor/cloudinary-labs/cloudinary-laravel/**/.phpunit.result.cache
+src/vendor/cloudinary-labs/cloudinary-laravel/**/Homestead.json
+src/vendor/cloudinary-labs/cloudinary-laravel/**/Homestead.yaml
+src/vendor/cloudinary-labs/cloudinary-laravel/**/npm-debug.log
+src/vendor/cloudinary-labs/cloudinary-laravel/**/yarn-error.log
+src/vendor/cloudinary-labs/cloudinary-laravel/**/src/.php_cs.cache
+
+# flyctl launch added from src/vendor/hamcrest/hamcrest-php/.gitignore
+src/vendor/hamcrest/hamcrest-php/**/composer.lock
+src/vendor/hamcrest/hamcrest-php/**/vendor
+
+# flyctl launch added from src/vendor/league/oauth1-client/.gitignore
+src/vendor/league/oauth1-client/build
+src/vendor/league/oauth1-client/vendor
+src/vendor/league/oauth1-client/composer.lock
+src/vendor/league/oauth1-client/coverage.xml
+src/vendor/league/oauth1-client/.phpunit.result.cache
+src/vendor/league/oauth1-client/.php_cs.cache
+src/vendor/league/oauth1-client/**/.DS_Store
+
+# flyctl launch added from src/vendor/psr/container/.gitignore
+src/vendor/psr/container/**/composer.lock
+src/vendor/psr/container/**/composer.phar
+src/vendor/psr/container/vendor
+
+# flyctl launch added from src/vendor/psr/event-dispatcher/.gitignore
+src/vendor/psr/event-dispatcher/vendor
+src/vendor/psr/event-dispatcher/**/composer.lock
+
+# flyctl launch added from src/vendor/psr/http-factory/.gitignore
+src/vendor/psr/http-factory/**/composer.lock
+src/vendor/psr/http-factory/**/vendor
+
+# flyctl launch added from src/vendor/sebastian/resource-operations/.gitignore
+src/vendor/sebastian/resource-operations/.idea
+src/vendor/sebastian/resource-operations/.php_cs.cache
+src/vendor/sebastian/resource-operations/build/FunctionSignatureMap.php
+src/vendor/sebastian/resource-operations/composer.lock
+src/vendor/sebastian/resource-operations/vendor
+src/vendor/sebastian/resource-operations/.phpunit.result.cache
+
+# flyctl launch added from src/vendor/sebastian/version/.gitignore
+src/vendor/sebastian/version/.php_cs.cache
+src/vendor/sebastian/version/.idea
+
+# flyctl launch added from src/vendor/spatie/ignition/resources/compiled/.gitignore
+src/vendor/spatie/ignition/resources/compiled/**/*
+!src/vendor/spatie/ignition/resources/compiled/**/.gitignore
+!src/vendor/spatie/ignition/resources/compiled/**/ignition.css
+!src/vendor/spatie/ignition/resources/compiled/**/ignition.js
+fly.toml
