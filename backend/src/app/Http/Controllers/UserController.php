@@ -43,6 +43,8 @@ class UserController extends Controller
 
         Auth::user()->saveOrFail();
 
+        Cache::flush();
+
         return Auth::user();
     }
 
